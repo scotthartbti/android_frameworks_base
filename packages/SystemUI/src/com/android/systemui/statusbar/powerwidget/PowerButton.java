@@ -49,6 +49,7 @@ public abstract class PowerButton {
     public static final String BUTTON_AUTOROTATE = "toggleAutoRotate";
     public static final String BUTTON_AIRPLANE = "toggleAirplane";
     public static final String BUTTON_FLASHLIGHT = "toggleFlashlight";
+    public static final String BUTTON_FCHARGE = "toggleFCharge";
     public static final String BUTTON_SLEEP = "toggleSleepMode";
     public static final String BUTTON_MEDIA_PLAY_PAUSE = "toggleMediaPlayPause";
     public static final String BUTTON_MEDIA_PREVIOUS = "toggleMediaPrevious";

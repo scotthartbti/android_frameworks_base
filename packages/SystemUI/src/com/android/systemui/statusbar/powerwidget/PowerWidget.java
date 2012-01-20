@@ -37,12 +37,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-
+import android.util.DisplayMetrics;
 import com.android.systemui.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PowerWidget extends FrameLayout {
     private static final String TAG = "PowerWidget";
@@ -86,6 +87,7 @@ public class PowerWidget extends FrameLayout {
         sPossibleButtons.put(PowerButton.BUTTON_AUTOROTATE, AutoRotateButton.class);
         sPossibleButtons.put(PowerButton.BUTTON_AIRPLANE, AirplaneButton.class);
         sPossibleButtons.put(PowerButton.BUTTON_FLASHLIGHT, FlashlightButton.class);
+        sPossibleButtons.put(PowerButton.BUTTON_FCHARGE, FChargeButton.class);
         sPossibleButtons.put(PowerButton.BUTTON_SLEEP, SleepButton.class);
         sPossibleButtons.put(PowerButton.BUTTON_MEDIA_PLAY_PAUSE, MediaPlayPauseButton.class);
         sPossibleButtons.put(PowerButton.BUTTON_MEDIA_PREVIOUS, MediaPreviousButton.class);

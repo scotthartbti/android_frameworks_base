@@ -3041,6 +3041,12 @@ public final class Settings {
         public static final String EXPANDED_DESKTOP_STATE = "expanded_desktop_state";
 
 	/**
+        * Whether fcharge is enabled or not if kernel supports it
+        * @hide
+        */
+        public static final String FCHARGE_ENABLED = "fcharge_enabled";
+
+	/**
          * Expanded desktop mode
          * 0 = none, 1 = hide only navbar, 2 = hide only statusbar, 3 = hide both
          * @hide
