@@ -3325,6 +3325,20 @@ public final class Settings {
         public static final String VIBRATE_NOTIF_EXPAND = "vibrate_notif_expand";
 
         /**
+         * Whether to show statusbar signal text
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_SIGNAL_TEXT = "statusbar_signal_text";
+
+        /**
+         * statusbar signal text color
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_SIGNAL_TEXT_COLOR = "statusbar_signal_text_color";
+
+        /**
          * Boolean value whether to link ringtone and notification volumes
          *
          * @hide
