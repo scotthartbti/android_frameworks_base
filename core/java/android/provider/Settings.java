@@ -3280,6 +3280,13 @@ public final class Settings {
         public static final String STATUS_BAR_SIGNAL_TEXT = "status_bar_signal";
 
         /**
+         * Hide Singal Bars
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_HIDE_SIGNAL_BARS = "statusbar_hide_signal_bars";
+
+        /**
          * Whether to show the IME switcher in the status bar
          * @hide
          */
