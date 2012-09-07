@@ -610,10 +610,12 @@ public class PhoneStatusBar extends BaseStatusBar {
         mBatteryController.addLabelView((TextView)mStatusBarView.findViewById(R.id.battery_text));
         mNetworkController = new NetworkController(mContext);
         mBluetoothController = new BluetoothController(mContext);
-        final SignalClusterView signalCluster =
-                (SignalClusterView)mStatusBarView.findViewById(R.id.signal_cluster);
 
+        SignalClusterView signalCluster = (SignalClusterView)mStatusBarView.findViewById(R.id.signal_cluster);
+        mNetworkController.addSignalCluster(signalCluster);
+        signalCluster.setNetworkController(mNetworkController);
 
+        signalCluster = (SignalClusterView)mStatusBarView.findViewById(R.id.signal_cluster_alt);
         mNetworkController.addSignalCluster(signalCluster);
         signalCluster.setNetworkController(mNetworkController);
 
