@@ -651,7 +651,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
         Settings.System.NAVIGATION_CONTROLS), false, this,
                     UserHandle.USER_ALL);
-
+	resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.KILL_APP_LONGPRESS_TIMEOUT), false, this,
+                    UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -1134,8 +1136,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 com.android.internal.R.integer.config_lidNavigationAccessibility);
         mLidControlsSleep = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_lidControlsSleep);
-        mBackKillTimeout = mContext.getResources().getInteger(
-                com.android.internal.R.integer.config_backKillTimeout);
         mDeviceHardwareKeys = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_deviceHardwareKeys);
         mHasHomeKey = ((mDeviceHardwareKeys & KEY_MASK_HOME) != 0);
@@ -1395,6 +1395,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.VOLUME_WAKE_SCREEN, 0, UserHandle.USER_CURRENT) == 1);
             mVolBtnMusicControls = (Settings.System.getIntForUser(resolver,
                     Settings.System.VOLBTN_MUSIC_CONTROLS, 1, UserHandle.USER_CURRENT) == 1); 
+	    mBackKillTimeout = Settings.System.getInt(resolver,
+                    Settings.System.KILL_APP_LONGPRESS_TIMEOUT, 1500);
 
            boolean keyRebindingEnabled = Settings.System.getInt(resolver,
                     Settings.System.HARDWARE_KEY_REBINDING, 0) == 1;
