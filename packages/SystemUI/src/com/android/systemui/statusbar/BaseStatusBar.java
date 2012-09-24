@@ -436,6 +436,11 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected abstract WindowManager.LayoutParams getSearchLayoutParams(
             LayoutParams layoutParams);
 
+    protected void setStatusBarParams(View statusbarView){
+        int opacity = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_TRANSPARENCY, 100);
+        statusbarView.setBackgroundColor((int) (((float) opacity / 100.0f) * 255) * 0x1000000);
+    }
 
     protected void updateSearchPanel() {
         // Search Panel
