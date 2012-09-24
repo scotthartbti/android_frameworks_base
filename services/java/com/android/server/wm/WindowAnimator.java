@@ -15,6 +15,7 @@ import static com.android.server.wm.WindowManagerService.H.UPDATE_ANIM_PARAMETER
 import android.content.Context;
 import android.os.Debug;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.Slog;
 import android.util.SparseArray;
@@ -387,7 +388,9 @@ public class WindowAnimator {
                         mService.mFocusMayChange = true;
                     }
                     if (win.isReadyForDisplay()) {
-                        if (nowAnimating) {
+                        if (Settings.System.getInt(mContext.getContentResolver(),
+                                    Settings.System.LOCKSCREEN_SEE_THROUGH, 0) != 0 ||
+                                    nowAnimating) {
                             if (winAnimator.mAnimationIsEntrance) {
                                 mForceHiding = KEYGUARD_ANIMATING_IN;
                             } else {
