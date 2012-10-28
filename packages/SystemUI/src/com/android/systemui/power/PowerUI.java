@@ -154,7 +154,7 @@ public class PowerUI extends SystemUI {
                         && bucket < 0) {
                     showLowBatteryWarning();
 
-                    // only play SFX when the dialog comes up or the bucket changes
+                    // only play SFX when the dialog comes up or the bucket changes //remember this
                     if (bucket != oldBucket || oldPlugged) {
                         playLowBatterySound();
                     }
