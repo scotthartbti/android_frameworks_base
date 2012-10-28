@@ -173,6 +173,7 @@ public class PhoneStatusBarView extends PanelBar {
     @Override
     public void onAllPanelsCollapsed() {
         super.onAllPanelsCollapsed();
+	Slog.v(TAG, "onAllPanelsCollapsed");
         // give animations time to settle
         mBar.makeExpandedInvisibleSoon();
         mFadingPanel = null;
@@ -182,6 +183,7 @@ public class PhoneStatusBarView extends PanelBar {
     @Override
     public void onPanelFullyOpened(PanelView openPanel) {
         super.onPanelFullyOpened(openPanel);
+	Slog.v(TAG, "onPanelFullyOpened: " + openPanel);
         if (openPanel != mLastFullyOpenedPanel) {
             openPanel.sendAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED);
         }
@@ -240,7 +242,7 @@ public class PhoneStatusBarView extends PanelBar {
             panel.setAlpha(alpha);
         }
 
-        mBar.updateCarrierLabelVisibility(false);
+        updateShortcutsVisibility();
     }
 
     //setup observer to do stuff!
@@ -263,6 +265,28 @@ public class PhoneStatusBarView extends PanelBar {
         public void onChange(boolean selfChange) {
             updateSettings();
         }
+    }
+
+    public void updateShortcutsVisibility() {
+        // Notification Shortcuts check for fully expanded panel
+        if (mBar.mSettingsButton == null || mBar.mNotificationButton == null) {
+            // Tablet
+            if (mFullyOpenedPanel != null) {
+                mBar.updateNotificationShortcutsVisibility(true);
+            } else {
+                mBar.updateNotificationShortcutsVisibility(false);
+            }
+        } else {
+            // Phone
+            if (mFullyOpenedPanel != null && (mBar.mSettingsButton.getVisibility() == View.VISIBLE &&
+                    !(mBar.mSettingsButton.getVisibility() == View.VISIBLE &&
+                    mBar.mNotificationButton.getVisibility() == View.VISIBLE))) {
+                mBar.updateNotificationShortcutsVisibility(true);
+            } else {
+                mBar.updateNotificationShortcutsVisibility(false);
+            }
+        }
+        mBar.updateCarrierLabelVisibility(false);
     }
 
     private void updateSettings() {
