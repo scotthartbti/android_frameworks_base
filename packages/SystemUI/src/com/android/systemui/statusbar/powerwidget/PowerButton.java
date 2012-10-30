@@ -77,8 +77,8 @@ public abstract class PowerButton {
     private long[] mClickPattern;
     private long[] mLongClickPattern;
 
-    int colorBackgroundOn = Color.TRANSPARENT;
-    int colorBackgroundOff = Color.TRANSPARENT;
+//    int colorBackgroundOn = Color.TRANSPARENT;
+//    int colorBackgroundOff = Color.TRANSPARENT;
     int colorIconOn;
     int colorIconOff;
 
@@ -92,10 +92,10 @@ public abstract class PowerButton {
                 mIconView.setImageResource(mIcon);
 		if(mButtonOn) {
 		mIconView.setColorFilter(colorIconOn, PorterDuff.Mode.SRC_ATOP);
-		mIconView.setBackgroundColor(colorBackgroundOn);
+//		mIconView.setBackgroundColor(colorBackgroundOn);
 		} else {
 		mIconView.setColorFilter(colorIconOff, PorterDuff.Mode.SRC_ATOP);
-		mIconView.setBackgroundColor(colorBackgroundOff);
+//		mIconView.setBackgroundColor(colorBackgroundOff);
 		}
             }
         }
