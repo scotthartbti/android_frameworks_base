@@ -2927,6 +2927,20 @@ public final class Settings {
         public static final String EGG_MODE = "egg_mode";
 
 	/**
+         * Enable Notification Toggles Icon Color
+         *
+         * @hide
+         */
+        public static final String ENABLE_TOGGLE_COLORS = "enable_toggle_colors";
+
+         /**
+         * Enable Notification Toggles Bar
+         *
+         * @hide
+         */
+        public static final String ENABLE_TOGGLE_BAR = "enable_toggle_bar";
+
+	/**
          * Notification Toggles Icon Color (On)
          *
          * @hide
