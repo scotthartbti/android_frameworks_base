@@ -676,6 +676,12 @@ public abstract class PackageManager {
     public static final int INSTALL_FAILED_USER_RESTRICTED = -111;
 
     /**
+     * if the system failed to install the package because of a policy denial.
+     * @hide
+     */
+    public static final int INSTALL_FAILED_POLICY_REJECTED_PERMISSION = -112;
+
+    /**
      * Flag parameter for {@link #deletePackage} to indicate that you don't want to delete the
      * package's data directory.
      *
