@@ -2878,6 +2878,12 @@ public final class Settings {
         public static final String SCREEN_LOCK_SLIDE_SCREENOFF_DELAY = "screen_lock_slide_screenoff_delay";
 
 	/**
+        * Sets the alpha (transparency) of notifications
+        * @hide
+        */
+        public static final String NOTIF_ALPHA = "notif_alpha";
+
+	/**
         * Sets the portrait background of notification drawer
         * @hide
         */
