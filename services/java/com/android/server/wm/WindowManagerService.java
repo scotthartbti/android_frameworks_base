@@ -6838,6 +6838,23 @@ public class WindowManagerService extends IWindowManager.Stub
         sl = reduceConfigLayout(sl, Surface.ROTATION_270, density, unrotDh, unrotDw);
         outConfig.smallestScreenWidthDp = (int)(displayInfo.smallestNominalAppWidth / density);
         outConfig.screenLayout = sl;
+        
+        String uiModeStr = Settings.System.getString(mContext.getContentResolver(), Settings.System.UI_MODE);
+        int uiMode = uiModeStr == null ? -1 : Integer.parseInt(uiModeStr);
+        switch (uiMode) {
+            case 1 : // phone
+		        outConfig.smallestScreenWidthDp = 401;
+                break;
+            case 2 : // phablet
+		        outConfig.smallestScreenWidthDp = 601;
+                break;
+            case 3 : // tablet
+		        outConfig.smallestScreenWidthDp = 721;
+                break;
+            case 0 : // none
+            default:
+                break;
+        }
     }
 
     private int reduceCompatConfigWidthSize(int curSize, int rotation, DisplayMetrics dm,
