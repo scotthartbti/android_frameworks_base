@@ -2856,6 +2856,11 @@ public final class Settings {
          */
         public static final String ACTIVITY_RESOLVER_USE_ALT = "activity_resolver_use_alt";
 
+	/**
+         * Custom carrier label
+         */
+        public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
+
         /**
          * Override and forcefully disable the fullscreen keyboard
          * @hide
