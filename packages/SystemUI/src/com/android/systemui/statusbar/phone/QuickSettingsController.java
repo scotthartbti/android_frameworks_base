@@ -63,6 +63,8 @@ import com.android.systemui.quicksettings.UserTile;
 import com.android.systemui.quicksettings.WiFiDisplayTile;
 import com.android.systemui.quicksettings.WiFiTile;
 import com.android.systemui.quicksettings.WifiAPTile;
+import com.android.systemui.quicksettings.RebootTile;
+import com.android.systemui.statusbar.powerwidget.PowerButton; 
 import com.android.systemui.quicksettings.VolumeTile;
 
 public class QuickSettingsController {
@@ -108,6 +110,7 @@ public class QuickSettingsController {
     public static final String TILE_VOLUME = "toggleVolume";
     public static final String TILE_DAYDREAM = "toggleDaydream";
     public static final String TILE_QUIETHOURS = "toggleQuietHours";
+    public static final String TILE_REBOOT = "toggleReboot";
 
     private static final String TILE_DELIMITER = "|";
     private static ArrayList<String> TILES_DEFAULT = new ArrayList<String>();
@@ -164,6 +167,7 @@ public class QuickSettingsController {
     public static final int VOLUME_TILE = 24;
     public static final int DAYDREAM_TILE = 25;
     public static final int QUIET_HOURS_TILE = 26;
+    public static final int REBOOT_TILE = 27; 
     public static final int USER_TILE = 99;
     private InputMethodTile IMETile;
 
@@ -267,6 +271,8 @@ public class QuickSettingsController {
                 mQuickSettings.add(DAYDREAM_TILE);
             } else if (tile.equals(TILE_QUIETHOURS)) {
                 mQuickSettings.add(QUIET_HOURS_TILE);
+	    } else if (tile.equals(TILE_REBOOT)) {
+                mQuickSettings.add(REBOOT_TILE); 
             }
         }
 
@@ -486,6 +492,10 @@ public class QuickSettingsController {
             case QUIET_HOURS_TILE:
                 qs = new QuietHoursTile(mContext, inflater, mContainerView, this);
                 break;
+	    case REBOOT_TILE:
+                qs = new RebootTile(mContext, inflater,
+                        (QuickSettingsContainerView) mContainerView, this);
+                break; 
             }
             if (qs != null) {
                 qs.setupQuickSettingsTile();

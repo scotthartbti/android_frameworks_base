@@ -559,6 +559,7 @@
     <string name="quick_settings_daydream">Daydream</string>
     <string name="quick_settings_quiethours">Quiet hours</string>
     <string name="quick_settings_quiethours_off">Quiet hours off</string>
+    <string name="quick_settings_reboot">Reboot</string> 
 
     <!-- Text to display next to the minimal graphical battery meter.  [CHAR LIMIT=3] -->
     <string name="status_bar_settings_battery_meter_min_format" translatable="false">
