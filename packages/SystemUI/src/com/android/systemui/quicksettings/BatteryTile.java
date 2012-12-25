@@ -77,6 +77,7 @@ public class BatteryTile extends QuickSettingsTile implements BatteryStateChange
     void updateQuickSettings() {
         TextView tv = (TextView) mTile.findViewById(R.id.battery_textview);
         tv.setText(mLabel);
+        tv.setTextSize(1, mTileTextSize);
         ImageView iv = (ImageView) mTile.findViewById(R.id.battery_image);
         iv.setImageDrawable(batteryIcon);
         iv.setImageLevel(batteryLevel);

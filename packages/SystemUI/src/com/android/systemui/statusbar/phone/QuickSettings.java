@@ -258,7 +258,6 @@ class QuickSettings {
     }
 
     private void setupQuickSettings() {
-        updateSettings();
         // Setup the tiles that we are going to be showing (including the temporary ones)
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
@@ -939,6 +938,8 @@ class QuickSettings {
                 mContext.getResources().getInteger(R.integer.quick_settings_num_columns));
         ((QuickSettingsContainerView) mContainerView).setColumnCount(columnCount);
         updateTileTextSize(columnCount);
+        setupQuickSettings();
+        updateResources();
     }
 
     class SettingsObserver extends ContentObserver {
@@ -948,9 +949,8 @@ class QuickSettings {
 
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.QUICK_TILES_PER_ROW),
-                    false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QUICK_TILES_PER_ROW), false, this);
             updateSettings();
         }
 
