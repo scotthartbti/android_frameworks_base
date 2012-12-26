@@ -75,8 +75,8 @@
     <dimen name="navigation_bar_height_portrait">56dp</dimen>
 
     <!-- Preference fragment padding, sides -->
-    <dimen name="preference_fragment_padding_side">24dp</dimen>
-    <dimen name="preference_screen_header_padding_side">24dip</dimen>
+    <dimen name="preference_fragment_padding_side">10dp</dimen>
+    <dimen name="preference_screen_header_padding_side">10dip</dimen>
 
     <!-- Keyguard dimensions -->
     <!-- Size of the clock font in keyguard's status view -->
