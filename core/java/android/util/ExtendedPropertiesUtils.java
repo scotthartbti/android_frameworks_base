@@ -160,7 +160,7 @@ public class ExtendedPropertiesUtils {
                         mLocalHook.path = tempProps.mLocalHook.path;
                         mLocalHook.dpi = tempProps.mLocalHook.dpi;
                         mLocalHook.scaledDensity = tempProps.mLocalHook.scaledDensity;
-                        mLocalHook.density = tempProps.mLocalHook.density;                        
+                        mLocalHook.density = tempProps.mLocalHook.density;
                     }
                     return;
                 case AppInfo:
