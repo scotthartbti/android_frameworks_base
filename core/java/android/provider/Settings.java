@@ -2686,6 +2686,10 @@ public final class Settings {
         */
         public static final String EXPANDED_NETWORK_MODE = "expanded_network_mode";
 
+        public static final String NAV_BUTTONS_HEIGHT = "nav_buttons_height";
+
+	public static final String NAVIGATION_CONTROLS = "navigation_controls";
+
         /**
         * Notification Power Widget - Custom Screen Timeout
         * @hide
