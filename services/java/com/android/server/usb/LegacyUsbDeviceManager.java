@@ -243,6 +243,11 @@ public class LegacyUsbDeviceManager extends UsbDeviceManager {
         return true;
     }
 
+	public void setCurrentFunctions(String functions, boolean makeDefault) {
+			if (DEBUG) Slog.d(TAG, "setCurrentFunctions(" + functions + ") default: " + makeDefault);
+			mHandler.sendMessage(MSG_SET_CURRENT_FUNCTION, functions, makeDefault);
+		}
+
     private final class LegacyUsbHandler extends Handler {
 
         // current USB state
