@@ -2948,18 +2948,6 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_SEE_THROUGH = "lockscreen_see_through";
 
-        /**
-         * Whether to enable lockscreen rotation
-         * @hide
-         */
-        public static final String LOCKSCREEN_AUTO_ROTATE = "lockscreen_auto_rotate";
-
-        /**
-         * custom lockscreen text color
-         * @hide
-         */
-        public static final String LOCKSCREEN_CUSTOM_TEXT_COLOR = "lockscreen_custom_text_color";
-
          /**
          * Action for long-pressing back button on lock screen
          * @hide
