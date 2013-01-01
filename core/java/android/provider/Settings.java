@@ -2933,6 +2933,12 @@ public final class Settings {
          */
         public static final String QUICK_TILES_BG_PRESSED_COLOR = "quick_tiles_bg_pressed_color";
 
+       /**
+        * Whether fcharge is enabled or not if kernel supports it
+        * @hide
+        */
+        public static final String FCHARGE_ENABLED = "fcharge_enabled";
+
         /**
          * Quick Settings Tile Content
          *
