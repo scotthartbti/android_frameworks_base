@@ -40,6 +40,7 @@ import android.app.TaskStackBuilder;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
@@ -196,6 +197,9 @@ public abstract class BaseStatusBar extends SystemUI implements
     };
 
     public void start() {
+        SettingsObserver observer = new SettingsObserver(mHandler);
+        observer.observe(mContext);
+
         mWindowManager = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
         mWindowManagerService = WindowManagerGlobal.getWindowManagerService();
         mDisplay = mWindowManager.getDefaultDisplay();
@@ -1161,5 +1165,29 @@ public abstract class BaseStatusBar extends SystemUI implements
     public boolean inKeyguardRestrictedInputMode() {
         KeyguardManager km = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
         return km.inKeyguardRestrictedInputMode();
+    }
+
+    private static class SettingsObserver extends ContentObserver {
+        private Handler mHandler;
+
+        SettingsObserver(Handler handler) {
+            super(handler);
+            mHandler = handler;
+        }
+
+        void observe(Context context) {
+            ContentResolver resolver = context.getContentResolver();
+
+	resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HIGH_END_GFX_ENABLED), false, this,
+                    UserHandle.USER_ALL);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            if (uri.equals(Settings.System.getUriFor(Settings.System.HIGH_END_GFX_ENABLED))) {
+            	android.os.Process.killProcess(android.os.Process.myPid());
+	    }
+        }
     }
 }
