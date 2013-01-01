@@ -62,6 +62,7 @@ import com.android.systemui.quicksettings.UserTile;
 import com.android.systemui.quicksettings.WiFiDisplayTile;
 import com.android.systemui.quicksettings.WiFiTile;
 import com.android.systemui.quicksettings.WifiAPTile;
+import com.android.systemui.quicksettings.VolumeTile;
 
 public class QuickSettingsController {
     private static String TAG = "QuickSettingsController";
@@ -103,6 +104,7 @@ public class QuickSettingsController {
     public static final String TILE_PROFILE = "toggleProfile";
     public static final String TILE_NFC = "toggleNfc";
     public static final String TILE_USBTETHER = "toggleUsbTether";
+    public static final String TILE_VOLUME = "toggleVolume";
 
     private static final String TILE_DELIMITER = "|";
     private static ArrayList<String> TILES_DEFAULT = new ArrayList<String>();
@@ -156,6 +158,7 @@ public class QuickSettingsController {
     public static final int NFC_TILE = 21;
     public static final int SCREENTIMEOUT_TILE = 22;
     public static final int USBTETHER_TILE = 23;
+    public static final int VOLUME_TILE = 24;
     public static final int USER_TILE = 99;
     private InputMethodTile IMETile;
 
@@ -253,6 +256,8 @@ public class QuickSettingsController {
                 // Not available yet
             } else if (tile.equals(TILE_LTE)) {
                 // Not available yet
+            } else if (tile.equals(TILE_VOLUME)) {
+                mQuickSettings.add(VOLUME_TILE);
             }
         }
 
@@ -462,6 +467,8 @@ public class QuickSettingsController {
                 break;
             case USBTETHER_TILE:
                 qs = new UsbTetherTile(mContext, inflater, mContainerView, this);
+            case VOLUME_TILE:
+                qs = new VolumeTile(mContext, inflater, mContainerView, this);
                 break;
             }
             if (qs != null) {

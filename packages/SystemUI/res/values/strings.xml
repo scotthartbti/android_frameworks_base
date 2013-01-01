@@ -383,6 +383,8 @@
     <!-- Content description for the recent apps panel (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_desc_recent_apps">Recent apps.</string>
 
+    <string name="quick_settings_volume">Volume</string>
+
     <!-- Content description of the user tile in quick settings (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_quick_settings_user">User <xliff:g id="user" example="John Doe">%s</xliff:g>.</string>
     <!-- Content description of the wifi tile in quick settings (not shown on the screen). [CHAR LIMIT=NONE] -->

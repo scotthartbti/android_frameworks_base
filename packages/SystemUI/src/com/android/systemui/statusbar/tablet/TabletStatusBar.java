@@ -382,7 +382,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         final Display d = mWindowManager.getDefaultDisplay();
         final Point size = new Point();
         d.getRealSize(size);
-        return Math.max(res.getDimensionPixelSize(R.dimen.notification_panel_min_height), size.y);
+        return size.y;
     }
 
     @Override

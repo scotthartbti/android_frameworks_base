@@ -46,6 +46,7 @@ public class SettingsView extends LinearLayout implements View.OnClickListener {
     DoNotDisturbController mDoNotDisturb;
     View mRotationLockContainer;
     View mRotationLockSeparator;
+    VolumeController mVolume;
 
     public SettingsView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -80,6 +81,8 @@ public class SettingsView extends LinearLayout implements View.OnClickListener {
         mBrightness = new BrightnessController(context,
                 (ImageView)findViewById(R.id.brightness_icon),
                 (ToggleSlider)findViewById(R.id.brightness));
+        mVolume = new VolumeController(context,
+                (ToggleSlider)findViewById(R.id.volume));
         mDoNotDisturb = new DoNotDisturbController(context,
                 (CompoundButton)findViewById(R.id.do_not_disturb_checkbox));
         findViewById(R.id.settings).setOnClickListener(this);

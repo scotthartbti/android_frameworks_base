@@ -15,6 +15,13 @@
  * limitations under the License.
 -->
 
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_weight="1"
+    android:id="@+id/scroll_settings" >
+
 <com.android.systemui.statusbar.tablet.SettingsView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui"
@@ -111,6 +118,24 @@
     </LinearLayout>
     <View style="@style/SystemBarPanelSettingsPanelSeparator" />
 
+    <!-- Volume -->
+    <LinearLayout style="@style/SystemBarPanelSettingsRow" >
+        <ImageView
+                android:id="@+id/volume_icon"
+                style="@style/SystemBarPanelSettingsIcon"
+                android:src="@drawable/ic_qs_ring_on"
+                />
+        <com.android.systemui.statusbar.policy.ToggleSlider
+                android:id="@+id/volume"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="2dp"
+                systemui:text="@string/status_bar_settings_mute_label"
+                />
+    </LinearLayout>
+    <View style="@style/SystemBarPanelSettingsPanelSeparator" />
+
     <!-- Notifications / Do not disturb -->
     <LinearLayout
             android:id="@+id/do_not_disturb"
@@ -154,4 +179,6 @@
     <View style="@style/SystemBarPanelSettingsPanelSeparator" />
 
 </com.android.systemui.statusbar.tablet.SettingsView>
+
+</ScrollView>
 
