@@ -4875,6 +4875,16 @@ public final class Settings {
         public static final String WIFI_WATCHDOG_PING_TIMEOUT_MS =
             Secure.WIFI_WATCHDOG_PING_TIMEOUT_MS;
 
+        /**
+         * @hide
+         */
+        public static final String STATUS_BAR_BRIGHTNESS_SLIDER = "statusbar_brightness_slider";
+
+        /**
+         * @hide
+         */
+        public static final String STATUSBAR_TOGGLES_BRIGHTNESS_LOC = "statusbar_toggles_brightness_loc";
+
     }
 
     /**
