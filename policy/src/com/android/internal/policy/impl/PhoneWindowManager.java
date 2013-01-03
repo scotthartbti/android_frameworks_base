@@ -297,6 +297,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     WindowState mNavigationBar = null;
     boolean mHasNavigationBar = false;
     boolean mCanHideNavigationBar = false;
+    private boolean mNavBarFirstBootFlag = true;
     boolean mNavigationBarCanMove = false; // can the navigation bar ever move to the side?
     boolean mNavigationBarOnBottom = true; // is the navigation bar on the bottom *right now*?
     int[] mNavigationBarHeightForRotation = new int[4];
@@ -352,7 +353,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mCurrentAppOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
     boolean mHasSoftInput = false;
     int mBackKillTimeout;
+    boolean showNavBar;
+    boolean mShowNavBar;
     int mNavButtonsHeight;
+    int mNavButtonsHeightLandscape;
+    int mNavigationBarWidth;
     int mPointerLocationMode = 0; // guarded by mLock
     int mDeviceHardwareKeys;
     boolean mHasHomeKey;
@@ -644,11 +649,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HARDWARE_KEY_REBINDING), false, this);
 	    resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAV_BUTTONS_HEIGHT), false, this,
-                    UserHandle.USER_ALL);
+                    Settings.System.NAVIGATION_BAR_SHOW), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-        Settings.System.NAVIGATION_CONTROLS), false, this,
-                    UserHandle.USER_ALL);
+        Settings.System.NAVIGATION_BAR_HEIGHT), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+        Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+        Settings.System.NAVIGATION_BAR_WIDTH), false, this);
 	resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KILL_APP_LONGPRESS_TIMEOUT), false, this,
                     UserHandle.USER_ALL);
@@ -1235,20 +1242,32 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // Height of the navigation bar when presented horizontally at bottom
         mNavigationBarHeightForRotation[mPortraitRotation] =
         mNavigationBarHeightForRotation[mUpsideDownRotation] =
-                mContext.getResources().getDimensionPixelSize(
-                        com.android.internal.R.dimen.navigation_bar_height);
+                Settings.System.getInt(
+                        mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_HEIGHT,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_height));
         mNavigationBarHeightForRotation[mLandscapeRotation] =
         mNavigationBarHeightForRotation[mSeascapeRotation] =
-                mContext.getResources().getDimensionPixelSize(
-                        com.android.internal.R.dimen.navigation_bar_height_landscape);
+                Settings.System.getInt(
+                        mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_height_landscape));
 
         // Width of the navigation bar when presented vertically along one side
         mNavigationBarWidthForRotation[mPortraitRotation] =
         mNavigationBarWidthForRotation[mUpsideDownRotation] =
         mNavigationBarWidthForRotation[mLandscapeRotation] =
         mNavigationBarWidthForRotation[mSeascapeRotation] =
-                mContext.getResources().getDimensionPixelSize(
-                        com.android.internal.R.dimen.navigation_bar_width);
+                Settings.System.getInt(
+                        mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_WIDTH,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_width));
 
         // SystemUI (status bar) layout policy
         int shortSizeDp = shortSize * DisplayMetrics.DENSITY_DEFAULT / density;
@@ -1257,30 +1276,62 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             // 0-599dp: "phone" UI with a separate status & navigation bar
             mHasSystemNavBar = false;
             mNavigationBarCanMove = true;
+	    Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.TABLET_UI, 0);
         } else if (shortSizeDp < 720) {
             // 600+dp: "phone" UI with modifications for larger screens
             mHasSystemNavBar = false;
             mNavigationBarCanMove = false;
+	    Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.TABLET_UI, 2);
         }
 
         if (!mHasSystemNavBar) {
+	showNavBar = mContext.getResources().getBoolean(
+                    com.android.internal.R.bool.config_showNavigationBar);
+            // Allow a system property to override this. Used by the emulator.
+            // See also hasNavigationBar().
+            String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
+            if (! "".equals(navBarOverride)) {
+                if      (navBarOverride.equals("1")) showNavBar = false;
+
+                else if (navBarOverride.equals("0")) showNavBar = true;
+
+            }
 	   mHasNavigationBar = Settings.System.getInt(mContext.getContentResolver(),
-		    Settings.System.NAVIGATION_CONTROLS, 1) == 1;
-           mNavButtonsHeight = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.NAV_BUTTONS_HEIGHT, 48);
+		    Settings.System.NAVIGATION_BAR_SHOW, showNavBar ? 1 : 0) == 1;
+
             if (mHasNavigationBar) {
-            mNavigationBarHeightForRotation[mPortraitRotation]
+            
+		mNavButtonsHeight = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_HEIGHT,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_height));
+     mNavButtonsHeightLandscape = Settings.System.getInt(
+                        mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_height_landscape));
+     mNavigationBarWidth = Settings.System.getInt(
+                        mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_WIDTH,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_width));
+
+           mNavigationBarHeightForRotation[mPortraitRotation]
        = mNavigationBarHeightForRotation[mUpsideDownRotation]
-      = mNavButtonsHeight * DisplayMetrics.DENSITY_DEVICE/DisplayMetrics.DENSITY_DEFAULT;
+	= mNavButtonsHeight; // check if the multiplier is needed
             mNavigationBarHeightForRotation[mLandscapeRotation]
       = mNavigationBarHeightForRotation[mSeascapeRotation]
-      = mNavButtonsHeight * DisplayMetrics.DENSITY_DEVICE/DisplayMetrics.DENSITY_DEFAULT;
+	= mNavButtonsHeightLandscape;
             mNavigationBarWidthForRotation[mPortraitRotation]
       = mNavigationBarWidthForRotation[mUpsideDownRotation]
       = mNavigationBarWidthForRotation[mLandscapeRotation]
       = mNavigationBarWidthForRotation[mSeascapeRotation]
-      = (mNavButtonsHeight - 6) * DisplayMetrics.DENSITY_DEVICE /
-        DisplayMetrics.DENSITY_DEFAULT;
+      = mNavigationBarWidth;
             }
 	    else {
                 mNavigationBarWidthForRotation[mPortraitRotation]
@@ -1328,28 +1379,61 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     public void updateSettings() {
+	DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager wm = (WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE);
+        wm.getDefaultDisplay().getMetrics(metrics);
+        int density = metrics.densityDpi;
         ContentResolver resolver = mContext.getContentResolver();
         boolean updateRotation = false;
         synchronized (mLock) {
         if (!mHasSystemNavBar) {
-	    mHasNavigationBar = Settings.System.getInt(resolver,
-		    Settings.System.NAVIGATION_CONTROLS, 1) == 1;
-            mNavButtonsHeight = Settings.System.getInt(resolver,
-                    Settings.System.NAV_BUTTONS_HEIGHT, 48);
-      if (mHasNavigationBar) {
+	    showNavBar = mContext.getResources().getBoolean(
+                    com.android.internal.R.bool.config_showNavigationBar);
+            // Allow a system property to override this. Used by the emulator.
+            // See also hasNavigationBar().
+            String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
+            if (! "".equals(navBarOverride)) {
+                if      (navBarOverride.equals("1")) showNavBar = false;
+
+                else if (navBarOverride.equals("0")) showNavBar = true;
+            }
+
+     mHasNavigationBar = Settings.System.getInt(mContext.getContentResolver(),
+        Settings.System.NAVIGATION_BAR_SHOW, showNavBar ? 1 : 0) == 1;
+
+            if (mHasNavigationBar) {
+
+           mNavButtonsHeight = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_HEIGHT,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_height));
+     mNavButtonsHeightLandscape = Settings.System.getInt(
+                        mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_height_landscape));
+     mNavigationBarWidth = Settings.System.getInt(
+                        mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_WIDTH,
+                        mContext.getResources()
+                                .getDimensionPixelSize(
+                                        com.android.internal.R.dimen.navigation_bar_width));
+
             mNavigationBarHeightForRotation[mPortraitRotation]
        = mNavigationBarHeightForRotation[mUpsideDownRotation]
-      = mNavButtonsHeight * DisplayMetrics.DENSITY_DEVICE/DisplayMetrics.DENSITY_DEFAULT;
+	= mNavButtonsHeight; // check if the multiplier is needed
             mNavigationBarHeightForRotation[mLandscapeRotation]
       = mNavigationBarHeightForRotation[mSeascapeRotation]
-      = mNavButtonsHeight * DisplayMetrics.DENSITY_DEVICE/DisplayMetrics.DENSITY_DEFAULT;
+	= mNavButtonsHeightLandscape;
             mNavigationBarWidthForRotation[mPortraitRotation]
       = mNavigationBarWidthForRotation[mUpsideDownRotation]
       = mNavigationBarWidthForRotation[mLandscapeRotation]
       = mNavigationBarWidthForRotation[mSeascapeRotation]
-      = (mNavButtonsHeight - 6) * DisplayMetrics.DENSITY_DEVICE /
-        DisplayMetrics.DENSITY_DEFAULT;
-     } else {
+      = mNavigationBarWidth;
+            }
+            else {
                 mNavigationBarWidthForRotation[mPortraitRotation]
                         = mNavigationBarWidthForRotation[mUpsideDownRotation]
                         = mNavigationBarWidthForRotation[mLandscapeRotation]
