@@ -868,7 +868,6 @@ class QuickSettings {
         }
         if (mTilesSetUp) {
             queryForUserInformation();
-            updateSettings();
         }
     }
 
@@ -930,7 +929,6 @@ class QuickSettings {
                 mTileTextSize = 12;
                 break;
         }
-        updateSettings();
     }
 
     private void updateSettings() {
