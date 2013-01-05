@@ -1,18 +1,18 @@
 /*
- * Copyright (C) 2006 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright (C) 2006 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package com.android.systemui.statusbar.policy;
 
@@ -47,21 +47,21 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * This widget display an analogic clock with two hands for hours and
- * minutes.
- */
+* This widget display an analogic clock with two hands for hours and
+* minutes.
+*/
 public class Clock extends TextView implements OnClickListener, OnLongClickListener {
     protected boolean mAttached;
     protected Calendar mCalendar;
     protected String mClockFormatString;
     protected SimpleDateFormat mClockFormat;
 
-    public static final int AM_PM_STYLE_NORMAL  = 0;
-    public static final int AM_PM_STYLE_SMALL   = 1;
-    public static final int AM_PM_STYLE_GONE    = 2;
-    public static final int PROTEKK_O_CLOCK     = 3;
+    public static final int AM_PM_STYLE_NORMAL = 0;
+    public static final int AM_PM_STYLE_SMALL = 1;
+    public static final int AM_PM_STYLE_GONE = 2;
+    public static final int PROTEKK_O_CLOCK = 3;
 
-    private int mAmPmStyle = AM_PM_STYLE_GONE;
+    private static int AM_PM_STYLE = AM_PM_STYLE_GONE;
 
     public static final int CLOCK_DATE_DISPLAY_GONE = 0;
     public static final int CLOCK_DATE_DISPLAY_SMALL = 1;
@@ -75,13 +75,14 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
 
     protected int mClockDateStyle = CLOCK_DATE_STYLE_UPPERCASE;
 
-    public static final int STYLE_CLOCK_RIGHT   = 0;
-    public static final int STYLE_CLOCK_CENTER  = 1;
+    public static final int STYLE_CLOCK_RIGHT = 0;
+    public static final int STYLE_CLOCK_CENTER = 1;
 
     protected int mClockStyle = STYLE_CLOCK_RIGHT;
 
     protected int mClockColor = com.android.internal.R.color.holo_blue_light;
 
+    private int mAmPmStyle;
     public boolean mShowClock;
 
     Handler mHandler;
@@ -214,11 +215,11 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
         String format = context.getString(res);
         if (!format.equals(mClockFormatString)) {
             /*
-             * Search for an unquoted "a" in the format string, so we can
-             * add dummy characters around it to let us find it again after
-             * formatting and change its size.
-             */
-            if (mAmPmStyle != AM_PM_STYLE_NORMAL) {
+* Search for an unquoted "a" in the format string, so we can
+* add dummy characters around it to let us find it again after
+* formatting and change its size.
+*/
+            if (AM_PM_STYLE != AM_PM_STYLE_NORMAL) {
                 int a = -1;
                 boolean quoted = false;
                 for (int i = 0; i < format.length(); i++) {
@@ -249,11 +250,11 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
             sdf = mClockFormat;
         }
 
-	CharSequence dateString = null;
+        CharSequence dateString = null;
 
         String result = sdf.format(mCalendar.getTime());
 
-	if (mClockDateDisplay != CLOCK_DATE_DISPLAY_GONE) {
+        if (mClockDateDisplay != CLOCK_DATE_DISPLAY_GONE) {
             Date now = new Date();
 
             String clockDateFormat = Settings.System.getString(getContext().getContentResolver(),
@@ -277,14 +278,14 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
 
         SpannableStringBuilder formatted = new SpannableStringBuilder(result);
 
-        if (mAmPmStyle != AM_PM_STYLE_NORMAL) {
+        if (AM_PM_STYLE != AM_PM_STYLE_NORMAL) {
             int magic1 = result.indexOf(MAGIC1);
             int magic2 = result.indexOf(MAGIC2);
             if (magic1 >= 0 && magic2 > magic1) {
-                if (mAmPmStyle == AM_PM_STYLE_GONE) {
+                if (AM_PM_STYLE == AM_PM_STYLE_GONE) {
                     formatted.delete(magic1, magic2+1);
                 } else {
-                    if (mAmPmStyle == AM_PM_STYLE_SMALL) {
+                    if (AM_PM_STYLE == AM_PM_STYLE_SMALL) {
                         CharacterStyle style = new RelativeSizeSpan(0.7f);
                         formatted.setSpan(style, magic1, magic2,
                                           Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -311,9 +312,9 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
         return formatted;
     }
 
-    protected void updateSettings(){
+    protected void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
-	int defaultColor = getResources().getColor(
+        int defaultColor = getResources().getColor(
                 com.android.internal.R.color.holo_blue_light);
 
         mShowClock = (Settings.System.getInt(resolver,
@@ -322,8 +323,8 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
         mAmPmStyle = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_AM_PM_STYLE, AM_PM_STYLE_GONE);
 
-        if (mAmPmStyle != amPmStyle) {
-            mAmPmStyle = amPmStyle;
+        if (mAmPmStyle != AM_PM_STYLE) {
+            AM_PM_STYLE = mAmPmStyle;
             mClockFormatString = "";
 
             if (mAttached) {
@@ -349,7 +350,7 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
         updateClock();
     }
 
-        protected void updateClockVisibility() {
+    protected void updateClockVisibility() {
         if (mClockStyle == STYLE_CLOCK_RIGHT && mShowClock)
             setVisibility(View.VISIBLE);
         else
@@ -393,4 +394,5 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
         return true;
     }
 }
+
 
