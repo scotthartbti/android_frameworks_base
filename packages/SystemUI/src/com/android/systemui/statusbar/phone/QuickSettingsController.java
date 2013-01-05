@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.android.systemui.R;
 import com.android.systemui.quicksettings.AirplaneModeTile;
 import com.android.systemui.quicksettings.AlarmTile;
 import com.android.systemui.quicksettings.AutoRotateTile;
@@ -167,6 +168,8 @@ public class QuickSettingsController {
     public static final int USER_TILE = 99;
 
     private InputMethodTile IMETile;
+
+    public int mTileTextSize = 12;
 
     public QuickSettingsController(Context context, QuickSettingsContainerView container, PhoneStatusBar statusBarService) {
         mContext = context;
@@ -306,6 +309,7 @@ public class QuickSettingsController {
         }
         mObserver = new QuickSettingsObserver(mHandler);
         mObserverMap.clear();
+        updateTilesPerRow();
         addQuickSettings(inflater);
         setupBroadcastReceiver();
         setupContentObserver();
@@ -507,5 +511,29 @@ public class QuickSettingsController {
         mContainerView.removeAllViews();
         setupQuickSettings();
         mContainerView.requestLayout();
+    }
+
+    void updateTileTextSize(int column) {
+        // adjust Tile Text Size based on column count
+        switch (column) {
+            case 5:
+                mTileTextSize = 8;
+                break;
+            case 4:
+                mTileTextSize = 10;
+                break;
+            case 3:
+            default:
+                mTileTextSize = 12;
+                break;
+        }
+    }
+
+    private void updateTilesPerRow() {
+        ContentResolver resolver = mContext.getContentResolver();
+        int columnCount = Settings.System.getInt(resolver, Settings.System.QUICK_TILES_PER_ROW,
+                mContext.getResources().getInteger(R.integer.quick_settings_num_columns));
+        ((QuickSettingsContainerView) mContainerView).setColumnCount(columnCount);
+        updateTileTextSize(columnCount);
     }
 }

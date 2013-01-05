@@ -48,9 +48,10 @@ public class QuickSettingsTile implements OnClickListener {
         mStatusbarService = qsc.mStatusBarService;
         mQsc = qsc;
         mTileLayout = R.layout.quick_settings_tile_generic;
+        updateTilesPerRow();
     }
 
-    public void setupQuickSettingsTile(){
+    public void setupQuickSettingsTile() {
         createQuickSettings();
         onPostCreate();
         updateQuickSettings();
@@ -59,7 +60,6 @@ public class QuickSettingsTile implements OnClickListener {
     }
 
     void createQuickSettings() {
-        updateTilesPerRow();
         mTile = (QuickSettingsTileView) mInflater.inflate(R.layout.quick_settings_tile, mContainerView, false);
         mTile.setContent(mTileLayout, mInflater);
         mContainerView.addView(mTile);
@@ -71,7 +71,7 @@ public class QuickSettingsTile implements OnClickListener {
 
     public void onChangeUri(ContentResolver resolver, Uri uri) {}
 
-    void updateQuickSettings(){
+    void updateQuickSettings() {
         TextView tv = (TextView) mTile.findViewById(R.id.tile_textview);
         tv.setCompoundDrawablesWithIntrinsicBounds(0, mDrawable, 0, 0);
         tv.setText(mLabel);
