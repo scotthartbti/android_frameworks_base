@@ -3566,6 +3566,12 @@ public final class Settings {
          public static final String KEY_ASSIST_ACTION = "key_assist_action";
 
         /**
+         * Show the notification ticker (or not)
+         * @hide
+         */
+        public static final String STATUS_BAR_DONOTDISTURB = "status_bar_donotdisturb";
+
+        /**
          * Weather to minimize lockscreen challenge on screen turned on
          * @hide
          */

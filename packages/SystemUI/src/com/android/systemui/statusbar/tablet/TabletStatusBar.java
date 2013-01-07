@@ -419,7 +419,6 @@ public class TabletStatusBar extends BaseStatusBar implements
         }
 
         setAreThereNotifications();
-
         mRecreating = false;
     }
 
@@ -802,8 +801,8 @@ public class TabletStatusBar extends BaseStatusBar implements
                                 copy.content.setOnClickListener(new View.OnClickListener() {
                                     public void onClick(View v) {
                                         SharedPreferences.Editor editor = Prefs.edit(mContext);
-                                        editor.putBoolean(Prefs.DO_NOT_DISTURB_PREF, false);
-                                        editor.apply();
+                                        Settings.System.putInt(mContext.getContentResolver(),
+                                                Settings.System.STATUS_BAR_DONOTDISTURB, 0);
                                         animateCollapsePanels();
                                         visibilityChanged(false);
                                     }
@@ -979,8 +978,9 @@ public class TabletStatusBar extends BaseStatusBar implements
             }
         }
         if ((diff & StatusBarManager.DISABLE_NOTIFICATION_ICONS) != 0) {
-            mNotificationDNDMode = Prefs.read(mContext)
-                        .getBoolean(Prefs.DO_NOT_DISTURB_PREF, Prefs.DO_NOT_DISTURB_DEFAULT);
+            mNotificationDNDMode = Settings.System.getInt(
+                    mContext.getContentResolver(),
+                    Settings.System.STATUS_BAR_DONOTDISTURB, 0) == 1;
 
             if ((state & StatusBarManager.DISABLE_NOTIFICATION_ICONS) != 0) {
                 Slog.i(TAG, "DISABLE_NOTIFICATION_ICONS: yes" + (mNotificationDNDMode?" (DND)":""));
