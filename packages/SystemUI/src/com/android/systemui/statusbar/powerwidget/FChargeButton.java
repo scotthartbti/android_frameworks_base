@@ -40,7 +40,7 @@ import android.os.PowerManager;
 
 
 public class FChargeButton extends PowerButton {
-    private Context mContext;
+
     public static final String FAST_CHARGE_DIR = "/sys/kernel/fast_charge";
     public static final String FAST_CHARGE_FILE = "force_fast_charge";
     protected boolean on = false;
@@ -54,30 +54,29 @@ public class FChargeButton extends PowerButton {
 
     @Override
     protected void updateState(Context context) {
-        on = isFastChargeOn();
-        if (on) {
-            mIcon = R.drawable.ic_qs_fcharge_on;
-            mState = STATE_ENABLED;
-        } else {
-            mIcon = R.drawable.ic_qs_fcharge_off;
+        if (!isFastChargeOn(context)) {
+            mIcon = R.drawable.toggle_fcharge_off;
             mState = STATE_DISABLED;
+        } else {
+            mIcon = R.drawable.toggle_fcharge;
+            mState = STATE_ENABLED;
         }
     }
 
     @Override
     protected void toggleState(Context context) {
     try {
-            on = !isFastChargeOn();
+            on = !isFastChargeOn(context);
             File fastcharge = new File(FAST_CHARGE_DIR, FAST_CHARGE_FILE);
             FileWriter fwriter = new FileWriter(fastcharge);
             BufferedWriter bwriter = new BufferedWriter(fwriter);
             bwriter.write(on ? "1" : "0");
             bwriter.close();
-            Settings.System.putInt(mContext.getContentResolver(),
+            Settings.System.putInt(context.getContentResolver(),
                      Settings.System.FCHARGE_ENABLED, on ? 1 : 0);
         } catch (IOException e) {
             Log.e("FChargeToggle", "Couldn't write fast_charge file");
-            Settings.System.putInt(mContext.getContentResolver(),
+            Settings.System.putInt(context.getContentResolver(),
                  Settings.System.FCHARGE_ENABLED, 0);
         }
 
@@ -93,7 +92,7 @@ public class FChargeButton extends PowerButton {
 
     }
 
-    public boolean isFastChargeOn() {
+    public boolean isFastChargeOn(Context context) {
         try {
             File fastcharge = new File(FAST_CHARGE_DIR, FAST_CHARGE_FILE);
             FileReader reader = new FileReader(fastcharge);
@@ -103,7 +102,7 @@ public class FChargeButton extends PowerButton {
             return (line.equals("1"));
         } catch (IOException e) {
             Log.e("FChargeToggle", "Couldn't read fast_charge file");
-            Settings.System.putInt(mContext.getContentResolver(),
+            Settings.System.putInt(context.getContentResolver(),
                  Settings.System.FCHARGE_ENABLED, 0);
             return false;
         }
