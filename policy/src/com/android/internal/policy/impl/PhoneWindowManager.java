@@ -1438,10 +1438,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 	    mBackKillTimeout = Settings.System.getInt(resolver,
                     Settings.System.KILL_APP_LONGPRESS_TIMEOUT, 1500);
 
-	   if (mShortSizeDp < 600) {
                 mNavigationBarCanMove = (Settings.System.getInt(resolver,
                         Settings.System.NAVIGATION_BAR_CAN_MOVE, 1) == 1);
-            }
 
            boolean keyRebindingEnabled = Settings.System.getInt(resolver,
                     Settings.System.HARDWARE_KEY_REBINDING, 0) == 1;
