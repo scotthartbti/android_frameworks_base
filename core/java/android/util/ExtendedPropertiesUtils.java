@@ -1,45 +1,19 @@
-/*
- * Copyright (C) 2012 ParanoidAndroid Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package android.util;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import android.app.ActivityManager;
 import android.app.ActivityThread;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.content.res.CompatibilityInfo;
 import android.os.SystemProperties;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.Display;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.Math;
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 public class ExtendedPropertiesUtils {
  
@@ -48,19 +22,15 @@ public class ExtendedPropertiesUtils {
     /**
      * Public variables
      */
-    public static final String BEERBONG_PROPERTIES = "/system/etc/beerbong/properties.conf";
-    public static final String BEERBONG_DIR = "/system/etc/beerbong/";
     public static final String BEERBONG_MAINCONF = "properties.conf";
     public static final String BEERBONG_BACKUPCONF = "backup.conf";
-    public static final String BEERBONG_PREFIX_0 = "mod";
-    public static final String BEERBONG_PREFIX_1 = "preferences";
-    public static final String BEERBONG_PREFIX_2 = "ro";
-    public static final String BEERBONG_PREFIX_3 = "com";
-    public static final String BEERBONG_PREFIX_4 = "version";
+    public static final String BEERBONG_PROPERTIES = "/system/etc/beerbong/" + BEERBONG_MAINCONF;
+    public static final String BEERBONG_DIR = "/system/etc/beerbong/";
     public static final String BEERBONG_PREFIX = "%";
     public static final String BEERBONG_SEPARATOR = ".";
     public static final String BEERBONG_STRING_DELIMITER = "\\|";
     public static final String BEERBONG_DPI_SUFFIX = ".dpi";
+    public static final String BEERBONG_CHECK_SUFFIX = ".version";
     public static final String BEERBONG_DENSITY_SUFFIX = ".den";
     public static final String BEERBONG_SCALEDDENSITY_SUFFIX = ".sden";
 
@@ -73,9 +43,9 @@ public class ExtendedPropertiesUtils {
 
     public static BeerbongAppInfo mGlobalHook = new BeerbongAppInfo();
     public BeerbongAppInfo mLocalHook = new BeerbongAppInfo();
-    public static boolean mIsHybridModeEnabled;
 
-    public static boolean mIsTablet;
+    public static boolean sIsHybridModeEnabled;
+
     public static int mRomLcdDensity = DisplayMetrics.DENSITY_DEFAULT;
 
     public static native String readFile(String s);
@@ -109,7 +79,7 @@ public class ExtendedPropertiesUtils {
      */
     public static void setAppConfiguration(BeerbongAppInfo info) {
 
-        if(mIsHybridModeEnabled) {// && isEnvironmentSane()){
+        if(sIsHybridModeEnabled) {// && isEnvironmentSane()){
             // Load default values to be used in case that property is 
             // missing from configuration.
             boolean isSystemApp = info.path.contains("system/app");
@@ -224,6 +194,31 @@ public class ExtendedPropertiesUtils {
         return mLocalHook.active ? mLocalHook.density : mGlobalHook.density;
     }
 
+    /**
+     * Returns whether if device is running hybrid mode
+     *
+     * @return hybrid mode enabled
+     */
+    public static boolean isHybridModeEnabled() {
+        return sIsHybridModeEnabled;
+    }
+
+    /**
+     * Returns whether if device is on tablet UI or not
+     *
+     * @return device is tablet
+     */
+    public static boolean isTablet() {
+        int layout;
+        String prop = readProperty("com.android.systemui.layout", "0");
+        if(isParsableToInt(prop)) {
+            layout = Integer.parseInt(prop);
+        } else {
+            layout = getActualProperty(prop);
+        }
+        return layout >= 1000;
+    }
+
     
     /**
      * Returns an {@link ApplicationInfo}, with the given path.
@@ -327,47 +322,25 @@ public class ExtendedPropertiesUtils {
     /**
      * Returns a {@link String}, containing the result of the configuration
      * for the input argument <code>prop</code>. If the property is not found
-     * it returns the input argument <code>def</code>.
+     * it returns the input argument <code>def</code>. This property is directly
+     * read from the configuration file.
      *
      * @param  prop  a string containing the property to checkout
      * @param  def  default value to be returned in case that property is missing
      * @return current stored value of property
      */
-    public static String getProperty(String prop, String def) {
-        try {
-            if(mGlobalHook.name.equals(BEERBONG_PREFIX_3 + BEERBONG_SEPARATOR + TAG + BEERBONG_SEPARATOR + BEERBONG_PREFIX_1)) {
-                String property1 = getAnyProperty(BEERBONG_DIR + BEERBONG_BACKUPCONF, BEERBONG_PREFIX_3 + BEERBONG_SEPARATOR + TAG + BEERBONG_SEPARATOR + BEERBONG_PREFIX_1 + BEERBONG_SEPARATOR + BEERBONG_PREFIX_4, "0");
-                String property2 = SystemProperties.get(BEERBONG_PREFIX_2 + BEERBONG_SEPARATOR + BEERBONG_PREFIX_0 + BEERBONG_PREFIX_4, "1");
-                if (!property1.equals(property2))
-                    return "0";
-            }
-
-            if (isInitialized()) {
-                String result = mPropertyMap.get(prop);
-                if (result == null) {
-                    return def;
-                }
-                if (result.startsWith(BEERBONG_PREFIX)) {
-                    result = getProperty(result, def);
-                }
-                return result;
-            } else {
-                String[] props = readFile(BEERBONG_PROPERTIES).split("\n");
-                for(int i=0; i<props.length; i++) {
-                    if(props[i].contains("=")) {
-                        if(props[i].substring(0, props[i].lastIndexOf("=")).equals(prop)) {
-                            String result = props[i].replace(prop+"=", "").trim();  
-                            if (result.startsWith(BEERBONG_PREFIX)) {
-                                result = getProperty(result, def);
-                            }
-                            return result;
-                        }
+    public static String readProperty(String prop, String def) {
+        String[] props = readFile(BEERBONG_PROPERTIES).split("\n");
+        for(int i=0; i<props.length; i++) {
+            if(props[i].contains("=")) {
+                if(props[i].substring(0, props[i].lastIndexOf("=")).equals(prop)) {
+                    String result = props[i].replace(prop+"=", "").trim();  
+                    if (result.startsWith(BEERBONG_PREFIX)) {
+                        result = getProperty(result, def);
                     }
+                    return result;
                 }
-                return def;
             }
-        } catch (NullPointerException e){
-            e.printStackTrace();
         }
         return def;
     }
@@ -377,27 +350,22 @@ public class ExtendedPropertiesUtils {
      * for the input argument <code>prop</code>. If the property is not found
      * it returns the input argument <code>def</code>.
      *
-     * @properties  target property file
      * @param  prop  a string containing the property to checkout
      * @param  def  default value to be returned in case that property is missing
      * @return current stored value of property
-     * TODO: Port to native code
      */
-    public static String getAnyProperty(String properties, String prop, String def) {
+    public static String getProperty(String prop, String def) {
         try {
-            String[] props = readFile(properties).split("\n");
-            for(int i=0; i<props.length; i++) {
-                if(props[i].contains("=")) {
-                    if(props[i].substring(0, props[i].lastIndexOf("=")).equals(prop)) {
-                        String result = props[i].replace(prop+"=", "").trim();  
-                        if (result.startsWith(BEERBONG_PREFIX)) {
-                            result = getProperty(result, def);
-                        }
-                        return result;
-                    }
+            if (isInitialized()) {
+                String result = mPropertyMap.get(prop);
+                if (result == null) return def;
+                if (result.startsWith(BEERBONG_PREFIX)) {
+                    result = getProperty(result, def);
                 }
+                return result;
+            } else {
+                return readProperty(prop, def);
             }
-            return def;
         } catch (NullPointerException e){
             e.printStackTrace();
         }
@@ -415,68 +383,48 @@ public class ExtendedPropertiesUtils {
      * @see getProperty
      */
     public static int getActualProperty(String property) {
-        int result = -1;
+        int result = 0;
+        boolean getProp = false;
 
         if (property.endsWith(BEERBONG_DPI_SUFFIX)) {
-            ApplicationInfo appInfo = getAppInfoFromPackageName(property.substring(0, property.length() - BEERBONG_DPI_SUFFIX.length()));
-            boolean isSystemApp = appInfo.sourceDir.substring(0, appInfo.sourceDir.lastIndexOf("/")).contains("system/app");
-            result = Integer.parseInt(getProperty(property, "0"));
-        } else if (property.endsWith("_dpi")) {
-            result = Integer.parseInt(getProperty(property));
+            ApplicationInfo appInfo = getAppInfoFromPackageName(property.substring(0, property.length()
+                    - BEERBONG_DPI_SUFFIX.length()));
+            if(appInfo != null) {
+                boolean isSystemApp = 
+                        appInfo.sourceDir.substring(0, appInfo.sourceDir.lastIndexOf("/")).contains("system/app");
+                result = Integer.parseInt(getProperty(property, getProperty(BEERBONG_PREFIX + (isSystemApp ? 
+                        "system_default_dpi" : "user_default_dpi"))));
+            } else {
+                getProp = true;
+            }
+        } else if (property.endsWith("_dpi") || property.endsWith("_layout")) {
+            getProp = true;
         }
 
+        if(getProp) result = Integer.parseInt(getProperty(property));
+
         if (result == 0) {
-            result = SystemProperties.getInt("qemu.sf.lcd_density", SystemProperties.getInt("ro.sf.lcd_density", DisplayMetrics.DENSITY_DEFAULT));
+            result = Integer.parseInt(property.endsWith("dpi") ? getProperty(BEERBONG_PREFIX + "rom_default_dpi")
+                : getProperty(BEERBONG_PREFIX + "rom_default_layout"));
         }
 
         return result;
     }
 
     /**
-     * Stores a boolean that will determine if the environment
-     * is sane and will allow hybrid to run without problems.
-     * We say that environment is sane, when native density
-     * (ro.sf.lcd_density) equals to "rom_default_dpi" parameter,
-     * and it's any of the possible values defined on {@link DisplayMetrics}
-     * class.
+     * Returns a {@link Boolean}, meaning if the input argument is an integer
+     * number.
+     *
+     * @param  str  the string to be tested
+     * @return the string is an integer number
      */
-    public static void getEnvironmentState() {
-        int nativeDensity = SystemProperties.getInt("qemu.sf.lcd_density", SystemProperties
-            .getInt("ro.sf.lcd_density", DisplayMetrics.DENSITY_DEFAULT));
-        switch(nativeDensity) {
-            case DisplayMetrics.DENSITY_LOW:
-            case DisplayMetrics.DENSITY_MEDIUM:
-            case DisplayMetrics.DENSITY_TV:
-            case DisplayMetrics.DENSITY_HIGH:
-            case DisplayMetrics.DENSITY_XHIGH:
-            case DisplayMetrics.DENSITY_XXHIGH:
-                setIsEnvironmentSane(true);
-                return;
+    public static boolean isParsableToInt(String str) {
+        try {
+            int i = Integer.parseInt(str);
+            return true;
+        } catch(NumberFormatException nfe) {
+            return false;
         }
-
-        setIsEnvironmentSane(false);
-    }
-
-
-    /**
-     * Method used by {@link #getEnvironmentState() getEnvironmentState}
-     * for storing whether if environment is sane or not.
-     *
-     * @param  state  environment state
-     * @see getEnvironmentState
-     */
-    public static void setIsEnvironmentSane(boolean state) {
-        SystemProperties.set("sys.environment", Integer.toString(state ? 1 : 0));
-    }
-
-    /**
-     * Returns a {@link Boolean}, if environment is sane.
-     *
-     * @return is environment sane
-     * @see getEnvironmentState
-     */
-    public static boolean isEnvironmentSane() {
-        return Integer.parseInt(SystemProperties.get("sys.environment", Integer.toString(0))) == 1;
     }
 
     

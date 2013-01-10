@@ -47,7 +47,6 @@ import android.server.search.SearchManagerService;
 import android.service.dreams.DreamService;
 import android.util.DisplayMetrics;
 import android.util.EventLog;
-import android.util.ExtendedPropertiesUtils;
 import android.util.Log;
 import android.util.Slog;
 import android.view.WindowManager;
@@ -115,8 +114,6 @@ class ServerThread extends Thread {
 
         BinderInternal.disableBackgroundScheduling(true);
         android.os.Process.setCanSelfBackground(false);
-        
-        ExtendedPropertiesUtils.getEnvironmentState();
 
         // Check whether we failed to shut down last time we tried.
         {

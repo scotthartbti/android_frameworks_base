@@ -17,18 +17,15 @@
 
 package android.content.res;
 
+import java.util.Locale;
+
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.view.View;
 import android.util.ExtendedPropertiesUtils;
-import android.util.Log;
-import android.os.SystemProperties;
-import android.text.TextUtils;
-
-import java.util.Locale;
+import android.view.View;
 
 /**
  * This class describes all device configuration information that can
@@ -571,7 +568,7 @@ public final class Configuration extends ExtendedPropertiesUtils implements Parc
      * Process layout changes for current hook
      */
     public void paranoidHook() {
-        if (!"com.android.systemui".equals(getName()) && active) {
+        if (mDisplay != null && !"com.android.systemui".equals(getName()) && active) {
             int dpi = getDpi(),
                 layout = 600;
             if (dpi <= 213) {
@@ -580,12 +577,14 @@ public final class Configuration extends ExtendedPropertiesUtils implements Parc
                 layout = 360;
             }
             Point size = new Point();
-            if (mDisplay == null) return;
             mDisplay.getSize(size);
             float factor = (float)Math.max(size.x, size.y) / (float)Math.min(size.x, size.y);
             screenWidthDp = layout;
             screenHeightDp = (int)(screenWidthDp * factor);
-            smallestScreenWidthDp = layout;
+            smallestScreenWidthDp = layout;           
+            compatScreenWidthDp = screenWidthDp;
+            compatScreenHeightDp = screenHeightDp;
+            compatSmallestScreenWidthDp = smallestScreenWidthDp;
         }
     }
     
@@ -629,11 +628,10 @@ public final class Configuration extends ExtendedPropertiesUtils implements Parc
         compatScreenHeightDp = o.compatScreenHeightDp;
         compatSmallestScreenWidthDp = o.compatSmallestScreenWidthDp;
         seq = o.seq;
+        paranoidHook();
         if (o.customTheme != null) {
             customTheme = (CustomTheme) o.customTheme.clone();
         }
-
-        paranoidHook();
     }
     
     public String toString() {
