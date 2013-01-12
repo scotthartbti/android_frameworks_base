@@ -461,9 +461,9 @@ public abstract class BaseStatusBar extends SystemUI implements
             LayoutParams layoutParams);
 
     protected void setStatusBarParams(View statusbarView){
-	float opacity = (1-(Settings.System.getFloat(mContext.getContentResolver(),
-	 	Settings.System.STATUS_BAR_TRANSPARENCY, 0.0f)));
-        statusbarView.setBackgroundColor((int) (((float) opacity) * 255) * 0x1000000);
+        int opacity = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_TRANSPARENCY, 100);
+        statusbarView.setBackgroundColor((int) (((float) opacity / 100.0f) * 255) * 0x1000000);
     }
 
     protected void updateSearchPanel() {
