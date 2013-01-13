@@ -225,4 +225,18 @@
     <string name="bean_dream_settings_cid_title">Usar cabeça CID</string>
     <string name="bean_dream_settings_cid_summary">Usar cabeça CID em vez de jujuba dentro do sonho</string>
     <string name="accessibility_data_connection_HP">HSPA+</string>
+    <string name="quick_settings_sync">Sincronização</string>
+    <string name="quick_settings_torch">Tocha</string>
+    <string name="quick_settings_nfc">NFC</string>
+    <string name="quick_settings_screen_timeout">Tempo limite</string>
+    <string name="quick_settings_screen_timeout_summary">%1$d %2$s</string>
+    <string name="navbar_dialog_title">Escolha uma ação para atribuir</string>
+    <string name="navbar_home_button">Botão de início</string>
+    <string name="navbar_recent_button">Botão de recentes</string>
+    <string name="navbar_search_button">Botão de buscar</string>
+    <string name="navbar_back_button">Botão de voltar</string>
+    <string name="navbar_empty_button">Botão vazio</string>
+    <string name="navbar_menu_conditional_button">Botão menu (esconder auto.)</string>
+    <string name="navbar_menu_always_button">Botão menu (sempre visível)</string>
+    <string name="navbar_menu_big_button">Botão menu</string>
 </resources>
