@@ -2402,10 +2402,10 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                     mSbm.expandNotificationsPanel();
                     break;
                 case 2:
-					boolean hidden = Settings.System.getInt(mContext.getContentResolver(),
-							Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
+                    boolean hidden = Settings.System.getInt(mContext.getContentResolver(),
+                            Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
                     Settings.System.putInt(mContext.getContentResolver(),
-							Settings.System.EXPANDED_DESKTOP_STATE, hidden ? 0 : 1);
+                            Settings.System.EXPANDED_DESKTOP_STATE, hidden ? 0 : 1);
                     break;
                 case 3:
                     mSbm.expandSettingsPanel();
@@ -2451,6 +2451,62 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                     } catch (Exception e) {
                     }
                     break;
+                case 8:
+                    mSbm.toggleRecentApps();
+                    break;
+            }
+        }
+
+        public boolean gestureStartedInZone(float x, float y, float[] zone) {
+            float width = (float) getWidth();
+            float height = (float) getHeight();
+
+             return x >= (zone[0] * width)
+                    && x <= (zone[1] * width)
+                    && y >= (zone[2] * height)
+                    && y <= (zone[3] * height);
+        }
+
+        public boolean gestureEndedInZone(float x, float y, float[] zone) {
+            float width = (float) getWidth();
+            float height = (float) getHeight();
+
+             return (x <= ((zone[0] * width) - mGestureDistance)
+                    || x >= ((zone[1] * width) + mGestureDistance)
+                    || y <= ((zone[2] * height) - mGestureDistance)
+                    || y >= ((zone[3] * height) + mGestureDistance));
+        }
+
+        public void checkGestureStarted(float x, float y, long time) {
+            if (mGestureOne > 0 && gestureStartedInZone(x, y, mZoneOne)) {
+                mGestureOneTime = time;
+                mGestureOneStarted = true;
+                mGestureTwoStarted = false;
+                mGestureThreeStarted = false;
+                mGestureFourStarted = false;
+            } else if (mGestureTwo > 0 && gestureStartedInZone(x, y, mZoneTwo)) {
+                mGestureTwoTime = time;
+                mGestureTwoStarted = true;
+                mGestureOneStarted = false;
+                mGestureThreeStarted = false;
+                mGestureFourStarted = false;
+            } else if (mGestureThree > 0 && gestureStartedInZone(x, y, mZoneThree)) {
+                mGestureThreeTime = time;
+                mGestureThreeStarted = true;
+                mGestureOneStarted = false;
+                mGestureTwoStarted = false;
+                mGestureFourStarted = false;
+            } else if (mGestureFour > 0 && gestureStartedInZone(x, y, mZoneFour)) {
+                mGestureFourTime = time;
+                mGestureFourStarted = true;
+                mGestureOneStarted = false;
+                mGestureTwoStarted = false;
+                mGestureThreeStarted = false;
+            } else {
+                mGestureOneStarted = false;
+                mGestureTwoStarted = false;
+                mGestureThreeStarted = false;
+                mGestureFourStarted = false;
             }
         }
 
@@ -2458,138 +2514,65 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
         public boolean onInterceptTouchEvent(MotionEvent event) {
             int action = event.getAction();
 
-            if (mFeatureId == -1 &&!mBlacklisted &&
+            if (mFeatureId == -1 && !mBlacklisted &&
                     mGestureOne + mGestureTwo + mGestureThree + mGestureFour > 0) {
                 float x = event.getX();
                 float y = event.getY();
-                float width = (float) getWidth();
-                float height = (float) getHeight();
+                long time = event.getEventTime();
                 if (action == MotionEvent.ACTION_DOWN) {
-                    if (mGestureOne > 0
-                            && x > (mZoneOne[0] * width)
-                            && x < (mZoneOne[1] * width)
-                            && y > (mZoneOne[2] * height)
-                            && y < (mZoneOne[3] * height)) {
-                        mGestureOneTime = event.getEventTime();
-                        mGestureOneStarted = true;
-                        mGestureTwoStarted = false;
-                        mGestureThreeStarted = false;
-                        mGestureFourStarted = false;
-                    } else if (mGestureTwo > 0
-                            && x > (mZoneTwo[0] * width)
-                            && x < (mZoneTwo[1] * width)
-                            && y > (mZoneTwo[2] * height)
-                            && y < (mZoneTwo[3] * height)) {
-                        mGestureTwoTime = event.getEventTime();
-                        mGestureTwoStarted = true;
-                        mGestureOneStarted = false;
-                        mGestureThreeStarted = false;
-                        mGestureFourStarted = false;
-                    } else if (mGestureThree > 0
-                            && x > (mZoneThree[0] * width)
-                            && x < (mZoneThree[1] * width)
-                            && y > (mZoneThree[2] * height)
-                            && y < (mZoneThree[3] * height)) {
-                        mGestureThreeTime = event.getEventTime();
-                        mGestureThreeStarted = true;
-                        mGestureOneStarted = false;
-                        mGestureTwoStarted = false;
-                        mGestureFourStarted = false;
-                    } else if (mGestureFour > 0
-                            && x > (mZoneFour[0] * width)
-                            && x < (mZoneFour[1] * width)
-                            && y > (mZoneFour[2] * height)
-                            && y < (mZoneFour[3] * height)) {
-                        mGestureFourTime = event.getEventTime();
-                        mGestureFourStarted = true;
-                        mGestureOneStarted = false;
-                        mGestureTwoStarted = false;
-                        mGestureThreeStarted = false;
-                    } else {
-                        mGestureOneStarted = false;
-                        mGestureTwoStarted = false;
-                        mGestureThreeStarted = false;
-                        mGestureFourStarted = false;
-                    }
+                    checkGestureStarted(x, y, time);
                 } else if (action == MotionEvent.ACTION_UP) {
-                    boolean handledOne = false;
-                    boolean handledTwo = false;
-                    boolean handledThree = false;
-                    boolean handledFour = false;
-                    if (mGestureOneStarted) {
-                        if (mGestureTypeOne == 2
-                                && (x < ((mZoneOne[0] * width) - mGestureDistance)
-                                || x > ((mZoneOne[1] * width) + mGestureDistance)
-                                || y < ((mZoneOne[2] * height) - mGestureDistance)
-                                || y > ((mZoneOne[3] * height) + mGestureDistance))) {
-                            handledOne = true;
-                        } else if (mGestureTypeOne == 0) {
-                            handledOne = true;
-                        } else if (mGestureTypeOne == 1 && (event.getEventTime() - mGestureOneTime)
-                                > 500 && (event.getEventTime() - mGestureOneTime) < 1500) {
-                            handledOne = true;
-                        }
-                        if (handledOne) performGesture(mGestureOne, 1);
-                    } else if (mGestureTwoStarted) {
-                        if (mGestureTypeTwo == 2
-                                && (x < ((mZoneTwo[0] * width) - mGestureDistance)
-                                || x > ((mZoneTwo[1] * width) + mGestureDistance)
-                                || y < ((mZoneTwo[2] * height) - mGestureDistance)
-                                || y > ((mZoneTwo[3] * height) + mGestureDistance))) {
-                            handledTwo = true;
-                        } else if (mGestureTypeTwo == 0) {
-                            handledTwo = true;
-                        } else if (mGestureTypeTwo == 1 && (event.getEventTime() - mGestureTwoTime)
-                                > 500 && (event.getEventTime() - mGestureTwoTime) < 1500) {
-                            handledTwo = true;
-                        }
-                        if (handledTwo) performGesture(mGestureTwo, 2);
-                    } else if (mGestureThreeStarted) {
-                        if (mGestureTypeThree == 2
-                                && (x < ((mZoneThree[0] * width) - mGestureDistance)
-                                || x > ((mZoneThree[1] * width) + mGestureDistance)
-                                || y < ((mZoneThree[2] * height) - mGestureDistance)
-                                || y > ((mZoneThree[3] * height) + mGestureDistance))) {
-                            handledThree = true;
-                        } else if (mGestureTypeThree == 0) {
-                            handledThree = true;
-                        } else if (mGestureTypeThree == 1 && (event.getEventTime() - mGestureThreeTime)
-                                    > 500 && (event.getEventTime() - mGestureThreeTime) < 1500) {
-                            handledThree = true;
-                        }
-                        if (handledThree) performGesture(mGestureThree, 3);
-                    } else if (mGestureFourStarted) {
-                        if (mGestureTypeFour == 2
-                                && (x < ((mZoneFour[0] * width) - mGestureDistance)
-                                || x > ((mZoneFour[1] * width) + mGestureDistance)
-                                || y < ((mZoneFour[2] * height) - mGestureDistance)
-                                || y > ((mZoneFour[3] * height) + mGestureDistance))) {
-                            handledFour = true;
-                        } else if (mGestureTypeFour == 0) {
-                            handledFour = true;
-                        } else if (mGestureTypeFour == 1 && (event.getEventTime() - mGestureFourTime)
-                                    > 500 && (event.getEventTime() - mGestureFourTime) < 1500) {
-                            handledFour = true;
-                        }
-                        if (handledFour) performGesture(mGestureFour, 4);
+                    boolean handled = false;
+                    if (mGestureOneStarted &&
+                            ((mGestureTypeOne == 2 && gestureEndedInZone(x, y, mZoneOne)) ||
+                            mGestureTypeOne == 0 ||
+                            (mGestureTypeOne == 1 && (time - mGestureOneTime)
+                            > 500 && (time - mGestureOneTime) < 1500))) {
+                        performGesture(mGestureOne, 1);
+                        handled = true;
+                    } else if (mGestureTwoStarted &&
+                            ((mGestureTypeTwo == 2 && gestureEndedInZone(x, y, mZoneTwo)) ||
+                            mGestureTypeTwo == 0 ||
+                            (mGestureTypeTwo == 1 && (time - mGestureTwoTime)
+                            > 500 && (time - mGestureTwoTime) < 1500))) {
+                        performGesture(mGestureTwo, 2);
+                        handled = true;
+                    } else if (mGestureThreeStarted &&
+                            ((mGestureTypeThree == 2 && gestureEndedInZone(x, y, mZoneThree)) ||
+                            mGestureTypeThree == 0 ||
+                            (mGestureTypeThree == 1 && (time - mGestureThreeTime)
+                            > 500 && (time - mGestureThreeTime) < 1500))) {
+                        performGesture(mGestureThree, 3);
+                        handled = true;
+                    } else if (mGestureFourStarted &&
+                            ((mGestureTypeFour == 2 && gestureEndedInZone(x, y, mZoneFour)) ||
+                            mGestureTypeFour == 0 ||
+                            (mGestureTypeFour == 1 && (time - mGestureFourTime)
+                            > 500 && (time - mGestureFourTime) < 1500))) {
+                        performGesture(mGestureFour, 4);
+                        handled = true;
                     }
                     mGestureOneStarted = false;
                     mGestureTwoStarted = false;
                     mGestureThreeStarted = false;
                     mGestureFourStarted = false;
 
-                    if (handledOne || handledTwo || handledThree || handledFour) {
-                        return true;
-                    }
+                    if (handled) return true;
                 } else if (action == MotionEvent.ACTION_MOVE) {
                     if (mGestureOneStarted || mGestureTwoStarted ||
                             mGestureThreeStarted || mGestureFourStarted) {
                         if (mGestureCapture) return true;
                     } else {
-                        mGestureOneStarted = false;
-                        mGestureTwoStarted = false;
-                        mGestureThreeStarted = false;
-                        mGestureFourStarted = false;
+                        checkGestureStarted(x, y, time);
+                        if (mGestureOneStarted || mGestureTwoStarted ||
+                                mGestureThreeStarted || mGestureFourStarted) {
+                            if (mGestureCapture) return true;
+                        } else {
+                            mGestureOneStarted = false;
+                            mGestureTwoStarted = false;
+                            mGestureThreeStarted = false;
+                            mGestureFourStarted = false;
+                        }
                     }
                 }
             }
