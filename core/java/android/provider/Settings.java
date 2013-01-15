@@ -3161,12 +3161,6 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_ALPHA = "lockscreen_alpha";
 
-	/**
-         * custom lockscreen text color
-         * @hide
-         */
-        public static final String LOCKSCREEN_CUSTOM_TEXT_COLOR = "lockscreen_custom_text_color";
-
          /**
          * Action for long-pressing back button on lock screen
          * @hide

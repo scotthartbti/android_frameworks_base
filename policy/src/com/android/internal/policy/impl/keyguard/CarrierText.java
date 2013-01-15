@@ -16,7 +16,6 @@
 
 package com.android.internal.policy.impl.keyguard;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -87,8 +86,6 @@ public class CarrierText extends TextView {
         } else {
             setText(customLabel);
         }
-	setTextColor(Settings.System.getInt(getContext().getContentResolver(),
-                Settings.System.LOCKSCREEN_CUSTOM_TEXT_COLOR, 0xFFFFFFFF));
     }
 
     @Override
