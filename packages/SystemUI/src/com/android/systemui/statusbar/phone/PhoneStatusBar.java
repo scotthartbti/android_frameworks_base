@@ -654,6 +654,9 @@ public class PhoneStatusBar extends BaseStatusBar {
             });
         }
 
+        // Set notification background
+        setNotificationWallpaperHelper();
+
         // Quick Settings (where available, some restrictions apply)
         if (mHasSettingsPanel) {
             // first, figure out where quick settings should be inflated
