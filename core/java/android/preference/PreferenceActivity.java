@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
-import android.provider.Settings;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -680,7 +679,9 @@ public abstract class PreferenceActivity extends ListActivity implements
      * enough.
      */
     public boolean onIsMultiPane() {
-        return Settings.System.getBoolean(getContentResolver(), Settings.System.FORCE_DUAL_PANEL, false);
+        boolean preferMultiPane = getResources().getBoolean(
+                com.android.internal.R.bool.preferences_prefer_dual_pane);
+        return preferMultiPane;
     }
 
     /**
