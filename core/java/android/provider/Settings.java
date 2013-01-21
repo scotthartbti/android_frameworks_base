@@ -3380,12 +3380,6 @@ public final class Settings {
             "navring_custom_app_icon_6",
         };
 
-	/**
-         * Whether to enable lockscreen rotation
-         * @hide
-         */
-        public static final String LOCKSCREEN_AUTO_ROTATE = "lockscreen_auto_rotate";
-
         /**
          * Show the pending notification counts as overlays on the status bar
          * Whether to enable custom rebindings of the actions performed on
