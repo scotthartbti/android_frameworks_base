@@ -3434,6 +3434,11 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_MAXIMIZE_WIDGETS = "lockscreen_maximize_widgets";
 
+        /**
+	 * @hide
+	 */
+        public static final String KG_ALL_WIDGETS = "kg_all_widgets";
+
          /**
           * Action to perform when the assistant (search) key is long-pressed. (Default is 4)
           * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
