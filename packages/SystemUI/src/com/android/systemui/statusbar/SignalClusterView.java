@@ -1,18 +1,18 @@
 /*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright (C) 2011 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package com.android.systemui.statusbar;
 
@@ -45,9 +45,6 @@ public class SignalClusterView
 
     NetworkController mNC;
 
-    private static final int SIGNAL_CLUSTER_STYLE_NORMAL = 0;
-
-    private int mSignalClusterStyle;
     private boolean mWifiVisible = false;
     private int mWifiStrengthId = 0, mWifiActivityId = 0;
     private boolean mMobileVisible = false;
@@ -76,11 +73,6 @@ public class SignalClusterView
 
     public SignalClusterView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        mHandler = new Handler();
-
-        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
-        settingsObserver.observe();
     }
 
     public void setNetworkController(NetworkController nc) {
@@ -92,17 +84,17 @@ public class SignalClusterView
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
 
-        mWifiGroup      = (ViewGroup) findViewById(R.id.wifi_combo);
-        mWifi           = (ImageView) findViewById(R.id.wifi_signal);
-        mWifiActivity   = (ImageView) findViewById(R.id.wifi_inout);
-        mMobileGroup    = (ViewGroup) findViewById(R.id.mobile_combo);
-        mMobile         = (ImageView) findViewById(R.id.mobile_signal);
+        mWifiGroup = (ViewGroup) findViewById(R.id.wifi_combo);
+        mWifi = (ImageView) findViewById(R.id.wifi_signal);
+        mWifiActivity = (ImageView) findViewById(R.id.wifi_inout);
+        mMobileGroup = (ViewGroup) findViewById(R.id.mobile_combo);
+        mMobile = (ImageView) findViewById(R.id.mobile_signal);
         mMobileActivity = (ImageView) findViewById(R.id.mobile_inout);
-        mMobileType     = (ImageView) findViewById(R.id.mobile_type);
-        mMobileText    = (TextView)  findViewById(R.id.signal_text);
-        mWiFiText    = (TextView)  findViewById(R.id.wifi_signal_text);
-        mSpacer         =             findViewById(R.id.spacer);
-        mAirplane       = (ImageView) findViewById(R.id.airplane);
+        mMobileType = (ImageView) findViewById(R.id.mobile_type);
+        mMobileText = (TextView) findViewById(R.id.signal_text);
+        mWiFiText = (TextView) findViewById(R.id.wifi_signal_text);
+        mSpacer = findViewById(R.id.spacer);
+        mAirplane = (ImageView) findViewById(R.id.airplane);
 
         mHandler = new Handler();
 
@@ -114,17 +106,17 @@ public class SignalClusterView
 
     @Override
     protected void onDetachedFromWindow() {
-        mWifiGroup      = null;
-        mWifi           = null;
-        mWifiActivity   = null;
-        mMobileGroup    = null;
-        mMobile         = null;
+        mWifiGroup = null;
+        mWifi = null;
+        mWifiActivity = null;
+        mMobileGroup = null;
+        mMobile = null;
         mMobileActivity = null;
-        mMobileType     = null;
-        mMobileText     = null;
-        mWiFiText       = null;
-        mSpacer         = null;
-        mAirplane       = null;
+        mMobileType = null;
+        mMobileText = null;
+        mWiFiText = null;
+        mSpacer = null;
+        mAirplane = null;
 
         super.onDetachedFromWindow();
     }
@@ -236,22 +228,6 @@ public class SignalClusterView
 
         mMobileType.setVisibility(
                 !mWifiVisible ? View.VISIBLE : View.GONE);
-
-        updateSettings();
-    }
-
-    private void updateSignalClusterStyle() {
-        if (!mIsAirplaneMode) {
-            mMobileGroup.setVisibility(mSignalClusterStyle !=
-                    SIGNAL_CLUSTER_STYLE_NORMAL ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    private void updateSettings() {
-        ContentResolver resolver = mContext.getContentResolver();
-        mSignalClusterStyle = (Settings.System.getInt(resolver,
-                Settings.System.STATUS_BAR_SIGNAL_TEXT, SIGNAL_CLUSTER_STYLE_NORMAL));
-        updateSignalClusterStyle();
     }
 
     class SettingsObserver extends ContentObserver {
@@ -286,4 +262,5 @@ public class SignalClusterView
         apply();
     }
 }
+
 
