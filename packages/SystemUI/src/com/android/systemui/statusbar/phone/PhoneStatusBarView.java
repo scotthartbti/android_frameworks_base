@@ -18,12 +18,16 @@ package com.android.systemui.statusbar.phone;
 
 import android.app.ActivityManager;
 import android.app.StatusBarManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
+import android.database.ContentObserver;
 import android.util.AttributeSet;
 import android.graphics.ColorFilterMaker;
 import android.util.Slog;
+import android.provider.Settings;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
