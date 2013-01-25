@@ -1069,6 +1069,32 @@ public final class Settings {
         }
 
         /**
+	* @hide
+	* Convenience function for retrieving a single system settings value
+	* as a boolean. Note that internally setting values are always
+	* stored as strings; this function converts the string to a boolean
+	* for you. It will only return true if the stored value is "1"
+	*
+	* @param cr The ContentResolver to access.
+	* @param name The name of the setting to retrieve.
+	* @param def Value to return if the setting is not defined.
+	*
+	* @return The setting's current value, or 'def' if it is not defined
+	* or not a valid integer.
+	*/
+        public static boolean getBoolean(ContentResolver cr, String name, boolean def) {
+            String v = getString(cr, name);
+            try {
+                if(v != null)
+                    return "1".equals(v);
+                else
+                    return def;
+            } catch (NumberFormatException e) {
+                return def;
+            }
+        }
+
+        /**
          * Convenience function for retrieving a single system settings value
          * as an integer.  Note that internally setting values are always
          * stored as strings; this function converts the string to an integer
