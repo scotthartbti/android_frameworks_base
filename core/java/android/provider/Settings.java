@@ -1151,6 +1151,24 @@ public final class Settings {
             return putStringForUser(cr, name, Integer.toString(value), userHandle);
         }
 
+       /**
+	* @hide
+	* Convenience function for updating a single settings value as a
+	* boolean. This will either create a new entry in the table if the
+	* given name does not exist, or modify the value of the existing row
+	* with that name. Note that internally setting values are always
+	* stored as strings, so this function converts the given value to a
+	* string (1 or 0) before storing it.
+	*
+ 	* @param cr The ContentResolver to access.
+ 	* @param name The name of the setting to modify.
+	* @param value The new value for the setting.
+	* @return true if the value was set, false on database errors
+	*/
+        public static boolean putBoolean(ContentResolver cr, String name, boolean value) {
+            return putString(cr, name, value ? "1" : "0");
+        }
+
         /**
          * Convenience function for retrieving a single system settings value
          * as a {@code long}.  Note that internally setting values are always
