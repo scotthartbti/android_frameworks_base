@@ -3244,6 +3244,12 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_LONG_MENU_ACTION = "lockscreen_long_menu_action";
 
+	/**
+         * Whether to enable lockscreen rotation
+         * @hide
+         */
+        public static final String LOCKSCREEN_AUTO_ROTATE = "lockscreen_auto_rotate";
+
          /**
           * Always show the battery status on the lockscreen
           * @hide
