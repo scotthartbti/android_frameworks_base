@@ -43,6 +43,7 @@ import com.android.systemui.quicksettings.BatteryTile;
 import com.android.systemui.quicksettings.BluetoothTile;
 import com.android.systemui.quicksettings.BrightnessTile;
 import com.android.systemui.quicksettings.BugReportTile;
+import com.android.systemui.quicksettings.DaydreamTile;
 import com.android.systemui.quicksettings.NfcTile;
 import com.android.systemui.quicksettings.ScreenTimeoutTile;
 import com.android.systemui.quicksettings.TorchTile;
@@ -105,6 +106,7 @@ public class QuickSettingsController {
     public static final String TILE_NFC = "toggleNfc";
     public static final String TILE_USBTETHER = "toggleUsbTether";
     public static final String TILE_VOLUME = "toggleVolume";
+    public static final String TILE_DAYDREAM = "toggleDaydream";
 
     private static final String TILE_DELIMITER = "|";
     private static ArrayList<String> TILES_DEFAULT = new ArrayList<String>();
@@ -159,6 +161,7 @@ public class QuickSettingsController {
     public static final int SCREENTIMEOUT_TILE = 22;
     public static final int USBTETHER_TILE = 23;
     public static final int VOLUME_TILE = 24;
+    public static final int DAYDREAM_TILE = 25;
     public static final int USER_TILE = 99;
     private InputMethodTile IMETile;
 
@@ -258,6 +261,8 @@ public class QuickSettingsController {
                 // Not available yet
             } else if (tile.equals(TILE_VOLUME)) {
                 mQuickSettings.add(VOLUME_TILE);
+            } else if (tile.equals(TILE_DAYDREAM)) {
+                mQuickSettings.add(DAYDREAM_TILE);
             }
         }
 
@@ -470,6 +475,9 @@ public class QuickSettingsController {
                 break;
             case VOLUME_TILE:
                 qs = new VolumeTile(mContext, inflater, mContainerView, this);
+                break;
+            case DAYDREAM_TILE:
+                qs = new DaydreamTile(mContext, inflater, mContainerView, this);
                 break;
             }
             if (qs != null) {
