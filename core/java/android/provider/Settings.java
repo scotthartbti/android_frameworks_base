@@ -3250,6 +3250,12 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_AUTO_ROTATE = "lockscreen_auto_rotate";
 
+	/**
+         * custom lockscreen text color
+         * @hide
+         */
+        public static final String LOCKSCREEN_CUSTOM_TEXT_COLOR = "lockscreen_custom_text_color";
+
          /**
           * Always show the battery status on the lockscreen
           * @hide

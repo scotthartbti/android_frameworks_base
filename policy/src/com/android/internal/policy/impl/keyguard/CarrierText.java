@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import android.content.ContentResolver;
 import com.android.internal.R;
 import com.android.internal.telephony.IccCardConstants;
 import com.android.internal.telephony.IccCardConstants.State;
@@ -86,6 +87,8 @@ public class CarrierText extends TextView {
         } else {
             setText(customLabel);
         }
+	setTextColor(Settings.System.getInt(getContext().getContentResolver(),
+                Settings.System.LOCKSCREEN_CUSTOM_TEXT_COLOR, 0xFFFFFFFF));
     }
 
     @Override
