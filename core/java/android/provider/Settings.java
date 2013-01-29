@@ -3632,11 +3632,6 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_USE_WIDGET_CONTAINER_CAROUSEL = "lockscreen_use_widget_container_carousel";
 
-	/**
-          * @hide
-          */
-        public static final String TABLET_FLIPPED = "tablet_flipped";
-
         /**
          * @hide
          */

@@ -168,37 +168,32 @@
                 android:layout_height="0dp"
                 />
 
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/settings_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_sysbar_quicksettings"
+                    android:contentDescription="@string/accessibility_desc_quick_settings"
+                    />
+
+                <ImageView
+                    android:id="@+id/notification_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_notification_open"
+                    android:visibility="invisible"
+                    android:contentDescription="@string/accessibility_notifications_button"
+                    />
+            </FrameLayout>
+
         </TableRow>
     </TableLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        >
-
-        <ImageView
-            android:id="@+id/settings_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_sysbar_quicksettings"
-            android:contentDescription="@string/accessibility_desc_quick_settings"
-            />
-
-        <ImageView
-            android:id="@+id/notification_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_notification_open"
-            android:visibility="invisible"
-            android:contentDescription="@string/accessibility_notifications_button"
-            />
-    </RelativeLayout>
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
