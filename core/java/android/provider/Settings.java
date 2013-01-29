@@ -2720,6 +2720,13 @@ public final class Settings {
          */
         public static final String QS_DYNAMIC_WIFI = "qs_dyanmic_wifi";
 
+         /**
+         * Quick Settings Quick Pulldown if no notifications are present
+         *
+         * @hide
+         */
+        public static final String QS_NO_NOTIFICATION_PULLDOWN = "qs_no_notification_pulldown";
+
         /**
          * Quick Settings Quick Pulldown
          *
