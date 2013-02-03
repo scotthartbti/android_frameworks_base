@@ -380,6 +380,13 @@ public class ActivityManager {
      * (which tends to consume a lot more RAM).
      * @hide
      */
+     static public boolean overwriteHighEndGfx() {
+        if(SystemProperties.getBoolean("persist.sys.use_high_end_gfx", false)) {
+     return true;
+  }
+        return false;
+    }
+
     static public boolean isHighEndGfx() {
         MemInfoReader reader = new MemInfoReader();
         reader.readMemInfo();
