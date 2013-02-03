@@ -3617,6 +3617,12 @@ public final class Settings {
          */
         public static final String UI_FORCE_OVERFLOW_BUTTON = "ui_force_overflow_button";
 
+	/**
+         * Whether to display high end graphics effects disabled on older devices
+         * @hide
+         */
+        public static final String HIGH_END_GFX_ENABLED = "high_end_gfx_enabled";
+
          /**
           * Volume keys control cursor in text fields (default is 0)
           * 0 - Disabled

@@ -43,6 +43,7 @@ public class PhoneStatusBarView extends PanelBar {
     float mSettingsPanelDragzoneMin;
 
     boolean mFullWidthNotifications;
+    boolean mHighEndGfx;
     PanelView mFadingPanel = null;
     PanelView mLastFullyOpenedPanel = null;
     PanelView mNotificationPanel, mSettingsPanel;
@@ -207,7 +208,8 @@ public class PhoneStatusBarView extends PanelBar {
             Slog.v(TAG, "panelExpansionChanged: f=" + frac);
         }
 
-        if (panel == mFadingPanel && mScrimColor != 0 && ActivityManager.isHighEndGfx()) {
+        mHighEndGfx = Settings.System.getInt(getContext().getContentResolver(),Settings.System.HIGH_END_GFX_ENABLED, 0) != 0;
+        if (panel == mFadingPanel && mScrimColor != 0 && (ActivityManager.isHighEndGfx() || mHighEndGfx)) {
             if (mShouldFade) {
                 frac = mPanelExpandedFractionSum; // don't judge me
                 // let's start this 20% of the way down the screen
