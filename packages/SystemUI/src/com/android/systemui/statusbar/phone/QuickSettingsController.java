@@ -467,6 +467,7 @@ public class QuickSettingsController {
                 break;
             case USBTETHER_TILE:
                 qs = new UsbTetherTile(mContext, inflater, mContainerView, this);
+                break;
             case VOLUME_TILE:
                 qs = new VolumeTile(mContext, inflater, mContainerView, this);
                 break;
