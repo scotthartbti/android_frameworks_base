@@ -21,7 +21,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.UserHandle;
@@ -138,9 +137,7 @@ class KeyguardMessageArea extends TextView {
     private KeyguardUpdateMonitorCallback mInfoCallback = new KeyguardUpdateMonitorCallback() {
         @Override
         public void onRefreshBatteryInfo(KeyguardUpdateMonitor.BatteryStatus status) {
-            // Use the status instead of plugged attribute
-            mPluggedIn = status.status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                         status.status == BatteryManager.BATTERY_STATUS_FULL;
+            mPluggedIn = status.isPluggedIn();
             mBatteryLevel = status.level;
             mBatteryCharged = status.isCharged();
             mBatteryIsLow = status.isBatteryLow();
@@ -232,7 +229,7 @@ class KeyguardMessageArea extends TextView {
         if (mShowingBatteryInfo && !mShowingMessage) {
             // Battery status
             if (mPluggedIn) {
-                // Charging, charged.
+                // Charging, charged or waiting to charge.
                 string = getContext().getString(mBatteryCharged ?
                         com.android.internal.R.string.lockscreen_charged
                         :com.android.internal.R.string.lockscreen_plugged_in, mBatteryLevel);
