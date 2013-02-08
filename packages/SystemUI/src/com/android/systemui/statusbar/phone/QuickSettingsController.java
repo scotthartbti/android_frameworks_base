@@ -34,7 +34,6 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.android.systemui.R;
 import com.android.systemui.quicksettings.AirplaneModeTile;
@@ -46,6 +45,7 @@ import com.android.systemui.quicksettings.BrightnessTile;
 import com.android.systemui.quicksettings.BugReportTile;
 import com.android.systemui.quicksettings.DaydreamTile;
 import com.android.systemui.quicksettings.NfcTile;
+import com.android.systemui.quicksettings.QuietHoursTile;
 import com.android.systemui.quicksettings.ScreenTimeoutTile;
 import com.android.systemui.quicksettings.TorchTile;
 import com.android.systemui.quicksettings.GPSTile;
@@ -108,6 +108,7 @@ public class QuickSettingsController {
     public static final String TILE_USBTETHER = "toggleUsbTether";
     public static final String TILE_VOLUME = "toggleVolume";
     public static final String TILE_DAYDREAM = "toggleDaydream";
+    public static final String TILE_QUIETHOURS = "toggleQuietHours";
 
     private static final String TILE_DELIMITER = "|";
     private static ArrayList<String> TILES_DEFAULT = new ArrayList<String>();
@@ -163,6 +164,7 @@ public class QuickSettingsController {
     public static final int USBTETHER_TILE = 23;
     public static final int VOLUME_TILE = 24;
     public static final int DAYDREAM_TILE = 25;
+    public static final int QUIET_HOURS_TILE = 26;
     public static final int USER_TILE = 99;
     private InputMethodTile IMETile;
 
@@ -266,6 +268,8 @@ public class QuickSettingsController {
                 mQuickSettings.add(VOLUME_TILE);
             } else if (tile.equals(TILE_DAYDREAM)) {
                 mQuickSettings.add(DAYDREAM_TILE);
+            } else if (tile.equals(TILE_QUIETHOURS)) {
+                mQuickSettings.add(QUIET_HOURS_TILE);
             }
         }
 
@@ -482,6 +486,9 @@ public class QuickSettingsController {
                 break;
             case DAYDREAM_TILE:
                 qs = new DaydreamTile(mContext, inflater, mContainerView, this);
+	 	break;
+            case QUIET_HOURS_TILE:
+                qs = new QuietHoursTile(mContext, inflater, mContainerView, this);
                 break;
             }
             if (qs != null) {
