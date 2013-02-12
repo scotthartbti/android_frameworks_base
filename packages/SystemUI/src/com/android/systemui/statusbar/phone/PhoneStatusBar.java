@@ -137,7 +137,8 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
+public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
+        NetworkController.UpdateUIListener {
     static final String TAG = "PhoneStatusBar";
     public static final boolean DEBUG = BaseStatusBar.DEBUG;
     public static final boolean SPEW = false;
@@ -1139,6 +1140,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
 
         mIsAutoBrightNess = checkAutoBrightNess();
 
+        mNetworkController.setListener(this);
+
         return mStatusBarView;
     }
 
@@ -1651,6 +1654,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
                 mNotificationIcons.addView(v, i, params);
             }
         }
+    }
+
+    /**
+     * Listen for UI updates and refresh layout.
+     */
+    public void onUpdateUI() {
+        updateCarrierAndWifiLabelVisibility(true, false);
     }
 
     protected void updateCarrierAndWifiLabelVisibility(boolean force, boolean forceHide) {
