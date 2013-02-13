@@ -303,9 +303,6 @@ public final class DisplayInfo implements Parcelable {
                 ci.applyToDisplayMetrics(outMetrics);
             }
         }
-        
-        if (outMetrics.isHooked())
-            outMetrics.paranoidHook();
     }
 
     // For debugging purposes

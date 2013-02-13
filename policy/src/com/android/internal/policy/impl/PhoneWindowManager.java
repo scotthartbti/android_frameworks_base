@@ -1333,19 +1333,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 	    Settings.System.putInt(mContext.getContentResolver(),
                     Settings.System.TABLET_UI, 2);
         }
-        
-        int uiMode = Settings.System.getInt(mContext.getContentResolver(), Settings.System.UI_MODE, 0);
-        boolean forcePhablet = uiMode == 2;
-        if (forcePhablet) {
-            mHasSystemNavBar = false;
-            mNavigationBarCanMove = false;
-        } else {
-            boolean forceTablet = uiMode == 3;
-            if (forceTablet) {
-                mHasSystemNavBar = true;
-                mNavigationBarCanMove = false;
-            }
-        }
 
         if (!mHasSystemNavBar) {
 	showNavBar = mContext.getResources().getBoolean(

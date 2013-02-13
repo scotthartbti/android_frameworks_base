@@ -18,12 +18,10 @@
 package android.content.res;
 
 import android.content.pm.ActivityInfo;
-import android.graphics.Point;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
-import android.util.ExtendedPropertiesUtils;
 import android.util.Log;
 import android.os.SystemProperties;
 import android.text.TextUtils;
@@ -40,7 +38,7 @@ import java.util.Locale;
  * with {@link android.app.Activity#getResources}:</p>
  * <pre>Configuration config = getResources().getConfiguration();</pre>
  */
-public final class Configuration extends ExtendedPropertiesUtils implements Parcelable, Comparable<Configuration> {
+public final class Configuration implements Parcelable, Comparable<Configuration> {
     /** @hide */
     public static final Configuration EMPTY = new Configuration();
 
@@ -565,30 +563,6 @@ public final class Configuration extends ExtendedPropertiesUtils implements Parc
      */
     public int seq;
     
-    public boolean active;
-
-    /**
-     * Process layout changes for current hook
-     */
-    public void paranoidHook() {        
-        if (!"com.android.systemui".equals(getName()) && active) {
-            int dpi = getDpi(),
-                layout = 600;
-            if (dpi <= 213) {
-                layout = 720;
-            } else if (layout > 213) {
-                layout = 360;
-            }
-            Point size = new Point();
-            if (mDisplay == null) return;
-            mDisplay.getSize(size);
-            float factor = (float)Math.max(size.x, size.y) / (float)Math.min(size.x, size.y);
-            screenWidthDp = layout;
-            screenHeightDp = (int)(screenWidthDp * factor);
-            smallestScreenWidthDp = layout;
-        }
-    }
-    
     /**
      * Construct an invalid Configuration.  You must call {@link #setToDefaults}
      * for this object to be valid.  {@more}
@@ -632,8 +606,6 @@ public final class Configuration extends ExtendedPropertiesUtils implements Parc
         if (o.customTheme != null) {
             customTheme = (CustomTheme) o.customTheme.clone();
         }
-
-        paranoidHook();
     }
     
     public String toString() {
