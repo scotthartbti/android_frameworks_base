@@ -1896,7 +1896,7 @@ class ContextImpl extends Context {
                 // still runned under hybrid engine.
                 if (ExtendedPropertiesUtils.getProperty(ExtendedPropertiesUtils.BEERBONG_PREFIX
                         + "hybrid_mode").equals("1")) {
-                    ExtendedPropertiesUtils.sIsHybridModeEnabled = true;
+                    ExtendedPropertiesUtils.mIsHybridModeEnabled = true;
                 }
 
                 // Save current thread into global context
@@ -1941,6 +1941,10 @@ class ContextImpl extends Context {
                     ExtendedPropertiesUtils.mPackageManager.getInstalledPackages(0);
                 ExtendedPropertiesUtils.mGlobalHook.pid = android.os.Process.myPid();
 
+                // Initialize constants to be public. mIsTablet constant returns whether if 
+                // workspace we're working on is tablet workspace, or something different
+                ExtendedPropertiesUtils.mIsTablet = Integer.parseInt(ExtendedPropertiesUtils.getProperty
+                    ("com.android.systemui.layout")) >= 720;
                 ExtendedPropertiesUtils.mRomLcdDensity = SystemProperties.getInt("qemu.sf.lcd_density",
                     SystemProperties.getInt("ro.sf.lcd_density", DisplayMetrics.DENSITY_DEFAULT));
 

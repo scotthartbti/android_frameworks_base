@@ -17,7 +17,6 @@
 package android.util;
 
 import android.os.SystemProperties;
-import android.view.Surface;
 
 
 /**
@@ -189,14 +188,9 @@ public class DisplayMetrics extends ExtendedPropertiesUtils {
      */
     public void paranoidHook() {
         if (getActive()) {
-
             density = getDensity() == 0 ? density : getDensity();
             scaledDensity = getScaledDensity() == 0 ? scaledDensity : getScaledDensity();
             densityDpi = getDpi() == 0 ? densityDpi : getDpi();
-            noncompatDensity = densityDpi;
-            noncompatDensityDpi = densityDpi;
-            noncompatScaledDensity = scaledDensity;
-            
         }
     }
 

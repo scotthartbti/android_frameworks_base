@@ -16,20 +16,15 @@
 
 package android.content.res;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.ref.WeakReference;
-import java.util.Locale;
-
-import libcore.icu.NativePluralRules;
+import com.android.internal.util.XmlUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Movie;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable.ConstantState;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,11 +32,16 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.ExtendedPropertiesUtils;
 import android.util.Log;
-import android.util.LongSparseArray;
 import android.util.Slog;
 import android.util.TypedValue;
+import android.util.LongSparseArray;
 
-import com.android.internal.util.XmlUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.util.Locale;
+
+import libcore.icu.NativePluralRules;
 
 /**
  * Class for accessing an application's resources.  This sits on top of the
@@ -1483,7 +1483,6 @@ public class Resources extends ExtendedPropertiesUtils {
             if (mConfiguration.densityDpi != Configuration.DENSITY_DPI_UNDEFINED) {
                 mMetrics.densityDpi = mConfiguration.densityDpi;
                 mMetrics.density = mConfiguration.densityDpi * DisplayMetrics.DENSITY_DEFAULT_SCALE;
-                mMetrics.paranoidHook();
             }
             mMetrics.scaledDensity = mMetrics.density * mConfiguration.fontScale;
 
