@@ -570,13 +570,13 @@ public final class Configuration extends ExtendedPropertiesUtils implements Parc
     /**
      * Process layout changes for current hook
      */
-    public void paranoidHook() {
+    public void paranoidHook() {        
         if (!"com.android.systemui".equals(getName()) && active) {
             int dpi = getDpi(),
                 layout = 600;
             if (dpi <= 213) {
                 layout = 720;
-            } else if (dpi > 213) {
+            } else if (layout > 213) {
                 layout = 360;
             }
             Point size = new Point();
