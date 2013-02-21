@@ -1933,4 +1933,7 @@
   <java-symbol type="drawable" name="ic_lockscreen_twitter" />
   <java-symbol type="layout" name="keyguard_shortcuts" />
   <java-symbol type="id" name="shortcuts" />
+
+  <!-- Reboot confirmation string -->
+  <java-symbol type="string" name="reboot_confirm" />
 </resources>
