@@ -2595,6 +2595,12 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_DISABLED = "lockscreen.disabled";
 
+	/**
+         * Stores value for lock before unlock
+         * @hide
+         */
+        public static final String LOCK_BEFORE_UNLOCK = "lock_before_unlock";
+
         /**
          * Stores values for custom lockscreen targets
          * @hide
@@ -2607,6 +2613,12 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_MUSIC_CONTROLS = "lockscreen_music_controls";
+
+	/**
+          * Stores used unsecure lockscreen for normal mode and unlock before unlock
+          * @hide
+          */
+         public static final String LOCKSCREEN_UNSECURE_USED = "lockscreen_unsecure_used";
 
         /**
          * @deprecated Use {@link android.provider.Settings.Global#LOW_BATTERY_SOUND}
