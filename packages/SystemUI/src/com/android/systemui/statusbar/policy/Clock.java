@@ -87,7 +87,7 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
     private int mAmPmStyle;
     public boolean mShowClock;
 
-    Handler mHandler;
+    private SettingsObserver mSettingsObserver;
 
     protected class SettingsObserver extends ContentObserver {
         SettingsObserver(Handler handler) {
@@ -161,9 +161,8 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
         // The time zone may have changed while the receiver wasn't registered, so update the Time
         mCalendar = Calendar.getInstance(TimeZone.getDefault());
 
-        mHandler = new Handler();
-        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
-        settingsObserver.observe();
+        mSettingsObserver = new SettingsObserver(new Handler());
+        mSettingsObserver.observe();
         if(isClickable()){
             setOnClickListener(this);
             setOnLongClickListener(this);
@@ -176,6 +175,7 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
         super.onDetachedFromWindow();
         if (mAttached) {
             getContext().unregisterReceiver(mIntentReceiver);
+	    getContext().getContentResolver().unregisterContentObserver(mSettingsObserver);
             mAttached = false;
         }
     }
