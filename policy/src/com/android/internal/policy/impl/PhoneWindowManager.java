@@ -5474,3 +5474,4 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 pw.print(" mHdmiRotationLock="); pw.println(mHdmiRotationLock);
     }
 }
+
