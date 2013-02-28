@@ -21,11 +21,13 @@ public class SyncTile extends QuickSettingsTile {
             QuickSettingsController qsc) {
         super(context, inflater, container, qsc);
 
+        updateTileState();
+
         mOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggleState();
-                updateResources();
+                applySyncChanges();
             }
         };
 
@@ -43,28 +45,6 @@ public class SyncTile extends QuickSettingsTile {
     }
 
     @Override
-    void onPostCreate() {
-        updateTile();
-        super.onPostCreate();
-    }
-
-    @Override
-    public void updateResources() {
-        updateTile();
-        super.updateResources();
-    }
-
-    private synchronized void updateTile() {
-        if (getSyncState()) {
-            mDrawable = R.drawable.ic_qs_sync_on;
-            mLabel = mContext.getString(R.string.quick_settings_sync);
-        } else {
-            mDrawable = R.drawable.ic_qs_sync_off;
-            mLabel = mContext.getString(R.string.quick_settings_sync_off);
-        }
-    }
-
-    @Override
     public void setupQuickSettingsTile() {
         super.setupQuickSettingsTile();
 
@@ -79,12 +59,28 @@ public class SyncTile extends QuickSettingsTile {
         }
     }
 
+    private void applySyncChanges() {
+        updateTileState();
+        updateQuickSettings();
+    }
+
     protected void toggleState() {
         // If ON turn OFF else turn ON
         if (getSyncState()) {
             ContentResolver.setMasterSyncAutomatically(false);
         } else {
             ContentResolver.setMasterSyncAutomatically(true);
+        }
+    }
+
+    private void updateTileState() {
+
+        if (getSyncState()) {
+            mDrawable = R.drawable.ic_qs_sync_on;
+            mLabel = mContext.getString(R.string.quick_settings_sync);
+        } else {
+            mDrawable = R.drawable.ic_qs_sync_off;
+            mLabel = mContext.getString(R.string.quick_settings_sync_off);
         }
     }
 
@@ -98,7 +94,7 @@ public class SyncTile extends QuickSettingsTile {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    updateResources();
+                    applySyncChanges();
                 }
             });
         }

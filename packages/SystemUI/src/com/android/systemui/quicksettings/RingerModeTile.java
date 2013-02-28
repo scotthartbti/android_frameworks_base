@@ -1,10 +1,13 @@
 package com.android.systemui.quicksettings;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -36,19 +39,27 @@ public class RingerModeTile extends QuickSettingsTile {
     private int mRingerValuesIndex;
 
     private AudioManager mAudioManager;
+    private Handler mHandler;
 
     public RingerModeTile(Context context, LayoutInflater inflater,
             QuickSettingsContainerView container, QuickSettingsController qsc) {
         super(context, inflater, container, qsc);
 
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        mHandler = new Handler();
+
+        // Load the available ringer modes
+        updateSettings(mContext.getContentResolver());
+
+        // Make sure we show the initial state correctly
+        updateState();
 
         // Tile actions
         mOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggleState();
-                updateResources();
+                applyVibrationChanges();
             }
         };
 
@@ -68,33 +79,21 @@ public class RingerModeTile extends QuickSettingsTile {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        updateResources();
+        applyVibrationChanges();
     }
 
     @Override
     public void onChangeUri(ContentResolver resolver, Uri uri) {
         updateSettings(mContext.getContentResolver());
-        updateResources();
+        applyVibrationChanges();
     }
 
-    @Override
-    void onPostCreate() {
-        // Load the available ringer modes
-        updateSettings(mContext.getContentResolver());
-
-        // Make sure we show the initial state correctly
-        updateTile();
-
-        super.onPostCreate();
+    private void applyVibrationChanges(){
+        updateState();
+        updateQuickSettings();
     }
 
-    @Override
-    public void updateResources() {
-        updateTile();
-        super.updateResources();
-    }
-
-    private synchronized void updateTile() {
+    protected void updateState() {
         // The title does not change
         mLabel = mContext.getString(R.string.quick_settings_ringer_normal);
 

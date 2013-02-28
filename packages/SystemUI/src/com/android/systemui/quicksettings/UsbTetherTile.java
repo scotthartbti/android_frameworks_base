@@ -67,12 +67,12 @@ public class UsbTetherTile extends QuickSettingsTile {
             mMassStorageActive = false;
         }
 
-        updateResources();
+        updateTileState();
     }
 
     @Override
     void onPostCreate() {
-        updateTile();
+        updateTileState();
         super.onPostCreate();
     }
 
@@ -82,13 +82,7 @@ public class UsbTetherTile extends QuickSettingsTile {
         super.updateQuickSettings();
     }
 
-    @Override
-    public void updateResources() {
-        updateTile();
-        super.updateResources();
-    }
-
-    private synchronized void updateTile() {
+    private void updateTileState() {
         updateState();
         if (mUsbConnected && !mMassStorageActive) {
             if (mUsbTethered) {
@@ -101,6 +95,9 @@ public class UsbTetherTile extends QuickSettingsTile {
         } else {
             mDrawable = R.drawable.ic_qs_usb_tether_off;
             mLabel = mContext.getString(R.string.quick_settings_usb_tether_off_label);
+        }
+        if(mTile != null) {
+            updateQuickSettings();
         }
     }
 

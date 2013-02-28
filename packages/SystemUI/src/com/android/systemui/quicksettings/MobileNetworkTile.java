@@ -20,17 +20,15 @@ import com.android.systemui.statusbar.policy.NetworkController.NetworkSignalChan
 
 public class MobileNetworkTile extends QuickSettingsTile implements NetworkSignalChangedCallback{
 
-    private static final int NO_OVERLAY = 0;
-    private static final int DISABLED_OVERLAY = -1;
-
-    private boolean mEnabled;
-    private String mDescription;
-    private int mDataTypeIconId = NO_OVERLAY;
+    private int mDataTypeIconId;
     private String dataContentDescription;
     private String signalContentDescription;
     private boolean wifiOn = false;
 
     private ConnectivityManager mCm;
+
+    private int NO_OVERLAY = 0;
+    private int DISABLED_OVERLAY = -1;
 
     public MobileNetworkTile(Context context, LayoutInflater inflater,
             QuickSettingsContainerView container, QuickSettingsController qsc) {
@@ -69,24 +67,7 @@ public class MobileNetworkTile extends QuickSettingsTile implements NetworkSigna
     void onPostCreate() {
         NetworkController controller = new NetworkController(mContext);
         controller.addNetworkSignalChangedCallback(this);
-        updateTile();
         super.onPostCreate();
-    }
-
-    @Override
-    public void updateResources() {
-        updateTile();
-        super.updateResources();
-    }
-
-    private synchronized void updateTile() {
-        Resources r = mContext.getResources();
-        dataContentDescription = mEnabled && (mDataTypeIconId > 0) && !wifiOn
-                ? dataContentDescription
-                : r.getString(R.string.accessibility_no_data);
-        mLabel = mEnabled
-                ? removeTrailingPeriod(mDescription)
-                : r.getString(R.string.quick_settings_rssi_emergency_only);
     }
 
     @Override
@@ -119,15 +100,19 @@ public class MobileNetworkTile extends QuickSettingsTile implements NetworkSigna
                 mDataTypeIconId = NO_OVERLAY;
             }
 
-            mEnabled = enabled;
-            mDescription = description;
-
-            updateResources();
+            dataContentDescription = enabled && (dataTypeIconId > 0) && !wifiOn
+                    ? dataContentDescription
+                    : r.getString(R.string.accessibility_no_data);
+            mLabel = enabled
+                    ? removeTrailingPeriod(description)
+                    : r.getString(R.string.quick_settings_rssi_emergency_only);
+            updateQuickSettings();
         }
     }
 
     @Override
     public void onAirplaneModeChanged(boolean enabled) {
+        // TODO Auto-generated method stub
     }
 
     boolean deviceSupportsTelephony() {

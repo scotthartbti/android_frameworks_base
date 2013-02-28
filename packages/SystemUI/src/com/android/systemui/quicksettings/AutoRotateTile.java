@@ -17,6 +17,8 @@ import com.android.systemui.statusbar.phone.QuickSettingsContainerView;
 
 public class AutoRotateTile extends QuickSettingsTile {
 
+    private static final String TAG = "AutoRotateButton";
+
     public AutoRotateTile(Context context, LayoutInflater inflater,
             QuickSettingsContainerView container, QuickSettingsController qsc, Handler handler) {
         super(context, inflater, container, qsc);
@@ -39,13 +41,7 @@ public class AutoRotateTile extends QuickSettingsTile {
                 , this);
     }
 
-    @Override
-    public void updateResources() {
-        updateTile();
-        updateQuickSettings();
-    }
-
-    private synchronized void updateTile() {
+    void applyAutoRotationChanges() {
         if(!getAutoRotation()){
             mDrawable = R.drawable.ic_qs_rotation_locked;
             mLabel = mContext.getString(R.string.quick_settings_rotation_locked_label);
@@ -53,11 +49,12 @@ public class AutoRotateTile extends QuickSettingsTile {
             mDrawable = R.drawable.ic_qs_auto_rotate;
             mLabel = mContext.getString(R.string.quick_settings_rotation_unlocked_label);
         }
+        updateQuickSettings();
     }
 
     @Override
     void onPostCreate() {
-        updateTile();
+        applyAutoRotationChanges();
         super.onPostCreate();
     }
 
@@ -67,6 +64,6 @@ public class AutoRotateTile extends QuickSettingsTile {
 
     @Override
     public void onChangeUri(ContentResolver resolver, Uri uri) {
-        updateResources();
+        applyAutoRotationChanges();
     }
 }
