@@ -63,6 +63,8 @@ public class SignalClusterView
     View mSpacer;
 
     Handler mHandler;
+    
+    private SettingsObserver mSettingsObserver;
 
     public SignalClusterView(Context context) {
         this(context, null);
@@ -74,6 +76,10 @@ public class SignalClusterView
 
     public SignalClusterView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        mHandler = new Handler();
+
+        mSettingsObserver = new SettingsObserver(mHandler);
     }
 
     public void setNetworkController(NetworkController nc) {
@@ -97,11 +103,7 @@ public class SignalClusterView
         mSpacer = findViewById(R.id.spacer);
         mAirplane = (ImageView) findViewById(R.id.airplane);
 
-        mHandler = new Handler();
-
-        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
-        settingsObserver.observe();
-
+        mSettingsObserver.observe();
         apply();
     }
 
@@ -119,6 +121,7 @@ public class SignalClusterView
         mSpacer = null;
         mAirplane = null;
 
+        mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
         super.onDetachedFromWindow();
     }
 
