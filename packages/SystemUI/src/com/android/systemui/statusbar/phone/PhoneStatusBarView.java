@@ -24,7 +24,6 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.database.ContentObserver;
 import android.util.AttributeSet;
-import android.graphics.ColorFilterMaker;
 import android.util.Slog;
 import android.provider.Settings;
 import android.os.Handler;
@@ -48,8 +47,6 @@ public class PhoneStatusBarView extends PanelBar {
     PanelView mLastFullyOpenedPanel = null;
     PanelView mNotificationPanel, mSettingsPanel;
     private boolean mShouldFade;
-
-    Handler mHandler;
 
     public PhoneStatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -75,11 +72,6 @@ public class PhoneStatusBarView extends PanelBar {
 
     @Override
     public void onAttachedToWindow() {
-	mHandler = new Handler();
-        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
-        settingsObserver.observe();
-
-        updateSettings();
         for (PanelView pv : mPanels) {
             pv.setRubberbandingEnabled(!mFullWidthNotifications);
         }
@@ -245,28 +237,6 @@ public class PhoneStatusBarView extends PanelBar {
         updateShortcutsVisibility();
     }
 
-    //setup observer to do stuff!
-    class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUSBAR_BACKGROUND_COLOR), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.STATUSBAR_BACKGROUND_STYLE), false, this);
-            updateSettings();
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-    }
-
     public void updateShortcutsVisibility() {
         // Notification Shortcuts check for fully expanded panel
         if (mBar.mSettingsButton == null || mBar.mNotificationButton == null) {
@@ -289,20 +259,4 @@ public class PhoneStatusBarView extends PanelBar {
         mBar.updateCarrierLabelVisibility(false);
     }
 
-    private void updateSettings() {
-        int defaultBg = Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.STATUSBAR_BACKGROUND_STYLE, 2);
-        int mStatusBarBgColor = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUSBAR_BACKGROUND_COLOR, 0xFF000000);
-
-        if (defaultBg == 0) {
-            setBackgroundColor(mStatusBarBgColor);
-        } else if (defaultBg == 1) {
-            setBackgroundResource(R.drawable.status_bar_background);
-            getBackground().setColorFilter(ColorFilterMaker.
-                    changeColorAlpha(mStatusBarBgColor, .32f, 0f));
-        } else {
-            setBackground(mContext.getResources().getDrawable(R.drawable.status_bar_background));
-        }
-    }
 }
