@@ -197,6 +197,10 @@ public abstract class BaseStatusBar extends SystemUI implements
         return null;
     }
 
+    public IStatusBarService getService() {
+        return mBarService;
+    }
+
     public NotificationData getNotificationData() {
         return mNotificationData;
     }
