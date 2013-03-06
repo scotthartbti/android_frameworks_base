@@ -128,6 +128,10 @@ public class MobileNetworkTile extends QuickSettingsTile implements NetworkSigna
         iv.setImageResource(mDrawable);
         updateOverlayImage(mDataTypeIconId);
         tv.setText(mLabel);
+        tv.setTextSize(1, mTileTextSize);
+        if (mTileTextColor != -2) {
+            tv.setTextColor(mTileTextColor);
+        }
         mTile.setContentDescription(mContext.getResources().getString(
                 R.string.accessibility_quick_settings_mobile,
                 signalContentDescription, dataContentDescription,
