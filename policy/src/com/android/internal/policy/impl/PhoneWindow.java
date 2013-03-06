@@ -1915,7 +1915,8 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
 
         private boolean mEnableGestures;
 
-        private int mScreenWidth, mScreenHeight;
+        private int mScreenWidth = 1;
+        private int mScreenHeight = -1;
 
         public DecorView(Context context, int featureId) {
             super(context);
@@ -2037,14 +2038,18 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
             mShowGestures = Settings.System.getInt(resolver,
                     Settings.System.SHOW_GESTURES, 0) == 1;
 
-            WindowManager wm = getWindowManager();
-            Display display = wm.getDefaultDisplay();
-            Point size = new Point();
-            display.getRealSize(size);
-            mScreenWidth = size.x;
-            mScreenHeight = size.y;
-
             invalidate();
+        }
+
+        private void updateScreenSize() {
+            WindowManager wm = getWindowManager();
+            if (wm != null) {
+                Display display = wm.getDefaultDisplay();
+                Point size = new Point();
+                display.getRealSize(size);
+                mScreenWidth = size.x;
+                mScreenHeight = size.y;
+            }
         }
 
         @Override
@@ -2524,6 +2529,8 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
         @Override
         public boolean onInterceptTouchEvent(MotionEvent event) {
             int action = event.getAction();
+
+            if (mScreenWidth == -1 || mScreenHeight == -1) updateScreenSize();
 
             boolean mainPanel = getWidth() == mScreenWidth || getWidth() == mScreenHeight;
 
