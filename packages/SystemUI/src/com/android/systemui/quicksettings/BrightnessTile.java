@@ -32,7 +32,9 @@ public class BrightnessTile extends QuickSettingsTile implements BrightnessState
 
     private final int mBrightnessDialogLongTimeout;
     private Dialog mBrightnessDialog;
+    private BrightnessController mBrightnessController;
     private final Handler mHandler;
+    private boolean mAutoBrightness = true;
 
     public BrightnessTile(Context context, LayoutInflater inflater,
             QuickSettingsContainerView container, final QuickSettingsController qsc, Handler handler) {
@@ -72,9 +74,15 @@ public class BrightnessTile extends QuickSettingsTile implements BrightnessState
             mBrightnessDialog.setContentView(R.layout.quick_settings_brightness_dialog);
             mBrightnessDialog.setCanceledOnTouchOutside(true);
 
-            new BrightnessController(mContext,
+            mBrightnessController = new BrightnessController(mContext,
                     (ImageView) mBrightnessDialog.findViewById(R.id.brightness_icon),
                     (ToggleSlider) mBrightnessDialog.findViewById(R.id.brightness_slider));
+            mBrightnessDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    mBrightnessController = null;
+                }
+            });
 
             mBrightnessDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
             mBrightnessDialog.getWindow().getAttributes().privateFlags |=
@@ -125,8 +133,8 @@ public class BrightnessTile extends QuickSettingsTile implements BrightnessState
             mode = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.SCREEN_BRIGHTNESS_MODE,
                     Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
-            boolean autoBrightness = (mode == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
-            mDrawable = autoBrightness
+            mAutoBrightness = (mode == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+            mDrawable = mAutoBrightness
                     ? R.drawable.ic_qs_brightness_auto_on
                     : R.drawable.ic_qs_brightness_auto_off;
             mLabel = mContext.getString(R.string.quick_settings_brightness_label);
