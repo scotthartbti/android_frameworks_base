@@ -19,7 +19,6 @@ package com.android.systemui.statusbar.phone;
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.Resources;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +36,10 @@ public class QuickSettingsContainerView extends FrameLayout {
 
     // The gap between tiles in the QuickSettings grid
     private float mCellGap;
-    private Context mContext;
 
     public QuickSettingsContainerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
+
         updateResources();
     }
 
@@ -56,8 +54,7 @@ public class QuickSettingsContainerView extends FrameLayout {
     void updateResources() {
         Resources r = getContext().getResources();
         mCellGap = r.getDimension(R.dimen.quick_settings_cell_gap);
-        mNumColumns = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.QUICK_TILES_PER_ROW, r.getInteger(R.integer.quick_settings_num_columns));
+        mNumColumns = r.getInteger(R.integer.quick_settings_num_columns);
         requestLayout();
     }
 
@@ -82,9 +79,6 @@ public class QuickSettingsContainerView extends FrameLayout {
                 int colSpan = v.getColumnSpan();
                 lp.width = (int) ((colSpan * cellWidth) + (colSpan - 1) * mCellGap);
 
-                if (mNumColumns > 3) {
-                    lp.height = (lp.width * mNumColumns-1) / mNumColumns;
-                }
                 // Measure the child
                 int newWidthSpec = MeasureSpec.makeMeasureSpec(lp.width, MeasureSpec.EXACTLY);
                 int newHeightSpec = MeasureSpec.makeMeasureSpec(lp.height, MeasureSpec.EXACTLY);
@@ -141,9 +135,5 @@ public class QuickSettingsContainerView extends FrameLayout {
                 }
             }
         }
-    }
-
-    public void setColumnCount(int num) {
-        mNumColumns = num;
     }
 }
