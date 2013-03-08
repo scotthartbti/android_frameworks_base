@@ -393,7 +393,7 @@ public class QuickSettingsController {
         mBar = bar;
     }
 
-    void addQuickSettings(LayoutInflater inflater) {
+    void addQuickSettings(LayoutInflater inflater){
         // Load the user configured tiles
         loadTiles();
 
