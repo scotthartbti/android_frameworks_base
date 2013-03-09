@@ -61,7 +61,8 @@ public class BatteryController extends BroadcastReceiver {
     public  static final int BATTERY_STYLE_DOTTED_CIRCLE_PERCENT = 6;
     private static final int BATTERY_STYLE_GEAR          	 = 7;
     private static final int BATTERY_STYLE_SQUARE          	 = 8;
-    private static final int BATTERY_STYLE_GONE                  = 9;
+    private static final int BATTERY_STYLE_ALT			 = 9;
+    private static final int BATTERY_STYLE_GONE                  = 10;
 
     private static final int BATTERY_ICON_STYLE_NORMAL      = R.drawable.stat_sys_battery;
     private static final int BATTERY_ICON_STYLE_CHARGE      = R.drawable.stat_sys_battery_charge;
@@ -71,7 +72,8 @@ public class BatteryController extends BroadcastReceiver {
     private static final int BATTERY_ICON_STYLE_CHARGE_GEAR = R.drawable.stat_sys_battery_gear_charge;
     private static final int BATTERY_ICON_STYLE_NORMAL_SQUARE = R.drawable.stat_sys_battery_square;
     private static final int BATTERY_ICON_STYLE_CHARGE_SQUARE = R.drawable.stat_sys_battery_charge_square;
-
+    private static final int BATTERY_ICON_STYLE_NORMAL_ALT = R.drawable.stat_sys_battery_altcircle;
+    private static final int BATTERY_ICON_STYLE_CHARGE_ALT = R.drawable.stat_sys_battery_charge_altcircle
 
     private static final int BATTERY_TEXT_STYLE_NORMAL  = R.string.status_bar_settings_battery_meter_format;
     private static final int BATTERY_TEXT_STYLE_MIN     = R.string.status_bar_settings_battery_meter_min_format;
@@ -206,7 +208,11 @@ public class BatteryController extends BroadcastReceiver {
 	} else if (mBatteryStyle == 8) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_SQUARE
-                    : BATTERY_ICON_STYLE_NORMAL_SQUARE; 
+                    : BATTERY_ICON_STYLE_NORMAL_SQUARE;
+	} else if (mBatteryStyle == 9) {
+            mIcon = (View.VISIBLE);
+            mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_ALT
+                    : BATTERY_ICON_STYLE_NORMAL_ALT;
         }
 
         int N = mIconViews.size();
