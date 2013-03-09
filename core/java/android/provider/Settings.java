@@ -5659,6 +5659,13 @@ public final class Settings {
          */
         public static final String UI_NIGHT_MODE = "ui_night_mode";
 
+	/**
+         * Whether user activated inverted UI mode or default UI mode. Owned
+         * and controlled by UiModeManagerService.
+         * @hide
+         */
+        public static final String UI_INVERTED_MODE = "ui_inverted_mode";
+
         /**
          * Whether screensavers are enabled.
          * @hide
@@ -5803,7 +5810,8 @@ public final class Settings {
             MOUNT_UMS_NOTIFY_ENABLED,
             UI_NIGHT_MODE,
             ADVANCED_REBOOT,
-            PRIVACY_GUARD_DEFAULT
+            PRIVACY_GUARD_DEFAULT,
+	    UI_INVERTED_MODE
         };
 
         /**
