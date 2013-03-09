@@ -218,6 +218,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     // settings
     QuickSettingsController mQS;
     boolean mHasSettingsPanel, mHasFlipSettings;
+    boolean mUiModeIsToggled; 
     SettingsPanelView mSettingsPanel;
     View mFlipSettingsView;
     QuickSettingsContainerView mSettingsContainer;
@@ -580,6 +581,9 @@ public class PhoneStatusBar extends BaseStatusBar {
         mClearButton.setVisibility(View.INVISIBLE);
         mClearButton.setEnabled(false);
         mDateView = (DateView)mStatusBarWindow.findViewById(R.id.date);
+
+	mUiModeIsToggled = Settings.Secure.getInt(mContext.getContentResolver(),
+                              Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
 
         mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel);
         mHasFlipSettings = res.getBoolean(R.bool.config_hasFlipSettingsPanel);
@@ -3130,6 +3134,13 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         @Override
         public void onChange(boolean selfChange) {
+		boolean uiModeIsToggled = Settings.Secure.getInt(mContext.getContentResolver(),
+                                    Settings.Secure.UI_MODE_IS_TOGGLED, 0) == 1;
+
+	    if (uiModeIsToggled != mUiModeIsToggled) {
+                recreateStatusBar();
+            }
+
             if (mSettingsContainer != null) {
                 mQS.updateResources();
                 setNotificationWallpaperHelper();
@@ -3141,6 +3152,10 @@ public class PhoneStatusBar extends BaseStatusBar {
             cr.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.QUICK_SETTINGS_TILES),
                     false, this);
+
+	    cr.registerContentObserver(
+                    Settings.Secure.getUriFor(Settings.Secure.UI_MODE_IS_TOGGLED),
+                    false, this); 
 
             cr.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.QS_DYNAMIC_ALARM),
