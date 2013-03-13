@@ -83,8 +83,8 @@ public class StatusBarIconView extends AnimatedImageView {
             final float scale = (float)imageBounds / (float)outerBounds;
             setScaleX(scale);
             setScaleY(scale);
-            final float alpha = res.getFraction(R.dimen.status_bar_icon_drawing_alpha, 1, 1);
-            setAlpha(alpha);
+            setAlpha(Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.STATUS_BAR_NOTIF_ICON_OPACITY, 140));
         }
 
         setScaleType(ImageView.ScaleType.CENTER);
@@ -98,8 +98,8 @@ public class StatusBarIconView extends AnimatedImageView {
         final float scale = (float)imageBounds / (float)outerBounds;
         setScaleX(scale);
         setScaleY(scale);
-        final float alpha = res.getFraction(R.dimen.status_bar_icon_drawing_alpha, 1, 1);
-        setAlpha(alpha);
+        setAlpha(Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.STATUS_BAR_NOTIF_ICON_OPACITY, 140));
     }
 
     private static boolean streq(String a, String b) {
@@ -307,12 +307,18 @@ public class StatusBarIconView extends AnimatedImageView {
             mContext.getContentResolver().registerContentObserver(
                     Settings.System.getUriFor(Settings.System.STATUS_BAR_NOTIF_COUNT),
                     false, this);
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.STATUS_BAR_NOTIF_ICON_OPACITY),
+                    false, this);
         }
         void unobserve() {
             mContext.getContentResolver().unregisterContentObserver(this);
         }
         @Override
         public void onChange(boolean selfChange) {
+            setAlpha(Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.STATUS_BAR_NOTIF_ICON_OPACITY, 140));
+
             mShowNotificationCount = Settings.System.getInt(
                     mContext.getContentResolver(),
                     Settings.System.STATUS_BAR_NOTIF_COUNT, 0) == 1;
