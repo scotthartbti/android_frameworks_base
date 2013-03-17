@@ -59,9 +59,9 @@ public class BatteryController extends BroadcastReceiver {
     public  static final int BATTERY_STYLE_CIRCLE_PERCENT        = 4;
     public  static final int BATTERY_STYLE_DOTTED_CIRCLE         = 5;
     public  static final int BATTERY_STYLE_DOTTED_CIRCLE_PERCENT = 6;
-    private static final int BATTERY_STYLE_GONE                  = 7;
-    private static final int BATTERY_STYLE_GEAR          	 = 8;
-    private static final int BATTERY_STYLE_SQUARE          	 = 9;
+    private static final int BATTERY_STYLE_GEAR          	 = 7;
+    private static final int BATTERY_STYLE_SQUARE          	 = 8;
+    private static final int BATTERY_STYLE_GONE                  = 9;
 
     private static final int BATTERY_ICON_STYLE_NORMAL      = R.drawable.stat_sys_battery;
     private static final int BATTERY_ICON_STYLE_CHARGE      = R.drawable.stat_sys_battery_charge;
@@ -199,11 +199,11 @@ public class BatteryController extends BroadcastReceiver {
             pxTextPadding = (int) (4 * logicalDensity + 0.5);
             mText = (View.VISIBLE);
             mTextStyle = BATTERY_TEXT_STYLE_NORMAL;
-	} else if (mBatteryStyle == 8) {
+	} else if (mBatteryStyle == 7) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_GEAR
                     : BATTERY_ICON_STYLE_NORMAL_GEAR; 
-	} else if (mBatteryStyle == 9) {
+	} else if (mBatteryStyle == 8) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_SQUARE
                     : BATTERY_ICON_STYLE_NORMAL_SQUARE; 
