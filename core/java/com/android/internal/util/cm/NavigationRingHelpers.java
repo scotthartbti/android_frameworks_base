@@ -122,7 +122,7 @@ public class NavigationRingHelpers {
         } else if (action.equals(ACTION_POWER)) {
             resourceId = com.android.internal.R.drawable.ic_navigation_ring_power;
         } else if (action.equals(ACTION_TORCH)) {
-            resourceId = getTorchDrawableResId(context);
+            resourceId = com.android.internal.R.drawable.ic_navigation_ring_torch;
         } else if (action.equals(ACTION_ASSIST)) {
             resourceId = com.android.internal.R.drawable.ic_action_assist_generic;
         }
@@ -195,17 +195,7 @@ public class NavigationRingHelpers {
         }
     }
 
-    private static int getTorchDrawableResId(Context context) {
-        boolean active = Settings.System.getInt(context.getContentResolver(),
-                Settings.System.TORCH_STATE, 0) != 0;
-
-        if (active) {
-            return com.android.internal.R.drawable.ic_navigation_ring_torch_on;
-        }
-        return com.android.internal.R.drawable.ic_navigation_ring_torch_off;
-    }
-
-    public static void updateDynamicIconIfNeeded(Context context,
+    public static void updateRingerIconIfNeeded(Context context,
             GlowPadView view, String action, int position) {
         int resourceId = -1;
 
@@ -215,8 +205,6 @@ public class NavigationRingHelpers {
             resourceId = getSilentDrawableResId(context);
         } else if (TextUtils.equals(action, ACTION_RING_SILENT_VIBRATE)) {
             resourceId = getRingerDrawableResId(context);
-        } else if (TextUtils.equals(action, ACTION_TORCH)) {
-            resourceId = getTorchDrawableResId(context);
         }
 
         if (resourceId > 0) {
