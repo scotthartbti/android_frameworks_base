@@ -96,6 +96,7 @@ public class QuickSettingsController {
     public static final String TILE_MOBILEDATA = "toggleMobileData";
     public static final String TILE_LOCKSCREEN = "toggleLockScreen";
     public static final String TILE_NETWORKMODE = "toggleNetworkMode";
+    public static final String TILE_EXPANDED_DESKTOP = "toggleExpandedDesktop";
     public static final String TILE_AUTOROTATE = "toggleAutoRotate";
     public static final String TILE_AIRPLANE = "toggleAirplane";
     public static final String TILE_TORCH = "toggleFlashlight";  // Keep old string for compatibility
@@ -115,6 +116,7 @@ public class QuickSettingsController {
     static {
         TILES_DEFAULT.add(TILE_USER);
         TILES_DEFAULT.add(TILE_BRIGHTNESS);
+	TILES_DEFAULT.add(TILE_EXPANDED_DESKTOP);
         TILES_DEFAULT.add(TILE_SETTINGS);
         TILES_DEFAULT.add(TILE_WIFI);
         TILES_DEFAULT.add(TILE_MOBILEDATA);
@@ -221,6 +223,8 @@ public class QuickSettingsController {
                 }
             } else if (tile.equals(TILE_BRIGHTNESS)) {
                 mQuickSettings.add(BRIGHTNESS_TILE);
+            } else if (tile.equals(TILE_EXPANDED_DESKTOP)) {
+                mQuickSettings.add(EXPANDED_DESKTOP_TILE);
             } else if (tile.equals(TILE_RINGER)) {
                 mQuickSettings.add(RINGER_TILE);
             } else if (tile.equals(TILE_SYNC)) {
