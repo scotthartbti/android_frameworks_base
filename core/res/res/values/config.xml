@@ -1128,10 +1128,6 @@
     <string name="config_deviceHandlersLib" translatable="false"></string>
 
     <!-- Full qualified name of the class that implements
-         com.android.internal.os.DeviceKeyHandler interface. -->
-    <string name="config_deviceKeyHandlerClass" translatable="false"></string>
-
-    <!-- Full qualified name of the class that implements
          com.android.internal.os.DeviceDockBatteryHandler interface.
          Requires config_hasDockBattery set to true. -->
     <string name="config_deviceDockBatteryHandlerLib" translatable="false"></string>
