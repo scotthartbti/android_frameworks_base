@@ -524,10 +524,6 @@
     <!-- QuickSettings: Brightness dialog auto brightness button [CHAR LIMIT=NONE] -->
     <string name="quick_settings_brightness_dialog_auto_brightness_label">AUTO</string>
 
-    <!-- Expanded desktop strings break the rules a bit - the icon identifies the feature, the string indicates current state -->
-    <string name="quick_settings_expanded_desktop">Expanded</string>
-    <string name="quick_settings_expanded_desktop_off">Normal</string> 
-
     <!-- Title of help text shown when the notification panel is pulled down for the very first time. [CHAR LIMIT=NONE] -->
     <string name="status_bar_help_title">Notifications appear here</string>
     <!-- Body of help text shown when the notification panel is pulled down for the very first time. [CHAR LIMIT=NONE] -->
