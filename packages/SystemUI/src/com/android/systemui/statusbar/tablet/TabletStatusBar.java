@@ -1002,14 +1002,6 @@ public class TabletStatusBar extends BaseStatusBar implements
                 mHandler.sendEmptyMessage(MSG_CLOSE_RECENTS_PANEL);
             }
         }
-        if ((diff & (StatusBarManager.DISABLE_HOME
-                | StatusBarManager.DISABLE_RECENT
-                | StatusBarManager.DISABLE_BACK
-                | StatusBarManager.DISABLE_SEARCH)) != 0) {
-
-            // all navigation bar listeners will take care of these
-            propagateDisabledFlags(state);
-        }
     }
 
     private void setNavigationVisibility(int visibility) {
@@ -1119,8 +1111,6 @@ public class TabletStatusBar extends BaseStatusBar implements
             (0 != (hints & StatusBarManager.NAVIGATION_HINT_BACK_ALT))
                 ? R.drawable.ic_sysbar_back_ime
                 : R.drawable.ic_sysbar_back);
-
-        propagateNavigationIconHints(hints);
     }
 
     private void notifyUiVisibilityChanged() {
@@ -1170,7 +1160,6 @@ public class TabletStatusBar extends BaseStatusBar implements
             Slog.d(TAG, (showMenu?"showing":"hiding") + " the MENU button");
         }
         mMenuButton.setVisibility(showMenu ? View.VISIBLE : View.GONE);
-        propagateMenuVisibility(showMenu);
 
         // See above re: lights-out policy for legacy apps.
         if (showMenu) setLightsOn(true);

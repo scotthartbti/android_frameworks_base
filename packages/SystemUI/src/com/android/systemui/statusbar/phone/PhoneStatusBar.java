@@ -490,7 +490,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
                 mNavigationBarView.setDisabledFlags(mDisabled);
                 mNavigationBarView.setBar(this);
-                addNavigationBarCallback(mNavigationBarView);
             }
         } catch (RemoteException ex) {
             // no window manager? good luck with that
@@ -1389,9 +1388,8 @@ public class PhoneStatusBar extends BaseStatusBar {
                         | StatusBarManager.DISABLE_RECENT
                         | StatusBarManager.DISABLE_BACK
                         | StatusBarManager.DISABLE_SEARCH)) != 0) {
-
-            // all navigation bar listeners will take care of these
-            propagateDisabledFlags(state);
+            // the nav bar will take care of these
+            if (mNavigationBarView != null) mNavigationBarView.setDisabledFlags(state);
 
             if ((state & StatusBarManager.DISABLE_RECENT) != 0) {
                 // close recents if it's visible
@@ -2086,7 +2084,9 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         mNavigationIconHints = hints;
 
-        propagateNavigationIconHints(hints);
+        if (mNavigationBarView != null) {
+            mNavigationBarView.setNavigationIconHints(hints);
+        }
     }
 
     @Override // CommandQueue
@@ -2218,7 +2218,9 @@ public class PhoneStatusBar extends BaseStatusBar {
         if (DEBUG) {
             Slog.d(TAG, (showMenu?"showing":"hiding") + " the MENU button");
         }
-        propagateMenuVisibility(showMenu);
+        if (mNavigationBarView != null) {
+            mNavigationBarView.setMenuVisibility(showMenu);
+        }
 
         // See above re: lights-out policy for legacy apps.
         if (showMenu) setLightsOn(true);
