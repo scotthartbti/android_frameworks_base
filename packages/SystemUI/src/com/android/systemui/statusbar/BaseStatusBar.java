@@ -165,10 +165,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected PieController mPieController;
     protected PieLayout mPieContainer;
     private int mPieTriggerSlots;
-    private int mPieTriggerMask = Position.LEFT.FLAG
-            | Position.BOTTOM.FLAG
-            | Position.RIGHT.FLAG
-            | Position.TOP.FLAG;
     private View[] mPieTrigger = new View[Position.values().length];
     private PieSettingsObserver mSettingsObserver;
 
@@ -209,19 +205,12 @@ public abstract class BaseStatusBar extends SystemUI implements
                                         + event.getAxisValue(MotionEvent.AXIS_Y) + ") with position: "
                                         + tracker.position.name());
                             }
-                            if (tracker.position == Position.BOTTOM
-                                    && mPieController.isSearchLightEnabled()) {
-                                // if we are at the bottom and nothing else is there, use a
-                                // search light!
-                                showSearchPanel();
-                            } else {
-                                // send the activation to the controller
-                                mPieController.activateFromTrigger(v, event, tracker.position);
-                                // forward a spoofed ACTION_DOWN event
-                                MotionEvent echo = event.copy();
-                                echo.setAction(MotionEvent.ACTION_DOWN);
-                                return mPieContainer.onTouch(v, echo);
-                            }
+                            // send the activation to the controller
+                            mPieController.activateFromTrigger(v, event, tracker.position);
+                            // forward a spoofed ACTION_DOWN event
+                            MotionEvent echo = event.copy();
+                            echo.setAction(MotionEvent.ACTION_DOWN);
+                            return mPieContainer.onTouch(v, echo);
                         }
                         break;
                     default:
@@ -805,30 +794,12 @@ public abstract class BaseStatusBar extends SystemUI implements
                  if (DEBUG) Slog.d(TAG, "opening search panel");
                  if (mSearchPanelView != null) {
                      mSearchPanelView.show(true, true);
-
-                     View bottom = mPieTrigger[Position.BOTTOM.INDEX];
-                     if (bottom != null) {
-                         WindowManager.LayoutParams lp =
-                                 (android.view.WindowManager.LayoutParams) bottom.getLayoutParams();
-                         lp.flags &= ~WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-                         lp.flags |= WindowManager.LayoutParams.FLAG_SLIPPERY;
-                         mWindowManager.updateViewLayout(bottom, lp);
-                     }
                  }
                  break;
              case MSG_CLOSE_SEARCH_PANEL:
                  if (DEBUG) Slog.d(TAG, "closing search panel");
                  if (mSearchPanelView != null && mSearchPanelView.isShowing()) {
                      mSearchPanelView.show(false, true);
-
-                     View bottom = mPieTrigger[Position.BOTTOM.INDEX];
-                     if (bottom != null) {
-                         WindowManager.LayoutParams lp =
-                                 (android.view.WindowManager.LayoutParams) bottom.getLayoutParams();
-                         lp.flags |= WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-                         lp.flags &= ~WindowManager.LayoutParams.FLAG_SLIPPERY;
-                         mWindowManager.updateViewLayout(bottom, lp);
-                     }
                  }
                  break;
             }
@@ -1402,10 +1373,7 @@ public abstract class BaseStatusBar extends SystemUI implements
             }
 
             // add or update pie triggers
-            if (DEBUG) {
-                Slog.d(TAG, "AttachPie with trigger position flags: "
-                        + mPieTriggerSlots + " masked: " + (mPieTriggerSlots & mPieTriggerMask));
-            }
+            if (DEBUG) Slog.d(TAG, "AttachPie with trigger position flags: " + mPieTriggerSlots);
 
             refreshPieTriggers();
 
@@ -1419,23 +1387,11 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     }
 
-    public void updatePieTriggerMask(int newMask) {
-        int oldState = mPieTriggerSlots & mPieTriggerMask;
-        mPieTriggerMask = newMask;
-
-        // first we check, if it would make a change
-        if ((mPieTriggerSlots & mPieTriggerMask) != oldState) {
-            if (isPieEnabled()) {
-                refreshPieTriggers();
-            }
-        }
-    }
-
     // This should only be called, when is is clear that the pie controls are active
     private void refreshPieTriggers() {
         for (Position g : Position.values()) {
             View trigger = mPieTrigger[g.INDEX];
-            if (trigger == null && (mPieTriggerSlots & mPieTriggerMask & g.FLAG) != 0) {
+            if (trigger == null && (mPieTriggerSlots & g.FLAG) != 0) {
                 trigger = new View(mContext);
                 trigger.setClickable(false);
                 trigger.setLongClickable(false);
@@ -1450,7 +1406,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                 }
                 mWindowManager.addView(trigger, getPieTriggerLayoutParams(g));
                 mPieTrigger[g.INDEX] = trigger;
-            } else if (trigger != null && (mPieTriggerSlots & mPieTriggerMask & g.FLAG) == 0) {
+            } else if (trigger != null && (mPieTriggerSlots & g.FLAG) == 0) {
                 mWindowManager.removeView(trigger);
                 mPieTrigger[g.INDEX] = null;
             } else if (trigger != null) {
