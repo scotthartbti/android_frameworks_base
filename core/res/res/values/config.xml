@@ -1123,4 +1123,19 @@
     <!-- If true, adds support for no delay A2DP in Samsung devices -->
     <bool name="config_noDelayInATwoDP">false</bool>
 
+    <!-- The list absolute paths of jar/apk files containing the device specific handlers,
+         delimited by File.pathSeparator, which defaults to ":" on Android -->
+    <string name="config_deviceHandlersLib" translatable="false"></string>
+
+    <!-- Full qualified name of the class that implements
+         com.android.internal.os.DeviceKeyHandler interface. -->
+    <string name="config_deviceKeyHandlerClass" translatable="false"></string>
+
+    <!-- Full qualified name of the class that implements
+         com.android.internal.os.DeviceDockBatteryHandler interface.
+         Requires config_hasDockBattery set to true. -->
+    <string name="config_deviceDockBatteryHandlerLib" translatable="false"></string>
+
+    <!-- True if the Sym key should open the InputMethodPicker (default) -->
+    <bool name="config_symKeyShowsImePicker">true</bool>
 </resources>

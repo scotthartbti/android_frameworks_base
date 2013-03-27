@@ -1940,4 +1940,7 @@
 
   <!-- Reboot confirmation string -->
   <java-symbol type="string" name="reboot_confirm" />
+
+  <!-- IME Picker showing upon pressing Sym Key -->
+  <java-symbol type="bool" name="config_symKeyShowsImePicker" />
 </resources>
