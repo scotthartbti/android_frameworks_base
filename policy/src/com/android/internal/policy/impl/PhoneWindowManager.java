@@ -1568,10 +1568,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
      mHasNavigationBar = Settings.System.getInt(mContext.getContentResolver(),
         Settings.System.NAVIGATION_BAR_SHOW, showNavBar ? 1 : 0) == 1;
 
-            boolean desktopExpanded = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
-
-            if (mHasNavigationBar && !desktopExpanded) {
+            if (mHasNavigationBar) {
 
            mNavButtonsHeight = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.NAVIGATION_BAR_HEIGHT,
