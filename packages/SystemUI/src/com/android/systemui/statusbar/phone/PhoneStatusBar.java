@@ -929,13 +929,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         return mNaturalBarHeight;
     }
 
-    private final View.OnClickListener mRecentsClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            toggleRecentApps();
-        }
-    };
-
     View.OnTouchListener mHomeSearchActionListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
