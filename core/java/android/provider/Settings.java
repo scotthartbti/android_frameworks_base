@@ -2654,6 +2654,13 @@ public final class Settings {
         public static final String QUICK_TILES_BG_PRESSED_COLOR = "quick_tiles_bg_pressed_color";
 
         /**
+         * Quick Settings Tile Content
+         *
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_TILE_CONTENT = "quick_settings_tile_content";
+
+        /**
          * Quick Settings Panel Dynamic Tiles
          *
          * @hide

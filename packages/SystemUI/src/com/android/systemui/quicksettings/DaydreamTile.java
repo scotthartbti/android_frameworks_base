@@ -32,7 +32,7 @@ public class DaydreamTile extends QuickSettingsTile {
     private final IDreamManager mDreamManager;
 
     public DaydreamTile(Context context, LayoutInflater inflater,
-            QuickSettingsContainerView container, final QuickSettingsController qsc) {
+            QuickSettingsContainerView container, final QuickSettingsController qsc, Handler handler, String id) { 
         super(context, inflater, container, qsc);
 
         mLabel = context.getString(R.string.quick_settings_daydream);

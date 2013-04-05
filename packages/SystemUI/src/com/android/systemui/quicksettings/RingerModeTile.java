@@ -1,16 +1,31 @@
+/*
+ * Copyright (C) 2012 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.android.systemui.quicksettings;
 
-import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -39,14 +54,21 @@ public class RingerModeTile extends QuickSettingsTile {
     private int mRingerValuesIndex;
 
     private AudioManager mAudioManager;
-    private Handler mHandler;
+    public static RingerModeTile mInstance;
+
+    public static QuickSettingsTile getInstance(Context context, LayoutInflater inflater,
+            QuickSettingsContainerView container, final QuickSettingsController qsc, Handler handler, String id) {
+        mInstance = null;
+        mInstance = new RingerModeTile(context, inflater, container, qsc);
+        return mInstance;
+    }
 
     public RingerModeTile(Context context, LayoutInflater inflater,
             QuickSettingsContainerView container, QuickSettingsController qsc) {
         super(context, inflater, container, qsc);
 
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        mHandler = new Handler();
+        new Handler();
 
         // Load the available ringer modes
         updateSettings(mContext.getContentResolver());
@@ -79,6 +101,7 @@ public class RingerModeTile extends QuickSettingsTile {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.e("\r\n\r\nRingerModeTile","RINGER_MODE_CHANGED_ACTION\r\n");
         applyVibrationChanges();
     }
 
@@ -164,8 +187,9 @@ public class RingerModeTile extends QuickSettingsTile {
         ContentResolver resolver = mContext.getContentResolver();
         boolean vibrateWhenRinging = Settings.System.getInt(resolver,
                 Settings.System.VIBRATE_WHEN_RINGING, 0) == 1;
+        Log.e("\r\n\r\nRingerModeTile","vibrateWhenRinging = "+vibrateWhenRinging);
         int ringerMode = mAudioManager.getRingerMode();
-
+        Log.e("RingerModeTile","ringerMode = "+ringerMode+"\r\n");
         Ringer ringer = new Ringer(ringerMode, vibrateWhenRinging);
         for (int i = 0; i < mRingers.length; i++) {
             if (mRingers[i].equals(ringer)) {
@@ -206,12 +230,13 @@ public class RingerModeTile extends QuickSettingsTile {
             if (o.getClass() != getClass()) {
                 return false;
             }
+
             Ringer r = (Ringer) o;
-            if ((mRingerMode == AudioManager.RINGER_MODE_SILENT || mRingerMode == AudioManager.RINGER_MODE_VIBRATE)
-                    && (r.mRingerMode == mRingerMode))
-                return true;
-            return r.mVibrateWhenRinging == mVibrateWhenRinging
+            if (r.mRingerMode == AudioManager.RINGER_MODE_SILENT && this.mRingerMode == AudioManager.RINGER_MODE_SILENT) return true;
+            else if (r.mRingerMode == AudioManager.RINGER_MODE_VIBRATE && this.mRingerMode == AudioManager.RINGER_MODE_VIBRATE) return true;
+            else return r.mVibrateWhenRinging == mVibrateWhenRinging
                     && r.mRingerMode == mRingerMode;
         }
     }
 }
+

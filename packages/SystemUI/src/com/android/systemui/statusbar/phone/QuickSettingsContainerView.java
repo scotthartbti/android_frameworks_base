@@ -113,7 +113,7 @@ public class QuickSettingsContainerView extends FrameLayout {
             }
         }
 
-        // Set the measured dimensions.  We always fill the tray width, but wrap to the height of
+        // Set the measured dimensions. We always fill the tray width, but wrap to the height of
         // all the tiles.
         int numRows = (int) Math.ceil((float) cursor / mNumFinalColumns);
         int newHeight = (int) ((numRows * cellHeight) + ((numRows - 1) * mCellGap)) +
