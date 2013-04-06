@@ -63,8 +63,6 @@ public class BatteryController extends BroadcastReceiver {
 
     Handler mHandler;
 
-    private final boolean mUiController;
-
     class SettingsObserver extends ContentObserver {
         SettingsObserver(Handler handler) {
             super(handler);
@@ -89,19 +87,12 @@ public class BatteryController extends BroadcastReceiver {
     }
 
     public BatteryController(Context context) {
-        this(context, true);
-    }
-
-    public BatteryController(Context context, boolean ui) {
         mContext = context;
         mHandler = new Handler();
-        mUiController = ui;
 
-        if (mUiController) {
-            SettingsObserver settingsObserver = new SettingsObserver(mHandler);
-            settingsObserver.observe();
-            updateSettings();
-        }
+        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
+        settingsObserver.observe();
+        updateSettings();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
@@ -154,16 +145,12 @@ public class BatteryController extends BroadcastReceiver {
         return true;
     }
 
-    protected boolean isBatteryStatusUnknown() {
+    private boolean isBatteryStatusUnknown() {
         return getBatteryStatus() == BatteryManager.BATTERY_STATUS_UNKNOWN;
     }
 
-    protected boolean isBatteryStatusCharging() {
+    private boolean isBatteryStatusCharging() {
         return getBatteryStatus() == BatteryManager.BATTERY_STATUS_CHARGING;
-    }
-
-    protected boolean isUiController() {
-        return mUiController;
     }
 
     public void onReceive(Context context, Intent intent) {
@@ -174,27 +161,23 @@ public class BatteryController extends BroadcastReceiver {
             mBatteryStatus = intent.getIntExtra(BatteryManager.EXTRA_STATUS,
                                                 BatteryManager.BATTERY_STATUS_UNKNOWN);
             updateViews(level);
-            if (mUiController) {
-                updateBattery();
-            }
+            updateBattery();
         }
     }
 
     protected void updateViews(int level) {
-        if (mUiController) {
-            int N = mIconViews.size();
-            for (int i=0; i<N; i++) {
-                ImageView v = mIconViews.get(i);
-                v.setImageLevel(level);
-                v.setContentDescription(mContext.getString(R.string.accessibility_battery_level,
-                        level));
-            }
-            N = mLabelViews.size();
-            for (int i=0; i<N; i++) {
-                TextView v = mLabelViews.get(i);
-                v.setText(mContext.getString(BATTERY_TEXT_STYLE_MIN,
-                        level));
-            }
+        int N = mIconViews.size();
+        for (int i=0; i<N; i++) {
+            ImageView v = mIconViews.get(i);
+            v.setImageLevel(level);
+            v.setContentDescription(mContext.getString(R.string.accessibility_battery_level,
+                    level));
+        }
+        N = mLabelViews.size();
+        for (int i=0; i<N; i++) {
+            TextView v = mLabelViews.get(i);
+            v.setText(mContext.getString(BATTERY_TEXT_STYLE_MIN,
+                    level));
         }
 
         for (BatteryStateChangeCallback cb : mChangeCallbacks) {

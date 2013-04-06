@@ -30,6 +30,8 @@ import android.view.IWindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
+import com.android.systemui.statusbar.policy.BatteryController.BatteryStateChangeCallback;
+
 import java.util.ArrayList;
 
 public class BrightnessController implements ToggleSlider.Listener {
