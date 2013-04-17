@@ -320,9 +320,5 @@
             </intent-filter>
         </activity>
 
-        <!-- started from Favorite Contact Tile -->
-        <activity
-            android:name=".quicksettings.ContactPickerActivity"/>
-
     </application>
 </manifest>
