@@ -113,6 +113,7 @@ import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
 import com.android.systemui.statusbar.policy.OnSizeChangedListener;
 import com.android.systemui.statusbar.policy.Prefs;
+import com.android.systemui.statusbar.AppSidebar;
 import com.android.systemui.statusbar.policy.PieController.Position;
 import com.android.systemui.statusbar.powerwidget.PowerWidget;
 
@@ -172,6 +173,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     private final String NOTIF_WALLPAPER_IMAGE_PATH = "/data/data/com.android.settings/files/notification_wallpaper.jpg";
 
     PhoneStatusBarPolicy mIconPolicy;
+    private AppSidebar mAppSidebar;
 
     // These are no longer handled by the policy, because we need custom strategies for them
     BluetoothController mBluetoothController;
@@ -567,6 +569,13 @@ public class PhoneStatusBar extends BaseStatusBar {
         } catch (RemoteException ex) {
             // no window manager? good luck with that
         }
+
+	if (mRecreating) {
+            if (mAppSidebar != null)
+                mWindowManager.removeView(mAppSidebar);
+        }
+        mAppSidebar = (AppSidebar)View.inflate(context, R.layout.app_sidebar, null);
+        mWindowManager.addView(mAppSidebar, getAppSidebarLayoutParams());
 
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.TRANSLUCENT;
@@ -1074,6 +1083,24 @@ public class PhoneStatusBar extends BaseStatusBar {
         lp.windowAnimations = R.style.Animation_StatusBar_IntruderAlert;
 
         mWindowManager.addView(mIntruderAlertView, lp);
+    }
+
+    private WindowManager.LayoutParams getAppSidebarLayoutParams() {
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+                LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.TYPE_STATUS_BAR_SUB_PANEL,
+                0
+                | WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH,
+                PixelFormat.TRANSLUCENT);
+        lp.gravity = Gravity.TOP | Gravity.LEFT | Gravity.FILL_VERTICAL;
+        lp.setTitle("AppSidebar");
+
+        return lp;
     }
 
     @Override

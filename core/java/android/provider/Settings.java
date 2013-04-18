@@ -2901,6 +2901,20 @@ public final class Settings {
         */
         public static final String PIE_LONG_PRESS_ENABLE_SECOND_LAYER = "pie_long_press_enable_second_layer";
 
+	/**
+         * Whether or not to use the app sidebar
+         *
+         * @hide
+         */
+        public static final String APP_SIDE_BAR_ENABLED = "app_sidebar_enabled";
+
+        /**
+         * How to sort and order the items in the app sidebar
+         *
+         * @hide
+         */
+        public static final String APP_SIDEBAR_SORT_TYPE = "app_sidebar_sort_type";
+
         /**
          * Quick Settings Panel Tiles to Use
          *
