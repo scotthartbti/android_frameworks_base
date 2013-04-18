@@ -2915,6 +2915,13 @@ public final class Settings {
          */
         public static final String APP_SIDEBAR_SORT_TYPE = "app_sidebar_sort_type";
 
+	/**
+         * How to sort and order the items in the app sidebar
+         *
+         * @hide
+         */
+        public static final String APP_SIDEBAR_TRANSPARENCY = "app_sidebar_transparency";
+
         /**
          * Quick Settings Panel Tiles to Use
          *
