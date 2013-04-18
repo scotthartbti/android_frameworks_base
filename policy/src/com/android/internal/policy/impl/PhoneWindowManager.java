@@ -714,6 +714,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
 	resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HIDE_STATUSBAR), false, this); 
+	resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.TOGGLE_NOTIFICATION_SHADE), false, this); 
 
             updateSettings();
         }
@@ -3958,9 +3960,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         Settings.System.HIDE_STATUSBAR, 0) == 1; 
                 int expandedMode = Settings.System.getInt(mContext.getContentResolver(),
                                         Settings.System.EXPANDED_DESKTOP_MODE, 0);
-                if (topIsFullscreen || (Settings.System.getInt(mContext.getContentResolver(),
+		boolean toggleNotificationShade = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.TOGGLE_NOTIFICATION_SHADE, 0) == 1;
+                if ((topIsFullscreen && !toggleNotificationShade)
+				|| (Settings.System.getInt(mContext.getContentResolver(),
                                         Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1 &&
-                                        (expandedMode == 2 || expandedMode == 3)) || mHideStatusBar) {
+                                        (expandedMode == 2 || expandedMode == 3) && !toggleNotificationShade)
+                        || (mHideStatusBar && !toggleNotificationShade)) { 
                     if (DEBUG_LAYOUT) Log.v(TAG, "** HIDING status bar");
                     if (mStatusBar.hideLw(true)) {
                         changes |= FINISH_LAYOUT_REDO_LAYOUT;
