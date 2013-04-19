@@ -1914,6 +1914,16 @@ public class WifiStateMachine extends StateMachine {
         mWifiNative.reconnect();
     }
 
+    private void handleStopDriverCmd() {
+        if (getCurrentState() != mDisconnectedState) {
+            mWifiNative.disconnect();
+            handleNetworkDisconnect();
+        }
+        mWakeLock.acquire();
+        mWifiNative.stopDriver();
+        mWakeLock.release();
+    }
+
     /* Current design is to not set the config on a running hostapd but instead
      * stop and start tethering when user changes config on a running access point
      *
@@ -2616,13 +2626,7 @@ public class WifiStateMachine extends StateMachine {
                 case CMD_DELAYED_STOP_DRIVER:
                     if (DBG) log("delayed stop " + message.arg1 + " " + mDelayedStopCounter);
                     if (message.arg1 != mDelayedStopCounter) break;
-                    if (getCurrentState() != mDisconnectedState) {
-                        mWifiNative.disconnect();
-                        handleNetworkDisconnect();
-                    }
-                    mWakeLock.acquire();
-                    mWifiNative.stopDriver();
-                    mWakeLock.release();
+                    handleStopDriverCmd();
                     if (mP2pSupported) {
                         transitionTo(mWaitForP2pDisableState);
                     } else {
@@ -3287,6 +3291,15 @@ public class WifiStateMachine extends StateMachine {
                     sendNetworkStateChangeBroadcast(mLastBssid);
                     transitionTo(mConnectedState);
                     break;
+                case CMD_STOP_DRIVER:
+                    handleStopDriverCmd();
+                    if (mP2pSupported) {
+                        transitionTo(mWaitForP2pDisableState);
+                    } else {
+                        transitionTo(mDriverStoppingState);
+                    }
+                    break;
+
                 default:
                     return NOT_HANDLED;
             }
