@@ -3960,6 +3960,11 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_MINIMIZE_LOCKSCREEN_CHALLENGE = "lockscreen_minimize_lockscreen_challenge";
 
+	/**
+         * @hide
+         */
+        public static final String KG_CAMERA_WIDGET = "kg_camera_widget"; 
+
         /**
 	 * @hide
 	 */
