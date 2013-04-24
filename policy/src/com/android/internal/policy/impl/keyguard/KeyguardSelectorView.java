@@ -185,11 +185,6 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
         }
 
         @Override
-        protected void dismissKeyguardOnNextActivity() {
-            getCallback().dismiss(false);
-        }
-
-        @Override
         Context getContext() {
             return mContext;
         }};
