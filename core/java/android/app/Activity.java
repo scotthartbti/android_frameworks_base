@@ -49,6 +49,7 @@ import android.os.Parcelable;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -2408,6 +2409,12 @@ public class Activity extends ContextThemeWrapper
      * @return boolean Return true if this event was consumed.
      */
     public boolean dispatchTouchEvent(MotionEvent ev) {
+	boolean mHiddenStatusbarPulldown = (Settings.System.getInt(getContentResolver(),
+                Settings.System.HIDDEN_STATUSBAR_PULLDOWN, 0) == 1);
+	// get user timeout, default at 10 sec.
+            int mHiddenStatusbarPulldownTimeout = (Settings.System.getInt(getContentResolver(),
+                Settings.System.HIDDEN_STATUSBAR_PULLDOWN_TIMEOUT, 10000));
+
 	switch (ev.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
@@ -2419,23 +2426,22 @@ public class Activity extends ContextThemeWrapper
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if (mightBeMyGesture)
+                    if (mightBeMyGesture && mHiddenStatusbarPulldown)
                     {
                         if(ev.getY() > tStatus)
                         {
                             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                             mHandler.postDelayed(new Runnable() {
-                                                     public void run() {
-                                                                               getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-                                                                               getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);     
-                                                     }
-                                                     
-                                                     }, 10000);
-                        }
-                        
-                        mightBeMyGesture = false;
-                            
+                            public void run() {
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+                                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                            }
+
+                            // User picked timeout here
+                            }, mHiddenStatusbarPulldownTimeout);
+                        }                        
+                        mightBeMyGesture = false;                            
                         return true;
                     }
                     break;
