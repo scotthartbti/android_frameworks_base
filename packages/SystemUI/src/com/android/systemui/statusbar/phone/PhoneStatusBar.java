@@ -937,6 +937,15 @@ public class PhoneStatusBar extends BaseStatusBar {
     public void toggleQSShade() {
         int msg = 0;
         if (mHasFlipSettings) {
+                Settings.System.putInt(mContext.getContentResolver(),
+                        Settings.System.TOGGLE_NOTIFICATION_AND_QS_SHADE,
+                        (mExpandedVisible && !mNotificationPanelIsOpen) ? 0 : 1);
+
+                msg = (mExpandedVisible)
+                    ? ((mNotificationPanelIsOpen) ? MSG_FLIP_TO_QS_PANEL
+                    : MSG_CLOSE_PANELS) : MSG_OPEN_QS_PANEL;
+        } else { 
+
             Settings.System.putInt(mContext.getContentResolver(),
                     Settings.System.TOGGLE_NOTIFICATION_AND_QS_SHADE,
                     (mExpandedVisible) ? 0 : 1);
