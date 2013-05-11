@@ -3706,6 +3706,14 @@ public final class Settings {
          */
         public static final String TOGGLE_NOTIFICATION_AND_QS_SHADE = "toggle_notification_and_qs_shade"; 
 
+	/**
+         * Peek at stausbar when it is hidden by swiping down from top
+         * end of the screen
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_PEEK = "statusbar_peek";
+
         /**
          * Whether power menu expanded desktop is enabled
          * @hide
