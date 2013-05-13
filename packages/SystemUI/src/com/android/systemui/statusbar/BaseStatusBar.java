@@ -1921,7 +1921,7 @@ public abstract class BaseStatusBar extends SystemUI implements
             // destroy the pie container
             mPieContainer = null;
             // unregister listener and receiver
-            mPieController.destroyPie();
+            mPieController.detachContainer();
         }
     }
 
