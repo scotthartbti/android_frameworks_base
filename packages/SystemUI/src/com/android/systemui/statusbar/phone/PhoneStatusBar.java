@@ -579,7 +579,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             if (showNav && !mRecreating) {
                 mNavigationBarView =
                     (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
-
                 mNavigationBarView.setDisabledFlags(mDisabled);
                 mNavigationBarView.setBar(this);
 		addNavigationBarCallback(mNavigationBarView);
@@ -588,7 +587,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             // no window manager? good luck with that
         }
 
-	if (mRecreating) {
+	if (mNavigationBarView == null) {
             if (mAppSidebar != null)
                 mWindowManager.removeView(mAppSidebar);
         }

@@ -263,6 +263,8 @@ public abstract class BaseStatusBar extends SystemUI implements
                                         + event.getAxisValue(MotionEvent.AXIS_Y) + ") with position: "
                                         + tracker.position.name());
                             }
+                            // set the snap points depending on current trigger and mask
+                            mPieContainer.setSnapPoints(mPieTriggerMask & ~mPieTriggerSlots);
                             // send the activation to the controller
                             mPieController.activateFromTrigger(v, event, tracker.position);
                             // forward a spoofed ACTION_DOWN event
@@ -2050,9 +2052,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     private void updatePieTriggerMask(int newMask) {
         int oldState = mPieTriggerSlots & mPieTriggerMask;
         mPieTriggerMask = newMask;
-
-        // pass actual trigger mask and slots to the attached container
-        mPieContainer.setSnapPoints(mPieTriggerMask & ~mPieTriggerSlots);
 
         // first we check, if it would make a change
         if ((mPieTriggerSlots & mPieTriggerMask) != oldState
