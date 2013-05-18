@@ -81,7 +81,6 @@ class IInputMethodWrapper extends IInputMethod.Stub
     
     // NOTE: we should have a cache of these.
     static final class InputMethodSessionCallbackWrapper implements InputMethod.SessionCallback {
-        final Context mContext;
         final InputChannel mChannel;
         final IInputSessionCallback mCb;
 
