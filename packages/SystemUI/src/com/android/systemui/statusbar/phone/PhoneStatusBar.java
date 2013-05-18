@@ -1961,7 +1961,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             mFlipSettingsView.setScaleX(0f);
             mFlipSettingsView.setVisibility(View.GONE);
             mQuickSettingsButton.setVisibility(View.VISIBLE);
-            mQuickSettingsButton.setAlpha(-percent);
+            mQuickSettingsButton.setAlpha(-progress);
             mScrollView.setVisibility(View.VISIBLE);
             mScrollView.setScaleX(-progress);
             mPowerWidget.updateVisibility();
