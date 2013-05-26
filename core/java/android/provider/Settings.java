@@ -3431,6 +3431,12 @@ public final class Settings {
         */
         public static final String STATUSBAR_CLOCK_DATE_FORMAT = "statusbar_clock_date_format";
 
+	/**
+         * Whether to wake the screen with the home key, the value is boolean.
+         * @hide
+         */
+        public static final String HOME_WAKE_SCREEN = "home_wake_screen";
+
         /**
          * Whether to wake the screen with the volume keys, the value is boolean.
          * @hide
