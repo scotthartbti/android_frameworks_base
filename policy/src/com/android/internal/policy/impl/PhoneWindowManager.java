@@ -243,6 +243,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int KEY_ACTION_CUSTOM_APP = 13;
     private static final int KEY_ACTION_WIDGETS = 14;
     private static final int KEY_ACTION_QS = 15;
+    private static final int KEY_ACTION_CAMERA = 16;
 
     // Masks for checking presence of hardware keys.
     // Must match values in core/res/res/values/config.xml
@@ -251,6 +252,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int KEY_MASK_MENU = 0x04;
     private static final int KEY_MASK_ASSIST = 0x08;
     private static final int KEY_MASK_APP_SWITCH = 0x10;
+    private static final int KEY_MASK_CAMERA = 0x20;
 
     /**
      * These are the system UI flags that, when changing, can cause the layout
@@ -397,6 +399,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mHasMenuKey;
     boolean mHasAssistKey;
     boolean mHasAppSwitchKey;
+    boolean mHasCameraKey;
 
     // The last window we were told about in focusChanged.
     WindowState mFocusedWindow;
@@ -526,10 +529,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mSearchKeyShortcutPending;
     boolean mConsumeSearchKeyUp;
     boolean mAssistKeyLongPressed;
+    boolean mCameraLongPressed;
 
     // Used when key is pressed and performing non-default action
     boolean mMenuDoCustomAction;
     boolean mBackDoCustomAction;
+    boolean mCameraDoCustomAction;
 
     // Tracks user-customisable behavior for certain key events
     private String mPressOnHomeBehavior;
@@ -542,6 +547,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private String mLongPressOnAssistBehavior;
     private String mPressOnAppSwitchBehavior;
     private String mLongPressOnAppSwitchBehavior;
+    private String mPressOnCameraBehavior;
+    private String mLongPressOnCameraBehavior;
 
     // To identify simulated keypresses, so we can perform
     // the default action for that key
@@ -703,6 +710,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.KEY_APP_SWITCH_ACTION), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEY_APP_SWITCH_LONG_PRESS_ACTION), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.KEY_CAMERA_ACTION), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.KEY_CAMERA_LONG_PRESS_ACTION), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HARDWARE_KEY_REBINDING), false, this);
 	    resolver.registerContentObserver(Settings.System.getUriFor(
@@ -1044,6 +1055,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
                 mIsVirtualKeypress = true;
                 im.injectInputEvent(downEvent, InputManager.INJECT_INPUT_EVENT_MODE_WAIT_FOR_RESULT);
+                if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+                    KeyEvent repeatEvent = KeyEvent.changeTimeRepeat(downEvent,
+                            SystemClock.uptimeMillis(), 1, downEvent.getFlags() | KeyEvent.FLAG_LONG_PRESS);
+                    im.injectInputEvent(repeatEvent, InputManager.INJECT_INPUT_EVENT_MODE_WAIT_FOR_RESULT);
+                }
                 im.injectInputEvent(upEvent, InputManager.INJECT_INPUT_EVENT_MODE_WAIT_FOR_RESULT);
                 mIsVirtualKeypress = false;
             }
@@ -1152,6 +1168,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.putInt(
                             mContext.getContentResolver(),
                             Settings.System.EXPANDED_DESKTOP_STATE, expandDesktopModeOn ? 0 : 1);
+                    break;
+                case KEY_ACTION_CAMERA:
+                    triggerVirtualKeypress(KeyEvent.KEYCODE_CAMERA);
                     break;
                 default:
                     break;
@@ -1307,6 +1326,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mHasMenuKey = ((mDeviceHardwareKeys & KEY_MASK_MENU) != 0);
         mHasAssistKey = ((mDeviceHardwareKeys & KEY_MASK_ASSIST) != 0);
         mHasAppSwitchKey = ((mDeviceHardwareKeys & KEY_MASK_APP_SWITCH) != 0);
+        mHasCameraKey = ((mDeviceHardwareKeys & KEY_MASK_CAMERA) != 0);
 
         // register for dock events
         IntentFilter filter = new IntentFilter();
@@ -1699,6 +1719,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     mPressOnAppSwitchBehavior = getStr(KEY_ACTION_APP_SWITCH);
                     mLongPressOnAppSwitchBehavior = getStr(KEY_ACTION_NOTHING);
                 }
+                if (mHasCameraKey) {
+                    mPressOnCameraBehavior = getStr(KEY_ACTION_CAMERA);
+                    mLongPressOnCameraBehavior = getStr(KEY_ACTION_NOTHING);
+                }
             } else {
                 if (mHasHomeKey) {
                     mPressOnHomeBehavior = getDefString(resolver,
@@ -1739,6 +1763,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             Settings.System.KEY_APP_SWITCH_ACTION, KEY_ACTION_APP_SWITCH);
                     mLongPressOnAppSwitchBehavior = getDefString(resolver,
                             Settings.System.KEY_APP_SWITCH_LONG_PRESS_ACTION, KEY_ACTION_NOTHING);
+                }
+                if (mHasCameraKey) {
+                    mPressOnCameraBehavior = getDefString(resolver,
+                            Settings.System.KEY_CAMERA_ACTION, KEY_ACTION_CAMERA);
+                    mLongPressOnCameraBehavior = getDefString(resolver,
+                            Settings.System.KEY_CAMERA_LONG_PRESS_ACTION, KEY_ACTION_NOTHING);
                 }
             }
 
@@ -2758,10 +2788,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     if (!canceled && !keyguardOn) {
                         performKeyAction(mPressOnAppSwitchBehavior);
                     }
-                    return -1;
                 }
+                if (canceled)
+                    return -1;
             }
-            return -1;
         } else if (keyCode == KeyEvent.KEYCODE_ASSIST) {
             if (down) {
                 if (!mRecentAppsPreloaded && (mPressOnAssistBehavior.equals(getStr(KEY_ACTION_APP_SWITCH)) ||
@@ -2793,8 +2823,57 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         performKeyAction(mPressOnAssistBehavior);
                     }
                 }
+                if (canceled)
+                    return -1;
             }
-            return -1;
+        } else if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+            if (down) {
+                if (!mRecentAppsPreloaded && (mPressOnCameraBehavior.equals(getStr(KEY_ACTION_APP_SWITCH)) ||
+                        mLongPressOnCameraBehavior.equals(getStr(KEY_ACTION_APP_SWITCH)))) {
+                    preloadRecentApps();
+                }
+                if (repeatCount == 0) {
+                    mCameraLongPressed = false;
+                    if (!mIsVirtualKeypress && event.getDeviceId() != KeyCharacterMap.VIRTUAL_KEYBOARD) {
+                        mCameraDoCustomAction = true;
+                        return -1;
+                    }
+                } else if (longPress) {
+                    if (mRecentAppsPreloaded &&
+                            !mLongPressOnCameraBehavior.equals(getStr(KEY_ACTION_APP_SWITCH))) {
+                        cancelPreloadRecentApps();
+                    }
+                    if (!keyguardOn && !mLongPressOnCameraBehavior.equals(getStr(KEY_ACTION_NOTHING))
+                            && !mIsVirtualKeypress && event.getDeviceId() != KeyCharacterMap.VIRTUAL_KEYBOARD) {
+                        performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
+                        performKeyAction(mLongPressOnCameraBehavior);
+                        mCameraLongPressed = true;
+                    }
+                    mCameraDoCustomAction = false;
+                }
+                if (mCameraLongPressed) {
+                    return -1;
+                }
+            } else {
+                if (mRecentAppsPreloaded && !mPressOnCameraBehavior.equals(getStr(KEY_ACTION_APP_SWITCH)) &&
+                        !mLongPressOnBackBehavior.equals(getStr(KEY_ACTION_APP_SWITCH))) {
+                    cancelPreloadRecentApps();
+                }
+                if (mCameraLongPressed) {
+                    mCameraLongPressed = false;
+                    return -1;
+                } else {
+                    if (mCameraDoCustomAction) {
+                        mCameraDoCustomAction = false;
+                        if (!canceled && !keyguardOn) {
+                            performKeyAction(mPressOnCameraBehavior);
+                            return -1;
+                        }
+                    }
+                    if (canceled)
+                        return -1;
+                }
+            }
         } else if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (down) {
                 if (!mRecentAppsPreloaded && (mPressOnBackBehavior.equals(getStr(KEY_ACTION_APP_SWITCH)) ||
