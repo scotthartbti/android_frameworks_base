@@ -162,7 +162,9 @@ public class Clock extends TextView implements OnClickListener, OnLongClickListe
         // The time zone may have changed while the receiver wasn't registered, so update the Time
         mCalendar = Calendar.getInstance(TimeZone.getDefault());
 
-        mSettingsObserver = new SettingsObserver(new Handler());
+        if (mSettingsObserver == null) {
+            mSettingsObserver = new SettingsObserver(new Handler());
+        }
         mSettingsObserver.observe();
         if(isClickable()){
             setOnClickListener(this);
