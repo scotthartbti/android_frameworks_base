@@ -253,11 +253,6 @@ public class LegacyUsbDeviceManager extends UsbDeviceManager {
         return true;
     }
 
-	public void setCurrentFunctions(String functions, boolean makeDefault) {
-			if (DEBUG) Slog.d(TAG, "setCurrentFunctions(" + functions + ") default: " + makeDefault);
-			mHandler.sendMessage(MSG_SET_CURRENT_FUNCTION, functions, makeDefault);
-		}
-
     private final class LegacyUsbHandler extends Handler {
 
         // current USB state
@@ -684,6 +679,11 @@ public class LegacyUsbDeviceManager extends UsbDeviceManager {
                 pw.println("IOException: " + e);
             }
         }
+    }
+
+    public void setCurrentFunctions(String functions, boolean makeDefault) {
+        if (DEBUG) Slog.d(TAG, "setCurrentFunctions(" + functions + ") default: " + makeDefault);
+        mHandler.sendMessage(MSG_SET_CURRENT_FUNCTION, functions, makeDefault);
     }
 
     public void allowUsbDebugging(boolean alwaysAllow, String publicKey) {
