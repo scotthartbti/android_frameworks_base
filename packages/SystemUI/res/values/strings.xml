@@ -573,6 +573,7 @@
     <string name="quick_settings_expanded_desktop_off">Normal</string>
     <string name="quick_settings_mobile_data_on">Mobile data</string>
     <string name="quick_settings_mobile_data_off">Mobile data off</string> 
+    <string name="quick_settings_expanded_desktop_disabled">Disabled</string>
 
     <!-- Text to display next to the minimal graphical battery meter.  [CHAR LIMIT=3] -->
     <string name="status_bar_settings_battery_meter_min_format" translatable="false">
