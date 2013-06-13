@@ -255,4 +255,6 @@
     <dimen name="app_sidebar_item_size">60dp</dimen>
 
     <dimen name="app_sidebar_item_padding">2dp</dimen>
+
+    <dimen name="halo_content_max_width">250dp</dimen>
 </resources>

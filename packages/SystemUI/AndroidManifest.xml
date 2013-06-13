@@ -46,6 +46,9 @@
     <uses-permission android:name="android.permission.MASTER_CLEAR" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!--Halo-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <!-- ActivityManager -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.GET_DETAILED_TASKS" />
@@ -321,6 +324,9 @@
                 <category android:name="android.intent.category.DESK_DOCK" />
             </intent-filter>
         </activity>
+
+	<activity android:name="com.android.systemui.Transparent"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- started from Custom Shortcut Tile -->
         <activity
