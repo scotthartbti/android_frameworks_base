@@ -3986,6 +3986,13 @@ public final class Settings {
         public static final String HALO_PAUSE = "halo_pause";
 
 	/**
+         *
+         * HALO being minimal.
+         * @hide
+         */
+        public static final String HALO_STYLE = "halo_style";
+
+	/**
           * Swap volume buttons when the screen is rotated by 90 or 180 degrees
           * @hide
           */
