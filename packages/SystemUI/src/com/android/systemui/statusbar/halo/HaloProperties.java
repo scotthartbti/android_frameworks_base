@@ -69,7 +69,8 @@ public class HaloProperties extends FrameLayout {
     private static final int PURPLE = 3;
     private static final int RED = 4;
     private static final int YELLOW = 5;
-    private static final int BLACK = 6;
+    private static final int PINK = 6;
+    private static final int BLACK = 7;
 
     Handler mHandler;
 
@@ -241,6 +242,12 @@ public class HaloProperties extends FrameLayout {
             mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
             originalDrawables();
             break;
+            case PINK:
+            mHaloBubble = mInflater.inflate(R.layout.halo_bubble_pink, null);
+            mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
+            mHaloOverlay = (ImageView) mHaloBubble.findViewById(R.id.halo_overlay);
+            originalDrawables();
+            break;  
             case BLACK:
             mHaloBubble = mInflater.inflate(R.layout.halo_bubble_black, null);
             mHaloIcon = (ImageView) mHaloBubble.findViewById(R.id.app_icon);
