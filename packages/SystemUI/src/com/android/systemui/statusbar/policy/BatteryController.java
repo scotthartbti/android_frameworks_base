@@ -77,22 +77,22 @@ public class BatteryController extends BroadcastReceiver {
     private static final int BATTERY_ICON_STYLE_NORMAL_GEAR = R.drawable.stat_sys_battery_gear;
     private static final int BATTERY_ICON_STYLE_CHARGE_GEAR = R.drawable.stat_sys_battery_gear_charge;
     private static final int BATTERY_ICON_STYLE_NORMAL_SQUARE = R.drawable.stat_sys_battery_square;
-    private static final int BATTERY_ICON_STYLE_CHARGE_SQUARE = R.drawable.stat_sys_battery_square_charge;
+    private static final int BATTERY_ICON_STYLE_CHARGE_SQUARE = R.drawable.stat_sys_battery_charge_square;
     private static final int BATTERY_ICON_STYLE_NORMAL_ALT = R.drawable.stat_sys_battery_altcircle;
-    private static final int BATTERY_ICON_STYLE_CHARGE_ALT = R.drawable.stat_sys_battery_altcircle_charge;
+    private static final int BATTERY_ICON_STYLE_CHARGE_ALT = R.drawable.stat_sys_battery_charge_altcircle;
 
     private static final int BATTERY_ICON_STYLE_NORMAL_RACING = R.drawable.stat_sys_battery_racing;
-    private static final int BATTERY_ICON_STYLE_CHARGE_RACING = R.drawable.stat_sys_battery_racing_charge;
+    private static final int BATTERY_ICON_STYLE_CHARGE_RACING = R.drawable.stat_sys_battery_charge_racing;
     private static final int BATTERY_ICON_STYLE_NORMAL_GAUGE = R.drawable.stat_sys_battery_gauge;
-    private static final int BATTERY_ICON_STYLE_CHARGE_GAUGE = R.drawable.stat_sys_battery_gauge_charge;
+    private static final int BATTERY_ICON_STYLE_CHARGE_GAUGE = R.drawable.stat_sys_battery_charge_gauge;
     private static final int BATTERY_ICON_STYLE_NORMAL_SLIDER = R.drawable.stat_sys_battery_slider;
-    private static final int BATTERY_ICON_STYLE_CHARGE_SLIDER = R.drawable.stat_sys_battery_slider_charge;
+    private static final int BATTERY_ICON_STYLE_CHARGE_SLIDER = R.drawable.stat_sys_battery_charge_slider;
     private static final int BATTERY_ICON_STYLE_NORMAL_BRICK = R.drawable.stat_sys_battery_brick;
-    private static final int BATTERY_ICON_STYLE_CHARGE_BRICK = R.drawable.stat_sys_battery_brick_charge;
+    private static final int BATTERY_ICON_STYLE_CHARGE_BRICK = R.drawable.stat_sys_battery_charge_brick;
     private static final int BATTERY_ICON_STYLE_NORMAL_PLANET = R.drawable.stat_sys_battery_planet;
-    private static final int BATTERY_ICON_STYLE_CHARGE_PLANET = R.drawable.stat_sys_battery_planet_charge;
+    private static final int BATTERY_ICON_STYLE_CHARGE_PLANET = R.drawable.stat_sys_battery_charge_planet;
     private static final int BATTERY_ICON_STYLE_NORMAL_RUSH = R.drawable.stat_sys_battery_rush;
-    private static final int BATTERY_ICON_STYLE_CHARGE_RUSH = R.drawable.stat_sys_battery_rush_charge;
+    private static final int BATTERY_ICON_STYLE_CHARGE_RUSH = R.drawable.stat_sys_battery_charge_rush;
 
     private static final int BATTERY_TEXT_STYLE_NORMAL  = R.string.status_bar_settings_battery_meter_format;
     private static final int BATTERY_TEXT_STYLE_MIN     = R.string.status_bar_settings_battery_meter_min_format;
