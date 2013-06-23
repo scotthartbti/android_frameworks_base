@@ -647,16 +647,6 @@ public class ImageWallpaper extends WallpaperService {
 
             if(mEglContext == EGL10.EGL_NO_CONTEXT){
                 checkEglError();
-
-            int[] maxSize = new int[1];
-            Rect frame = surfaceHolder.getSurfaceFrame();
-            glGetIntegerv(GL_MAX_TEXTURE_SIZE, maxSize, 0);
-            if(frame.width() > maxSize[0] || frame.height() > maxSize[0]) {
-                mEgl.eglDestroyContext(mEglDisplay, mEglContext);
-                mEgl.eglTerminate(mEglDisplay);
-                Log.e(GL_LOG_TAG, "requested  texture size " +
-                    frame.width() + "x" + frame.height() + " exceeds the support maximum of " +
-                    maxSize[0] + "x" + maxSize[0]);
                 return false;
             }
     
