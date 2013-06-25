@@ -3995,6 +3995,18 @@ public final class Settings {
         public static final String HALO_STYLE = "halo_style";
 
 	/**
+         * HALO speech bubble color
+         * @hide
+         */
+        public static final String HALO_BUBBLE_COLOR = "halo_bubble_color";
+
+        /**
+         * HALO speech bubble text color
+         * @hide
+         */
+        public static final String HALO_BUBBLE_TEXT_COLOR = "halo_bubble_text_color";
+
+	/**
           * Swap volume buttons when the screen is rotated by 90 or 180 degrees
           * @hide
           */
