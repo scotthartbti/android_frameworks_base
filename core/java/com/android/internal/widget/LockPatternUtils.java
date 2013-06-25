@@ -659,6 +659,51 @@ public class LockPatternUtils {
     }
 
     /**
+     * Save a lock pattern.
+     * @param pattern The new pattern to save.
+     */
+    public void saveLockGesture(Gesture gesture) {
+        this.saveLockGesture(gesture, false);
+    }
+
+    /**
+     * Save a lock pattern.
+     * @param pattern The new pattern to save.
+     * @param isFallback Specifies if this is a fallback to biometric weak
+     */
+    public void saveLockGesture(Gesture gesture, boolean isFallback) {
+        try {
+            getLockSettings().setLockGesture(gesture, getCurrentOrCallingUserId());
+            DevicePolicyManager dpm = getDevicePolicyManager();
+            KeyStore keyStore = KeyStore.getInstance();
+            if (gesture != null) {
+                setBoolean(GESTURE_EVER_CHOSEN_KEY, true);
+                if (!isFallback) {
+                    deleteGallery();
+                    setLong(PASSWORD_TYPE_KEY, DevicePolicyManager.PASSWORD_QUALITY_GESTURE_WEAK);
+                    dpm.setActivePasswordState(DevicePolicyManager.PASSWORD_QUALITY_GESTURE_WEAK,
+                            0, 0, 0, 0, 0, 0, 0, getCurrentOrCallingUserId());
+                } else {
+                    setLong(PASSWORD_TYPE_KEY, DevicePolicyManager.PASSWORD_QUALITY_BIOMETRIC_WEAK);
+                    setLong(PASSWORD_TYPE_ALTERNATE_KEY,
+                            DevicePolicyManager.PASSWORD_QUALITY_GESTURE_WEAK);
+                    finishBiometricWeak();
+                    dpm.setActivePasswordState(DevicePolicyManager.PASSWORD_QUALITY_BIOMETRIC_WEAK,
+                            0, 0, 0, 0, 0, 0, 0, getCurrentOrCallingUserId());
+                }
+            } else {
+                if (keyStore.isEmpty()) {
+                    keyStore.reset();
+                }
+                dpm.setActivePasswordState(DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED, 0, 0,
+                        0, 0, 0, 0, 0, getCurrentOrCallingUserId());
+            }
+        } catch (RemoteException re) {
+            Log.e(TAG, "Couldn't save lock gesture " + re);
+        }
+    }
+
+    /**
      * Compute the password quality from the given password string.
      */
     static public int computePasswordQuality(String password) {
