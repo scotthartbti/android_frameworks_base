@@ -168,8 +168,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected Halo mHalo = null;
     protected Ticker mTicker;
     protected boolean mHaloEnabled;
-    protected boolean mHaloPieOnly;
-    protected boolean mPieControls;
     protected boolean mHaloActive;
     protected boolean mHaloTaskerActive = false;
     protected ImageView mHaloButton;
@@ -435,10 +433,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         mHaloEnabled = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.HALO_ENABLED, 0) == 1;
-        mHaloEnabled = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.HALO_PIE_ONLY, 0) == 1;
-        mPieControls = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.PIE_CONTROLS, 0) == 1;
+
         mHaloActive = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.HALO_ACTIVE, 0) == 1;
 
@@ -526,14 +521,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                 updateHalo();
             }});
 
-        // Listen for HALO PIE state
-        mContext.getContentResolver().registerContentObserver(
-                Settings.System.getUriFor(Settings.System.HALO_PIE_ONLY), false, new ContentObserver(new Handler()) {
-            @Override
-            public void onChange(boolean selfChange) {
-                updateHalo();
-            }});
-
         // Listen for HALO state
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.HALO_ACTIVE), false, new ContentObserver(new Handler()) {
@@ -560,7 +547,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     protected void updateHaloButton() {
-        if ((!mHaloEnabled) || (mHaloPieOnly && !mPieControls)) {
+        if (!mHaloEnabled) {
             mHaloButtonVisible = false;
         } else {
             mHaloButtonVisible = true;
@@ -573,16 +560,12 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected void updateHalo() {
         mHaloEnabled = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.HALO_ENABLED, 0) == 1;
-        mHaloPieOnly = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.HALO_PIE_ONLY, 0) == 1;
-        mPieControls = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.PIE_CONTROLS, 0) == 1;
         mHaloActive = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.HALO_ACTIVE, 0) == 1;
 
         updateHaloButton();
 
-        if ((!mHaloEnabled) || (mHaloPieOnly && !mPieControls)) {
+        if (!mHaloEnabled) {
             mHaloActive = false;
         }
 

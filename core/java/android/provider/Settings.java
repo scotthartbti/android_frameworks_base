@@ -3958,12 +3958,6 @@ public final class Settings {
          public static final String KEY_ASSIST_ACTION = "key_assist_action";
 
 	/**
-         * HALO only with Pie
-         * @hide
-         */
-        public static final String HALO_PIE_ONLY = "halo_pie_only";
-
-	/**
          * HALO, should default to 0 (no, do not show)
          * @hide
          */
