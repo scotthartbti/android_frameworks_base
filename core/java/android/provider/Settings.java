@@ -3298,6 +3298,12 @@ public final class Settings {
          */
         public static final String DISABLE_FULLSCREEN_KEYBOARD = "disable_fullscreen_keyboard";
 
+	/**
+         * whether circle RAM meter is used
+         * @hide
+         */
+        public static final String RECENTS_RAM_CIRCLE = "recents_ram_circle";
+
          /**
          * Statusbar State
          * @hide
