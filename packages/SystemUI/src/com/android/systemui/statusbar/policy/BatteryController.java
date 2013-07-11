@@ -59,21 +59,27 @@ public class BatteryController extends BroadcastReceiver {
     public static final int BATTERY_STYLE_CIRCLE_PERCENT        = 4;
     public static final int BATTERY_STYLE_DOTTED_CIRCLE         = 5;
     public static final int BATTERY_STYLE_DOTTED_CIRCLE_PERCENT = 6;
-    public static final int BATTERY_STYLE_GEAR          	 = 7;
-    public static final int BATTERY_STYLE_SQUARE          	 = 8;
-    public static final int BATTERY_STYLE_ALT			 = 9;
-    public static final int BATTERY_STYLE_RACING          	 = 10;
-    public static final int BATTERY_STYLE_GAUGE          	 = 11;
-    public static final int BATTERY_STYLE_PLANET		= 12;
-    public static final int BATTERY_STYLE_SLIDER          	 = 13;
-    public static final int BATTERY_STYLE_BRICK			= 14;
-    public static final int BATTERY_STYLE_RUSH			= 15;
-    public static final int BATTERY_STYLE_GONE                  = 16;
+    public static final int BATTERY_STYLE_BEANSTALK      	= 7;
+    public static final int BATTERY_STYLE_BEANSTALK_PERCENT      = 8;
+    public static final int BATTERY_STYLE_GEAR          	 = 9;
+    public static final int BATTERY_STYLE_SQUARE          	 = 10;
+    public static final int BATTERY_STYLE_ALT			 = 11;
+    public static final int BATTERY_STYLE_RACING          	 = 12;
+    public static final int BATTERY_STYLE_GAUGE          	 = 13;
+    public static final int BATTERY_STYLE_PLANET		= 14;
+    public static final int BATTERY_STYLE_SLIDER          	 = 15;
+    public static final int BATTERY_STYLE_BRICK			= 16;
+    public static final int BATTERY_STYLE_RUSH			= 17;
+    public static final int BATTERY_STYLE_GONE                  = 18;
 
     private static final int BATTERY_ICON_STYLE_NORMAL      = R.drawable.stat_sys_battery;
     private static final int BATTERY_ICON_STYLE_CHARGE      = R.drawable.stat_sys_battery_charge;
     private static final int BATTERY_ICON_STYLE_NORMAL_MIN  = R.drawable.stat_sys_battery_min;
     private static final int BATTERY_ICON_STYLE_CHARGE_MIN  = R.drawable.stat_sys_battery_charge_min;
+    private static final int BATTERY_ICON_STYLE_NORMAL_BEANSTALK = R.drawable.stat_sys_battery_bs;
+    private static final int BATTERY_ICON_STYLE_CHARGE_BEANSTALK = R.drawable.stat_sys_battery_bs_charge;
+    private static final int BATTERY_ICON_STYLE_NORMAL_BEANSTALK_PERCENT = R.drawable.stat_sys_battery_bsp;
+    private static final int BATTERY_ICON_STYLE_CHARGE_BEANSTALK_PERCENT = R.drawable.stat_sys_battery_bsp_charge;
     private static final int BATTERY_ICON_STYLE_NORMAL_GEAR = R.drawable.stat_sys_battery_gear;
     private static final int BATTERY_ICON_STYLE_CHARGE_GEAR = R.drawable.stat_sys_battery_gear_charge;
     private static final int BATTERY_ICON_STYLE_NORMAL_SQUARE = R.drawable.stat_sys_battery_square;
@@ -242,38 +248,46 @@ public class BatteryController extends BroadcastReceiver {
             mText = (View.VISIBLE);
             mTextStyle = BATTERY_TEXT_STYLE_NORMAL;
 	} else if (mBatteryStyle == 7) {
+             mIcon = (View.VISIBLE);
+            mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_BEANSTALK
+                    : BATTERY_ICON_STYLE_NORMAL_BEANSTALK;
+	} else if (mBatteryStyle == 8) {
+             mIcon = (View.VISIBLE);
+            mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_BEANSTALK_PERCENT
+                    : BATTERY_ICON_STYLE_NORMAL_BEANSTALK_PERCENT; 
+	} else if (mBatteryStyle == 9) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_GEAR
                     : BATTERY_ICON_STYLE_NORMAL_GEAR; 
-	} else if (mBatteryStyle == 8) {
+	} else if (mBatteryStyle == 10) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_SQUARE
                     : BATTERY_ICON_STYLE_NORMAL_SQUARE;
-	} else if (mBatteryStyle == 9) {
+	} else if (mBatteryStyle == 11) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_ALT
                     : BATTERY_ICON_STYLE_NORMAL_ALT;
-	} else if (mBatteryStyle == 10) {
+	} else if (mBatteryStyle == 12) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_RACING
                     : BATTERY_ICON_STYLE_NORMAL_RACING;
-	} else if (mBatteryStyle == 11) {
+	} else if (mBatteryStyle == 13) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_GAUGE
                     : BATTERY_ICON_STYLE_NORMAL_GAUGE;
-	} else if (mBatteryStyle == 12) {
+	} else if (mBatteryStyle == 14) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_PLANET
                     : BATTERY_ICON_STYLE_NORMAL_PLANET;
-	} else if (mBatteryStyle == 13) {
+	} else if (mBatteryStyle == 15) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_SLIDER
                     : BATTERY_ICON_STYLE_NORMAL_SLIDER;
-	} else if (mBatteryStyle == 14) {
+	} else if (mBatteryStyle == 16) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_BRICK
                     : BATTERY_ICON_STYLE_NORMAL_BRICK;
-	} else if (mBatteryStyle == 15) {
+	} else if (mBatteryStyle == 17) {
             mIcon = (View.VISIBLE);
             mIconStyle = mBatteryPlugged ? BATTERY_ICON_STYLE_CHARGE_RUSH
                     : BATTERY_ICON_STYLE_NORMAL_RUSH;
