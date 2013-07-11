@@ -222,6 +222,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     float mNotificationPanelMinHeightFrac;
     boolean mNotificationPanelIsFullScreenWidth;
     TextView mNotificationPanelDebugText;
+    private int mNotificationsSizeOldState = 0;
 
     // settings
     QuickSettingsController mQS;
@@ -419,7 +420,9 @@ public class PhoneStatusBar extends BaseStatusBar {
                 toggleCarrierAndWifiLabelVisibility();
             }
             setStatusBarParams(mStatusBarView);
-	    updateStatusBarVisibility(); 
+	    if (mNotificationData != null) {
+                updateStatusBarVisibility(mNotificationData.size() > 0);
+            }
             showClock(true);
         }
     }
@@ -1515,7 +1518,10 @@ public class PhoneStatusBar extends BaseStatusBar {
                 .start();
         }
 
-	if (mNotificationData.size() < 2) updateStatusBarVisibility();
+	if (mNotificationData.size() != mNotificationsSizeOldState) {
+            mNotificationsSizeOldState = mNotificationData.size();
+            updateStatusBarVisibility(any);
+        }
         updateCarrierLabelVisibility(false);
     }
 
@@ -3342,15 +3348,26 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
     }
 
-    private void updateStatusBarVisibility() {
-        if (Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.AUTO_HIDE_STATUSBAR, 0) == 1) {
-            Settings.System.putInt(mContext.getContentResolver(),
+    private void updateStatusBarVisibility(boolean any) {
+        switch (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.AUTO_HIDE_STATUSBAR, 0)) {
+            //autohide if no non-permanent notifications
+            case 1:
+                Settings.System.putInt(mContext.getContentResolver(),
                     Settings.System.HIDE_STATUSBAR,
-                    (mNotificationData.size() == 0) ? 1 : 0);
-        } else {
-            Settings.System.putInt(mContext.getContentResolver(),
+                    (any && mNotificationData.hasClearableItems()) ? 0 : 1);
+                break;
+            //autohide if no notifications
+            case 2:
+                Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.HIDE_STATUSBAR,
+                    (any && mNotificationData.hasVisibleItems()) ? 0 : 1);
+                break;
+            case 0:
+            default:
+                Settings.System.putInt(mContext.getContentResolver(),
                     Settings.System.HIDE_STATUSBAR, 0);
+		break;
         }
     } 
 
