@@ -263,5 +263,10 @@
     <string name="pie_phone_status_airplane_mode">Modo avión</string>
     <string name="pie_phone_status_emergency_only">Sólo llamadas de emergencia</string>
 
+    <string name="halo_dismiss">Descartar notificación</string>
+    <string name="halo_hide">Ocultar</string>
+    <string name="halo_clear_all">Limpiar todas las notificaciones</string>
+    <string name="halo_silence">Ocultar y silenciar hasta despertar</string>
+
     <!-- CYANOGENMOD ADDITIONS END -->
 </resources>
