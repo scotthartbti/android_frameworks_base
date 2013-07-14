@@ -71,6 +71,7 @@ public class QuickSettingsController {
     public static final String TILE_BRIGHTNESS = "toggleBrightness";
     public static final String TILE_BUGREPORT = "toggleBugreport";
     public static final String TILE_EXPANDED_DESKTOP = "toggleExpandedDesktop";
+    public static final String TILE_FCHARGE = "toggleFCharge";
     public static final String TILE_GPS = "toggleGPS";
     public static final String TILE_IME = "toggleIME";
     public static final String TILE_LOCKSCREEN = "toggleLockScreen";
@@ -110,6 +111,7 @@ public class QuickSettingsController {
         TILES_CLASSES.put(TILE_BRIGHTNESS, "com.android.systemui.quicksettings.BrightnessTile");
         TILES_CLASSES.put(TILE_BUGREPORT, "com.android.systemui.quicksettings.BugReportTile");
         TILES_CLASSES.put(TILE_EXPANDED_DESKTOP, "com.android.systemui.quicksettings.ExpandedDesktopTile");
+	TILES_CLASSES.put(TILE_FCHARGE, "com.android.systemui.quicksettings.FChargeTile");
         TILES_CLASSES.put(TILE_GPS, "com.android.systemui.quicksettings.GPSTile");
         TILES_CLASSES.put(TILE_IME, "com.android.systemui.quicksettings.InputMethodTile");
         TILES_CLASSES.put(TILE_LOCKSCREEN, "com.android.systemui.quicksettings.ToggleLockscreenTile");
