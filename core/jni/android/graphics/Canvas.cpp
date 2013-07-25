@@ -524,7 +524,7 @@ public:
             GraphicsJNI::jrect_to_irect(env, srcIRect, &src);
             srcPtr = &src;
         }
-
+        
         if (screenDensity != 0 && screenDensity != bitmapDensity) {
             SkPaint filteredPaint;
             if (paint) {

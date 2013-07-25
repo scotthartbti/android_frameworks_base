@@ -363,7 +363,6 @@ static jobject doDecode(JNIEnv* env, SkStream* stream, jobject padding,
         SkCanvas canvas(*bitmap);
         canvas.scale(sx, sy);
         canvas.drawBitmap(*decoded, 0.0f, 0.0f, &paint);
-
     }
 
     if (padding) {
