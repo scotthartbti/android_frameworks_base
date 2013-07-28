@@ -2743,6 +2743,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         Log.i(TAG, "Ignoring HOME; event canceled.");
                     }
                 }
+		/*
                 // Delay handling home if a double-tap is possible.
                 if (mDoubleTapOnHomeBehavior != DOUBLE_TAP_HOME_NOTHING) {
                     mHandler.removeCallbacks(mHomeDoubleTapTimeoutRunnable); // just in case
@@ -2755,6 +2756,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 // Go home!
                 launchHomeFromHotKey();
                 return -1;
+		*/
             }
 
             // If a system window has focus, then it doesn't make sense
