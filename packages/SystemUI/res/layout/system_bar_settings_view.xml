@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 />
     </LinearLayout>
     <View style="@style/SystemBarPanelSettingsPanelSeparator" />
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 />
     </LinearLayout>
     <View
@@ -107,12 +107,12 @@
                 style="@style/SystemBarPanelSettingsIcon"
                 android:src="@drawable/ic_sysbar_brightness"
                 />
-        <com.android.systemui.statusbar.policy.ToggleSlider
+        <com.android.systemui.settings.ToggleSlider
                 android:id="@+id/brightness"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:layout_marginRight="2dp"
+                android:layout_marginEnd="2dp"
                 systemui:text="@string/status_bar_settings_auto_brightness_label"
                 />
     </LinearLayout>
@@ -155,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 />
     </LinearLayout>
     <View style="@style/SystemBarPanelSettingsPanelSeparator" />

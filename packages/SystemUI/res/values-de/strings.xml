@@ -1,19 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
-     Copyright (C) 2013 The CyanogenMod Project
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/**
+ * Copyright (c) 2009, The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0 
+ *
+ * Unless required by applicable law or agreed to in writing, software 
+ * distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and 
+ * limitations under the License.
+ */
+ -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
@@ -25,10 +27,10 @@
     <string name="status_bar_recent_inspect_item_title" msgid="7793624864528818569">"App-Info"</string>
     <string name="status_bar_no_recent_apps" msgid="6576392951053994640">"Keine kürzlich geöffneten Apps"</string>
     <string name="status_bar_accessibility_dismiss_recents" msgid="4576076075226540105">"Kürzlich geöffnete Apps schließen"</string>
-    <plurals name="status_bar_accessibility_recent_apps">
-        <item quantity="one" msgid="5854176083865845541">"1 kürzlich geöffnete App"</item>
-        <item quantity="other" msgid="1040784359794890744">"%d kürzlich geöffnete Apps"</item>
-    </plurals>
+  <plurals name="status_bar_accessibility_recent_apps">
+    <item quantity="one" msgid="5854176083865845541">"1 kürzlich geöffnete App"</item>
+    <item quantity="other" msgid="1040784359794890744">"%d kürzlich geöffnete Apps"</item>
+  </plurals>
     <string name="status_bar_no_notifications_title" msgid="4755261167193833213">"Keine Benachrichtigungen"</string>
     <string name="status_bar_ongoing_events_title" msgid="1682504513316879202">"Aktuell"</string>
     <string name="status_bar_latest_events_title" msgid="6594767438577593172">"Benachrichtigungen"</string>
@@ -63,9 +65,9 @@
     <string name="compat_mode_off" msgid="4434467572461327898">"Auf Bildschirmgröße anpassen"</string>
     <string name="compat_mode_help_header" msgid="7969493989397529910">"Kompatibilitätszoom"</string>
     <string name="compat_mode_help_body" msgid="4946726776359270040">"Wenn eine App für einen kleineren Bildschirm ausgelegt ist, wird ein Zoom-Steuerelement neben der Uhr angezeigt."</string>
-    <string name="screenshot_saving_ticker" msgid="7403652894056693515">"Screenshot wird gespeichert\u2026"</string>
-    <string name="screenshot_saving_title" msgid="8242282144535555697">"Screenshot wird gespeichert\u2026"</string>
-    <string name="screenshot_saving_text" msgid="2419718443411738818">"Screenshot wird gespeichert\u2026"</string>
+    <string name="screenshot_saving_ticker" msgid="7403652894056693515">"Screenshot wird gespeichert..."</string>
+    <string name="screenshot_saving_title" msgid="8242282144535555697">"Screenshot wird gespeichert..."</string>
+    <string name="screenshot_saving_text" msgid="2419718443411738818">"Screenshot wird gespeichert..."</string>
     <string name="screenshot_saved_title" msgid="6461865960961414961">"Screenshot aufgenommen"</string>
     <string name="screenshot_saved_text" msgid="1152839647677558815">"Zum Ansehen berühren"</string>
     <string name="screenshot_failed_title" msgid="705781116746922771">"Screenshot konnte nicht aufgenommen werden."</string>
@@ -125,6 +127,7 @@
     <string name="accessibility_data_connection_3g" msgid="8628562305003568260">"3G"</string>
     <string name="accessibility_data_connection_3.5g" msgid="8664845609981692001">"3,5G"</string>
     <string name="accessibility_data_connection_4g" msgid="7741000750630089612">"4G"</string>
+    <string name="accessibility_data_connection_lte" msgid="5413468808637540658">"LTE"</string>
     <string name="accessibility_data_connection_cdma" msgid="6132648193978823023">"CDMA"</string>
     <string name="accessibility_data_connection_roaming" msgid="5977362333466556094">"Roaming"</string>
     <string name="accessibility_data_connection_edge" msgid="4477457051631979278">"Edge"</string>
@@ -173,7 +176,7 @@
     <string name="accessibility_rotation_lock_off" msgid="4062780228931590069">"Bildschirm wird automatisch gedreht."</string>
     <string name="accessibility_rotation_lock_on_landscape" msgid="6731197337665366273">"Bildschirm bleibt im Querformat."</string>
     <string name="accessibility_rotation_lock_on_portrait" msgid="5809367521644012115">"Bildschirm bleibt im Hochformat."</string>
-    <string name="jelly_bean_dream_name" msgid="5992026543636816792">"Bohnenschleuder"</string>
+    <string name="jelly_bean_dream_name" msgid="5992026543636816792">"BeanFlinger"</string>
     <string name="start_dreams" msgid="7219575858348719790">"Daydream"</string>
     <string name="ethernet_label" msgid="7967563676324087464">"Ethernet"</string>
     <string name="quick_settings_airplane_mode_label" msgid="5510520633448831350">"Flugmodus"</string>
@@ -183,8 +186,8 @@
     <string name="quick_settings_bluetooth_multiple_devices_label" msgid="3912245565613684735">"Bluetooth (<xliff:g id="NUMBER">%d</xliff:g> Geräte)"</string>
     <string name="quick_settings_bluetooth_off_label" msgid="8159652146149219937">"Bluetooth aus"</string>
     <string name="quick_settings_brightness_label" msgid="6968372297018755815">"Helligkeit"</string>
-    <string name="quick_settings_rotation_unlocked_label" msgid="336054930362580584">"Automatisch"</string>
-    <string name="quick_settings_rotation_locked_label" msgid="8058646447242565486">"Gesperrt"</string>
+    <string name="quick_settings_rotation_unlocked_label" msgid="336054930362580584">"Autom. drehen"</string>
+    <string name="quick_settings_rotation_locked_label" msgid="8058646447242565486">"Drehung gesperrt"</string>
     <string name="quick_settings_ime_label" msgid="7073463064369468429">"Eingabemethode"</string>
     <string name="quick_settings_location_label" msgid="3292451598267467545">"Verwendeter Standort"</string>
     <string name="quick_settings_media_device_label" msgid="1302906836372603762">"Mediengerät"</string>
@@ -198,9 +201,8 @@
     <string name="quick_settings_wifi_no_network" msgid="2221993077220856376">"Kein Netz"</string>
     <string name="quick_settings_wifi_off_label" msgid="7558778100843885864">"WLAN aus"</string>
     <string name="quick_settings_wifi_display_label" msgid="6893592964463624333">"WLAN-Display"</string>
-    <string name="quick_settings_wifi_display_no_connection_label" msgid="2355298740765736918">"Kabellose Übertragung"</string>
-    <!-- QuickSettings: Profile [CHAR LIMIT=NONE] -->
     <string name="quick_settings_profile_label">Profile</string>
+    <string name="quick_settings_wifi_display_no_connection_label" msgid="2355298740765736918">"Kabellose Übertragung (WiDi)"</string>
     <string name="quick_settings_brightness_dialog_title" msgid="8599674057673605368">"Helligkeit"</string>
     <string name="quick_settings_brightness_dialog_auto_brightness_label" msgid="5064982743784071218">"AUTO"</string>
     <string name="status_bar_help_title" msgid="1199237744086469217">"Benachrichtigungen erscheinen hier"</string>
@@ -274,5 +276,4 @@
     <string name="pie_phone_status_airplane_mode">Flugmodus</string>
     <string name="pie_phone_status_emergency_only">Nur Notrufe</string>
 
-    <!-- **** CYANOGENMOD ADDITIONS END **** -->
 </resources>

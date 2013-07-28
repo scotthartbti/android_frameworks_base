@@ -28,7 +28,6 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.ResultReceiver;
 import android.os.SystemClock;
@@ -49,6 +48,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.WindowManager.BadTokenException;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
@@ -317,9 +317,6 @@ public class InputMethodService extends AbstractInputMethodService {
     int mStatusIcon;
     int mBackDisposition;
 
-    boolean mForcedAutoRotate;
-    Handler mHandler;
-
     final Insets mTmpInsets = new Insets();
     final int[] mTmpLocation = new int[2];
 
@@ -439,7 +436,13 @@ public class InputMethodService extends AbstractInputMethodService {
             boolean wasVis = isInputViewShown();
             mShowInputFlags = 0;
             if (onShowInputRequested(flags, false)) {
-                showWindow(true);
+                try {
+                    showWindow(true);
+                } catch (BadTokenException e) {
+                    if (DEBUG) Log.v(TAG, "BadTokenException: IME is done.");
+                    mWindowVisible = false;
+                    mWindowAdded = false;
+                }
             }
             // If user uses hard keyboard, IME button should always be shown.
             boolean showing = isInputViewShown();
@@ -669,12 +672,6 @@ public class InputMethodService extends AbstractInputMethodService {
         if (mHardwareAccelerated) {
             mWindow.getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         }
-
-        //IME is not showing on first onCreate to be sure
-        //toggle it off for PIE
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.PIE_SOFTKEYBOARD_IS_SHOWING, 0);
-
         initViews();
         mWindow.getWindow().setLayout(MATCH_PARENT, WRAP_CONTENT);
     }
@@ -730,8 +727,6 @@ public class InputMethodService extends AbstractInputMethodService {
         mCandidatesVisibility = getCandidatesHiddenVisibility();
         mCandidatesFrame.setVisibility(mCandidatesVisibility);
         mInputFrame.setVisibility(View.GONE);
-
-        mHandler = new Handler();
     }
 
     @Override public void onDestroy() {
@@ -897,14 +892,7 @@ public class InputMethodService extends AbstractInputMethodService {
      * is currently running in fullscreen mode.
      */
     public void updateFullscreenMode() {
-        boolean fullScreenOverride = Settings.System.getInt(getContentResolver(),
-                Settings.System.DISABLE_FULLSCREEN_KEYBOARD, 0) != 0;
-        boolean isFullscreen;
-        if (fullScreenOverride) {
-            isFullscreen = false;
-        } else {
-            isFullscreen = mShowInputRequested && onEvaluateFullscreenMode();
-        }
+        boolean isFullscreen = mShowInputRequested && onEvaluateFullscreenMode();
         boolean changed = mLastShowInputRequested != mShowInputRequested;
         if (mIsFullscreen != isFullscreen || !mFullscreenApplied) {
             changed = true;
@@ -1419,7 +1407,7 @@ public class InputMethodService extends AbstractInputMethodService {
         }
         return true;
     }
-
+    
     public void showWindow(boolean showInput) {
         if (DEBUG) Log.v(TAG, "Showing window: showInput=" + showInput
                 + " mShowInputRequested=" + mShowInputRequested
@@ -1427,7 +1415,7 @@ public class InputMethodService extends AbstractInputMethodService {
                 + " mWindowCreated=" + mWindowCreated
                 + " mWindowVisible=" + mWindowVisible
                 + " mInputStarted=" + mInputStarted);
-
+        
         if (mInShowWindow) {
             Log.w(TAG, "Re-entrance in to showWindow");
             return;
@@ -1440,25 +1428,6 @@ public class InputMethodService extends AbstractInputMethodService {
         } finally {
             mWindowWasVisible = true;
             mInShowWindow = false;
-        }
-
-        //IME softkeyboard is showing....toggle it
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.PIE_SOFTKEYBOARD_IS_SHOWING, 1);
-
-        int mKeyboardRotationTimeout = Settings.System.getInt(getContentResolver(),
-                Settings.System.KEYBOARD_ROTATION_TIMEOUT, 0);
-        if (mKeyboardRotationTimeout > 0) {
-            mHandler.removeCallbacks(restoreAutoRotation);
-            if (!mForcedAutoRotate) {
-                boolean isAutoRotate = (Settings.System.getInt(getContentResolver(),
-                        Settings.System.ACCELEROMETER_ROTATION, 0) == 1);
-                if (!isAutoRotate) {
-                    mForcedAutoRotate = true;
-                    Settings.System.putInt(getContentResolver(),
-                            Settings.System.ACCELEROMETER_ROTATION, 1);
-                }
-            }
         }
     }
 
@@ -1542,28 +1511,7 @@ public class InputMethodService extends AbstractInputMethodService {
             onWindowHidden();
             mWindowWasVisible = false;
         }
-
-        //IME softkeyboard is hiding....toggle it
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.PIE_SOFTKEYBOARD_IS_SHOWING, 0);
-
-        int mKeyboardRotationTimeout = Settings.System.getInt(getContentResolver(),
-                Settings.System.KEYBOARD_ROTATION_TIMEOUT, 0);
-        if (mKeyboardRotationTimeout > 0) {
-            mHandler.removeCallbacks(restoreAutoRotation);
-            if (mForcedAutoRotate) {
-                mHandler.postDelayed(restoreAutoRotation, mKeyboardRotationTimeout);
-            }
-        }
     }
-
-    final Runnable restoreAutoRotation = new Runnable() {
-        @Override public void run() {
-            Settings.System.putInt(getContentResolver(),
-                    Settings.System.ACCELEROMETER_ROTATION, 0);
-            mForcedAutoRotate = false;
-        }
-    };
 
     /**
      * Called when the input method window has been shown to the user, after
@@ -2056,7 +2004,7 @@ public class InputMethodService extends AbstractInputMethodService {
         ic.sendKeyEvent(new KeyEvent(eventTime, eventTime,
                 KeyEvent.ACTION_DOWN, keyEventCode, 0, 0, KeyCharacterMap.VIRTUAL_KEYBOARD, 0,
                 KeyEvent.FLAG_SOFT_KEYBOARD|KeyEvent.FLAG_KEEP_TOUCH_MODE));
-        ic.sendKeyEvent(new KeyEvent(SystemClock.uptimeMillis(), eventTime,
+        ic.sendKeyEvent(new KeyEvent(eventTime, SystemClock.uptimeMillis(),
                 KeyEvent.ACTION_UP, keyEventCode, 0, 0, KeyCharacterMap.VIRTUAL_KEYBOARD, 0,
                 KeyEvent.FLAG_SOFT_KEYBOARD|KeyEvent.FLAG_KEEP_TOUCH_MODE));
     }

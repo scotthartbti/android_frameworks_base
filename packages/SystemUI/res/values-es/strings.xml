@@ -128,6 +128,7 @@
     <string name="accessibility_data_connection_3g" msgid="8628562305003568260">"3G"</string>
     <string name="accessibility_data_connection_3.5g" msgid="8664845609981692001">"3.5 G"</string>
     <string name="accessibility_data_connection_4g" msgid="7741000750630089612">"4G"</string>
+    <string name="accessibility_data_connection_lte" msgid="5413468808637540658">"LTE"</string>
     <string name="accessibility_data_connection_cdma" msgid="6132648193978823023">"CDMA"</string>
     <string name="accessibility_data_connection_roaming" msgid="5977362333466556094">"Itinerancia"</string>
     <string name="accessibility_data_connection_edge" msgid="4477457051631979278">"Tipo Edge"</string>
@@ -182,10 +183,10 @@
     <string name="quick_settings_battery_charged_label" msgid="8865413079414246081">"Cargada"</string>
     <string name="quick_settings_bluetooth_label" msgid="6304190285170721401">"Bluetooth"</string>
     <string name="quick_settings_bluetooth_multiple_devices_label" msgid="3912245565613684735">"Bluetooth (<xliff:g id="NUMBER">%d</xliff:g> dispositivos)"</string>
-    <string name="quick_settings_bluetooth_off_label" msgid="8159652146149219937">"Bluetooth"</string>
+    <string name="quick_settings_bluetooth_off_label" msgid="8159652146149219937">"Bluetooth desactivado"</string>
     <string name="quick_settings_brightness_label" msgid="6968372297018755815">"Brillo"</string>
-    <string name="quick_settings_rotation_unlocked_label" msgid="336054930362580584">"Automático"</string>
-    <string name="quick_settings_rotation_locked_label" msgid="8058646447242565486">"Bloqueado"</string>
+    <string name="quick_settings_rotation_unlocked_label" msgid="336054930362580584">"Girar automáticamente"</string>
+    <string name="quick_settings_rotation_locked_label" msgid="8058646447242565486">"Rotación bloqueada"</string>
     <string name="quick_settings_ime_label" msgid="7073463064369468429">"Método de entrada"</string>
     <string name="quick_settings_location_label" msgid="3292451598267467545">"Ubicación en uso"</string>
     <string name="quick_settings_media_device_label" msgid="1302906836372603762">"Dispositivo multimedia"</string>
@@ -197,7 +198,7 @@
     <string name="quick_settings_wifi_label" msgid="9135344704899546041">"Wi-Fi"</string>
     <string name="quick_settings_wifi_not_connected" msgid="7171904845345573431">"No conectado"</string>
     <string name="quick_settings_wifi_no_network" msgid="2221993077220856376">"No hay red."</string>
-    <string name="quick_settings_wifi_off_label" msgid="7558778100843885864">"Wi-Fi"</string>
+    <string name="quick_settings_wifi_off_label" msgid="7558778100843885864">"Wi-Fi desactivado"</string>
     <string name="quick_settings_wifi_display_label" msgid="6893592964463624333">"Pantalla Wi-Fi"</string>
     <string name="quick_settings_wifi_display_no_connection_label" msgid="2355298740765736918">"Pantalla inalámbrica"</string>
     <string name="quick_settings_brightness_dialog_title" msgid="8599674057673605368">"Brillo"</string>
@@ -268,5 +269,4 @@
     <string name="halo_clear_all">Limpiar todas las notificaciones</string>
     <string name="halo_silence">Ocultar y silenciar hasta despertar</string>
 
-    <!-- CYANOGENMOD ADDITIONS END -->
 </resources>

@@ -127,6 +127,7 @@
     <string name="accessibility_data_connection_3g" msgid="8628562305003568260">"3G"</string>
     <string name="accessibility_data_connection_3.5g" msgid="8664845609981692001">"3.5G"</string>
     <string name="accessibility_data_connection_4g" msgid="7741000750630089612">"4G"</string>
+    <string name="accessibility_data_connection_lte" msgid="5413468808637540658">"LTE"</string>
     <string name="accessibility_data_connection_cdma" msgid="6132648193978823023">"CDMA"</string>
     <string name="accessibility_data_connection_roaming" msgid="5977362333466556094">"Barangolás"</string>
     <string name="accessibility_data_connection_edge" msgid="4477457051631979278">"Edge"</string>
@@ -196,7 +197,7 @@
     <string name="quick_settings_wifi_label" msgid="9135344704899546041">"Wi-Fi"</string>
     <string name="quick_settings_wifi_not_connected" msgid="7171904845345573431">"Nincs kapcsolat"</string>
     <string name="quick_settings_wifi_no_network" msgid="2221993077220856376">"Nincs hálózat"</string>
-    <string name="quick_settings_wifi_off_label" msgid="7558778100843885864">"Wi-Fi ki"</string>
+    <string name="quick_settings_wifi_off_label" msgid="7558778100843885864">"Wi-Fi kikapcsolva"</string>
     <string name="quick_settings_wifi_display_label" msgid="6893592964463624333">"Wi-Fi kijelző"</string>
     <string name="quick_settings_wifi_display_no_connection_label" msgid="2355298740765736918">"Vezeték nélküli kijelző"</string>
     <string name="quick_settings_brightness_dialog_title" msgid="8599674057673605368">"Fényerő"</string>
@@ -259,7 +260,5 @@
     <string name="pie_phone_status_no_service">Nincs szolgáltatás</string>
     <string name="pie_phone_status_airplane_mode">Replülőgép üzemmmód</string>
     <string name="pie_phone_status_emergency_only">Csak segélyhívás</string>
-
-    <!-- CYANOGENMOD ADDITIONS END -->
 
 </resources>
