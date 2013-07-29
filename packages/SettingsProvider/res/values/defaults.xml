@@ -191,4 +191,7 @@
 
     <!-- Default for Settings.System.LOCKSCREEN_TARGETS. -->
     <string name="def_lockscreen_targets" translatable="false"></string>
+
+    <!-- Default for Settings.Secure.DIALPAD_AUTOCOMPLETE. -->
+    <integer name="def_dialpad_autocomplete">1</integer>
 </resources>
