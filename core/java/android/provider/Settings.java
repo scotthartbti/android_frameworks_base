@@ -3094,6 +3094,13 @@ public final class Settings {
          */
         public static final String QS_COLLAPSE_PANEL = "qs_collapse_panel";
 
+	/**
+         * Quick Settings Launch in Floating Window
+         * 
+         * @hide
+         */
+        public static final String QS_FLOATING_WINDOW = "qs_floating_window";
+
         /**
          * Use the Notification Power Widget? (Who wouldn't!)
          *
