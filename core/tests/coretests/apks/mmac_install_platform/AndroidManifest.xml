@@ -17,9 +17,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.frameworks.coretests.mmac_install_platform">
 
-    <uses-permission android:name="android.permission.SET_ANIMATION_SCALE" />
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-
     <application android:hasCode="false">
     </application>
 
