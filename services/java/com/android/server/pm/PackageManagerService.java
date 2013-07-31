@@ -3930,10 +3930,8 @@ public class PackageManagerService extends IPackageManager.Stub {
             
             if (mSettings.isDisabledSystemPackageLPr(pkg.packageName)) {
                 pkg.applicationInfo.flags |= ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
-            }
-
-            if (mFoundPolicyFile && !SELinuxMMAC.passInstallPolicyChecks(pkg) &&
-                SELinuxMMAC.getEnforcingMode()) {
+            } else if (mFoundPolicyFile && !SELinuxMMAC.passInstallPolicyChecks(pkg) &&
+                       SELinuxMMAC.getEnforcingMode()) {
                 Slog.w(TAG, "Installing application package " + pkg.packageName
                        + " failed due to policy.");
                 mLastScanError = PackageManager.INSTALL_FAILED_POLICY_REJECTED_PERMISSION;
