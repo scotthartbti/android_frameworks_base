@@ -2403,8 +2403,7 @@ final class Settings {
             ps.setInstalled((ps.pkgFlags&ApplicationInfo.FLAG_SYSTEM) != 0, userHandle);
             // Need to create a data directory for all apps under this user.
             installer.createUserData(ps.name,
-                    UserHandle.getUid(userHandle, ps.appId), userHandle,
-                    ps.pkg.applicationInfo.seinfo);
+                    UserHandle.getUid(userHandle, ps.appId), userHandle);
         }
         readDefaultPreferredAppsLPw(userHandle);
         writePackageRestrictionsLPr(userHandle);

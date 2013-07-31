@@ -3668,7 +3668,7 @@ public class PackageManagerService extends IPackageManager.Stub {
         for (int user : users) {
             if (user != 0) {
                 res = mInstaller.createUserData(packageName,
-                        UserHandle.getUid(user, uid), user, seinfo);
+                        UserHandle.getUid(user, uid), user);
                 if (res < 0) {
                     return res;
                 }
