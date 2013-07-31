@@ -45,6 +45,7 @@ import android.content.pm.IPackageManager;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
+import android.content.pm.SELinuxMMAC;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Environment;
@@ -257,8 +258,6 @@ public class DevicePolicyManagerService extends IDevicePolicyManager.Stub {
             return true;
         }
     }
-
-    private static final String MMAC_ENFORCE_PROPERTY = "persist.mmac.enforce";
 
     private static final String SEPOLICY_PATH_SEPOLICY = "/data/security/sepolicy";
 
@@ -3046,12 +3045,12 @@ public class DevicePolicyManagerService extends IDevicePolicyManager.Stub {
             return false;
         }
 
-        boolean systemState = SystemProperties.getBoolean(MMAC_ENFORCE_PROPERTY, false);
+        boolean systemState = SELinuxMMAC.getEnforcingMode();
         boolean enforceMMAC = mmacAdmin.enforceMMAC;
         if (!firstBoot || !systemState) {
             if (systemState != enforceMMAC) {
                 Slog.v(TAG, "Changed MMAC enforcing status " + systemState + " to " + enforceMMAC);
-                SystemProperties.set(MMAC_ENFORCE_PROPERTY, enforceMMAC ? "true" : "false");
+                SELinuxMMAC.setEnforcingMode(enforceMMAC);
             }
         }
 
