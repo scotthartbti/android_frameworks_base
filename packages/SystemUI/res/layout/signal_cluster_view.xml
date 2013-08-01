@@ -49,7 +49,7 @@
             android:textAppearance="@style/TextAppearance.StatusBar.WifiText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingRight="8dp" />
+            android:paddingLeft="8dp" />
     </FrameLayout>
     <View
         android:layout_height="6dp"
@@ -80,7 +80,6 @@
                 android:id="@+id/mobile_type"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_gravity="left|top"
                 />
             <ImageView
                 android:id="@+id/mobile_inout"

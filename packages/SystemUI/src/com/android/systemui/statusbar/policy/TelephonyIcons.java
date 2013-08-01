@@ -35,19 +35,6 @@ class TelephonyIcons {
           R.drawable.stat_sys_signal_4_fully }
     };
 
-    static final int[][] TELEPHONY_SIGNAL_STRENGTH_ALT = {
-        { R.drawable.stat_sys_signal_0_alt,
-          R.drawable.stat_sys_signal_1_alt,
-          R.drawable.stat_sys_signal_2_alt,
-          R.drawable.stat_sys_signal_3_alt,
-          R.drawable.stat_sys_signal_4_alt },
-        { R.drawable.stat_sys_signal_0_fully_alt,
-          R.drawable.stat_sys_signal_1_fully_alt,
-          R.drawable.stat_sys_signal_2_fully_alt,
-          R.drawable.stat_sys_signal_3_fully_alt,
-          R.drawable.stat_sys_signal_4_fully_alt }
-    };
-
     static final int[][] QS_TELEPHONY_SIGNAL_STRENGTH = {
         { R.drawable.ic_qs_signal_0,
           R.drawable.ic_qs_signal_1,
@@ -74,22 +61,7 @@ class TelephonyIcons {
           R.drawable.stat_sys_signal_4_fully }
     };
 
-    static final int[][] TELEPHONY_SIGNAL_STRENGTH_ROAMING_ALT = {
-        { R.drawable.stat_sys_signal_0_alt,
-          R.drawable.stat_sys_signal_1_alt,
-          R.drawable.stat_sys_signal_2_alt,
-          R.drawable.stat_sys_signal_3_alt,
-          R.drawable.stat_sys_signal_4_alt },
-        { R.drawable.stat_sys_signal_0_fully_alt,
-          R.drawable.stat_sys_signal_1_fully_alt,
-          R.drawable.stat_sys_signal_2_fully_alt,
-          R.drawable.stat_sys_signal_3_fully_alt,
-          R.drawable.stat_sys_signal_4_fully_alt }
-    };
-
     static final int[][] DATA_SIGNAL_STRENGTH = TELEPHONY_SIGNAL_STRENGTH;
-    
-    static final int[][] DATA_SIGNAL_STRENGTH_ALT = TELEPHONY_SIGNAL_STRENGTH_ALT;
 
     //***** Data connection icons
 
@@ -105,17 +77,6 @@ class TelephonyIcons {
               R.drawable.stat_sys_data_fully_connected_g }
         };
 
-    static final int[][] DATA_G_ALT = {
-        { R.drawable.stat_sys_data_connected_g_alt,
-          R.drawable.stat_sys_data_connected_g_alt,
-          R.drawable.stat_sys_data_connected_g_alt,
-          R.drawable.stat_sys_data_connected_g_alt },
-        { R.drawable.stat_sys_data_fully_connected_g_alt,
-          R.drawable.stat_sys_data_fully_connected_g_alt,
-          R.drawable.stat_sys_data_fully_connected_g_alt,
-          R.drawable.stat_sys_data_fully_connected_g_alt }
-    };
-
     static final int[][] DATA_3G = {
             { R.drawable.stat_sys_data_connected_3g,
               R.drawable.stat_sys_data_connected_3g,
@@ -127,17 +88,6 @@ class TelephonyIcons {
               R.drawable.stat_sys_data_fully_connected_3g }
         };
 
-    static final int[][] DATA_3G_ALT = {
-        { R.drawable.stat_sys_data_connected_3g_alt,
-          R.drawable.stat_sys_data_connected_3g_alt,
-          R.drawable.stat_sys_data_connected_3g_alt,
-          R.drawable.stat_sys_data_connected_3g_alt },
-        { R.drawable.stat_sys_data_fully_connected_3g_alt,
-          R.drawable.stat_sys_data_fully_connected_3g_alt,
-          R.drawable.stat_sys_data_fully_connected_3g_alt,
-          R.drawable.stat_sys_data_fully_connected_3g_alt }
-    };
-
     static final int[][] DATA_E = {
             { R.drawable.stat_sys_data_connected_e,
               R.drawable.stat_sys_data_connected_e,
@@ -148,17 +98,6 @@ class TelephonyIcons {
               R.drawable.stat_sys_data_fully_connected_e,
               R.drawable.stat_sys_data_fully_connected_e }
         };
-
-    static final int[][] DATA_E_ALT = {
-        { R.drawable.stat_sys_data_connected_e_alt,
-          R.drawable.stat_sys_data_connected_e_alt,
-          R.drawable.stat_sys_data_connected_e_alt,
-          R.drawable.stat_sys_data_connected_e_alt },
-        { R.drawable.stat_sys_data_fully_connected_e_alt,
-          R.drawable.stat_sys_data_fully_connected_e_alt,
-          R.drawable.stat_sys_data_fully_connected_e_alt,
-          R.drawable.stat_sys_data_fully_connected_e_alt }
-    };
 
     //3.5G
     static final int[][] DATA_H = {
@@ -172,17 +111,6 @@ class TelephonyIcons {
               R.drawable.stat_sys_data_fully_connected_h }
     };
 
-    static final int[][] DATA_H_ALT= {
-        { R.drawable.stat_sys_data_connected_h,
-          R.drawable.stat_sys_data_connected_h,
-          R.drawable.stat_sys_data_connected_h,
-          R.drawable.stat_sys_data_connected_h },
-        { R.drawable.stat_sys_data_fully_connected_h,
-          R.drawable.stat_sys_data_fully_connected_h,
-          R.drawable.stat_sys_data_fully_connected_h,
-          R.drawable.stat_sys_data_fully_connected_h }
-    };
-
     //HPSPA+
     static final int[][] DATA_HP = {
             { R.drawable.stat_sys_data_connected_hp,
@@ -193,17 +121,6 @@ class TelephonyIcons {
               R.drawable.stat_sys_data_fully_connected_hp,
               R.drawable.stat_sys_data_fully_connected_hp,
               R.drawable.stat_sys_data_fully_connected_hp }
-    };
-
-    static final int[][] DATA_HP_ALT = {
-        { R.drawable.stat_sys_data_connected_hp_alt,
-          R.drawable.stat_sys_data_connected_hp_alt,
-          R.drawable.stat_sys_data_connected_hp_alt,
-          R.drawable.stat_sys_data_connected_hp_alt },
-        { R.drawable.stat_sys_data_fully_connected_hp_alt,
-          R.drawable.stat_sys_data_fully_connected_hp_alt,
-          R.drawable.stat_sys_data_fully_connected_hp_alt,
-          R.drawable.stat_sys_data_fully_connected_hp_alt }
     };
 
     // DC-HSPAP
@@ -231,17 +148,6 @@ class TelephonyIcons {
               R.drawable.stat_sys_data_fully_connected_1x }
             };
 
-    static final int[][] DATA_1X_ALT = {
-        { R.drawable.stat_sys_data_connected_1x_alt,
-          R.drawable.stat_sys_data_connected_1x_alt,
-          R.drawable.stat_sys_data_connected_1x_alt,
-          R.drawable.stat_sys_data_connected_1x_alt },
-        { R.drawable.stat_sys_data_fully_connected_1x_alt,
-          R.drawable.stat_sys_data_fully_connected_1x_alt,
-          R.drawable.stat_sys_data_fully_connected_1x_alt,
-          R.drawable.stat_sys_data_fully_connected_1x_alt }
-        };
-
     // LTE and eHRPD
     static final int[][] DATA_4G = {
             { R.drawable.stat_sys_data_connected_4g,
@@ -254,15 +160,6 @@ class TelephonyIcons {
               R.drawable.stat_sys_data_fully_connected_4g }
         };
 
-    static final int[][] DATA_4G_ALT = {
-        { R.drawable.stat_sys_data_connected_4g_alt,
-          R.drawable.stat_sys_data_connected_4g_alt,
-          R.drawable.stat_sys_data_connected_4g_alt,
-          R.drawable.stat_sys_data_connected_4g_alt },
-        { R.drawable.stat_sys_data_fully_connected_4g_alt,
-          R.drawable.stat_sys_data_fully_connected_4g_alt,
-          R.drawable.stat_sys_data_fully_connected_4g_alt,
-          R.drawable.stat_sys_data_fully_connected_4g_alt }
-    };
+
 }
 
