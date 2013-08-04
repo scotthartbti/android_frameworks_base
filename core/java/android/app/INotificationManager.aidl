@@ -35,9 +35,6 @@ interface INotificationManager
             in Notification notification, inout int[] idReceived, int userId);
     void cancelNotificationWithTag(String pkg, String tag, int id, int userId);
 
-    void setNotificationsEnabledForPackage(String pkg, boolean enabled);
-    boolean areNotificationsEnabledForPackage(String pkg);
-
     void setHaloPolicyBlack(boolean state);
     void setHaloStatus(String pkg, boolean status);
     void setHaloBlacklistStatus(String pkg, boolean status);

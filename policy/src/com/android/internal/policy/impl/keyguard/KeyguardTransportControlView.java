@@ -20,7 +20,6 @@ import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.content.Context;
 import android.content.Intent;
-import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.IRemoteControlDisplay;
@@ -33,8 +32,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.RemoteException;
 import android.os.SystemClock;
-import android.os.UserHandle;
-import android.provider.Settings;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
@@ -118,20 +115,6 @@ public class KeyguardTransportControlView extends FrameLayout implements OnClick
                 break;
 
             }
-        }
-    };
-
-    private ContentObserver mSettingsObserver = new ContentObserver(mHandler) {
-        @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-    };
-
-    KeyguardUpdateMonitorCallback mUpdateCallback = new KeyguardUpdateMonitorCallback() {
-        @Override
-        public void onUserSwitched(int userId) {
-            updateSettings();
         }
     };
 
@@ -235,11 +218,6 @@ public class KeyguardTransportControlView extends FrameLayout implements OnClick
         if (!mAttached) {
             if (DEBUG) Log.v(TAG, "Registering TCV " + this);
             mAudioManager.registerRemoteControlDisplay(mIRCD);
-            KeyguardUpdateMonitor.getInstance(mContext).registerCallback(mUpdateCallback);
-            mContext.getContentResolver().registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.LOCKSCREEN_MUSIC_CONTROLS),
-                    false, mSettingsObserver);
-            updateSettings();
         }
         mAttached = true;
     }
@@ -260,8 +238,6 @@ public class KeyguardTransportControlView extends FrameLayout implements OnClick
         if (mAttached) {
             if (DEBUG) Log.v(TAG, "Unregistering TCV " + this);
             mAudioManager.unregisterRemoteControlDisplay(mIRCD);
-            KeyguardUpdateMonitor.getInstance(mContext).removeCallback(mUpdateCallback);
-            mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
         }
         mAttached = false;
     }

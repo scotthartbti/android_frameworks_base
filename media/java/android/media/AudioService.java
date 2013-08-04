@@ -452,6 +452,9 @@ public class AudioService extends IAudioService.Stub implements OnFinished {
 
     private boolean mDockAudioMediaEnabled = true;
 
+    private boolean mForceAnalogDeskDock;
+    private boolean mForceAnalogCarDock;
+
     private int mDockState = Intent.EXTRA_DOCK_STATE_UNDOCKED;
 
     private boolean mVolumeKeysControlRingStream;
@@ -593,6 +596,12 @@ public class AudioService extends IAudioService.Stub implements OnFinished {
 
         mMasterVolumeRamp = context.getResources().getIntArray(
                 com.android.internal.R.array.config_masterVolumeRamp);
+
+	mForceAnalogDeskDock = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_forceAnalogDeskDock);
+
+        mForceAnalogCarDock = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_forceAnalogCarDock);
 
         mMainRemote = new RemotePlaybackState(-1, MAX_STREAM_VOLUME[AudioManager.STREAM_MUSIC],
                 MAX_STREAM_VOLUME[AudioManager.STREAM_MUSIC]);
@@ -4037,9 +4046,6 @@ public class AudioService extends IAudioService.Stub implements OnFinished {
                 int dockState = intent.getIntExtra(Intent.EXTRA_DOCK_STATE,
                         Intent.EXTRA_DOCK_STATE_UNDOCKED);
                 int config;
-                boolean mForceAnalogDeskDock;
-                boolean mForceAnalogCarDock;
-
                 switch (dockState) {
                     case Intent.EXTRA_DOCK_STATE_DESK:
                         config = mForceAnalogDeskDock ? AudioSystem.FORCE_ANALOG_DOCK : AudioSystem.FORCE_BT_DESK_DOCK;

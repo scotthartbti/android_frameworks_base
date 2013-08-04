@@ -480,6 +480,7 @@ public class KeyguardHostView extends KeyguardViewBase {
             // Do nothing here
             }
         }
+    }
 
     private void setBackButtonEnabled(boolean enabled) {
         if (mContext instanceof Activity) return;  // always enabled in activity mode

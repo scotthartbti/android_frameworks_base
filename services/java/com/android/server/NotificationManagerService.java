@@ -219,11 +219,186 @@ public class NotificationManagerService extends INotificationManager.Stub
     private static final String TAG_BODY = "notification-policy";
     private static final String ATTR_VERSION = "version";
     private static final String ATTR_HALO_POLICY_IS_BLACK = "policy_is_black";
-
+ 
     private static final String TAG_ALLOWED_PKGS = "allowed-packages";
     private static final String TAG_BLOCKED_PKGS = "blocked-packages";
     private static final String TAG_PACKAGE = "package";
     private static final String ATTR_NAME = "name";
+
+    private class NotificationListenerInfo implements DeathRecipient {
+        INotificationListener listener;
+        ComponentName component;
+        int userid;
+        boolean isSystem;
+        ServiceConnection connection;
+
+        public NotificationListenerInfo(INotificationListener listener, ComponentName component,
+                int userid, boolean isSystem) {
+            this.listener = listener;
+            this.component = component;
+            this.userid = userid;
+            this.isSystem = isSystem;
+            this.connection = null;
+        }
+
+        public NotificationListenerInfo(INotificationListener listener, ComponentName component,
+                int userid, ServiceConnection connection) {
+            this.listener = listener;
+            this.component = component;
+            this.userid = userid;
+            this.isSystem = false;
+            this.connection = connection;
+        }
+
+        boolean enabledAndUserMatches(StatusBarNotification sbn) {
+            final int nid = sbn.getUserId();
+            if (!isEnabledForCurrentUser()) {
+                return false;
+            }
+            if (this.userid == UserHandle.USER_ALL) return true;
+            return (nid == UserHandle.USER_ALL || nid == this.userid);
+        }
+
+        public void notifyPostedIfUserMatch(StatusBarNotification sbn) {
+            if (!enabledAndUserMatches(sbn)) {
+                return;
+            }
+            try {
+                listener.onNotificationPosted(sbn);
+            } catch (RemoteException ex) {
+                Log.e(TAG, "unable to notify listener (posted): " + listener, ex);
+            }
+        }
+
+        public void notifyRemovedIfUserMatch(StatusBarNotification sbn) {
+            if (!enabledAndUserMatches(sbn)) return;
+            try {
+                listener.onNotificationRemoved(sbn);
+            } catch (RemoteException ex) {
+                Log.e(TAG, "unable to notify listener (removed): " + listener, ex);
+            }
+        }
+
+        @Override
+        public void binderDied() {
+            if (connection == null) {
+                // This is not a service; it won't be recreated. We can give up this connection.
+                unregisterListener(this.listener, this.userid);
+            }
+        }
+
+        /** convenience method for looking in mEnabledListenersForCurrentUser */
+        public boolean isEnabledForCurrentUser() {
+            if (this.isSystem) return true;
+            if (this.connection == null) return false;
+            return mEnabledListenersForCurrentUser.contains(this.component);
+        }
+    }
+
+    private static class Archive {
+        static final int BUFFER_SIZE = 250;
+        ArrayDeque<StatusBarNotification> mBuffer = new ArrayDeque<StatusBarNotification>(BUFFER_SIZE);
+
+        public Archive() {
+        }
+
+        public String toString() {
+            final StringBuilder sb = new StringBuilder();
+            final int N = mBuffer.size();
+            sb.append("Archive (");
+            sb.append(N);
+            sb.append(" notification");
+            sb.append((N==1)?")":"s)");
+            return sb.toString();
+        }
+
+        public void record(StatusBarNotification nr) {
+            if (mBuffer.size() == BUFFER_SIZE) {
+                mBuffer.removeFirst();
+            }
+
+            // We don't want to store the heavy bits of the notification in the archive,
+            // but other clients in the system process might be using the object, so we
+            // store a (lightened) copy.
+            mBuffer.addLast(nr.cloneLight());
+        }
+
+
+        public void clear() {
+            mBuffer.clear();
+        }
+
+        public Iterator<StatusBarNotification> descendingIterator() {
+            return mBuffer.descendingIterator();
+        }
+        public Iterator<StatusBarNotification> ascendingIterator() {
+            return mBuffer.iterator();
+        }
+        public Iterator<StatusBarNotification> filter(
+                final Iterator<StatusBarNotification> iter, final String pkg, final int userId) {
+            return new Iterator<StatusBarNotification>() {
+                StatusBarNotification mNext = findNext();
+
+                private StatusBarNotification findNext() {
+                    while (iter.hasNext()) {
+                        StatusBarNotification nr = iter.next();
+                        if ((pkg == null || nr.getPackageName() == pkg)
+                                && (userId == UserHandle.USER_ALL || nr.getUserId() == userId)) {
+                            return nr;
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                public boolean hasNext() {
+                    return mNext == null;
+                }
+
+                @Override
+                public StatusBarNotification next() {
+                    StatusBarNotification next = mNext;
+                    if (next == null) {
+                        throw new NoSuchElementException();
+                    }
+                    mNext = findNext();
+                    return next;
+                }
+
+                @Override
+                public void remove() {
+                    iter.remove();
+                }
+            };
+        }
+
+        public StatusBarNotification[] getArray(int count) {
+            if (count == 0) count = Archive.BUFFER_SIZE;
+            final StatusBarNotification[] a
+                    = new StatusBarNotification[Math.min(count, mBuffer.size())];
+            Iterator<StatusBarNotification> iter = descendingIterator();
+            int i=0;
+            while (iter.hasNext() && i < count) {
+                a[i++] = iter.next();
+            }
+            return a;
+        }
+
+        public StatusBarNotification[] getArray(int count, String pkg, int userId) {
+            if (count == 0) count = Archive.BUFFER_SIZE;
+            final StatusBarNotification[] a
+                    = new StatusBarNotification[Math.min(count, mBuffer.size())];
+            Iterator<StatusBarNotification> iter = filter(descendingIterator(), pkg, userId);
+            int i=0;
+            while (iter.hasNext() && i < count) {
+                a[i++] = iter.next();
+            }
+            return a;
+        }
+
+    }
+
+    Archive mArchive = new Archive();
 
     private int readPolicy(AtomicFile file, String lookUpTag, HashSet<String> db) {
         return readPolicy(file, lookUpTag, db, null, 0);
@@ -261,7 +436,7 @@ public class NotificationManagerService extends INotificationManager.Stub
                     }
                 }
             }
-        } catch (Exception e) {
+	} catch (Exception e) {
             // Unable to read
         } finally {
             IoUtils.closeQuietly(infile);
@@ -286,40 +461,6 @@ public class NotificationManagerService extends INotificationManager.Stub
             mHaloPolicyisBlack = readPolicy(mHaloPolicyFile, TAG_BLOCKED_PKGS, mHaloBlacklist, ATTR_HALO_POLICY_IS_BLACK, 1) == 1;
             mHaloWhitelist.clear();
             readPolicy(mHaloPolicyFile, TAG_ALLOWED_PKGS, mHaloWhitelist);
-        }
-    }
-
-    private void writeBlockDb() {
-        synchronized(mBlockedPackages) {
-            FileOutputStream outfile = null;
-            try {
-                outfile = mPolicyFile.startWrite();
-
-                XmlSerializer out = new FastXmlSerializer();
-                out.setOutput(outfile, "utf-8");
-
-                out.startDocument(null, true);
-
-                out.startTag(null, TAG_BODY); {
-                    out.attribute(null, ATTR_VERSION, String.valueOf(DB_VERSION));
-                    out.startTag(null, TAG_BLOCKED_PKGS); {
-                        // write all known network policies
-                        for (String pkg : mBlockedPackages) {
-                            out.startTag(null, TAG_PACKAGE); {
-                                out.attribute(null, ATTR_NAME, pkg);
-                            } out.endTag(null, TAG_PACKAGE);
-                        }
-                    } out.endTag(null, TAG_BLOCKED_PKGS);
-                } out.endTag(null, TAG_BODY);
-
-                out.endDocument();
-
-                mPolicyFile.finishWrite(outfile);
-            } catch (IOException e) {
-                if (outfile != null) {
-                    mPolicyFile.failWrite(outfile);
-                }
-            }
         }
     }
 
@@ -408,7 +549,10 @@ public class NotificationManagerService extends INotificationManager.Stub
         }
     }
 
-    public boolean areNotificationsEnabledForPackage(String pkg) {
+    /**
+     * Use this when you just want to know if notifications are OK for this package.
+     */
+    public boolean areNotificationsEnabledForPackage(String pkg, int uid) {
         checkCallerIsSystem();
         return (mAppOps.checkOpNoThrow(AppOpsManager.OP_POST_NOTIFICATION, uid, pkg)
                 == AppOpsManager.MODE_ALLOWED);
@@ -1280,6 +1424,10 @@ public class NotificationManagerService extends INotificationManager.Stub
                 parseNotificationPulseCustomValuesString(Settings.System.getStringForUser(resolver,
                         Settings.System.NOTIFICATION_LIGHT_PULSE_CUSTOM_VALUES, UserHandle.USER_CURRENT));
             }
+
+            if (uri == null || ENABLED_NOTIFICATION_LISTENERS_URI.equals(uri)) {
+                rebindListenerServices();
+            }
         }
     }
 
@@ -1353,12 +1501,10 @@ public class NotificationManagerService extends INotificationManager.Stub
         mToastQueue = new ArrayList<ToastRecord>();
         mHandler = new WorkerHandler();
 
-        loadBlockDb();
-        loadHaloBlockDb();
-
         mAppOps = (AppOpsManager)context.getSystemService(Context.APP_OPS_SERVICE);
 
         importOldBlockDb();
+	loadHaloBlockDb();
 
         mStatusBar = statusBar;
         statusBar.setNotificationCallbacks(mNotificationCallbacks);
