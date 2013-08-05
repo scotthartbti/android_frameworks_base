@@ -4250,6 +4250,12 @@ public final class Settings {
         public static final String HALO_PAUSE = "halo_pause";
 
 	/**
+         * Do you want popups/floating windows?
+         * @hide
+         */
+        public static final String WE_WANT_POPUPS = "we_want_popups";
+
+	/**
          *
          * HALO colors
          * @hide
