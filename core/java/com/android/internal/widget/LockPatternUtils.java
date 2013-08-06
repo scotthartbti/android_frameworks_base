@@ -143,7 +143,7 @@ public class LockPatternUtils {
     public final static String LOCKOUT_PERMANENT_KEY = "lockscreen.lockedoutpermanently";
     public final static String LOCKOUT_ATTEMPT_DEADLINE = "lockscreen.lockoutattemptdeadline";
     public final static String PATTERN_EVER_CHOSEN_KEY = "lockscreen.patterneverchosen";
-    protected final static String GESTURE_EVER_CHOSEN_KEY = "lockscreen.gestureeverchosen";
+    public final static String GESTURE_EVER_CHOSEN_KEY = "lockscreen.gestureeverchosen";
     public final static String PASSWORD_TYPE_KEY = "lockscreen.password_type";
     public static final String PASSWORD_TYPE_ALTERNATE_KEY = "lockscreen.password_type_alternate";
     public final static String LOCK_PASSWORD_SALT_KEY = "lockscreen.password_salt";
@@ -611,51 +611,6 @@ public class LockPatternUtils {
 
     public boolean isOwnerInfoEnabled() {
         return getBoolean(LOCK_SCREEN_OWNER_INFO_ENABLED, false);
-    }
-
-    /**
-     * Save a lock pattern.
-     * @param pattern The new pattern to save.
-     */
-    public void saveLockGesture(Gesture gesture) {
-        this.saveLockGesture(gesture, false);
-    }
-
-    /**
-     * Save a lock pattern.
-     * @param pattern The new pattern to save.
-     * @param isFallback Specifies if this is a fallback to biometric weak
-     */
-    public void saveLockGesture(Gesture gesture, boolean isFallback) {
-        try {
-            getLockSettings().setLockGesture(gesture, getCurrentOrCallingUserId());
-            DevicePolicyManager dpm = getDevicePolicyManager();
-            KeyStore keyStore = KeyStore.getInstance();
-            if (gesture != null) {
-                setBoolean(GESTURE_EVER_CHOSEN_KEY, true);
-                if (!isFallback) {
-                    deleteGallery();
-                    setLong(PASSWORD_TYPE_KEY, DevicePolicyManager.PASSWORD_QUALITY_GESTURE_WEAK);
-                    dpm.setActivePasswordState(DevicePolicyManager.PASSWORD_QUALITY_GESTURE_WEAK,
-                            0, 0, 0, 0, 0, 0, 0, getCurrentOrCallingUserId());
-                } else {
-                    setLong(PASSWORD_TYPE_KEY, DevicePolicyManager.PASSWORD_QUALITY_BIOMETRIC_WEAK);
-                    setLong(PASSWORD_TYPE_ALTERNATE_KEY,
-                            DevicePolicyManager.PASSWORD_QUALITY_GESTURE_WEAK);
-                    finishBiometricWeak();
-                    dpm.setActivePasswordState(DevicePolicyManager.PASSWORD_QUALITY_BIOMETRIC_WEAK,
-                            0, 0, 0, 0, 0, 0, 0, getCurrentOrCallingUserId());
-                }
-            } else {
-                if (keyStore.isEmpty()) {
-                    keyStore.reset();
-                }
-                dpm.setActivePasswordState(DevicePolicyManager.PASSWORD_QUALITY_UNSPECIFIED, 0, 0,
-                        0, 0, 0, 0, 0, getCurrentOrCallingUserId());
-            }
-        } catch (RemoteException re) {
-            Log.e(TAG, "Couldn't save lock gesture " + re);
-        }
     }
 
     /**

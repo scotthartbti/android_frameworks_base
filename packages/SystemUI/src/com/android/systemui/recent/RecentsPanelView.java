@@ -838,15 +838,17 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
                         | Intent.FLAG_ACTIVITY_NEW_TASK);
             }
             if (DEBUG) Log.v(TAG, "Starting activity " + intent);
-            context.startActivityAsUser(intent, opts,
-                    new UserHandle(UserHandle.USER_CURRENT));
+
             if (floating && mRecentsActivity != null) {
                 mRecentsActivity.finish();
+            }
+
             try {
                 context.startActivityAsUser(intent, opts,
                         new UserHandle(UserHandle.USER_CURRENT));
             } catch (SecurityException e) {
                 Log.e(TAG, "Recents does not have the permission to launch " + intent, e);
+
             }
         }
         if (usingDrawingCache) {
