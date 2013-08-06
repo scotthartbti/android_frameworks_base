@@ -61,7 +61,10 @@ final class LocalDisplayAdapter extends DisplayAdapter {
         super.registerLocked();
 
         mHotplugReceiver = new HotplugDisplayEventReceiver(getHandler().getLooper());
-        scanDisplaysLocked();
+
+        for (int builtInDisplayId : BUILT_IN_DISPLAY_IDS_TO_SCAN) {
+            tryConnectDisplayLocked(builtInDisplayId);
+        }
     }
 
     private void tryConnectDisplayLocked(int builtInDisplayId) {
@@ -192,7 +195,11 @@ final class LocalDisplayAdapter extends DisplayAdapter {
         @Override
         public void onHotplug(long timestampNanos, int builtInDisplayId, boolean connected) {
             synchronized (getSyncRoot()) {
-                scanDisplaysLocked();
+                if (connected) {
+                    tryConnectDisplayLocked(builtInDisplayId);
+                } else {
+                    tryDisconnectDisplayLocked(builtInDisplayId);
+                }
             }
         }
     }

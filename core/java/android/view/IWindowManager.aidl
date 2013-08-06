@@ -255,6 +255,12 @@ interface IWindowManager
     boolean isSafeModeEnabled();
 
     /**
+     * Tell keyguard to show the assistant (Intent.ACTION_ASSIST) after asking for the user's
+     * credentials.
+     */
+    void showAssistant();
+
+    /**
      * Sets the display magnification callbacks. These callbacks notify
      * the client for contextual changes related to display magnification.
      *
@@ -278,7 +284,6 @@ interface IWindowManager
      * @param windowToken The unique window token.
      * @return The magnification spec if such or null.
      */
-    void showAssistant();
 
     MagnificationSpec getCompatibleMagnificationSpecForWindow(in IBinder windowToken);
 
