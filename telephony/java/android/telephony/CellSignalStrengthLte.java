@@ -94,7 +94,7 @@ public final class CellSignalStrengthLte extends CellSignalStrength implements P
      * @hide
      */
     public void initialize(SignalStrength ss, int timingAdvance) {
-        mSignalStrength = ss.getLteSignalStrength();
+        mSignalStrength = ss.getLteSignalStrenght();
         mRsrp = ss.getLteRsrp();
         mRsrq = ss.getLteRsrq();
         mRssnr = ss.getLteRssnr();
