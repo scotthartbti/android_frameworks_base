@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemProperties;
+import android.util.Log;
 import android.telephony.Rlog;
 
 /**
@@ -439,7 +440,7 @@ public class SignalStrength implements Parcelable {
     }
 
     /** @hide */
-    public int getLteSignalStrenght() {
+    public int getLteSignalStrength() {
         return mLteSignalStrength;
     }
 
@@ -482,7 +483,7 @@ public class SignalStrength implements Parcelable {
         int level;
 
         if (isGsm) {
-            boolean lteChecks = (getLteRsrp() == INVALID && getLteRsrq() == INVALID && getLteRssnr() == INVALID && getLteSignalStrenght() == 99);
+            boolean lteChecks = (getLteRsrp() == INVALID && getLteRsrq() == INVALID && getLteRssnr() == INVALID && getLteSignalStrength() == 99);
             boolean oldRil = needsOldRilFeature("signalstrength");
             level = getLteLevel();
             if ((level == SIGNAL_STRENGTH_NONE_OR_UNKNOWN && getGsmAsuLevel() != 99 && lteChecks) || oldRil) {
@@ -515,7 +516,7 @@ public class SignalStrength implements Parcelable {
         int asuLevel;
         if (isGsm) {
             boolean oldRil = needsOldRilFeature("signalstrength");
-            boolean lteChecks = (getLteRsrp() == INVALID && getLteRsrq() == INVALID && getLteRssnr() == INVALID && getLteSignalStrenght() == 99);
+            boolean lteChecks = (getLteRsrp() == INVALID && getLteRsrq() == INVALID && getLteRssnr() == INVALID && getLteSignalStrength() == 99);
             if ((getLteLevel() == SIGNAL_STRENGTH_NONE_OR_UNKNOWN && getGsmAsuLevel() != 99 && lteChecks) || oldRil) {
                 asuLevel = getGsmAsuLevel();
             } else {
@@ -549,7 +550,7 @@ public class SignalStrength implements Parcelable {
 
         if(isGsm()) {
             boolean oldRil = needsOldRilFeature("signalstrength");
-            boolean lteChecks = (getLteRsrp() == INVALID && getLteRsrq() == INVALID && getLteRssnr() == INVALID && getLteSignalStrenght() == 99);
+            boolean lteChecks = (getLteRsrp() == INVALID && getLteRsrq() == INVALID && getLteRssnr() == INVALID && getLteSignalStrength() == 99);
             if ((getLteLevel() == SIGNAL_STRENGTH_NONE_OR_UNKNOWN && getGsmAsuLevel() != 99 && lteChecks) || oldRil) {
                 dBm = getGsmDbm();
             } else {

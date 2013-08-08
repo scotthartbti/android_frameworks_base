@@ -306,11 +306,11 @@ interface ITelephony {
      */
     List<CellInfo> getAllCellInfo();
 
+    int getLteOnGsmMode();
+
     /**
      * Sets minimum time in milli-seconds between onCellInfoChanged
      */
     void setCellInfoListRate(int rateInMillis);
-
-    int getLteOnGsmMode();
 }
 
