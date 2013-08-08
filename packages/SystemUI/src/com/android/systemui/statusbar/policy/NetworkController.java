@@ -135,9 +135,11 @@ public class NetworkController extends BroadcastReceiver {
 
     private boolean mAirplaneMode = false;
     private boolean mLastAirplaneMode = true;
-    private boolean mHideSignal;
+
     private Locale mLocale = null;
     private Locale mLastLocale = null;
+
+    private boolean mHideSignal;
 
     // our ui
     Context mContext;
@@ -234,6 +236,7 @@ public class NetworkController extends BroadcastReceiver {
 
         // broadcasts
         IntentFilter filter = new IntentFilter();
+        filter.addAction("com.android.settings.LABEL_CHANGED");
         filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -257,9 +260,9 @@ public class NetworkController extends BroadcastReceiver {
 
         // yuck
         mBatteryStats = BatteryStatsService.getService();
-
-        SettingsObserver settingsObserver = new SettingsObserver(new Handler());
+	SettingsObserver settingsObserver = new SettingsObserver(new Handler());
         settingsObserver.observe();
+
         mLastLocale = mContext.getResources().getConfiguration().locale;
     }
 
@@ -414,6 +417,8 @@ public class NetworkController extends BroadcastReceiver {
         } else if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION) ||
                  action.equals(ConnectivityManager.INET_CONDITION_ACTION)) {
             updateConnectivity(intent);
+            refreshViews();
+        } else if (action.equals("com.android.settings.LABEL_CHANGED")) {
             refreshViews();
         } else if (action.equals(Intent.ACTION_CONFIGURATION_CHANGED)) {
             refreshLocale();
@@ -659,7 +664,7 @@ public class NetworkController extends BroadcastReceiver {
                     break;
                 case TelephonyManager.NETWORK_TYPE_DCHSPAP:
                     mDataIconList = TelephonyIcons.DATA_DC[mInetCondition];
-                    mDataTypeIconId = mDataIconList[0];
+                    mDataTypeIconId = R.drawable.stat_sys_data_connected_dc;
                     mContentDescriptionDataType = mContext.getString(
                             R.string.accessibility_data_connection_DC);
                     break;
@@ -1202,10 +1207,9 @@ public class NetworkController extends BroadcastReceiver {
             }
         }
 
-        if (customLabel != null && customLabel.length() > 0) {  
-            combinedLabel = customLabel;    
-            mobileLabel = customLabel;  
-            wifiLabel = customLabel;    
+        if (customLabel != null && customLabel.trim().length() > 0) {
+            combinedLabel = customLabel;
+            mobileLabel = customLabel;
         }
 
         if (DEBUG) {
