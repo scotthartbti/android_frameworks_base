@@ -4908,11 +4908,13 @@ public class WindowManagerService extends IWindowManager.Stub
             throw new SecurityException("Requires SET_ANIMATION_SCALE permission");
         }
 
-        scale = fixScale(scale);
+        if (scale < 0) scale = 0;
+        else if (scale > 20) scale = 20;
+        scale = Math.abs(scale);
         switch (which) {
-            case 0: mWindowAnimationScale = scale; break;
-            case 1: mTransitionAnimationScale = scale; break;
-            case 2: mAnimatorDurationScale = scale; break;
+            case 0: mWindowAnimationScale = fixScale(scale); break;
+            case 1: mTransitionAnimationScale = fixScale(scale); break;
+            case 2: mAnimatorDurationScale = fixScale(scale); break;
         }
 
         // Persist setting
