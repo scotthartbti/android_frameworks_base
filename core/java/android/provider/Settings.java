@@ -4199,6 +4199,18 @@ public final class Settings {
           */
          public static final String KEY_CAMERA_ACTION = "key_camera_action";
 
+        /**
+         * Whether to show the network status in the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_NETWORK_STATS = "status_bar_network_stats";
+
+        /**
+         * Frequency at which stats are updated, in milliseconds
+         * @hide
+         */
+        public static final String STATUS_BAR_NETWORK_STATS_UPDATE_INTERVAL = "status_bar_network_stats_update_frequency";
+
          /**
           * Action to perform when the app camera is long-pressed. (Default is 0)
           * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
