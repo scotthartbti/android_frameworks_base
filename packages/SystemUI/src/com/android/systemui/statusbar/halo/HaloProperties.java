@@ -16,15 +16,13 @@
 
 package com.android.systemui.statusbar.halo;
 
-import android.content.ContentResolver;
 import android.os.Handler;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.graphics.ColorFilterMaker;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.provider.Settings;
 import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuff.Mode;
@@ -102,15 +100,9 @@ public class HaloProperties extends FrameLayout {
     protected ImageView mHaloNumberIcon, mHaloSystemIcon, mHaloPinned;
     protected RelativeLayout mHaloNumberContainer;
 
-    private static int mStyle;
-    private static final int BLUE = 0;
-    private static final int GREEN = 1;
-    private static final int WHITE = 2;
-    private static final int PURPLE = 3;
-    private static final int RED = 4;
-    private static final int YELLOW = 5;
-    private static final int PINK = 6;
-    private static final int BLACK = 7;
+    private float mFraction = 1.0f;
+    private int mHaloMessageNumber = 0;
+    private MessageType mHaloMessageType = MessageType.MESSAGE;
 
     private boolean mLastContentStateLeft = true;
 
@@ -119,14 +111,7 @@ public class HaloProperties extends FrameLayout {
     private int mSpeechColor = 0;
     private int mSpeechTextColor = 0;
 
-    private boolean mAttached = false;
-
-    private SettingsObserver mSettingsObserver;
-    private Handler mHandler;
-
-    private float mFraction = 1.0f;
-    private int mHaloMessageNumber = 0;
-    private MessageType mHaloMessageType = MessageType.MESSAGE;
+    Handler mHandler;
 
     CustomObjectAnimator mHaloOverlayAnimator;
 
@@ -181,28 +166,8 @@ public class HaloProperties extends FrameLayout {
 
         mHaloOverlayAnimator = new CustomObjectAnimator(this);
         mHandler = new Handler();
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-        if (!mAttached) {
-            mAttached = true;
-            mSettingsObserver = new SettingsObserver(new Handler());
-            mSettingsObserver.observe();
-            updateColorView();
-        }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-
-        if (mAttached) {
-            mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
-            mAttached = false;
-        }
+        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
+        settingsObserver.observe();
     }
 
     int newPaddingHShort;

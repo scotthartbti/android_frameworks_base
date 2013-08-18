@@ -19,4 +19,4 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-</com.android.systemui.statusbar.halo.Halo>
+</com.android.systemui.statusbar.halo.Halo> 

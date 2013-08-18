@@ -133,7 +133,6 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback {
 
     private Context mContext;
     private PackageManager mPm;
-
     private Handler mHandler;
     private BaseStatusBar mBar;
     private WindowManager mWindowManager;
@@ -165,8 +164,8 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback {
     private Paint mPaintWhite = new Paint();
     private Paint mPaintHoloRed = new Paint();
 
-    private boolean isBeingDragged = false;
     private boolean mAttached = false;
+    private boolean isBeingDragged = false;
     private boolean mHapticFeedback;
     private boolean mHideTicker;
     private boolean mEnableColor;
@@ -176,6 +175,7 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback {
     private boolean mIsNotificationNew = true;
     private boolean mOverX = false;
     private boolean mInteractionReversed = true;
+    private boolean hiddenState = false;
 
     private int mIconSize, mIconHalfSize;
     private int mScreenWidth, mScreenHeight;
@@ -188,7 +188,6 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback {
     private float initialX = 0;
     private float initialY = 0;
     private float mHaloSize = 1.0f;
-    private boolean hiddenState = false;
     
     // Halo dock position
     SharedPreferences preferences;
@@ -225,6 +224,7 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback {
 
             mInteractionReversed = Settings.System.getInt(cr, Settings.System.HALO_REVERSED, 1) == 1;
             mHideTicker = Settings.System.getInt(cr, Settings.System.HALO_HIDE, 0) == 1;
+
             if (!selfChange) {
                 mEffect.wake();
                 mEffect.ping(mPaintHolo, HaloEffect.WAKE_TIME);
