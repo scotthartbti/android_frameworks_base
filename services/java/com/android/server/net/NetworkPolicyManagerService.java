@@ -423,9 +423,11 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
     private BroadcastReceiver mScreenReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // screen-related broadcasts are protected by system, no need
-            // for permissions check.
-            mHandler.obtainMessage(MSG_SCREEN_ON_CHANGED).sendToTarget();
+            synchronized (mRulesLock) {
+                // screen-related broadcasts are protected by system, no need
+                // for permissions check.
+                mHandler.obtainMessage(MSG_SCREEN_ON_CHANGED).sendToTarget();
+            }
         }
     };
 
