@@ -127,7 +127,6 @@ import com.android.systemui.quicksettings.FastChargeTile;
 import com.android.systemui.quicksettings.OnTheGoTile;
 
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -155,13 +154,14 @@ public class QuickSettingsController {
     private ContentObserver mObserver;
     public PhoneStatusBar mStatusBarService;
     private final String mSettingsKey;
+    private final boolean mRibbonMode;
 
     private InputMethodTile mIMETile;
 
     private static final int MSG_UPDATE_TILES = 1000;
 
     public QuickSettingsController(Context context, QuickSettingsContainerView container,
-            PhoneStatusBar statusBarService, String settingsKey) {
+            PhoneStatusBar statusBarService, String settingsKey, boolean ribbonMode) {
         mContext = context;
         mContainerView = container;
         mHandler = new Handler() {
@@ -179,6 +179,7 @@ public class QuickSettingsController {
         mStatusBarService = statusBarService;
         mQuickSettingsTiles = new ArrayList<QuickSettingsTile>();
         mSettingsKey = settingsKey;
+        mRibbonMode = ribbonMode;
     }
 
     void loadTiles() {
@@ -303,6 +304,10 @@ public class QuickSettingsController {
             }
         }
 
+        if (mRibbonMode) {
+            return;
+        }
+
         // Load the dynamic tiles
         // These toggles must be the last ones added to the view, as they will show
         // only when they are needed
@@ -373,6 +378,11 @@ public class QuickSettingsController {
         loadTiles();
         setupBroadcastReceiver();
         setupContentObserver();
+        if (mRibbonMode) {
+            for (QuickSettingsTile t : mQuickSettingsTiles) {
+                t.switchToRibbonMode();
+            }
+        }
     }
 
     void setupContentObserver() {
