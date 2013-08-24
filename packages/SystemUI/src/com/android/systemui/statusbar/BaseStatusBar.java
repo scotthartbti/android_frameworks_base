@@ -1941,8 +1941,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     public void setupTriggers(boolean forceDisableBottomAndTopTrigger) {
-            if (mDisableTriggers) {
-                updatePieTriggerMask(0);
+            if (!isPieEnabled()) {
                 return;
             }
             boolean bottomTriggerEnabled = false;
@@ -1999,10 +1998,10 @@ public abstract class BaseStatusBar extends SystemUI implements
             if (!(mForceBottomTrigger && hasNavigationBar)) {
                 if ((mForceBottomTrigger && !hasNavigationBar
                         || mForceBottomTrigger && disableRightTriggerForNavbar)
-                    && !mForceDisableBottomAndTopTrigger) {
+                    && !forceDisableBottomAndTopTrigger) {
                     bottomTriggerEnabled = true;
                 } else if ((!expanded && hasNavigationBar && !autoHideStatusBar)
-                    || mForceDisableBottomAndTopTrigger) {
+                    || forceDisableBottomAndTopTrigger) {
                     leftTriggerEnabled = true;
                     rightTriggerEnabled = true;
                 } else if ((!expanded && !hasNavigationBar && !autoHideStatusBar)
@@ -2047,9 +2046,7 @@ public abstract class BaseStatusBar extends SystemUI implements
         // first we check, if it would make a change
         if ((mPieTriggerSlots & mPieTriggerMask) != oldState
                 || mForceDisableBottomAndTopTrigger != oldForceDisableBottomAndTopTrigger) {
-            if (isPieEnabled()) {
-                refreshPieTriggers();
-            }
+            refreshPieTriggers();
         }
     }
 
