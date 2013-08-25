@@ -71,6 +71,9 @@ public class ToggleLockscreenTile extends QuickSettingsTile {
                 editor.apply();
 
                 applyLockscreenChanges();
+		if (isFlipTilesEnabled()) {
+                    flipTile(0);
+                }
             }
         };
 

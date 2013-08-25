@@ -54,6 +54,9 @@ public class NfcTile extends QuickSettingsTile {
             public void onClick(View v) {
                 toggleState();
                 applyNfcChanges();
+		if (isFlipTilesEnabled()) {
+                    flipTile(0);
+                }
             }
         };
 

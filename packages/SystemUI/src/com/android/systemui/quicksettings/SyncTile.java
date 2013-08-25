@@ -53,6 +53,9 @@ public class SyncTile extends QuickSettingsTile {
             public void onClick(View v) {
                 toggleState();
                 applySyncChanges();
+		if (isFlipTilesEnabled()) {
+                    flipTile(0);
+                }
             }
         };
 
