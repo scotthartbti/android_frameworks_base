@@ -180,6 +180,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected boolean mHaloTaskerActive = false;
     protected ImageView mHaloButton;
     protected boolean mHaloButtonVisible = true;
+    private boolean mForceBottomTrigger = false;
 
     private Runnable mPanelCollapseRunnable = new Runnable() {
         @Override
@@ -1930,6 +1931,13 @@ public abstract class BaseStatusBar extends SystemUI implements
     public void disableTriggers(boolean disableTriggers) {
         if (isPieEnabled()) {
             mDisableTriggers = disableTriggers;
+            setupTriggers(false);
+        }
+    }
+
+    public void keyguardTriggers(boolean forceBottomTrigger) {
+        if (isPieEnabled()) {
+            mForceBottomTrigger = forceBottomTrigger;
             setupTriggers(false);
         }
     }
