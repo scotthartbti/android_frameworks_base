@@ -628,10 +628,4 @@ public class KeyguardViewManager {
         }
     }
 
-    public void showCustomIntent(Intent intent) {
-        if (mKeyguardView != null) {
-            mKeyguardView.showCustomIntent(intent);
-        }
-    }
-
 }
