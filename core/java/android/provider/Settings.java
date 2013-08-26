@@ -3665,10 +3665,10 @@ public final class Settings {
 
         /**
          * Sets the lockscreen background style array helper
-         * if other then default backgroun the default wallpaper will be removed
+         * 0 = color fill, 1 = custom image, 2 = full transparent, 3 = default background
          * @hide
          */
-        public static final String LOCKSCREEN_BACKGROUND_VALUE = "lockscreen_background_value";
+        public static final String LOCKSCREEN_BACKGROUND_VALUE = "lockscreen_background_VALUE";
 
         /**
          * Sets the lockscreen background alpha
