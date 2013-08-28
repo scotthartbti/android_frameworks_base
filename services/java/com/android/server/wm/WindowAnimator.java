@@ -14,7 +14,6 @@ import static com.android.server.wm.WindowManagerService.LayoutFields.SET_WALLPA
 import android.content.Context;
 import android.os.Debug;
 import android.os.SystemClock;
-import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.Log;
 import android.util.Slog;
@@ -227,8 +226,8 @@ public class WindowAnimator {
                 final boolean wasAnimating = winAnimator.mWasAnimating;
                 final boolean nowAnimating = winAnimator.stepAnimationLocked(mCurrentTime);
 
-                int transparent = Settings.System.getIntForUser(mContext.getContentResolver(),
-                        Settings.System.LOCKSCREEN_BACKGROUND_VALUE, 3, UserHandle.USER_CURRENT);
+                int mTransparent = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.LOCKSCREEN_BACKGROUND_VALUE, 3);
 
                 if (WindowManagerService.DEBUG_WALLPAPER) {
                     Slog.v(TAG, win + ": wasAnimating=" + wasAnimating +
@@ -259,7 +258,7 @@ public class WindowAnimator {
                         }
                         mService.mFocusMayChange = true;
                     }
-                    if (transparent == 3) {
+                    if (mTransparent == 3) {
                      if (win.isReadyForDisplay()) {
                         if (nowAnimating) {
                             if (winAnimator.mAnimationIsEntrance) {
