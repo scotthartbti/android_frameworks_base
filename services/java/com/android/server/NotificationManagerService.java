@@ -146,6 +146,7 @@ public class NotificationManagerService extends INotificationManager.Stub
     final IActivityManager mAm;
     final UserManager mUserManager;
     final IBinder mForegroundToken = new Binder();
+    private QuietHoursSettingsObserver qhObserver;
 
     private WorkerHandler mHandler;
     private StatusBarManagerService mStatusBar;
@@ -1280,7 +1281,8 @@ public class NotificationManagerService extends INotificationManager.Stub
             boolean packageChanged = false;
             boolean cancelNotifications = true;
 
-            if (action.equals(Intent.ACTION_PACKAGE_REMOVED)         
+            if (action.equals(Intent.ACTION_PACKAGE_ADDED)
+                    || (queryRemove=action.equals(Intent.ACTION_PACKAGE_REMOVED))        
                     || action.equals(Intent.ACTION_PACKAGE_RESTARTED)
                     || (packageChanged=action.equals(Intent.ACTION_PACKAGE_CHANGED))
                     || (queryRestart=action.equals(Intent.ACTION_QUERY_PACKAGE_RESTART))
@@ -1624,7 +1626,7 @@ public class NotificationManagerService extends INotificationManager.Stub
         LEDSettingsObserver ledObserver = new LEDSettingsObserver(mHandler);
         ledObserver.observe();
 
-        QuietHoursSettingsObserver qhObserver = new QuietHoursSettingsObserver(mHandler);
+        qhObserver = new QuietHoursSettingsObserver(mHandler);
         qhObserver.observe();
 
         mSettingsObserver = new SettingsObserver(mHandler);
