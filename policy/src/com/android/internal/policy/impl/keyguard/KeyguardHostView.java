@@ -422,7 +422,6 @@ public class KeyguardHostView extends KeyguardViewBase {
 
         setBackButtonEnabled(false);
 
-        updateBackground();
         addDefaultWidgets();
 
         addWidgetsFromSettings();
@@ -456,32 +455,6 @@ public class KeyguardHostView extends KeyguardViewBase {
             return true;
         }
     };
-
-    private void updateBackground() {
-        String background = Settings.System.getStringForUser(getContext().getContentResolver(),
-                Settings.System.LOCKSCREEN_BACKGROUND, UserHandle.USER_CURRENT);
-
-        if (background == null) {
-            return;
-        }
-
-        if (!background.isEmpty()) {
-            try {
-                setBackgroundColor(Integer.parseInt(background));
-            } catch(NumberFormatException e) {
-                Log.e(TAG, "Invalid background color " + background);
-            }
-        } else {
-            try {
-                Context settingsContext = getContext().createPackageContext("com.android.settings", 0);
-                String wallpaperFile = settingsContext.getFilesDir() + "/lockwallpaper";
-                Bitmap backgroundBitmap = BitmapFactory.decodeFile(wallpaperFile);
-                setBackgroundDrawable(new BitmapDrawable(backgroundBitmap));
-            } catch (NameNotFoundException e) {
-            // Do nothing here
-            }
-        }
-    }
 
     private void setBackButtonEnabled(boolean enabled) {
         if (mContext instanceof Activity) return;  // always enabled in activity mode
