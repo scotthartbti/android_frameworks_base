@@ -42,6 +42,7 @@ import com.android.internal.widget.ActionBarView;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.StatusBarManager;
 import android.content.ComponentName;
