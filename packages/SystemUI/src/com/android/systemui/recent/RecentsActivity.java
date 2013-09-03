@@ -182,6 +182,13 @@ public class RecentsActivity extends Activity {
         finish();
     }
 
+    public void dismissAndDoNothing() {
+        if (mRecentsPanel != null) {
+            mRecentsPanel.show(false);
+        }
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.status_bar_recent_panel);
