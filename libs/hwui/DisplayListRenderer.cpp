@@ -128,9 +128,6 @@ status_t DisplayListRenderer::prepareDirty(float left, float top,
     mSaveCount = 1;
 
     mSnapshot->setClip(0.0f, 0.0f, mWidth, mHeight);
-#ifdef QCOM_HARDWARE
-    mSnapshot->setTileClip(0.0f, 0.0f, mWidth, mHeight);
-#endif
     mDirtyClip = opaque;
 
     mRestoreSaveCount = -1;

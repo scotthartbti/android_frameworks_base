@@ -70,9 +70,6 @@ Snapshot::Snapshot(const sp<Snapshot>& s, int saveFlags):
     } else {
         region = NULL;
     }
-#ifdef QCOM_HARDWARE
-    mTileClip.set(s->getTileClip());
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -177,16 +174,6 @@ const Rect& Snapshot::getLocalClip() {
 
     return mLocalClip;
 }
-
-#ifdef QCOM_HARDWARE
-void Snapshot::setTileClip(float left, float top, float right, float bottom) {
-    mTileClip.set(left, top, right, bottom);
-}
-
-const Rect& Snapshot::getTileClip() {
-    return mTileClip;
-}
-#endif
 
 void Snapshot::resetClip(float left, float top, float right, float bottom) {
     // TODO: This is incorrect, when we start rendering into a new layer,
