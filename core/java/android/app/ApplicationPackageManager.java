@@ -48,7 +48,6 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Binder;
 import android.os.Process;
 import android.os.RemoteException;
 import android.os.UserHandle;
@@ -1311,7 +1310,6 @@ final class ApplicationPackageManager extends PackageManager {
     }
 
     @Override
-
     public String[] getRevokedPermissions(String packageName) {
         try {
             return mPM.getRevokedPermissions(packageName);
@@ -1328,24 +1326,6 @@ final class ApplicationPackageManager extends PackageManager {
         } catch (RemoteException e) {
             // Should never happen!
         }
-    }
-
-    public void setPrivacyGuardSetting(String packageName, boolean enabled) {
-        try {
-            mPM.setPrivacyGuardSetting(packageName, enabled, mContext.getUserId());
-        } catch (RemoteException e) {
-            // Should never happen!
-        }
-    }
-
-    @Override
-    public boolean getPrivacyGuardSetting(String packageName) {
-        try {
-            return mPM.getPrivacyGuardSetting(packageName, mContext.getUserId());
-        } catch (RemoteException e) {
-            // Should never happen!
-        }
-        return false;
     }
 
     /**
