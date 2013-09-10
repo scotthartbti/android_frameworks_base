@@ -2,6 +2,7 @@
 package com.android.internal.util.beanstalk;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.hardware.display.DisplayManager;
 import android.hardware.display.WifiDisplayStatus;
 import android.net.ConnectivityManager;
 import android.nfc.NfcAdapter;
+import android.provider.Settings;
 import android.os.Vibrator;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
@@ -79,6 +81,10 @@ public class DeviceUtils {
     public static boolean deviceSupportsImeSwitcher(Context ctx) {
         Resources res = ctx.getResources();
         return res.getBoolean(com.android.internal.R.bool.config_show_cmIMESwitcher);
+    }
+
+    public static boolean adbEnabled(ContentResolver resolver) {
+            return (Settings.Global.getInt(resolver, Settings.Global.ADB_ENABLED, 0)) == 1;
     }
 
     public static boolean deviceSupportsVibrator(Context ctx) {
