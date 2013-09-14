@@ -234,7 +234,7 @@ public class Halo extends FrameLayout implements Ticker.TickerCallback {
             mInteractionReversed = Settings.System.getInt(cr, Settings.System.HALO_REVERSED, 1) == 1;
             mHideTicker = Settings.System.getInt(cr, Settings.System.HALO_HIDE, 0) == 1;
 
-                    Settings.System.getInt(mContext.getContentResolver(), Settings.System.HALO_NINJA, 0) == 1;
+            mNinjaMode = Settings.System.getInt(cr, Settings.System.HALO_NINJA, 0) == 1;
 
             if (!selfChange) {
                 //mEffect.wake();
