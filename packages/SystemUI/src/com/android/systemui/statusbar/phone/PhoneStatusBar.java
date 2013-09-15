@@ -44,6 +44,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.database.ContentObserver;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
