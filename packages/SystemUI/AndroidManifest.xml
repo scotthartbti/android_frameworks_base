@@ -340,7 +340,6 @@
         <activity
             android:name=".quicksettings.ShortcutPickerActivity"
             android:label="@string/customshortcut_chooser_title"/>
-        </activity>
 
         <activity android:name=".statusbar.policy.activedisplay.DummyActivity"
             android:label=""
