@@ -1283,25 +1283,6 @@ public class ConnectivityManager {
     }
 
     /**
-     * Signal that the captive portal check on the indicated network
-     * is complete and whether its a captive portal or not.
-     *
-     * @param info the {@link NetworkInfo} object for the networkType
-     *        in question.
-     * @param isCaptivePortal true/false.
-     *
-     * <p>This method requires the call to hold the permission
-     * {@link android.Manifest.permission#CONNECTIVITY_INTERNAL}.
-     * {@hide}
-     */
-    public void captivePortalCheckCompleted(NetworkInfo info, boolean isCaptivePortal) {
-        try {
-            mService.captivePortalCheckCompleted(info, isCaptivePortal);
-        } catch (RemoteException e) {
-        }
-    }
-
-    /**
      * Supply the backend messenger for a network tracker
      *
      * @param type NetworkType to set
@@ -1379,24 +1360,12 @@ public class ConnectivityManager {
     }
 
     /**
-     * Get the mobile provisioning url.
+     * Get the carrier provisioning url.
      * {@hide}
      */
     public String getMobileProvisioningUrl() {
         try {
             return mService.getMobileProvisioningUrl();
-        } catch (RemoteException e) {
-        }
-        return null;
-    }
-
-    /**
-     * Get the mobile redirected provisioning url.
-     * {@hide}
-     */
-    public String getMobileRedirectedProvisioningUrl() {
-        try {
-            return mService.getMobileRedirectedProvisioningUrl();
         } catch (RemoteException e) {
         }
         return null;
