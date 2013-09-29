@@ -88,6 +88,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.HorizontalScrollView;
@@ -2605,6 +2606,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         mNavigationBarView.setLowProfile(!on, true, force);
     }
 
+    @Override
     public void topAppWindowChanged(boolean showMenu) {
         mStatusBarView.updateBackgroundAlpha();
         if (DEBUG) {
