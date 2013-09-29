@@ -27,9 +27,6 @@ import android.os.Handler;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.format.DateFormat;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -44,6 +41,7 @@ import com.android.internal.R;
  * Displays the time
  */
 public class ClockView extends RelativeLayout {
+    private static final String ANDROID_CLOCK_FONT_FILE = "/system/fonts/AndroidClock.ttf";
     private final static String M12 = "h:mm";
     private final static String M24 = "HH:mm";
 
@@ -157,6 +155,7 @@ public class ClockView extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         mTimeView = (TextView) findViewById(R.id.clock_text);
+        mTimeView.setTypeface(Typeface.createFromFile(ANDROID_CLOCK_FONT_FILE));
         mAmPm = new AmPm(this, null);
         mCalendar = Calendar.getInstance();
         setDateFormat();
@@ -214,12 +213,8 @@ public class ClockView extends RelativeLayout {
     public void updateTime() {
         mCalendar.setTimeInMillis(System.currentTimeMillis());
 
-        String newTime = DateFormat.format(mFormat, mCalendar).toString();
-        SpannableString span = new SpannableString(newTime);
-        int colonIndex = newTime.indexOf(':');
-        span.setSpan(new StyleSpan(Typeface.BOLD), 0, colonIndex, 0);
-        span.setSpan(new TypefaceSpan("sans-serif-thin"), colonIndex + 1, newTime.length(), 0);
-        mTimeView.setText(span);
+        CharSequence newTime = DateFormat.format(mFormat, mCalendar);
+        mTimeView.setText(newTime);
 	mTimeView.setTextColor(Settings.System.getInt(getContext().getContentResolver(),
                 Settings.System.LOCKSCREEN_CUSTOM_TEXT_COLOR, 0xFFFFFFFF));
         mAmPm.setIsMorning(mCalendar.get(Calendar.AM_PM) == 0);
