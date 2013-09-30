@@ -1,7 +1,4 @@
 /*
- * Copyright (c) 2013, The Linux Foundation. All rights reserved.
- * Not a Contribution.
- *
  * Copyright (C) 2012 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,7 +59,6 @@ public class AppOpsManager {
     public static final int MODE_ALLOWED = 0;
     public static final int MODE_IGNORED = 1;
     public static final int MODE_ERRORED = 2;
-    public static final int MODE_ASK     = 3;
 
     // when adding one of these:
     //  - increment _NUM_OP
@@ -101,53 +97,7 @@ public class AppOpsManager {
     public static final int OP_READ_CLIPBOARD = 29;
     public static final int OP_WRITE_CLIPBOARD = 30;
     /** @hide */
-    public static final int OP_WIFI_CHANGE = 31;
-    public static final int OP_BLUETOOTH_CHANGE = 32;
-    public static final int OP_DATA_CONNECT_CHANGE = 33;
-    public static final int _NUM_OP = 34;
-
-    /**
-     * Map to check if each operation is strict or not, to determine default
-     * value of each operation.
-     * If strict then AppOpsService should assign MODE_ASK value to operation
-     * by default.
-     */
-    private static boolean[] sOpStrict = new boolean[] {
-        true,   //OP_COARSE_LOCATION
-        true,   //OP_FINE_LOCATION
-        true,   //OP_GPS
-        false,  //OP_VIBRATE
-        true,   //OP_READ_CONTACTS
-        true,   //OP_WRITE_CONTACTS
-        true,   //OP_READ_CALL_LOG
-        true,   //OP_WRITE_CALL_LOG
-        false,  //OP_READ_CALENDAR
-        false,  //OP_WRITE_CALENDAR
-        true,   //OP_WIFI_SCAN
-        false,  //OP_POST_NOTIFICATION
-        false,  //OP_NEIGHBORING_CELLS
-        true,   //OP_CALL_PHONE
-        true,   //OP_READ_SMS
-        true,   //OP_WRITE_SMS
-        true,   //OP_RECEIVE_SMS
-        false,  //OP_RECEIVE_EMERGECY_SMS
-        true,   //OP_RECEIVE_MMS
-        false,  //OP_RECEIVE_WAP_PUSH
-        true,   //OP_SEND_SMS
-        true,   //OP_READ_ICC_SMS
-        true,   //OP_WRITE_ICC_SMS
-        false,  //OP_WRITE_SETTINGS
-        false,  //OP_SYSTEM_ALERT_WINDOW
-        false,  //OP_ACCESS_NOTIFICATIONS
-        true,   //OP_CAMERA
-        true,   //OP_RECORD_AUDIO
-        true,   //OP_PLAY_AUDIO
-        false,  //OP_READ_CLIPBOARD
-        false,  //OP_WRITE_CLIPBOARD
-        true,   //OP_WIFI_CHANGE
-        true,   //OP_BLUETOOTH_CHANGE
-        true,   //OP_DATA_CONNECT_CHANGE
-    };
+    public static final int _NUM_OP = 31;
 
     /**
      * This maps each operation to the operation that serves as the
@@ -189,9 +139,6 @@ public class AppOpsManager {
             OP_PLAY_AUDIO,
             OP_READ_CLIPBOARD,
             OP_WRITE_CLIPBOARD,
-            OP_WIFI_CHANGE,
-            OP_BLUETOOTH_CHANGE,
-            OP_DATA_CONNECT_CHANGE,
     };
 
     /**
@@ -230,9 +177,6 @@ public class AppOpsManager {
             "PLAY_AUDIO",
             "READ_CLIPBOARD",
             "WRITE_CLIPBOARD",
-            "WIFI_CHANGE",
-            "BLUETOOTH_CHANGE",
-            "DATA_CONNECT_CHANGE",
     };
 
     /**
@@ -271,17 +215,7 @@ public class AppOpsManager {
             null, // no permission for playing audio
             null, // no permission for reading clipboard
             null, // no permission for writing clipboard
-            android.Manifest.permission.CHANGE_WIFI_STATE,
-            android.Manifest.permission.BLUETOOTH,
-            android.Manifest.permission.CHANGE_NETWORK_STATE,
     };
-
-    /**
-     * Check if given operation is strict or not.
-     */
-    public static boolean opStrict(int op) {
-        return sOpStrict[op];
-    }
 
     /**
      * Retrieve the op switch that controls the given operation.
