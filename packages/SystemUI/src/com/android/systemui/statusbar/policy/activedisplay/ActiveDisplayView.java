@@ -864,6 +864,7 @@ public class ActiveDisplayView extends FrameLayout {
                         }
                     }
                 } catch (RemoteException re) {
+		} catch (Resources.NotFoundException e) {
                 }
             }
         });
