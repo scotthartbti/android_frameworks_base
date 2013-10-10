@@ -4337,4 +4337,5 @@
     <string name="permdesc_sendMockSms">Allows the app to send mock SMS messages.
         This allows an app send SMS to trusted applications. Malicious apps could send messages
         continuously, blocking the device notification system and disrupting the user.</string>
+    <string name="privacy_guard_custom_notification_detail"><xliff:g id="app">%1$s</xliff:g> will not be able to access custom permissions</string>
 </resources>
