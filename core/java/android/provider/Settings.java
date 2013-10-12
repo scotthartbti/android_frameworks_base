@@ -3640,6 +3640,12 @@ public final class Settings {
          */
         public static final String STATUSBAR_CLOCK_COLOR = "statusbar_clock_color";
 
+	/**
+	 * Setting for network color
+         * @hide
+         */
+        public static final String STATUSBAR_NETWORK_COLOR = "statusbar_network_color";
+
         /**
         * @hide
         * Shows custom date before clock time
