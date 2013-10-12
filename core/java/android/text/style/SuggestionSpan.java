@@ -189,7 +189,6 @@ public class SuggestionSpan extends CharacterStyle implements ParcelableSpan {
                 com.android.internal.R.styleable.SuggestionSpan_textUnderlineThickness, 0);
         mAutoCorrectionUnderlineColor = typedArray.getColor(
                 com.android.internal.R.styleable.SuggestionSpan_textUnderlineColor, Color.BLACK);
-        typedArray.recycle();
     }
 
     public SuggestionSpan(Parcel src) {

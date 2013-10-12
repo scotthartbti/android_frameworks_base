@@ -114,7 +114,6 @@ public class ActiveDisplayView extends FrameLayout {
     private GlowPadView mGlowPadView;
     private View mRemoteView;
     private View mClock;
-    private ImageView mCurrentNotificationIcon;
     private FrameLayout mRemoteViewLayout;
     private FrameLayout mContents;
     private ObjectAnimator mAnim;
@@ -218,7 +217,6 @@ public class ActiveDisplayView extends FrameLayout {
         }
 
         public void onReleased(final View v, final int handle) {
-            ObjectAnimator.ofFloat(mCurrentNotificationIcon, "alpha", 1f).start();
             doTransition(mOverflowNotifications, 1.0f, 0);
             if (mRemoteView != null) {
                 ObjectAnimator.ofFloat(mRemoteView, "alpha", 0f).start();
@@ -232,7 +230,6 @@ public class ActiveDisplayView extends FrameLayout {
             // prevent the ActiveDisplayView from turning off while user is interacting with it
             cancelTimeoutTimer();
             restoreBrightness();
-            ObjectAnimator.ofFloat(mCurrentNotificationIcon, "alpha", 0f).start();
             doTransition(mOverflowNotifications, 0.0f, 0);
             if (mRemoteView != null) {
                 ObjectAnimator.ofFloat(mRemoteView, "alpha", 1f).start();
@@ -457,7 +454,6 @@ public class ActiveDisplayView extends FrameLayout {
 
         mRemoteViewLayout = (FrameLayout) contents.findViewById(R.id.remote_content_parent);
         mClock = contents.findViewById(R.id.clock_view);
-        mCurrentNotificationIcon = (ImageView) contents.findViewById(R.id.current_notification_icon);
 
         mOverflowNotifications = (LinearLayout) contents.findViewById(R.id.keyguard_other_notifications);
         mOverflowNotifications.setOnTouchListener(mOverflowTouchListener);
@@ -929,7 +925,7 @@ public class ActiveDisplayView extends FrameLayout {
      * @return True if it should be used, false otherwise.
      */
     private boolean isValidNotification(StatusBarNotification sbn) {
-        return (!isOnCall() && (sbn.isClearable() || mShowAllNotifications)
+        return ((sbn.isClearable() || mShowAllNotifications)
                 && !(mHideLowPriorityNotifications && sbn.getNotification().priority < HIDE_NOTIFICATIONS_BELOW_SCORE));
     }
 
@@ -970,21 +966,25 @@ public class ActiveDisplayView extends FrameLayout {
         try {
             Context pkgContext = mContext.createPackageContext(sbn.getPackageName(), Context.CONTEXT_RESTRICTED);
             mNotificationDrawable = pkgContext.getResources().getDrawable(sbn.getNotification().icon);
-        } catch (NameNotFoundException nnfe) {
+	} catch (NameNotFoundException nnfe) {
             mNotificationDrawable = mContext.getResources().getDrawable(R.drawable.ic_ad_unknown_icon);
         } catch (Resources.NotFoundException nfe) {
             mNotificationDrawable = mContext.getResources().getDrawable(R.drawable.ic_ad_unknown_icon);
+
         }
-        mCurrentNotificationIcon.setImageDrawable(mNotificationDrawable);
+        TargetDrawable centerDrawable = new TargetDrawable(getResources(),createCenterDrawable(mNotificationDrawable));
+        centerDrawable.setScaleX(0.9f);
+        centerDrawable.setScaleY(0.9f);
+        mGlowPadView.setCenterDrawable(centerDrawable);
         setHandleText(sbn);
         mNotification = sbn;
         mGlowPadView.post(new Runnable() {
-            @Override
-            public void run() {
-                updateResources();
-                mGlowPadView.invalidate();
-                if (updateOthers) updateOtherNotifications();
-            }
+             @Override
+             public void run() {
+                  updateResources();
+                  mGlowPadView.invalidate();
+                  if (updateOthers) updateOtherNotifications();
+             }
         });
     }
 
@@ -1038,6 +1038,13 @@ public class ActiveDisplayView extends FrameLayout {
         stateListDrawable.addState(TargetDrawable.STATE_INACTIVE, handle);
         stateListDrawable.addState(TargetDrawable.STATE_ACTIVE, handle);
         stateListDrawable.addState(TargetDrawable.STATE_FOCUSED, handle);
+        return stateListDrawable;
+    }
+
+    private Drawable createCenterDrawable(Drawable handle) {
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(TargetDrawable.STATE_INACTIVE, handle);
+        
         return stateListDrawable;
     }
 

@@ -676,13 +676,8 @@ class FastScroller {
 
         final int section = mSectionIndexer.getSectionForPosition(firstVisibleItem);
         final int sectionPos = mSectionIndexer.getPositionForSection(section);
-        final int nextSectionPos;
+        final int nextSectionPos = mSectionIndexer.getPositionForSection(section + 1);
         final int sectionCount = mSections.length;
-        if (section + 1 < sectionCount) {
-            nextSectionPos = mSectionIndexer.getPositionForSection(section + 1);
-        } else {
-            nextSectionPos = totalItemCount - 1;
-        }
         final int positionsInSection = nextSectionPos - sectionPos;
 
         final View child = mList.getChildAt(0);
