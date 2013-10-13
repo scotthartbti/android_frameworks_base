@@ -3315,6 +3315,20 @@ public final class Settings {
         public static final String EXPANDED_RING_MODE = "expanded_ring_mode";
 
         /**
+	* Status icon color.
+	*
+	* @hide
+	*/
+        public static final String STATUS_ICON_COLOR = "status_icon_color";
+
+        /**
+	* Reset to default icon of System Icons in Statusbar.
+	*
+	* @hide
+	*/
+        public static final String ICON_COLOR_BEHAVIOR = "icon_color_behavior";	
+
+        /**
         * Notification Power Widget - Custom Torch Mode
         * @hide
         */
