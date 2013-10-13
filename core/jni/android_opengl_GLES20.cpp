@@ -63,12 +63,6 @@ static void glVertexAttribPointerBounds(GLuint indx, GLint size, GLenum type,
     glVertexAttribPointer(indx, size, type, normalized, stride, pointer);
 }
 #endif
-#ifdef GL_ES_VERSION_3_0
-static void glVertexAttribIPointerBounds(GLuint indx, GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count) {
-    glVertexAttribIPointer(indx, size, type, stride, pointer);
-}
-#endif
 }
 
 /* Cache method IDs each time the class is loaded. */
@@ -352,7 +346,6 @@ android_glBindAttribLocation__IILjava_lang_String_2
     const char* _nativename = 0;
 
     if (!name) {
-        _exception = 1;
         _exceptionType = "java/lang/IllegalArgumentException";
         _exceptionMessage = "name == null";
         goto exit;
@@ -556,7 +549,7 @@ android_glCheckFramebufferStatus__I
     _returnValue = glCheckFramebufferStatus(
         (GLenum)target
     );
-    return (jint)_returnValue;
+    return _returnValue;
 }
 
 /* void glClear ( GLbitfield mask ) */
@@ -716,7 +709,7 @@ android_glCreateProgram__
   (JNIEnv *_env, jobject _this) {
     GLuint _returnValue;
     _returnValue = glCreateProgram();
-    return (jint)_returnValue;
+    return _returnValue;
 }
 
 /* GLuint glCreateShader ( GLenum type ) */
@@ -727,7 +720,7 @@ android_glCreateShader__I
     _returnValue = glCreateShader(
         (GLenum)type
     );
-    return (jint)_returnValue;
+    return _returnValue;
 }
 
 /* void glCullFace ( GLenum mode ) */
@@ -1179,7 +1172,7 @@ android_glDrawElements__IIII
         (GLenum)mode,
         (GLsizei)count,
         (GLenum)type,
-        (GLvoid *)offset
+        (const GLvoid *)offset
     );
     if (_exception) {
         jniThrowException(_env, _exceptionType, _exceptionMessage);
@@ -2454,7 +2447,6 @@ android_glGetAttribLocation__ILjava_lang_String_2
     const char* _nativename = 0;
 
     if (!name) {
-        _exception = 1;
         _exceptionType = "java/lang/IllegalArgumentException";
         _exceptionMessage = "name == null";
         goto exit;
@@ -2474,7 +2466,7 @@ exit:
     if (_exception) {
         jniThrowException(_env, _exceptionType, _exceptionMessage);
     }
-    return (jint)_returnValue;
+    return _returnValue;
 }
 
 /* void glGetBooleanv ( GLenum pname, GLboolean *params ) */
@@ -2584,7 +2576,7 @@ android_glGetError__
   (JNIEnv *_env, jobject _this) {
     GLenum _returnValue;
     _returnValue = glGetError();
-    return (jint)_returnValue;
+    return _returnValue;
 }
 
 /* void glGetFloatv ( GLenum pname, GLfloat *params ) */
@@ -3603,7 +3595,6 @@ android_glGetUniformLocation__ILjava_lang_String_2
     const char* _nativename = 0;
 
     if (!name) {
-        _exception = 1;
         _exceptionType = "java/lang/IllegalArgumentException";
         _exceptionMessage = "name == null";
         goto exit;
@@ -3623,7 +3614,7 @@ exit:
     if (_exception) {
         jniThrowException(_env, _exceptionType, _exceptionMessage);
     }
-    return (jint)_returnValue;
+    return _returnValue;
 }
 
 /* void glGetVertexAttribfv ( GLuint index, GLenum pname, GLfloat *params ) */
@@ -3864,7 +3855,7 @@ android_glIsBuffer__I
     _returnValue = glIsBuffer(
         (GLuint)buffer
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* GLboolean glIsEnabled ( GLenum cap ) */
@@ -3875,7 +3866,7 @@ android_glIsEnabled__I
     _returnValue = glIsEnabled(
         (GLenum)cap
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* GLboolean glIsFramebuffer ( GLuint framebuffer ) */
@@ -3886,7 +3877,7 @@ android_glIsFramebuffer__I
     _returnValue = glIsFramebuffer(
         (GLuint)framebuffer
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* GLboolean glIsProgram ( GLuint program ) */
@@ -3897,7 +3888,7 @@ android_glIsProgram__I
     _returnValue = glIsProgram(
         (GLuint)program
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* GLboolean glIsRenderbuffer ( GLuint renderbuffer ) */
@@ -3908,7 +3899,7 @@ android_glIsRenderbuffer__I
     _returnValue = glIsRenderbuffer(
         (GLuint)renderbuffer
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* GLboolean glIsShader ( GLuint shader ) */
@@ -3919,7 +3910,7 @@ android_glIsShader__I
     _returnValue = glIsShader(
         (GLuint)shader
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* GLboolean glIsTexture ( GLuint texture ) */
@@ -3930,7 +3921,7 @@ android_glIsTexture__I
     _returnValue = glIsTexture(
         (GLuint)texture
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* void glLineWidth ( GLfloat width ) */
@@ -5984,7 +5975,7 @@ android_glVertexAttribPointer__IIIZII
         (GLenum)type,
         (GLboolean)normalized,
         (GLsizei)stride,
-        (GLvoid *)offset
+        (const GLvoid *)offset
     );
 }
 

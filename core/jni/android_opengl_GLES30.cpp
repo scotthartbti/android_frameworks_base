@@ -2510,7 +2510,6 @@ android_glGetFragDataLocation__ILjava_lang_String_2
     const char* _nativename = 0;
 
     if (!name) {
-        _exception = 1;
         _exceptionType = "java/lang/IllegalArgumentException";
         _exceptionMessage = "name == null";
         goto exit;
@@ -3361,7 +3360,6 @@ android_glGetUniformBlockIndex__ILjava_lang_String_2
     const char* _nativeuniformBlockName = 0;
 
     if (!uniformBlockName) {
-        _exception = 1;
         _exceptionType = "java/lang/IllegalArgumentException";
         _exceptionMessage = "uniformBlockName == null";
         goto exit;

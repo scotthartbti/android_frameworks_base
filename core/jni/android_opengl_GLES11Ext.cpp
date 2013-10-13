@@ -63,12 +63,6 @@ static void glVertexAttribPointerBounds(GLuint indx, GLint size, GLenum type,
     glVertexAttribPointer(indx, size, type, normalized, stride, pointer);
 }
 #endif
-#ifdef GL_ES_VERSION_3_0
-static void glVertexAttribIPointerBounds(GLuint indx, GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count) {
-    glVertexAttribIPointer(indx, size, type, stride, pointer);
-}
-#endif
 }
 
 /* Cache method IDs each time the class is loaded. */
@@ -2135,7 +2129,7 @@ android_glIsRenderbufferOES__I
     _returnValue = glIsRenderbufferOES(
         (GLuint)renderbuffer
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* void glBindRenderbufferOES ( GLenum target, GLuint renderbuffer ) */
@@ -2428,7 +2422,7 @@ android_glIsFramebufferOES__I
     _returnValue = glIsFramebufferOES(
         (GLuint)framebuffer
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* void glBindFramebufferOES ( GLenum target, GLuint framebuffer ) */
@@ -2621,7 +2615,7 @@ android_glCheckFramebufferStatusOES__I
     _returnValue = glCheckFramebufferStatusOES(
         (GLenum)target
     );
-    return (jint)_returnValue;
+    return _returnValue;
 }
 
 /* void glFramebufferRenderbufferOES ( GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer ) */

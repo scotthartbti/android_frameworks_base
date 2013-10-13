@@ -63,12 +63,6 @@ static void glVertexAttribPointerBounds(GLuint indx, GLint size, GLenum type,
     glVertexAttribPointer(indx, size, type, normalized, stride, pointer);
 }
 #endif
-#ifdef GL_ES_VERSION_3_0
-static void glVertexAttribIPointerBounds(GLuint indx, GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count) {
-    glVertexAttribIPointer(indx, size, type, stride, pointer);
-}
-#endif
 }
 
 /* Cache method IDs each time the class is loaded. */
@@ -577,7 +571,7 @@ android_glColorPointer__IIII
         (GLint)size,
         (GLenum)type,
         (GLsizei)stride,
-        (GLvoid *)offset
+        (const GLvoid *)offset
     );
 }
 
@@ -678,7 +672,7 @@ android_glDrawElements__IIII
         (GLenum)mode,
         (GLsizei)count,
         (GLenum)type,
-        (GLvoid *)offset
+        (const GLvoid *)offset
     );
     if (_exception) {
         jniThrowException(_env, _exceptionType, _exceptionMessage);
@@ -2269,7 +2263,7 @@ android_glIsBuffer__I
     _returnValue = glIsBuffer(
         (GLuint)buffer
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* GLboolean glIsEnabled ( GLenum cap ) */
@@ -2280,7 +2274,7 @@ android_glIsEnabled__I
     _returnValue = glIsEnabled(
         (GLenum)cap
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* GLboolean glIsTexture ( GLuint texture ) */
@@ -2291,7 +2285,7 @@ android_glIsTexture__I
     _returnValue = glIsTexture(
         (GLuint)texture
     );
-    return (jboolean)_returnValue;
+    return _returnValue;
 }
 
 /* void glNormalPointer ( GLenum type, GLsizei stride, GLint offset ) */
@@ -2301,7 +2295,7 @@ android_glNormalPointer__III
     glNormalPointer(
         (GLenum)type,
         (GLsizei)stride,
-        (GLvoid *)offset
+        (const GLvoid *)offset
     );
 }
 
@@ -2528,7 +2522,7 @@ android_glTexCoordPointer__IIII
         (GLint)size,
         (GLenum)type,
         (GLsizei)stride,
-        (GLvoid *)offset
+        (const GLvoid *)offset
     );
 }
 
@@ -2936,7 +2930,7 @@ android_glVertexPointer__IIII
         (GLint)size,
         (GLenum)type,
         (GLsizei)stride,
-        (GLvoid *)offset
+        (const GLvoid *)offset
     );
 }
 

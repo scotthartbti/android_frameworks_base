@@ -63,12 +63,6 @@ static void glVertexAttribPointerBounds(GLuint indx, GLint size, GLenum type,
     glVertexAttribPointer(indx, size, type, normalized, stride, pointer);
 }
 #endif
-#ifdef GL_ES_VERSION_3_0
-static void glVertexAttribIPointerBounds(GLuint indx, GLint size, GLenum type,
-        GLsizei stride, const GLvoid *pointer, GLsizei count) {
-    glVertexAttribIPointer(indx, size, type, stride, pointer);
-}
-#endif
 }
 
 /* Cache method IDs each time the class is loaded. */
@@ -1190,7 +1184,7 @@ android_glGetError__
   (JNIEnv *_env, jobject _this) {
     GLenum _returnValue;
     _returnValue = glGetError();
-    return (jint)_returnValue;
+    return _returnValue;
 }
 
 /* void glGetIntegerv ( GLenum pname, GLint *params ) */
