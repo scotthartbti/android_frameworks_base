@@ -2957,6 +2957,12 @@ public final class Settings {
         public static final String PIE_ADJUST_TRIGGER_FOR_IME = "pie_adjust_trigger_for_ime";
 
         /**
+         * Network speed indicator
+          * @hide
+          */
+        public static final String STATUS_BAR_TRAFFIC = "status_bar_traffic";
+		
+        /**
          * Pie button color
          * @hide
          */
