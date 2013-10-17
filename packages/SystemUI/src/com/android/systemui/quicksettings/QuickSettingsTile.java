@@ -168,7 +168,7 @@ public class QuickSettingsTile implements OnClickListener {
             }
         };
 
-        mHandler.postDelayed(doAnimation, delay);
+        mTile.postDelayed(doAnimation, delay);
     }
 
     void startSettingsActivity(String action) {
