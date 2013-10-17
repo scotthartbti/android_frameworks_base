@@ -4585,6 +4585,13 @@ public final class Settings {
          */
         public static final String POWER_UI_LOW_BATTERY_WARNING_POLICY = "power_ui_low_battery_warning_policy";
 
+	/**
+         * Screen-On Notification Light,
+         * should default to 1 (yes, Notification Light is enabled when screen is on)
+         * @hide
+         */
+        public static final String SCREEN_ON_NOTIFICATION_LED = "screen_on_notification_led";
+
         /**
          * Notifications Expand Behavior
          * @hide
