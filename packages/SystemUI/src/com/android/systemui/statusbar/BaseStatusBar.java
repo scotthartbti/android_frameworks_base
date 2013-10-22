@@ -2197,6 +2197,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                         | WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 PixelFormat.TRANSLUCENT);
         lp.gravity = Gravity.TOP | Gravity.FILL_VERTICAL | Gravity.FILL_HORIZONTAL;
+        lp.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
         lp.setTitle("ActiveDisplayView");
 
         return lp;
