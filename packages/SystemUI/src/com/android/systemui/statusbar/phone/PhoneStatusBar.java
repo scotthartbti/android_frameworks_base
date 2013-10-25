@@ -1,8 +1,5 @@
 /*
  * Copyright (C) 2010 The Android Open Source Project
- * Copyright (c) 2012-2013 The Linux Foundation. All rights reserved.
- *
- * Not a Contribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,8 +66,6 @@ import android.provider.Settings;
 import android.service.dreams.DreamService;
 import android.service.dreams.IDreamManager;
 import android.service.notification.StatusBarNotification;
-import android.telephony.MSimTelephonyManager;
-import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.EventLog;
 import android.util.Log;
@@ -107,18 +102,17 @@ import com.android.systemui.R;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.GestureRecorder;
-import com.android.systemui.statusbar.MSimSignalClusterView;
 import com.android.systemui.statusbar.NotificationData;
 import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.SignalClusterView;
 import com.android.systemui.statusbar.StatusBarIconView;
 import com.android.systemui.statusbar.phone.ShortcutsWidget;
 import com.android.systemui.statusbar.policy.BatteryController;
+import com.android.systemui.statusbar.policy.DockBatteryController;
 import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.DateView;
 import com.android.systemui.statusbar.policy.IntruderAlertView;
 import com.android.systemui.statusbar.policy.LocationController;
-import com.android.systemui.statusbar.policy.MSimNetworkController;
 import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
 import com.android.systemui.statusbar.policy.OnSizeChangedListener;
@@ -187,9 +181,11 @@ public class PhoneStatusBar extends BaseStatusBar {
     // These are no longer handled by the policy, because we need custom strategies for them
     BluetoothController mBluetoothController;
     BatteryController mBatteryController;
+    DockBatteryController mDockBatteryController;
     LocationController mLocationController;
     NetworkController mNetworkController;
-    MSimNetworkController mMSimNetworkController;
+
+    private boolean mHasDockBattery;
 
     int mNaturalBarHeight = -1;
     int mIconSize = -1;
@@ -746,6 +742,20 @@ public class PhoneStatusBar extends BaseStatusBar {
         mBatteryController.addIconView((ImageView)mStatusBarView.findViewById(R.id.battery));
         mBatteryController.addLabelView((TextView)mStatusBarView.findViewById(R.id.battery_text));
 
+        // Dock Battery support
+        mHasDockBattery = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_hasDockBattery);
+
+        if (mHasDockBattery) {
+            mDockBatteryController = new DockBatteryController(mContext);
+            mDockBatteryController.addIconView((ImageView)mStatusBarView.findViewById(R.id.dock_battery));
+            mDockBatteryController.addLabelView(
+                    (TextView)mStatusBarView.findViewById(R.id.dock_battery_text));
+        } else {
+            mStatusBarView.findViewById(R.id.dock_battery).setVisibility(View.GONE);
+            mStatusBarView.findViewById(R.id.dock_battery_text).setVisibility(View.GONE);
+        }
+
         mNetworkController = new NetworkController(mContext);
         mBluetoothController = new BluetoothController(mContext);
         final SignalClusterView signalCluster =
@@ -763,29 +773,27 @@ public class PhoneStatusBar extends BaseStatusBar {
             mSimSignalCluster.setNetworkController(mMSimNetworkController);
             mEmergencyCallLabel = (TextView)mStatusBarWindow.findViewById(
                                                           R.id.emergency_calls_only);
-        if (mEmergencyCallLabel != null) {
-            mMSimNetworkController.addEmergencyLabelView(mEmergencyCallLabel);
-            mEmergencyCallLabel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { }});
-            mEmergencyCallLabel.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom,
-                        int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    updateCarrierLabelVisibility(false);
-                }});
-        }
+            if (mEmergencyCallLabel != null) {
+                mMSimNetworkController.addEmergencyLabelView(mEmergencyCallLabel);
+                mEmergencyCallLabel.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) { }});
+                mEmergencyCallLabel.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                            int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        updateCarrierLabelVisibility(false);
+                    }});
+            }
 
-        mNotificationShortcutsHideCarrier = Settings.System.getIntForUser(mContext.getContentResolver(),
+            mNotificationShortcutsHideCarrier = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.NOTIFICATION_SHORTCUTS_HIDE_CARRIER, 0, UserHandle.USER_CURRENT) != 0;
 
-        mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
-        mShowCarrierInPanel = (mCarrierLabel != null);
-
-        if (DEBUG) Slog.v(TAG, "carrierlabel=" + mCarrierLabel + " show=" + mShowCarrierInPanel);
-        if (mShowCarrierInPanel) {
-            lpCarrierLabel = (FrameLayout.LayoutParams) mCarrierLabel.getLayoutParams();
-            mCarrierLabel.setVisibility((mCarrierLabelVisible && !mNotificationShortcutsHideCarrier) ? View.VISIBLE : View.INVISIBLE);
+            mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
+            mShowCarrierInPanel = (mCarrierLabel != null);
+	    if (DEBUG) Slog.v(TAG, "carrierlabel=" + mCarrierLabel + " show=" + mShowCarrierInPanel);
+            if (mShowCarrierInPanel) {
+              lpCarrierLabel = (FrameLayout.LayoutParams) mCarrierLabel.getLayoutParams();
+              mCarrierLabel.setVisibility((mCarrierLabelVisible && !mNotificationShortcutsHideCarrier) ? View.VISIBLE : View.INVISIBLE);
 
             if (mNotificationShortcutsHideCarrier)
                 mShowCarrierInPanel = false;
@@ -795,20 +803,21 @@ public class PhoneStatusBar extends BaseStatusBar {
                 mMSimNetworkController.addMobileLabelView(mCarrierLabel);
             } else {
                 mMSimNetworkController.addCombinedLabelView(mCarrierLabel);
-             }
-
-                // set up the dynamic hide/show of the label
-                mPile.setOnSizeChangedListener(new OnSizeChangedListener() {
-                    @Override
-                    public void onSizeChanged(View view, int w, int h, int oldw, int oldh) {
-                        updateCarrierLabelVisibility(false);
-                    }
-                });
             }
-        } else {
-            mNetworkController = new NetworkController(mContext);
 
-            mNetworkController.addSignalCluster(signalCluster);
+            // set up the dynamic hide/show of the label
+            mPile.setOnSizeChangedListener(new OnSizeChangedListener() {
+                @Override
+                public void onSizeChanged(View view, int w, int h, int oldw, int oldh) {
+                    updateCarrierLabelVisibility(false);
+                }
+            });
+        }
+
+        // Set notification background
+        setNotificationWallpaperHelper();
+
+	mNetworkController.addSignalCluster(signalCluster);
             signalCluster.setNetworkController(mNetworkController);
 
             final boolean isAPhone = mNetworkController.hasVoiceCallingFeature();
@@ -826,10 +835,10 @@ public class PhoneStatusBar extends BaseStatusBar {
                             int oldLeft, int oldTop, int oldRight, int oldBottom) {
                             updateCarrierLabelVisibility(false);
                         }});
-                }
-            }
+                 }
+	}
 
-            mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
+	mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
             mShowCarrierInPanel = (mCarrierLabel != null);
             if (DEBUG) Slog.v(TAG, "carrierlabel=" + mCarrierLabel + " show=" +
                                                                   mShowCarrierInPanel);
@@ -852,10 +861,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                     }
                 });
             }
-        }
-
-        // Set notification background
-        setNotificationWallpaperHelper();
+         }	
 
         // Quick Settings (where available, some restrictions apply)
         if (mHasSettingsPanel) {
@@ -1514,8 +1520,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                     mPile.getHeight(), mScrollView.getHeight(), mCarrierLabelHeight));
         }
 
-        final boolean emergencyCallsShownElsewhere = mEmergencyCallLabel != null;
-        final boolean makeVisible;
+	final boolean makeVisible;
         if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
             makeVisible =
                 !(emergencyCallsShownElsewhere && mMSimNetworkController.isEmergencyOnly())
@@ -1525,7 +1530,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             makeVisible =
                 !(emergencyCallsShownElsewhere && mNetworkController.isEmergencyOnly())
                 && mPile.getHeight() < (mNotificationPanel.getHeight() - mCarrierLabelHeight
-                  - mNotificationHeaderHeight - calculateCarrierLabelBottomMargin())&& mScrollView.getVisibility() == View.VISIBLE;
+                  - mNotificationHeaderHeight - calculateCarrierLabelBottomMargin()) && mScrollView.getVisibility() == View.VISIBLE;
         }
 
         if (force || mCarrierLabelVisible != makeVisible) {
@@ -2883,13 +2888,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             mGestureRec.dump(fd, pw, args);
         }
 
-        if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
-            for(int i=0; i < MSimTelephonyManager.getDefault().getPhoneCount(); i++) {
-                mMSimNetworkController.dump(fd, pw, args, i);
-            }
-        } else {
-            mNetworkController.dump(fd, pw, args);
-        }
+        mNetworkController.dump(fd, pw, args);
     }
 
     @Override
