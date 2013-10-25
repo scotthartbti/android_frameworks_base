@@ -3623,13 +3623,6 @@ public final class Settings {
          */
         public static final String VOLUME_KEYS_CONTROL_RING_STREAM = "volume_keys_control_ring_stream";
 
-        /**
-         * Whether to enable custom rebindings of the actions performed on
-         * certain key press events.
-         * @hide
-         */
-        public static final String HARDWARE_KEY_REBINDING = "hardware_key_rebinding";
-
          /**
           * Action to perform when the home key is long-pressed. (Default is 2)
           * 0 - Nothing
