@@ -599,6 +599,8 @@ public class TabletStatusBar extends BaseStatusBar implements
             mNetworkController.addSignalCluster(signalCluster);
         }
 
+        // The navigation buttons
+        mBackButton = (ImageView)sb.findViewById(R.id.back);
         mNavigationArea = (ViewGroup) sb.findViewById(R.id.navigationArea);
         mHomeButton = mNavigationArea.findViewById(R.id.home);
         mMenuButton = mNavigationArea.findViewById(R.id.menu);

@@ -2621,7 +2621,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             } else {
                 signal = mStatusBarView.findViewById(R.id.signal_cluster);
             }
-            final View signal2 = mStatusBarView.findViewById(R.id.signal_cluster);
+            final View signal2 = mStatusBarView.findViewById(R.id.signal_cluster_text);
             final View battery = mStatusBarView.findViewById(R.id.battery);
             final View battery2 = mStatusBarView.findViewById(R.id.battery_text);
             final View battery3 = mStatusBarView.findViewById(R.id.circle_battery);
