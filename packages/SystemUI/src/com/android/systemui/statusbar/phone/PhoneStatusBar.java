@@ -58,6 +58,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.IPowerManager;
 import android.os.Message;
+import android.telephony.MSimTelephonyManager;
+import android.telephony.TelephonyManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
@@ -102,6 +104,7 @@ import com.android.systemui.R;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.GestureRecorder;
+import com.android.systemui.statusbar.MSimSignalClusterView;
 import com.android.systemui.statusbar.NotificationData;
 import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.SignalClusterView;
@@ -113,6 +116,7 @@ import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.DateView;
 import com.android.systemui.statusbar.policy.IntruderAlertView;
 import com.android.systemui.statusbar.policy.LocationController;
+import com.android.systemui.statusbar.policy.MSimNetworkController;
 import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
 import com.android.systemui.statusbar.policy.OnSizeChangedListener;
@@ -184,6 +188,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     DockBatteryController mDockBatteryController;
     LocationController mLocationController;
     NetworkController mNetworkController;
+    MSimNetworkController mMSimNetworkController;
 
     private boolean mHasDockBattery;
 
@@ -1520,6 +1525,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                     mPile.getHeight(), mScrollView.getHeight(), mCarrierLabelHeight));
         }
 
+	final boolean emergencyCallsShownElsewhere = mEmergencyCallLabel != null;
 	final boolean makeVisible;
         if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
             makeVisible =
