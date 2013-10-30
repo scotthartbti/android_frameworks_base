@@ -3008,6 +3008,37 @@ public final class Settings {
          * @hide
          */
         //public static final String STATUS_BAR_BATTERY = "status_bar_battery";
+        public static final String STATUS_BAR_BATTERY = "status_bar_battery";
+
+	/**
+         * @hide
+         */
+        public static final String WAKELOCK_BLOCKING_ENABLED = "wakelock_blocking_enabled";
+
+        /**
+         * @hide
+         */
+        public static final String WAKELOCK_BLOCKING_LIST = "wakelock_blocking_list";
+
+	/**
+         * @hide
+         */
+        public static final String START_SCREEN_STATE_SERVICE = "start_screen_state_service";
+
+        /**
+         * @hide
+         */
+        public static final String SCREEN_STATE_TWOG = "screen_state_twog";
+
+        /**
+         * @hide
+         */
+        public static final String SCREEN_STATE_GPS = "screen_state_gps";
+
+        /**
+         * @hide
+         */
+        public static final String SCREEN_STATE_MOBILE_DATA = "screen_state_mobile_data";
 
         /**
          * Whether to show the signal text or signal bars.
@@ -3471,13 +3502,6 @@ public final class Settings {
          * @hide
          */
         public static final String SYSTEM_POWER_CRT_MODE = "system_power_crt_mode";
-
-	/**
-         * Display style of the status bar battery information
-         * default: 0
-         * @hide
-         */
-        public static final String STATUS_BAR_BATTERY = "status_bar_battery";
 
         /**
          * Circle battery icon color

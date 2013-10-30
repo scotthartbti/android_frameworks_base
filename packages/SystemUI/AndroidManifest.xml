@@ -115,6 +115,19 @@
         <service android:name=".LoadAverageService"
                 android:exported="true" />
 
+<<<<<<< HEAD
+=======
+	<service android:name=".CPUInfoService"
+                android:exported="true" />
+
+	<service android:name=".screenstate.ScreenStateService"
+                android:exported="true" >
+            <intent-filter>
+               <android name="android.intent.action.SCREEN_STATE_SERVICE_UPDATE"/>
+            </intent-filter>
+        </service>
+
+>>>>>>> d07224f... Suspend Actions & Wakelock Blocker (1/3)
         <service android:name=".ImageWallpaper"
                 android:permission="android.permission.BIND_WALLPAPER"
                 android:exported="true" />
