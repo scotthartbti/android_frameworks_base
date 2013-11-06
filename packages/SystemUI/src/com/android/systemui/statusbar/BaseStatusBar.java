@@ -210,8 +210,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     protected int mCurrentUserId = 0;
 
-    protected FrameLayout mStatusBarContainer;
-
     protected int mLayoutDirection = -1; // invalid
     private Locale mLocale;
     private int mHeadsUpSnoozeTime = DEFAULT_TIME_HEADS_UP_SNOOZE;
@@ -284,6 +282,8 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected int mHoverState;
     protected ImageView mHoverButton;
     protected HoverCling mHoverCling;
+
+    protected FrameLayout mStatusBarContainer;
 
     // UI-specific methods
 
@@ -462,8 +462,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         mLocale = mContext.getResources().getConfiguration().locale;
         mLayoutDirection = TextUtils.getLayoutDirectionFromLocale(mLocale);
 
-        mStatusBarContainer = new FrameLayout(mContext);
-
         mNotificationHelper = new NotificationHelper(this, mContext);
 
         mPeek = new Peek(this, mContext);
@@ -473,6 +471,8 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         mPeek.setNotificationHelper(mNotificationHelper);
         mHover.setNotificationHelper(mNotificationHelper);
+
+        mStatusBarContainer = new FrameLayout(mContext);
 
         // Connect in to the status bar manager service
         StatusBarIconList iconList = new StatusBarIconList();
