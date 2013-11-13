@@ -710,6 +710,14 @@ public class GlowPadView extends View {
         return mDirectionDescriptionsResourceId;
     }
 
+    public boolean getMagneticTargets() {
+        return mMagneticTargets;
+    }
+
+    public void setMagneticTargets(boolean enabled) {
+        mMagneticTargets = enabled;
+    }
+
     /**
      * Enable or disable vibrate on touch.
      *
