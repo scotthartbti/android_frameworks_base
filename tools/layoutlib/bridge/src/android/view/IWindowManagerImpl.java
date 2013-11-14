@@ -499,8 +499,9 @@ public class IWindowManagerImpl implements IWindowManager {
     public void setTouchExplorationEnabled(boolean enabled) {
     }
 
+    /* @hide */
     @Override
-    public boolean hasMenuKeyEnabled() {
-        return true;
+    public void showCustomIntentOnKeyguard(Intent intent) {
+
     }
 }
