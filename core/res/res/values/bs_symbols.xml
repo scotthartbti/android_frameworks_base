@@ -127,4 +127,9 @@
     <java-symbol type="id" name="current_value" />
     <java-symbol type="id" name="max_value" />
     <java-symbol type="id" name="textsize_seekbar" />
+
+  <!-- EdgeGesture service -->
+  <java-symbol type="dimen" name="edge_gesture_trigger_distance" />
+  <java-symbol type="dimen" name="edge_gesture_perpendicular_distance" />
+  <java-symbol type="dimen" name="edge_gesture_trigger_thickness" />
 </resources>
