@@ -59,4 +59,11 @@
   <java-symbol type="string" name="reboot_progress" />
   <java-symbol type="string" name="reboot_system" />
 
+  <!-- Power menu -->
+  <java-symbol type="color"  name="power_menu_icon_default_color" />
+  <java-symbol type="color"  name="power_menu_text_default_color" />
+  <java-symbol type="id" name="icon1" />
+  <java-symbol type="id" name="icon2" />
+  <java-symbol type="id" name="icon3" />
+
 </resources>
