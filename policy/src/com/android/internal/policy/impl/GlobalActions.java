@@ -74,11 +74,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.android.internal.util.crdroid.ButtonConfig;
-import com.android.internal.util.crdroid.ColorHelper;
-import com.android.internal.util.crdroid.PolicyConstants;
-import com.android.internal.util.crdroid.PolicyHelper;
-import com.android.internal.util.crdroid.SlimActions;
+import com.android.internal.util.beanstalk.ButtonConfig;
+import com.android.internal.util.beanstalk.ColorHelper;
+import com.android.internal.util.beanstalk.PolicyConstants;
+import com.android.internal.util.beanstalk.PolicyHelper;
+import com.android.internal.util.beanstalk.SlimActions;
 
 /**
  * Helper to show the global actions dialog.  Each item is an {@link Action} that
