@@ -40,7 +40,6 @@ public class BootReceiver extends BroadcastReceiver {
                 context.startService(loadavg);
             }
 
-            }
 	    // start the screen state service if activated
             if (Settings.System.getBoolean(res, Settings.System.START_SCREEN_STATE_SERVICE, false)) {
                 Intent screenstate = new Intent(context, com.android.systemui.screenstate.ScreenStateService.class);
