@@ -686,6 +686,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_SHOW), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.ACCELEROMETER_ROTATION_ANGLES), false, this,
+                    UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -1532,6 +1535,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mNavigationBarCanMove = Settings.System.getIntForUser(resolver,
                     Settings.System.NAVIGATION_BAR_CAN_MOVE,
                     mShortSizeDp < 600 ? 1 : 0, UserHandle.USER_CURRENT) == 1;
+
+            mUserRotationAngles = Settings.System.getIntForUser(resolver,
+                    Settings.System.ACCELEROMETER_ROTATION_ANGLES, -1,
+                    UserHandle.USER_CURRENT);
+
 
             final int showByDefault = mContext.getResources().getBoolean(
                     com.android.internal.R.bool.config_showNavigationBar) ? 1 : 0;
@@ -5277,7 +5285,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 boolean allowed = true;
                 if (mUserRotationAngles < 0) {
                     // Not set by user so use these defaults
-                    mUserRotationAngles = mAllowAllRotations == 1 ?
+                     mUserRotationAngles = mAllowAllRotations == 1 ?
                             (1 | 2 | 4 | 8) : // All angles
                                 (1 | 2 | 8); // All except 180
                 }
