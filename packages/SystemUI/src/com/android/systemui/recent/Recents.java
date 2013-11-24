@@ -37,7 +37,7 @@ import android.view.Display;
 import android.view.IWindowManager;
 import android.view.View;
 
-import com.android.internal.util.slim.DeviceUtils;
+import com.android.internal.util.beanstalk.DeviceUtils;
 
 import com.android.systemui.R;
 import com.android.systemui.RecentsComponent;
