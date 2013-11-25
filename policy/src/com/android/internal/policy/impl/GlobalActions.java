@@ -255,9 +255,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         }
 
 	// next: screenrecord
-        // only shown if enabled, disabled by default
+        // enabled by default, temp work around until i can create code for the new slim power menu
         boolean showScreenrecord = Settings.System.getIntForUser(cr,
-                Settings.System.POWER_MENU_SCREENRECORD_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
+                Settings.System.POWER_MENU_SCREENRECORD_ENABLED, 1, UserHandle.USER_CURRENT) == 1;
         if (showScreenrecord) {
             mItems.add(
                 new SinglePressAction(R.drawable.ic_lock_screen_record, R.string.global_action_screen_record) {
