@@ -1956,7 +1956,7 @@ class ContextImpl extends Context {
         }
 
         return new ContextImpl(this, mMainThread, mPackageInfo, mActivityToken,
-                mUser, mRestricted, mDisplay, overrideConfiguration);
+                mUser, mRestricted, mPackageInfo.getOverlayDirs(), mDisplay, overrideConfiguration);
     }
 
     @Override
@@ -1966,7 +1966,7 @@ class ContextImpl extends Context {
         }
 
         return new ContextImpl(this, mMainThread, mPackageInfo, mActivityToken,
-                mUser, mRestricted, display, mOverrideConfiguration);
+                mUser, mRestricted, mPackageInfo.getOverlayDirs(), display, mOverrideConfiguration);
     }
 
     private int getDisplayId() {
@@ -2069,7 +2069,7 @@ class ContextImpl extends Context {
                     || (compatInfo != null && compatInfo.applicationScale
                             != resources.getCompatibilityInfo().applicationScale)) {
                 resources = mResourcesManager.getTopLevelResources(
-                        packageInfo.getResDir(), displayId,
+                        packageInfo.getResDir(), mPackageInfo.getOverlayDirs(), displayId,
                         overrideConfiguration, compatInfo, activityToken);
             }
         }
