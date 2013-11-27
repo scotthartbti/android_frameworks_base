@@ -36,6 +36,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.internal.R;
+
+import com.android.internal.util.beanstalk.AppHelper;
 import com.android.internal.util.beanstalk.ButtonsHelper;
 import com.android.internal.util.beanstalk.ButtonConfig;
 import com.android.internal.util.beanstalk.DeviceUtils;
@@ -101,6 +103,9 @@ public class KeyguardShortcuts extends LinearLayout {
             i.setLayoutParams(vp);
             i.setImageDrawable(ButtonsHelper.getButtonIconImage(
                     mContext, buttonConfig.getClickAction(), buttonConfig.getIcon()));
+
+            i.setContentDescription(AppHelper.getFriendlyNameForUri(
+                    mContext, mPackageManager, buttonConfig.getClickAction()));
 
             if (longpress) {
                 i.setOnLongClickListener(new View.OnLongClickListener() {
