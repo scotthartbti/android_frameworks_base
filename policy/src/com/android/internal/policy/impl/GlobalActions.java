@@ -65,7 +65,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.Manifest;
 import android.view.WindowManagerPolicy.WindowManagerFuncs;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -250,27 +249,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
                     public boolean showBeforeProvisioning() {
                         return false;
-                    }
-                });
-        }
-
-	// next: screenrecord
-        // enabled by default, temp work around until i can create code for the new slim power menu
-        boolean showScreenrecord = Settings.System.getIntForUser(cr,
-                Settings.System.POWER_MENU_SCREENRECORD_ENABLED, 1, UserHandle.USER_CURRENT) == 1;
-        if (showScreenrecord) {
-            mItems.add(
-                new SinglePressAction(R.drawable.ic_lock_screen_record, R.string.global_action_screen_record) {
-                    public void onPress() {
-                        toggleScreenRecord();
-                    }
-
-                    public boolean showDuringKeyguard() {
-                        return true;
-                    }
-
-                    public boolean showBeforeProvisioning() {
-                        return true;
                     }
                 });
         }
@@ -604,11 +582,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 }).create();
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG);
         dialog.show();
-    }
-
-    private void toggleScreenRecord() {
-        final Intent recordIntent = new Intent("org.chameleonos.action.NOTIFY_RECORD_SERVICE");
-        mContext.sendBroadcast(recordIntent, Manifest.permission.RECORD_SCREEN);
     }
 
     private void prepareDialog() {
