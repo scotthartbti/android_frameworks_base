@@ -740,10 +740,6 @@ public class GlowPadView extends View {
     public ArrayList<TargetDrawable> getTargetDrawables() {
         return mTargetDrawables;
     }    
-    
-    public void setMagneticTargets(boolean enabled) {
-        mMagneticTargets = enabled;
-    }
 
     public void setTargetResources(ArrayList<TargetDrawable> drawList) {
         if (mAnimatingTargets) {

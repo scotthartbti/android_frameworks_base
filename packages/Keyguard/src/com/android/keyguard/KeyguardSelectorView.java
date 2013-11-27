@@ -46,9 +46,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.android.internal.telephony.IccCardConstants.State;
-import com.android.internal.util.crdroid.LockscreenTargetUtils;
-import com.android.internal.util.crdroid.DeviceUtils;
-import com.android.internal.util.crdroid.SlimActions;
+import com.android.internal.util.beanstalk.LockscreenTargetUtils;
+import com.android.internal.util.beanstalk.DeviceUtils;
+import com.android.internal.util.beanstalk.SlimActions;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.internal.widget.multiwaveview.GlowPadView;
 import com.android.internal.widget.multiwaveview.GlowPadView.OnTriggerListener;
