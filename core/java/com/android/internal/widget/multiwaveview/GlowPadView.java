@@ -722,6 +722,10 @@ public class GlowPadView extends View {
         return mTargetDrawables;
     }
 
+    public void setMagneticTargets(boolean enabled) {
+        mMagneticTargets = enabled;
+    }
+
     /**
      * Sets the resource id specifying the target descriptions for accessibility.
      *
