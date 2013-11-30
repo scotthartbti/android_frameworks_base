@@ -120,13 +120,23 @@
                     android:layout_gravity="center"
                     android:visibility="invisible" />
 
+		<com.android.systemui.recent.CircleMemoryMeter
+	            android:id="@+id/circle_meter"
+	            android:layout_width="50dp"
+	            android:layout_height="50dp"
+	            android:layout_marginTop="2dp"
+	            android:layout_marginRight="2dp"
+	            android:layout_gravity="top|left" />
+
                 <ImageView
-                    android:id="@+id/recents_clear"
-                    android:clickable="true"
+                    android:id="@+id/recents_clear_all"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-		    android:scaleType="center"
-                    android:layout_gravity="bottom|left"
+		    android:layout_marginTop="2dp"
+	            android:layout_marginRight="2dp"
+	            android:layout_gravity="top|right"
+	            android:padding="10dp"
+	            android:scaleType="fitCenter"
                     android:src="@drawable/ic_notify_clear" />
 
         </FrameLayout>
