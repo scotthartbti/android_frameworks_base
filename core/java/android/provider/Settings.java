@@ -3221,6 +3221,12 @@ public final class Settings {
         public static final String HOME_WAKE_SCREEN = "home_wake_screen";
 
         /**
+         * Whether to wake the screen with the volume keys, the value is boolean.
+         * @hide
+         */
+        public static final String VOLUME_WAKE_SCREEN = "volume_wake_screen";
+
+        /**
          * Whether or not volume button music controls should be enabled to seek media tracks
          * @hide
          */
