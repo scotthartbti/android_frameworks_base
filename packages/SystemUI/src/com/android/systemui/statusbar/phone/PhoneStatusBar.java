@@ -3814,10 +3814,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
         @Override
         public void onChange(boolean selfChange) {
             onChange(selfChange, null);
-
-	    // Notification drawer backgroud
-	    setNotificationWallpaperHelper();
-            setNotificationAlphaHelper();
         }
 
         @Override
@@ -3856,10 +3852,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
                     mRibbonQS.setupQuickSettings();
                 }
             }
-
-	    // Notification drawer backgroud
-	    setNotificationWallpaperHelper();
-            setNotificationAlphaHelper();
         }
 
         public void startObserving() {
@@ -3902,16 +3894,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
 
             cr.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.QUICK_SETTINGS_RIBBON_TILES),
-                    false, this, UserHandle.USER_ALL);
-
-	    // Notification drawer backround
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.NOTIF_WALLPAPER_ALPHA),
-                    false, this, UserHandle.USER_ALL);
-                    setNotificationWallpaperHelper();
-
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.NOTIF_ALPHA),
                     false, this, UserHandle.USER_ALL);
         }
     }
