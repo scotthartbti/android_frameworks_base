@@ -3130,6 +3130,12 @@ public final class Settings {
         public static final String QUICK_TILES_BG_ALPHA = "quick_tiles_bg_alpha";
 
         /**
+         * QuickSettings music tile mode
+         * @hide
+         */
+        public static final String MUSIC_TILE_MODE = "music_tile_mode";
+
+        /**
          * Display style of the status bar battery information
          * 0: Display the stock battery information
          * 1: Display cm battery percentage implementation / dont show stock icon
