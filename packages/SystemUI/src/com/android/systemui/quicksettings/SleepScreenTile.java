@@ -26,8 +26,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 
-import com.android.internal.util.slim.ButtonsConstants;
-import com.android.internal.util.slim.SlimActions;
+import com.android.internal.util.beanstalk.ButtonsConstants;
+import com.android.internal.util.beanstalk.SlimActions;
 
 import com.android.systemui.R;
 import com.android.systemui.statusbar.phone.QuickSettingsController;

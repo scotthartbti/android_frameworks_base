@@ -34,7 +34,7 @@ import com.android.systemui.statusbar.phone.QuickSettingsController;
 public class QuietHoursTile extends QuickSettingsTile {
 
     private static final String SCHEDULE_SERVICE_COMMAND =
-            "com.android.settings.slim.service.SCHEDULE_SERVICE_COMMAND";
+            "com.android.settings.beanstalk.service.SCHEDULE_SERVICE_COMMAND";
 
     private boolean mEnabled;
 
