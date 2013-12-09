@@ -74,6 +74,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.internal.app.ThemeUtils;
+import android.content.ServiceConnection;
+import android.content.ComponentName;
+import android.os.IBinder;
+import android.os.Messenger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -278,7 +282,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 	// next: screen record, if enabled
         if (mShowScreenRecord) {
             if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.SCREENRECORD_IN_POWER_MENU, 0) != 0) {
+                    Settings.System.SCREENRECORD_IN_POWER_MENU, 1) != 1) {
                 mItems.add(
                     new SinglePressAction(com.android.internal.R.drawable.ic_lock_screen_record,
                             R.string.global_action_screenrecord) {
