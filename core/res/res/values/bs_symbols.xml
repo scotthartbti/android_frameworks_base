@@ -98,4 +98,7 @@
   <!-- Description of accessibility unlock target -->
   <java-symbol type="string" name="description_target_unlock" />
   
+  <!-- Statusbar double tap gesture -->
+  <java-symbol type="bool" name="config_disableDoubleTapSleepGesture" />
+
 </resources>
