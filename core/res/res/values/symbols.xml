@@ -2000,6 +2000,7 @@
   <java-symbol type="color" name="holo_red_dark" />
 
   <java-symbol type="bool" name="use_motion_accel" />
+  <java-symbol type="bool" name="config_setup_mms_data" />
 
   <!-- Toast Animation -->
   <java-symbol type="style" name="Animation.Toast.Fade" />
@@ -2016,4 +2017,5 @@
   <java-symbol type="style" name="Animation.Toast.Translucent" />
   <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
   <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
+
 </resources>
