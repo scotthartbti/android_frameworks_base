@@ -2954,6 +2954,13 @@ public final class Settings {
          */
         public static final String TOGGLE_ICON_OFF_COLOR = "toggle_icon_color_off";
 
+       /**
+         * Animate-flip Quick Settings Panel Tiles on click
+         *
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_TILES_FLIP = "quick_settings_tiles_flip";
+
         /**
          * Quick Settings Panel Tiles to Use
          *
