@@ -56,8 +56,8 @@
     <string name="halo_signal_bars_1">ONE BAR</string>	
     <string name="halo_signal_bars_none">NO BARS</string>
 
-    <!-- Slim Shortcut Actions -->
-    <string name="shortcut_picker">Slim Shortcuts</string>
+    <!-- BeanStalk Shortcut Actions -->
+    <string name="shortcut_picker">BeanStalk Shortcuts</string>
     <string name="shortcut_immersive">Immersive Mode Toggle</string>
     <string name="shortcut_quiethours">Quiethours Toggle</string>
     <string name="shortcut_rotation">Rotation Lock Toggle</string>
