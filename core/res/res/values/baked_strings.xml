@@ -181,4 +181,12 @@
     <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
     <string name="permdesc_cancelNotifications">Allows the app to cancel notifications created by other apps.</string>
 
+    <!-- ColorPicker -->
+    <string name="dialog_color_picker">Color Picker</string>
+    <string name="press_color_to_apply">Press on Color to apply</string>
+    <string name="arrow_right">→</string>
+    <string name="arrow_down">↓</string>
+    <string name="hex_hint">ffffff</string>
+    <string name="set">Set</string>
+
 </resources>
