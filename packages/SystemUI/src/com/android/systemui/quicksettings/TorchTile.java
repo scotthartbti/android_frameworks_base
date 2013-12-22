@@ -29,6 +29,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.android.internal.util.beanstalk.TorchConstants;
+import com.android.internal.util.beanstalk.ButtonsConstants;
+import com.android.internal.util.beanstalk.SlimActions;
+
 import com.android.systemui.R;
 import com.android.systemui.statusbar.phone.QuickSettingsContainerView;
 import com.android.systemui.statusbar.phone.QuickSettingsController;
@@ -43,8 +46,7 @@ public class TorchTile extends QuickSettingsTile {
         mOnClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(TorchConstants.ACTION_TOGGLE_STATE);
-                mContext.sendBroadcast(i);
+                SlimActions.processAction(mContext, ButtonsConstants.ACTION_TORCH, false);
                 if (isFlipTilesEnabled()) {
                     flipTile(0);
                 }
