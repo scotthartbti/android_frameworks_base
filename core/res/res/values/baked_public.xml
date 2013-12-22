@@ -25,4 +25,5 @@
   <eat-comment />
   <public type="attr" name="inputEnabled" id="0x10103f2" />
   <public type="attr" name="alphaSlider" id="0x10103f3" />
+  <public type="attr" name="searchViewTextField" id="0x10103f4" />
 </resources>
