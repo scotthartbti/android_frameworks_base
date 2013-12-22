@@ -41,7 +41,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/hex_hint"
             android:maxLength="7"
-            android:digits="0123456789ABCDEF"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:inputType="textCapCharacters"
             android:visibility="gone" >
         </EditText>
 

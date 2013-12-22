@@ -52,7 +52,9 @@
             android:layout_weight="1"
             android:hint="@string/hex_hint"
             android:maxLength="7"
-            android:digits="0123456789ABCDEF"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:inputType="textCapCharacters"
             android:visibility="gone" >
         </EditText>
     </LinearLayout>

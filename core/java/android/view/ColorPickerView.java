@@ -694,13 +694,10 @@ public class ColorPickerView extends View {
      */
     public void setColor(int color, boolean callback) {
         int alpha = Color.alpha(color);
-        int red = Color.red(color);
-        int blue = Color.blue(color);
-        int green = Color.green(color);
 
         float[] hsv = new float[3];
 
-        Color.RGBToHSV(red, green, blue, hsv);
+        Color.colorToHSV(color, hsv);
 
         mAlpha = alpha;
         mHue = hsv[0];
@@ -748,7 +745,7 @@ public class ColorPickerView extends View {
     }
 
     public boolean getAlphaSliderVisible() {
-	return mShowAlphaPanel;
+        return mShowAlphaPanel;
     }
 
     public void setSliderTrackerColor(int color){
