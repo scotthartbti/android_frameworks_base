@@ -782,20 +782,22 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
 
         updateShowSearchHoldoff();
 
-        if (mNavigationBarView == null) {
-            mNavigationBarView =
-                (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
-        }
-
-        mNavigationBarView.setDisabledFlags(mDisabled);
-        mNavigationBarView.setBar(this);
-        mNavigationBarView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                checkUserAutohide(v, event);
-                return false;
+        if (!mRecreating) {
+            if (mNavigationBarView == null) {
+                mNavigationBarView =
+                    (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
             }
-        });
+
+            mNavigationBarView.setDisabledFlags(mDisabled);
+            mNavigationBarView.setBar(this);
+            mNavigationBarView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    checkUserAutohide(v, event);
+                    return false;
+                }
+            });
+        }
 
         if (mRecreating) {
         } else {
@@ -3558,8 +3560,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
             }
         }
         mStatusBarContainer.removeAllViews();
-        mStatusBarView.postInvalidate();
-        updateDisplaySize();
 
         // extract icons from the soon-to-be recreated viewgroup.
         int nIcons = mStatusIcons.getChildCount();
@@ -3583,8 +3583,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
         if (mNavigationBarView != null && recreateNavigationBar) {
             // recreate and reposition navigationbar
             mNavigationBarView.recreateNavigationBar();
-            repositionNavigationBar();
         }
+        repositionNavigationBar();
 
         // recreate StatusBarIconViews.
         for (int i = 0; i < nIcons; i++) {
@@ -3594,13 +3594,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
         }
 
         // recreate notifications.
-        Entry shadeEntry = null;
         for (int i = 0; i < nNotifs; i++) {
             Pair<IBinder, StatusBarNotification> notifData = notifications.get(i);
-            shadeEntry = createNotificationViews(notifData.first, notifData.second);
-        }
-        if (shadeEntry != null) {
-            addNotificationViews(shadeEntry);
+            addNotificationViews(createNotificationViews(notifData.first, notifData.second));
         }
 
         setAreThereNotifications();
@@ -3608,7 +3604,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
         mStatusBarContainer.addView(mStatusBarWindow);
 
         updateExpandedViewPos(EXPANDED_LEAVE_ALONE);
-        //mNotificationShortcutsLayout.recreateShortcutLayout();
+
         mRecreating = false;
     }
 
