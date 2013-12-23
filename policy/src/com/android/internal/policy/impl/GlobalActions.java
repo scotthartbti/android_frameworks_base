@@ -396,7 +396,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 	    // next: screenrecord
             } else if (config.getClickAction().equals(PolicyConstants.ACTION_SCREENRECORD)) {
             mItems.add(
-                new SinglePressAction(R.drawable.ic_lock_screen_record, R.string.global_action_screenrecord) {
+                new SinglePressAction(R.drawable.ic_lock_screenrecord, R.string.global_action_screenrecord) {
                     public void onPress() {
                         toggleScreenRecord();
                     }
