@@ -252,35 +252,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
 	final ContentResolver cr = mContext.getContentResolver();
 
-        // CyanogenMod profiles
-	// next: profile
-        // only shown if both system profiles and the menu item is enabled, enabled by default
-        boolean showProfiles =
-                Settings.System.getIntForUser(cr,
-                        Settings.System.SYSTEM_PROFILES_ENABLED, 1, UserHandle.USER_CURRENT) == 1
-                && Settings.System.getIntForUser(cr,
-                        Settings.System.POWER_MENU_PROFILES_ENABLED, 1, UserHandle.USER_CURRENT) == 1;
-        if (showProfiles) {
-            mItems.add(
-                new ProfileChooseAction() {
-                    public void onPress() {
-                        createProfileDialog();
-                    }
-
-                    public boolean onLongPress() {
-                        return true;
-                    }
-
-                    public boolean showDuringKeyguard() {
-                        return false;
-                    }
-
-                    public boolean showBeforeProvisioning() {
-                        return false;
-                    }
-                });
-        }
-
         // bug report, if enabled
         if (Settings.Global.getInt(mContext.getContentResolver(),
                 Settings.Global.BUGREPORT_IN_POWER_MENU, 0) != 0 && isCurrentUserOwner()) {
@@ -407,6 +378,28 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
                     public boolean showBeforeProvisioning() {
                         return true;
+                    }
+                });
+
+        // CyanogenMod profiles
+	} else if (config.getClickAction().equals(PolicyConstants.ACTION_PROFILE)) {
+        if (showProfiles) {
+            mItems.add(
+                new ProfileChooseAction() {
+                    public void onPress() {
+                        createProfileDialog();
+                    }
+
+                    public boolean onLongPress() {
+                        return true;
+                    }
+
+                    public boolean showDuringKeyguard() {
+                        return false;
+                    }
+
+                    public boolean showBeforeProvisioning() {
+                        return false;
                     }
                 });
 
