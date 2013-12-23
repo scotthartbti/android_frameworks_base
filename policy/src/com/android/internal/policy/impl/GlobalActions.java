@@ -367,7 +367,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 	    // next: screenrecord
             } else if (config.getClickAction().equals(PolicyConstants.ACTION_SCREENRECORD)) {
             mItems.add(
-                new SinglePressAction(R.drawable.ic_lock_screenrecord, R.string.global_action_screenrecord) {
+                    new SinglePressAction(PolicyHelper.getPowerMenuIconImage(mContext,
+                            config.getClickAction(), config.getIcon(), true),
+                            config.getClickActionDescription()) {
                     public void onPress() {
                         toggleScreenRecord();
                     }
@@ -383,9 +385,10 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         // CyanogenMod profiles
 	} else if (config.getClickAction().equals(PolicyConstants.ACTION_PROFILE)) {
-        if (showProfiles) {
             mItems.add(
-                new ProfileChooseAction() {
+                    new SinglePressAction(PolicyHelper.getPowerMenuIconImage(mContext,
+                            config.getClickAction(), config.getIcon(), true),
+                            config.getClickActionDescription()) {
                     public void onPress() {
                         createProfileDialog();
                     }
@@ -402,7 +405,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                         return false;
                     }
                 });
-
             // airplane mode
             } else if (config.getClickAction().equals(PolicyConstants.ACTION_AIRPLANE)) {
                 constructAirPlaneModeToggle(PolicyHelper.getPowerMenuIconImage(mContext,
