@@ -105,6 +105,8 @@ public class PhoneConstants {
 
     public static final String REASON_LINK_PROPERTIES_CHANGED = "linkPropertiesChanged";
 
+    public static final String IP_CALL = "ip_call";
+
     /**
      * Return codes for supplyPinReturnResult and
      * supplyPukReturnResult APIs
