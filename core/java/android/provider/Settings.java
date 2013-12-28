@@ -3255,6 +3255,12 @@ public final class Settings {
         public static final String STATUS_BAR_IME_SWITCHER = "status_bar_ime_switcher";
 
         /**
+         * Automatic keyboard rotation timeout.  0 to disable completely.
+         * @hide
+         */
+        public static final String KEYBOARD_ROTATION_TIMEOUT = "keyboard_rotation_timeout";
+
+        /**
          * Whether to use a separate delay for "slide to unlock" and security
          * lock
          * @hide
@@ -3700,7 +3706,7 @@ public final class Settings {
          */
         public static final String SYSTEM_POWER_CRT_MODE = "system_power_crt_mode";
 
-        /**
+	/**
          * Whether to turn off the device when gets pocketed again and was waked up by active display
          * @hide
          */
