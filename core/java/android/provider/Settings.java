@@ -4104,6 +4104,14 @@ public final class Settings {
         public static final String STATUSBAR_BRIGHTNESS_SLIDER = "statusbar_brightness_slider";
 
         /**
+         *
+         * Whether to enable torch by long pressing power from a screen off state
+         *
+         * @hide
+         */
+        public static final String ENABLE_FAST_TORCH = "enable_fast_torch";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
