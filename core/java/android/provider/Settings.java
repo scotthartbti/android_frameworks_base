@@ -3976,12 +3976,6 @@ public final class Settings {
          */
         public static final String HALO_REVERSED = "halo_reversed";
 
-        /**
-         * Enable/disable haptic feedback for virtual keys
-         * @hide
-         */
-        public static final String VIRTUAL_KEYS_HAPTIC_FEEDBACK = "virtual_keys_haptic_feedback";
-
         /** Weather to allow headsethook to launch voice commands
          * @hide
          */
