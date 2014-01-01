@@ -990,6 +990,8 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
 
             long usedMem = 0;
             long freeMem = 0;
+	    double usedMemD = 0;
+	    double freeMemD = 0;
 
                 mRamUsageBar.setVisibility(View.VISIBLE);
                 updateMemoryInfo();
@@ -1012,10 +1014,30 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
             mUsedMemText = (TextView)findViewById(R.id.usedMemText);
             mFreeMemText = (TextView)findViewById(R.id.freeMemText);
             mRamText = (TextView)findViewById(R.id.ramText);
+
+            if (usedMem >= 1024) {
+            usedMemD = (double)usedMem / 1024;
+            String temp = String.format("%1$,.1f", usedMemD);
+            usedMemD = Double.parseDouble(temp);
+            mUsedMemText.setText(getResources().getString(
+                    R.string.service_used_mem, usedMemD + " GB"));
+            }
+            else {
             mUsedMemText.setText(getResources().getString(
                     R.string.service_used_mem, usedMem + " MB"));
+            }
+            if (freeMem >= 1024) {
+            freeMemD = (double)freeMem / 1024;
+            String temp = String.format("%1$,.1f", freeMemD);
+            freeMemD = Double.parseDouble(temp);
+            mFreeMemText.setText(getResources().getString(
+                    R.string.service_free_mem, freeMemD + " GB"));
+            }
+            else {
             mFreeMemText.setText(getResources().getString(
                     R.string.service_free_mem, freeMem + " MB"));
+            }
+
             mRamText.setText(getResources().getString(
                     R.string.memory));
             float totalMem = mTotalMemory;
