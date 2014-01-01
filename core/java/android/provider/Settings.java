@@ -3313,6 +3313,12 @@ public final class Settings {
         public static final String VOLUME_WAKE_SCREEN = "volume_wake_screen";
 
         /**
+         * Show ram bar in GBs for devices with memory over 1 GB.
+         *  @hide
+         */
+        public static final String SHOW_GB_RAMBAR = "show_gb_rambar";
+
+        /**
          * Show clear all recents button
          *  @hide
          */
