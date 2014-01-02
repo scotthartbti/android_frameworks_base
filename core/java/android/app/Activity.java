@@ -53,6 +53,7 @@ import android.os.Parcelable;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -2520,7 +2521,10 @@ public class Activity extends ContextThemeWrapper
                 if (ret) return true;
                 break;
         }
-        if (mIsSplitView) {
+
+	int mHaloEnabled = (Settings.System.getInt(getContentResolver(), Settings.System.HALO_ENABLED, 0));
+
+        if (mIsSplitView && mHaloEnabled != 1) {
             IWindowManager wm = (IWindowManager) WindowManagerGlobal.getWindowManagerService();
             try {
                 wm.notifyActivityTouched(mToken, false);
@@ -5301,7 +5305,9 @@ public class Activity extends ContextThemeWrapper
         mWindowManager = mWindow.getWindowManager();
         mCurrentConfig = config;
 
-        if ((intent.getFlags() & Intent.FLAG_ACTIVITY_SPLIT_VIEW) != 0) {
+	int mHaloEnabled = (Settings.System.getInt(getContentResolver(), Settings.System.HALO_ENABLED, 0));
+
+        if ((intent.getFlags() & Intent.FLAG_ACTIVITY_SPLIT_VIEW) != 0 && mHaloEnabled != 1) {
             final IWindowManager wm = (IWindowManager) WindowManagerGlobal.getWindowManagerService();
             updateSplitViewMetrics(true);
         }
