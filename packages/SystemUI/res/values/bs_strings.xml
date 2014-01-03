@@ -16,6 +16,9 @@
     <!-- [CHAR LIMIT=10] Running services, summary of foreground processes -->
     <string name="service_used_mem"><xliff:g id="memory">%1$s</xliff:g> used</string>
 
+    <!-- Screenshot -->
+    <string name="screenshot_delete_confirmation">Screenshot deleted</string>
+
     <!-- Content description of the halo button in the notification panel for accessibility (not sho
          wn on the screen). [CHAR LIMIT=NONE] -->	
     <string name="accessibility_halo">Create notification halo.</string>	
