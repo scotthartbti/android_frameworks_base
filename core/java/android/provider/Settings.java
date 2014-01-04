@@ -2987,6 +2987,13 @@ public final class Settings {
          */
         public static final String QUICK_SETTINGS_TILES = "quick_settings_tiles";
 
+       /**
+	* Quick Settings Launch in Floating Window
+	*
+	* @hide
+	*/
+        public static final String QS_FLOATING_WINDOW = "qs_floating_window";
+
         /**
          * Quick Settings Panel Dynamic Tiles
          *
