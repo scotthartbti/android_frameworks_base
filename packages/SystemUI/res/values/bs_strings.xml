@@ -107,9 +107,6 @@
     <string name="quick_settings_reboot_recovery">Recovery</string>
     <string name="quick_settings_reboot">Reboot</string>
 
-    <!-- Title shown in notification popup for launching notification in floating mode -->
-    <string name="status_bar_notification_floating_item_title">Floating mode</string>
-
     <string name="accessibility_data_connection_HP">HSPA+</string>
 
     <string name="quick_settings_quick_record_nofile">Long-press</string>
