@@ -112,6 +112,7 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
     private ImageView mClearAllRecents;
     private CircleMemoryMeter mRecentsMemoryIndicator;
     private LinearColorBar mRamUsageBar;
+    private boolean mUpdateMemoryIndicator;
 
     private long mFreeMemory;
     private long mTotalMemory;
@@ -123,7 +124,6 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
     TextView mRamText;
 
     MemInfoReader mMemInfoReader = new MemInfoReader();
-   
 
     public static interface RecentsScrollView {
         public int numItemsInOneScreenful();
@@ -405,8 +405,11 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
                         break;
                 }
                 mRecentsMemoryIndicator.setLayoutParams(layoutParams);
+                mRecentsMemoryIndicator.setVisibility(View.VISIBLE);
+                mUpdateMemoryIndicator = true;
             } else {
                 mRecentsMemoryIndicator.setVisibility(View.GONE);
+                mUpdateMemoryIndicator = false;
             }
 
             if (showClearAllButton) {
@@ -440,6 +443,9 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
                 mClearAllRecents.setVisibility(View.GONE);
             }
 
+            if (mUpdateMemoryIndicator) {
+                mRecentsMemoryIndicator.updateMemoryInfo();
+            }
             onAnimationEnd(null);
             setFocusable(true);
             setFocusableInTouchMode(true);
@@ -851,6 +857,10 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
                     mContext.getString(R.string.accessibility_recents_item_dismissed, ad.getLabel()));
             sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
             setContentDescription(null);
+
+            if (mUpdateMemoryIndicator) {
+                mRecentsMemoryIndicator.updateMemoryInfo();
+            }
         }
 	updateRamBar();
     }
