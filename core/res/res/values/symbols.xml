@@ -2019,4 +2019,6 @@
   <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
   <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
 
+  <java-symbol type="string" name="config_partial_segment_expire_age" />
+
 </resources>
