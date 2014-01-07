@@ -21,5 +21,7 @@
         <attr name="inputEnabled" format="boolean" />
         <!-- Boolean for enabling the alpha slider on the color picker view. -->
         <attr name="alphaSlider" format="boolean" />
+        <!-- Boolean for enabling the default color panels white, red, cyan, black etc. -->
+        <attr name="enableDefaultColorPanels" format="boolean" />
     </declare-styleable>
 </resources>

@@ -32,13 +32,15 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="vertical" >
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/hex_val"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             android:hint="@string/hex_hint"
             android:maxLength="7"
             android:imeOptions="actionDone"
@@ -47,6 +49,91 @@
             android:visibility="gone" >
         </EditText>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal">
+
+                <android.view.ColorPickerPanelView
+                    android:id="@+id/white_panel"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="0.5"
+                    android:visibility="gone" />
+
+                <android.view.ColorPickerPanelView
+                    android:id="@+id/red_panel"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="0.5"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal">
+
+                <android.view.ColorPickerPanelView
+                    android:id="@+id/black_panel"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="0.5"
+                    android:visibility="gone" />
+
+                <android.view.ColorPickerPanelView
+                    android:id="@+id/green_panel"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="0.5"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal">
+
+                <android.view.ColorPickerPanelView
+                    android:id="@+id/cyan_panel"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="0.5"
+                    android:visibility="gone" />
+
+                <android.view.ColorPickerPanelView
+                    android:id="@+id/yellow_panel"
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="0.5"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +141,8 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="6dp"
-            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             android:text="@string/press_color_to_apply"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 

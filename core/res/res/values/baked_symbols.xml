@@ -21,6 +21,12 @@
     <java-symbol type="id" name="old_color_panel" />
     <java-symbol type="id" name="new_color_panel" />
     <java-symbol type="id" name="hex_val" />
+    <java-symbol type="id" name="white_panel" />
+    <java-symbol type="id" name="black_panel" />
+    <java-symbol type="id" name="cyan_panel" />
+    <java-symbol type="id" name="red_panel" />
+    <java-symbol type="id" name="green_panel" />
+    <java-symbol type="id" name="yellow_panel" />
     <java-symbol type="layout" name="dialog_color_picker" />
     <java-symbol type="string" name="dialog_color_picker" />
 

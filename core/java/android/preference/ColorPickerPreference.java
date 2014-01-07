@@ -53,6 +53,7 @@ public class ColorPickerPreference extends Preference implements
 
     private boolean mAlphaSliderEnabled = false;
     private boolean mHexValueEnabled = false;
+    private boolean mDefaultColorPanelsEnabled = false;
 
     public ColorPickerPreference(Context context) {
         super(context);
@@ -88,6 +89,9 @@ public class ColorPickerPreference extends Preference implements
                 com.android.internal.R.styleable.ColorPickerPreference_alphaSlider, false);
         mHexValueEnabled = a.getBoolean(
                 com.android.internal.R.styleable.ColorPickerPreference_inputEnabled, false);
+        mDefaultColorPanelsEnabled = a.getBoolean(
+                com.android.internal.R.styleable.ColorPickerPreference_enableDefaultColorPanels,
+                false);
 
         a.recycle();
     }
@@ -167,7 +171,10 @@ public class ColorPickerPreference extends Preference implements
             mDialog.setAlphaSliderVisible(true);
         }
         if (mHexValueEnabled) {
-            mDialog.setHexValueEnabled(true);
+            mDialog.setHexValueVisible(true);
+        }
+        if (mDefaultColorPanelsEnabled) {
+            mDialog.setDefaultColorPanelsVisible(true);
         }
         if (state != null) {
             mDialog.onRestoreInstanceState(state);
@@ -177,7 +184,6 @@ public class ColorPickerPreference extends Preference implements
 
     /**
      * Toggle Alpha Slider visibility (by default it's disabled)
-     *
      * @param enable
      */
     public void setAlphaSliderEnabled(boolean enable) {
@@ -190,6 +196,14 @@ public class ColorPickerPreference extends Preference implements
      */
     public void setHexValueEnabled(boolean enable) {
         mHexValueEnabled = enable;
+    }
+
+    /**
+     * Toggle Default color panels visibility (by default it's disabled)
+     * @param enable
+     */
+    public void setDefaultColorPanelsEnabled(boolean enable) {
+        mDefaultColorPanelsEnabled = enable;
     }
 
     /**
@@ -266,6 +280,10 @@ public class ColorPickerPreference extends Preference implements
     @Override
     protected Parcelable onSaveInstanceState() {
         final Parcelable superState = super.onSaveInstanceState();
+        if (isPersistent()) {
+            // No need to save instance state since it's persistent
+            return superState;
+        }
         if (mDialog == null || !mDialog.isShowing()) {
             return superState;
         }
@@ -277,7 +295,8 @@ public class ColorPickerPreference extends Preference implements
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if (state == null || !(state instanceof SavedState)) {
+        if (state == null || !state.getClass().equals(SavedState.class) ||
+                    !(state instanceof SavedState)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
             return;
@@ -306,7 +325,6 @@ public class ColorPickerPreference extends Preference implements
             super(superState);
         }
 
-        @SuppressWarnings("unused")
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
             public SavedState createFromParcel(Parcel in) {

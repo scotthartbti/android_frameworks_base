@@ -47,9 +47,16 @@ public class ColorPickerDialog extends Dialog implements
     private ColorPickerView mColorPicker;
     private ColorPickerPanelView mOldColor;
     private ColorPickerPanelView mNewColor;
+    private ColorPickerPanelView mWhite;
+    private ColorPickerPanelView mBlack;
+    private ColorPickerPanelView mCyan;
+    private ColorPickerPanelView mRed;
+    private ColorPickerPanelView mGreen;
+    private ColorPickerPanelView mYellow;
     private ColorPickerPreference mColorPickerPref;
     private EditText mHexVal;
     private boolean mHexValueEnabled = false;
+    private boolean mDefaultColorPanelsEnabled = false;
     private ColorStateList mHexDefaultTextColor;
 
     private OnColorChangedListener mListener;
@@ -81,7 +88,24 @@ public class ColorPickerDialog extends Dialog implements
                 com.android.internal.R.id.old_color_panel);
         mNewColor = (ColorPickerPanelView) layout.findViewById(
                 com.android.internal.R.id.new_color_panel);
-        mHexVal = (EditText) layout.findViewById(com.android.internal.R.id.hex_val);
+        mWhite = (ColorPickerPanelView) layout.findViewById(
+                com.android.internal.R.id.white_panel);
+        mBlack = (ColorPickerPanelView) layout.findViewById(
+                com.android.internal.R.id.black_panel);
+        mCyan = (ColorPickerPanelView) layout.findViewById(
+                com.android.internal.R.id.cyan_panel);
+        mRed = (ColorPickerPanelView) layout.findViewById(
+                com.android.internal.R.id.red_panel);
+        mGreen = (ColorPickerPanelView) layout.findViewById(
+                com.android.internal.R.id.green_panel);
+        mYellow = (ColorPickerPanelView) layout.findViewById(
+                com.android.internal.R.id.yellow_panel);
+        mHexVal = (EditText) layout.findViewById(com.android.internal.R.id.hex_val);setColorAndClickAction(mWhite, Color.WHITE);
+        setColorAndClickAction(mBlack, Color.BLACK);
+        setColorAndClickAction(mCyan, 0xff33b5e5);
+        setColorAndClickAction(mRed, Color.RED);
+        setColorAndClickAction(mGreen, Color.GREEN);
+        setColorAndClickAction(mYellow, Color.YELLOW);
         mHexVal.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         mHexDefaultTextColor = mHexVal.getTextColors();
         mHexVal.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -134,7 +158,41 @@ public class ColorPickerDialog extends Dialog implements
 
     }
 
-    public void setHexValueEnabled(boolean enable) {
+    public void setColorAndClickAction(ColorPickerPanelView previewRect, final int color) {
+        if (previewRect != null) {
+            previewRect.setColor(color);
+            previewRect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        mColorPicker.setColor(color, true);
+                    } catch (Exception e) {
+                    }
+                }
+            });
+        }
+    }
+
+    public void setDefaultColorPanelsVisible(boolean enable) {
+        mDefaultColorPanelsEnabled = enable;
+        if (enable) {
+            mWhite.setVisibility(View.VISIBLE);
+            mBlack.setVisibility(View.VISIBLE);
+            mCyan.setVisibility(View.VISIBLE);
+            mRed.setVisibility(View.VISIBLE);
+            mGreen.setVisibility(View.VISIBLE);
+            mYellow.setVisibility(View.VISIBLE);
+        } else {
+            mWhite.setVisibility(View.GONE);
+            mBlack.setVisibility(View.GONE);
+            mCyan.setVisibility(View.GONE);
+            mRed.setVisibility(View.GONE);
+            mGreen.setVisibility(View.GONE);
+            mYellow.setVisibility(View.GONE);
+        }
+    }
+
+    public void setHexValueVisible(boolean enable) {
         mHexValueEnabled = enable;
         if (enable) {
             mHexVal.setVisibility(View.VISIBLE);
@@ -163,7 +221,7 @@ public class ColorPickerDialog extends Dialog implements
                     ColorPickerPreference.convertToARGB(color).toUpperCase(Locale.getDefault()));
         } else {
             mHexVal.setText(
-            ColorPickerPreference.convertToRGB(color).toUpperCase(Locale.getDefault()));
+                    ColorPickerPreference.convertToRGB(color).toUpperCase(Locale.getDefault()));
         }
         mHexVal.setTextColor(mHexDefaultTextColor);
     }

@@ -32,23 +32,18 @@
 
     <LinearLayout
         android:id="@+id/text_hex_wrapper"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="6dp"
         android:layout_marginRight="6dp" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="@string/press_color_to_apply"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
         <EditText
             android:id="@+id/hex_val"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_weight="1"
             android:hint="@string/hex_hint"
             android:maxLength="7"
@@ -57,7 +52,82 @@
             android:inputType="textCapCharacters"
             android:visibility="gone" >
         </EditText>
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <android.view.ColorPickerPanelView
+            android:id="@+id/white_panel"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="0.5"
+            android:visibility="gone" />
+
+        <android.view.ColorPickerPanelView
+            android:id="@+id/black_panel"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="0.5"
+            android:visibility="gone" />
+
+        <android.view.ColorPickerPanelView
+            android:id="@+id/cyan_panel"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="0.5"
+            android:visibility="gone" />
+
+        <android.view.ColorPickerPanelView
+            android:id="@+id/red_panel"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="0.5"
+            android:visibility="gone" />
+
+        <android.view.ColorPickerPanelView
+            android:id="@+id/green_panel"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="0.5"
+            android:visibility="gone" />
+
+        <android.view.ColorPickerPanelView
+            android:id="@+id/yellow_panel"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_weight="0.5"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:text="@string/press_color_to_apply"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <LinearLayout
         android:layout_width="wrap_content"
