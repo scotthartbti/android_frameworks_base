@@ -25,6 +25,7 @@ import static android.view.WindowManager.LayoutParams.*;
 import android.view.ViewConfiguration;
 
 import com.android.internal.R;
+import android.os.UserHandle;
 import com.android.internal.view.RootViewSurfaceTaker;
 import com.android.internal.view.StandaloneActionMode;
 import com.android.internal.view.menu.ContextMenuBuilder;
@@ -2536,10 +2537,14 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                     mSbm.expandNotificationsPanel();
                     break;
                 case 2:
-                    boolean hidden = Settings.System.getInt(mContext.getContentResolver(),
-                            Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
-                    Settings.System.putInt(mContext.getContentResolver(),
-                            Settings.System.EXPANDED_DESKTOP_STATE, hidden ? 0 : 1);
+                    boolean expandDesktopModeOn = Settings.System.getIntForUser(
+                        mContext.getContentResolver(),
+                        Settings.System.EXPANDED_DESKTOP_STATE,
+                        0, UserHandle.USER_CURRENT) == 1;
+                    Settings.System.putIntForUser(
+                        mContext.getContentResolver(),
+                        Settings.System.EXPANDED_DESKTOP_STATE,
+                        expandDesktopModeOn ? 0 : 1, UserHandle.USER_CURRENT);
                     break;
                 case 3:
                     mSbm.expandSettingsPanel();
