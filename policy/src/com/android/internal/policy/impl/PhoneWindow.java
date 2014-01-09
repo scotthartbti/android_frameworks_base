@@ -2536,7 +2536,9 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                 case 1:
                     mSbm.expandNotificationsPanel();
                     break;
-                case 2:
+
+	/* Remove this for now as its broken.  Will revisit and add more options ASAP. */
+        /*        case 2:
                     boolean expandDesktopModeOn = Settings.System.getIntForUser(
                         mContext.getContentResolver(),
                         Settings.System.EXPANDED_DESKTOP_STATE,
@@ -2545,7 +2547,8 @@ public class PhoneWindow extends Window implements MenuBuilder.Callback {
                         mContext.getContentResolver(),
                         Settings.System.EXPANDED_DESKTOP_STATE,
                         expandDesktopModeOn ? 0 : 1, UserHandle.USER_CURRENT);
-                    break;
+                    break; */
+
                 case 3:
                     mSbm.expandSettingsPanel();
                     break;
