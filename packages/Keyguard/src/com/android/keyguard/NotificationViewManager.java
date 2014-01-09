@@ -187,6 +187,7 @@ public class NotificationViewManager {
                         config.forceExpandedView) && config.wakeOnNotification && screenOffAndNotCovered
                         && showNotification && mTimeCovered == 0) {
                 wakeDevice();
+                mHostView.showAllNotifications();
             }
         }
         @Override
