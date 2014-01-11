@@ -3285,6 +3285,13 @@ public final class Settings {
         public static final String SCREEN_STATE_MOBILE_DATA = "screen_state_mobile_data";
 
         /**
+         * Quick Settings Collapse Pane
+         *
+         * @hide
+         */
+        public static final String QS_COLLAPSE_PANEL = "qs_collapse_panel";
+
+        /**
          * Whether to show the signal text or signal bars.
          * default: 0
          * 0: show signal bars
