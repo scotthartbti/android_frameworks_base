@@ -3971,12 +3971,6 @@ public final class Settings {
         public static final String MENU_VISIBILITY = "menu_visibility";
 
         /**
-         * Hide carrier information on notification drawer
-         * @hide
-         */
-        public static final String NOTIFICATION_HIDE_CARRIER = "notification_hide_carrier";
-
-        /**
           * Stores values for notification shortcut targets
           * @hide
           */
@@ -4161,6 +4155,12 @@ public final class Settings {
          * @hide
          */
         public static final String CALL_END_SOUND = "call_end_sound";
+
+        /**
+         * Hide network labels in the notification drawer
+         * @hide
+         */
+        public static final String NOTIFICATION_HIDE_LABELS = "notification_hide_labels";
 
         /**
          * Width and height of output vide expressed in WxH
