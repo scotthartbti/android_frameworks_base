@@ -76,10 +76,10 @@ public class SignalText extends TextView {
 
         ContentResolver resolver = mContext.getContentResolver();
         resolver.registerContentObserver(
-                Settings.AOKP.getUriFor(Settings.AOKP.STATUSBAR_SIGNAL_TEXT), false,
+                Settings.System.getUriFor(Settings.System.STATUSBAR_SIGNAL_TEXT), false,
                 mSettingsObserver);
         resolver.registerContentObserver(
-                Settings.AOKP.getUriFor(Settings.AOKP.STATUSBAR_SIGNAL_TEXT_COLOR), false,
+                Settings.System.getUriFor(Settings.System.STATUSBAR_SIGNAL_TEXT_COLOR), false,
                 mSettingsObserver);
 
         mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
@@ -97,8 +97,8 @@ public class SignalText extends TextView {
 
     private void updateSettings() {
         ContentResolver resolver = getContext().getContentResolver();
-        mSignalColor = Settings.AOKP.getInt(resolver,
-                Settings.AOKP.STATUSBAR_SIGNAL_TEXT_COLOR,
+        mSignalColor = Settings.System.getInt(resolver,
+                Settings.System.STATUSBAR_SIGNAL_TEXT_COLOR,
                 Color.WHITE);
         if (mSignalColor == Integer.MIN_VALUE) {
             // flag to reset the color
@@ -106,8 +106,8 @@ public class SignalText extends TextView {
         }
         setTextColor(mSignalColor);
 
-        mTextStyle = Settings.AOKP.getInt(getContext().getContentResolver(),
-                Settings.AOKP.STATUSBAR_SIGNAL_TEXT, STYLE_HIDE);
+        mTextStyle = Settings.System.getInt(getContext().getContentResolver(),
+                Settings.System.STATUSBAR_SIGNAL_TEXT, STYLE_HIDE);
     }
 
 
