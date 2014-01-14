@@ -20,8 +20,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.android.internal.util.beanstalk.PolicyConstants;
-import com.android.internal.util.beanstalk.SlimActions;
+import android.os.UserHandle;
+import android.provider.Settings;
 
 public class Immersive extends Activity  {
 
@@ -33,8 +33,19 @@ public class Immersive extends Activity  {
     @Override
     public void onResume() {
         super.onResume();
-        SlimActions.processAction(
-                this, PolicyConstants.ACTION_EXPANDED_DESKTOP, false);
+        int value = getIntent().getIntExtra("value", 2);
+
+        if (value == 2) {
+            value = Settings.System.getIntForUser(
+                    getContentResolver(),
+                    Settings.System.EXPANDED_DESKTOP_STATE,
+                    0, UserHandle.USER_CURRENT_OR_SELF) == 1 ? 0 : 1;
+        }
+
+        Settings.System.putIntForUser(
+                getContentResolver(),
+                Settings.System.EXPANDED_DESKTOP_STATE,
+                value, UserHandle.USER_CURRENT_OR_SELF);
         this.finish();
     }
 }
