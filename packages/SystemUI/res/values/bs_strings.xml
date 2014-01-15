@@ -59,7 +59,6 @@
     <string name="toggle">Toggle</string>
 
     <!-- BeanStalk Shortcut Actions -->
-    <string name="shortcut_picker">BeanStalk Shortcuts</string>
     <string name="shortcut_immersive">Immersive Mode</string>
     <string name="shortcut_quiethours">Quiethours</string>
     <string name="shortcut_rotation">Rotation</string>
