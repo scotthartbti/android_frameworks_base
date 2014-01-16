@@ -1452,6 +1452,10 @@
     <!-- Enable statusbar double tap gesture to put device to sleep -->
     <bool name="config_disableDoubleTapSleepGesture">false</bool>
 
+    <!-- Indicates that the device has Single-stage Camera key
+         (without "Focus" state) instead of Dual-stage. -->
+    <bool name="config_singleStageCameraKey">false</bool>
+
    <!-- set to false if we dont need to consider data
          service state to display signal strength bars -->
     <bool name="config_combined_signal">true</bool>
