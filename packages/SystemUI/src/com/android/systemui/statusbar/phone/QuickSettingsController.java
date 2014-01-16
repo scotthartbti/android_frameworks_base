@@ -52,6 +52,7 @@ import static com.android.internal.util.beanstalk.QSConstants.TILE_VOLUME;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_WIFI;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_WIFIAP;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_REBOOT;
+import static com.android.internal.util.beanstalk.QSConstants.TILE_INTERNALMEMORY;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -86,6 +87,7 @@ import com.android.systemui.quicksettings.LteTile;
 import com.android.systemui.quicksettings.MobileNetworkTile;
 import com.android.systemui.quicksettings.MobileNetworkTypeTile;
 import com.android.systemui.quicksettings.MusicTile;
+import com.android.systemui.quicksettings.InternalMemory;
 import com.android.systemui.quicksettings.NfcTile;
 import com.android.systemui.quicksettings.PreferencesTile;
 import com.android.systemui.quicksettings.QuickSettingsTile;
@@ -251,6 +253,8 @@ public class QuickSettingsController {
                 qs = new CustomTile(mContext, this, findCustomKey(tile));
 	    } else if (tile.contains(TILE_CONTACT)) {
                 qs = new ContactTile(mContext, this, findCustomKey(tile));
+            } else if (tile.equals(TILE_INTERNALMEMORY)) {
+                qs = new InternalMemory(mContext, this);
             }
 
             if (qs != null) {
