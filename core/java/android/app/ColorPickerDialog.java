@@ -100,7 +100,8 @@ public class ColorPickerDialog extends Dialog implements
                 com.android.internal.R.id.green_panel);
         mYellow = (ColorPickerPanelView) layout.findViewById(
                 com.android.internal.R.id.yellow_panel);
-        mHexVal = (EditText) layout.findViewById(com.android.internal.R.id.hex_val);setColorAndClickAction(mWhite, Color.WHITE);
+        mHexVal = (EditText) layout.findViewById(com.android.internal.R.id.hex_val);
+        setColorAndClickAction(mWhite, Color.WHITE);
         setColorAndClickAction(mBlack, Color.BLACK);
         setColorAndClickAction(mCyan, 0xff33b5e5);
         setColorAndClickAction(mRed, Color.RED);
