@@ -4384,6 +4384,12 @@ public final class Settings {
         public static final String TELO_RADIO_HIGH_POWER = "telo_radio_high_power";
 
         /**
+         * Whether to unlock the screen with the home key.  The value is boolean (1 or 0).
+         * @hide
+         */
+        public static final String HOME_UNLOCK_SCREEN = "home_unlock_screen";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
