@@ -55,7 +55,7 @@ import com.android.internal.util.beanstalk.AppHelper;
 import com.android.internal.util.beanstalk.LockscreenTargetUtils;
 import com.android.internal.util.beanstalk.DeviceUtils;
 import com.android.internal.util.beanstalk.SlimActions;
-import com.android.internal.util.beanstalk.TorchConstants;
+import com.android.internal.util.cm.TorchConstants;
 import com.android.internal.view.RotationPolicy;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.internal.widget.multiwaveview.GlowPadView;
