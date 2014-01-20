@@ -2944,6 +2944,12 @@ public final class Settings {
         public static final String GESTURE_ANYWHERE_CHANGED = "gesture_anywhere_changed";
 
         /**
+         * HALO color, default is 0xff33b5e5 (normal)
+         * @hide
+         */
+        public static final String HALO_COLOR = "halo_color";
+
+        /**
          * Width of the gesture anywhere trigger.
          * @hide
          */
