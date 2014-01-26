@@ -2640,7 +2640,7 @@ public class NotificationManagerService extends INotificationManager.Stub
             enableLed = true;
         } else if (mInCall || (mScreenOn && !ScreenOnNotificationLed && !mDreaming)) {
             enableLed = false;
-        } else if (QuietHoursUtils.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {
+        } else if (QuietHoursHelper.inQuietHours(mContext, Settings.System.QUIET_HOURS_DIM)) {
             enableLed = false;
         } else {
             enableLed = true;
