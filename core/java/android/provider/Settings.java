@@ -4447,6 +4447,12 @@ public final class Settings {
          */
         public static final String CAMERA_UNLOCK_SCREEN = "camera_unlock_screen";
 
+        /**
+         * This preference enables showing the power menu on LockScreen.
+         * @hide
+         */
+        public static final String LOCKSCREEN_ENABLE_POWER_MENU = "lockscreen_enable_power_menu";
+
 	/**	
          *  Enable statusbar double tap gesture on to put device to sleep
          * @hide
