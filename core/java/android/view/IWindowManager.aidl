@@ -326,5 +326,10 @@ interface IWindowManager
     void notifyActivityTouched(IBinder token, boolean force);
     void setSplitViewRect(int l, int t, int r, int b);
 
-    /** SPLIT VIEW END **/
+    /**
+     * Toggle global menu
+     *
+     * @hide
+     */
+    void toggleGlobalMenu();
 }

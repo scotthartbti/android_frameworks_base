@@ -107,7 +107,11 @@ public class SlimActions {
                 injectKeyDelayed(KeyEvent.KEYCODE_MENU, isLongpress, false);
                 return;
             } else if (action.equals(ButtonsConstants.ACTION_POWER_MENU)) {
-                injectKeyDelayed(KeyEvent.KEYCODE_POWER, isLongpress, true);
+                try {
+                    windowManagerService.toggleGlobalMenu();
+                } catch (RemoteException e) {
+                }
+                return;
             } else if (action.equals(ButtonsConstants.ACTION_POWER)) {
                 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
                 pm.goToSleep(SystemClock.uptimeMillis());
@@ -294,7 +298,6 @@ public class SlimActions {
                 || action.equals(ButtonsConstants.ACTION_BACK)
                 || action.equals(ButtonsConstants.ACTION_SEARCH)
                 || action.equals(ButtonsConstants.ACTION_MENU)
-                || action.equals(ButtonsConstants.ACTION_POWER_MENU)
                 || action.equals(ButtonsConstants.ACTION_NULL)) {
             return true;
         }
@@ -334,9 +337,6 @@ public class SlimActions {
                 InputDevice.SOURCE_KEYBOARD);
         mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_INJECT_KEY_DOWN, down), 10);
 
-        if (sendOnlyDownMessage) {
-            return;
-        }
         KeyEvent up = new KeyEvent(when, when + 30, KeyEvent.ACTION_UP, keyCode, 0, 0,
                 KeyCharacterMap.VIRTUAL_KEYBOARD, 0,
                 KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY,
