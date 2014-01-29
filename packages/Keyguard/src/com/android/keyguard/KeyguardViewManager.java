@@ -104,7 +104,8 @@ public class KeyguardViewManager {
 
     private boolean mScreenOn = false;
     private LockPatternUtils mLockPatternUtils;
-    
+
+    private boolean mTranslucentDecor;
     private Drawable mCustomBackground = null;
     private boolean mBlurEnabled = false;
     private int mBlurRadius = 12;
@@ -145,22 +146,27 @@ public class KeyguardViewManager {
 
         @Override
         public void onChange(boolean selfChange) {
-            updateSettings();
-            setKeyguardParams();
-            mViewManager.updateViewLayout(mKeyguardHost, mWindowLayoutParams);
+            synchronized (this) {
+                updateSettings();
+                setKeyguardParams();
+                mViewManager.updateViewLayout(mKeyguardHost, mWindowLayoutParams);
+            }
         }
     }
 
     private void updateSettings() {
-        isSeeThroughEnabled = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.LOCKSCREEN_SEE_THROUGH, 0) == 1;
     	mBlurEnabled = Settings.System.getInt(mContext.getContentResolver(),
     			Settings.System.LOCKSCREEN_BLUR_BEHIND, 0) == 1;
-    	mBlurRadius = Settings.System.getInt(mContext.getContentResolver(),
-    			Settings.System.LOCKSCREEN_BLUR_RADIUS, 12);
-    	if(!mBlurEnabled) {
-    		mCustomBackground = null;
-    	}
+
+	if (mBlurEnabled) {
+            isSeeThroughEnabled = true;
+            mBlurRadius = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.LOCKSCREEN_BLUR_RADIUS, 12);
+      } else {
+            mCustomBackground = null;
+            isSeeThroughEnabled = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.LOCKSCREEN_SEE_THROUGH, 0) == 1;
+        }
     }
 
     /**
@@ -173,9 +179,11 @@ public class KeyguardViewManager {
             KeyguardViewMediator.ViewMediatorCallback callback,
             LockPatternUtils lockPatternUtils) {
         mContext = context;
+        final Resources res = mContext.getResources();
         mViewManager = viewManager;
         mViewMediatorCallback = callback;
         mLockPatternUtils = lockPatternUtils;
+        mTranslucentDecor = res.getBoolean(R.bool.config_enableLockScreenTranslucentDecor);
 
         mObserver = new SettingsObserver(new Handler());
         mObserver.observe();
@@ -257,8 +265,7 @@ public class KeyguardViewManager {
     }
 
     private boolean shouldEnableTranslucentDecor() {
-        Resources res = mContext.getResources();
-        return res.getBoolean(R.bool.config_enableLockScreenTranslucentDecor);
+        return mTranslucentDecor;
     }
 
     public void setBackgroundBitmap(Bitmap bmp) {
