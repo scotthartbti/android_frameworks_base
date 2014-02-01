@@ -33,6 +33,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.IPowerManager;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
@@ -69,6 +71,7 @@ public final class ShutdownThread extends Thread {
     private static boolean mReboot;
     private static boolean mRebootSafeMode;
     private static String mRebootReason;
+    private static boolean mRebootHot = false;
 
     // Provides shutdown assurance in case the system_server is killed
     public static final String SHUTDOWN_ACTION_PROPERTY = "sys.shutdown.requested";
@@ -151,6 +154,9 @@ public final class ShutdownThread extends Thread {
                                 new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 mReboot = true;
+  				   if (mRebootReason != null && mRebootReason.equals("hot")) {
+                                        mRebootHot = true;
+                                    }
                                 beginShutdownSequence(context);
                             }
                         })
@@ -327,56 +333,58 @@ public final class ShutdownThread extends Thread {
             }
         };
 
-        /*
-         * Write a system property in case the system_server reboots before we
-         * get to the actual hardware restart. If that happens, we'll retry at
-         * the beginning of the SystemServer startup.
-         */
-        {
-            String reason = (mReboot ? "1" : "0") + (mRebootReason != null ? mRebootReason : "");
-            SystemProperties.set(SHUTDOWN_ACTION_PROPERTY, reason);
-        }
+        if (!mRebootHot) {
+            /*
+             * Write a system property in case the system_server reboots before we
+             * get to the actual hardware restart. If that happens, we'll retry at
+             * the beginning of the SystemServer startup.
+             */
+            {
+                String reason = (mReboot ? "1" : "0") + (mRebootReason != null ? mRebootReason : "");
+                SystemProperties.set(SHUTDOWN_ACTION_PROPERTY, reason);
+            }
 
-        /*
-         * If we are rebooting into safe mode, write a system property
-         * indicating so.
-         */
-        if (mRebootSafeMode) {
-            SystemProperties.set(REBOOT_SAFEMODE_PROPERTY, "1");
-        }
+            /*
+             * If we are rebooting into safe mode, write a system property
+             * indicating so.
+             */
+            if (mRebootSafeMode) {
+                SystemProperties.set(REBOOT_SAFEMODE_PROPERTY, "1");
+            }
 
         Log.i(TAG, "Sending shutdown broadcast...");
 
-        // First send the high-level shut down broadcast.
-        mActionDone = false;
-        Intent intent = new Intent(Intent.ACTION_SHUTDOWN);
-        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-        mContext.sendOrderedBroadcastAsUser(intent,
-                UserHandle.ALL, null, br, mHandler, 0, null, null);
+            // First send the high-level shut down broadcast.
+            mActionDone = false;
+            Intent intent = new Intent(Intent.ACTION_SHUTDOWN);
+            intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+            mContext.sendOrderedBroadcastAsUser(intent,
+                    UserHandle.ALL, null, br, mHandler, 0, null, null);
 
-        final long endTime = SystemClock.elapsedRealtime() + MAX_BROADCAST_TIME;
-        synchronized (mActionDoneSync) {
-            while (!mActionDone) {
-                long delay = endTime - SystemClock.elapsedRealtime();
-                if (delay <= 0) {
-                    Log.w(TAG, "Shutdown broadcast timed out");
-                    break;
-                }
+            final long endTime = SystemClock.elapsedRealtime() + MAX_BROADCAST_TIME;
+            synchronized (mActionDoneSync) {
+                while (!mActionDone) {
+                    long delay = endTime - SystemClock.elapsedRealtime();
+                    if (delay <= 0) {
+                        Log.w(TAG, "Shutdown broadcast timed out");
+                        break;
+                    }
+                    try {
+                        mActionDoneSync.wait(delay);
+                    } catch (InterruptedException e) {
+                    }
+		}
+	    }
+
+	    Log.i(TAG, "Shutting down activity manager...");
+
+            final IActivityManager am =
+                ActivityManagerNative.asInterface(ServiceManager.checkService("activity"));
+            if (am != null) {
                 try {
-                    mActionDoneSync.wait(delay);
-                } catch (InterruptedException e) {
-                }
-            }
-        }
-
-        Log.i(TAG, "Shutting down activity manager...");
-
-        final IActivityManager am =
-            ActivityManagerNative.asInterface(ServiceManager.checkService("activity"));
-        if (am != null) {
-            try {
-                am.shutdown(MAX_BROADCAST_TIME);
-            } catch (RemoteException e) {
+                    am.shutdown(MAX_BROADCAST_TIME);
+                } catch (RemoteException e) {
+		}
             }
         }
 
@@ -544,6 +552,19 @@ public final class ShutdownThread extends Thread {
     public static void rebootOrShutdown(boolean reboot, String reason) {
         if (reboot) {
             Log.i(TAG, "Rebooting, reason: " + reason);
+            // check if hot reboot requested
+            if (mRebootHot) {
+                // crash system server to restart Android framework
+                try {
+                    IBinder b = ServiceManager.getService(Context.POWER_SERVICE);
+                    IPowerManager pm = IPowerManager.Stub.asInterface(b);
+                    pm.crash("Crashed by Hot Reboot");
+                } catch (RemoteException e) {
+                    Log.e(TAG, "Hot reboot failed, will attempt normal reboot instead", e);
+                    reason = null;
+                }
+            }
+            // normal reboot
             PowerManagerService.lowLevelReboot(reason);
             Log.e(TAG, "Reboot failed, will attempt shutdown instead");
         } else if (SHUTDOWN_VIBRATE_MS > 0) {
