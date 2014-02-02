@@ -60,6 +60,7 @@ public class KeyButtonView extends ImageView {
     int mTouchSlop;
     Drawable mGlowBG;
     int mGlowBGColor;
+    int mGlowBgId;
     int mGlowWidth, mGlowHeight;
     float mGlowAlpha = 0f, mGlowScale = 1f;
     @ViewDebug.ExportedProperty(category = "drawing")
@@ -118,6 +119,10 @@ public class KeyButtonView extends ImageView {
 
         a.recycle();
 
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KeyButtonView,
+                defStyle, 0);
+
+        mGlowBgId = a.getResourceId(R.styleable.KeyButtonView_glowBackground, 0);
         setClickable(true);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
@@ -153,6 +158,12 @@ public class KeyButtonView extends ImageView {
             mGlowBG.setColorFilter(null);
             mGlowBG.setColorFilter(mGlowBGColor, Mode.SRC_ATOP);
 
+        }
+    }
+
+    public void updateResources() {
+        if (mGlowBgId != 0) {
+            mGlowBG = mContext.getResources().getDrawable(mGlowBgId);
         }
     }
 

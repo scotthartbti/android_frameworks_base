@@ -17,6 +17,8 @@
 
 package android.app;
 
+import android.content.res.IThemeService;
+import android.content.res.ThemeManager;
 import android.os.Build;
 import com.android.internal.policy.PolicyManager;
 import com.android.internal.util.Preconditions;
@@ -612,6 +614,14 @@ class ContextImpl extends Context {
                 public Object createService(ContextImpl ctx) {
                     return WimaxHelper.createWimaxService(ctx, ctx.mMainThread.getHandler());
                 }});
+
+        registerService(THEME_SERVICE, new ServiceFetcher() {
+            public Object createService(ContextImpl ctx) {
+                IBinder b = ServiceManager.getService(THEME_SERVICE);
+                IThemeService service = IThemeService.Stub.asInterface(b);
+                return new ThemeManager(ctx.getOuterContext(),
+                        service);
+            }});
     }
 
     static ContextImpl getImpl(Context context) {
@@ -1956,7 +1966,7 @@ class ContextImpl extends Context {
         }
 
         return new ContextImpl(this, mMainThread, mPackageInfo, mActivityToken,
-                mUser, mRestricted, mPackageInfo.getOverlayDirs(), mDisplay, overrideConfiguration);
+                mUser, mRestricted, mDisplay, overrideConfiguration);
     }
 
     @Override
@@ -1966,7 +1976,7 @@ class ContextImpl extends Context {
         }
 
         return new ContextImpl(this, mMainThread, mPackageInfo, mActivityToken,
-                mUser, mRestricted, mPackageInfo.getOverlayDirs(), display, mOverrideConfiguration);
+                mUser, mRestricted, display, mOverrideConfiguration);
     }
 
     private int getDisplayId() {
@@ -2069,7 +2079,7 @@ class ContextImpl extends Context {
                     || (compatInfo != null && compatInfo.applicationScale
                             != resources.getCompatibilityInfo().applicationScale)) {
                 resources = mResourcesManager.getTopLevelResources(
-                        packageInfo.getResDir(), mPackageInfo.getOverlayDirs(), displayId,
+                        packageInfo.getResDir(), displayId,
                         overrideConfiguration, compatInfo, activityToken);
             }
         }
