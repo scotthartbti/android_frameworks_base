@@ -122,6 +122,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
 
     private Drawable mBackIcon, mBackAltIcon;
 
+    boolean mWasNotifsButtonVisible = false;
+
     protected DelegateViewHelper mDelegateHelper;
     private DeadZone mDeadZone;
     private final NavigationBarTransitions mBarTransitions;
@@ -302,6 +304,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                     @Override
                     public void run() {
                         mCameraDisabledByDpm = isCameraDisabledByDpm();
+			mWasNotifsButtonVisible = iconId != 0 && ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0);
+			setVisibleOrGone(getNotifsButton(), mWasNotifsButtonVisible);
                     }
                 });
             }
@@ -768,21 +772,7 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         setDisabledFlags(mDisabledFlags, true);
     }
 
-<<<<<<< HEAD
     @Override
-=======
-    public void setButtonDrawable(int buttonId, final int iconId) {
-        final ImageView iv = (ImageView)getNotifsButton();
-        mHandler.post(new Runnable() {
-            public void run() {
-                if (iconId == 1) iv.setImageResource(R.drawable.search_light_land);
-                else iv.setImageDrawable(mVertical ? mRecentAltLandIcon : mRecentAltIcon);
-                setVisibleOrGone(getNotifsButton(), iconId != 0);
-            }
-        });
-    }
-
->>>>>>> 1dedd6a... Notification:  Lockscreen Notifications: dismiss all button, improve animations, cleanup
     public void setDisabledFlags(int disabledFlags) {
         setDisabledFlags(disabledFlags, false);
     }
@@ -855,7 +845,7 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             && Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE, 0) == 0;
 
-	if (!showNotifs) setVisibleOrGone(getNotifsButton(), showNotifs);
+	setVisibleOrGone(getNotifsButton(), showNotifs && mWasNotifsButtonVisible);
 
         mBarTransitions.applyBackButtonQuiescentAlpha(mBarTransitions.getMode(), true /*animate*/);
 
