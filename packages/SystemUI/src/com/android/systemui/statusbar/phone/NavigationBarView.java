@@ -768,7 +768,21 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         setDisabledFlags(mDisabledFlags, true);
     }
 
+<<<<<<< HEAD
     @Override
+=======
+    public void setButtonDrawable(int buttonId, final int iconId) {
+        final ImageView iv = (ImageView)getNotifsButton();
+        mHandler.post(new Runnable() {
+            public void run() {
+                if (iconId == 1) iv.setImageResource(R.drawable.search_light_land);
+                else iv.setImageDrawable(mVertical ? mRecentAltLandIcon : mRecentAltIcon);
+                setVisibleOrGone(getNotifsButton(), iconId != 0);
+            }
+        });
+    }
+
+>>>>>>> 1dedd6a... Notification:  Lockscreen Notifications: dismiss all button, improve animations, cleanup
     public void setDisabledFlags(int disabledFlags) {
         setDisabledFlags(disabledFlags, false);
     }
@@ -840,9 +854,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                 Settings.System.LOCKSCREEN_NOTIFICATIONS, 1) == 1
             && Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE, 0) == 0;
-        if (showNotifs != null) {
-		setVisibleOrGone(getNotifsButton(), showNotifs);
-	}
+
+	if (!showNotifs) setVisibleOrGone(getNotifsButton(), showNotifs);
 
         mBarTransitions.applyBackButtonQuiescentAlpha(mBarTransitions.getMode(), true /*animate*/);
 
