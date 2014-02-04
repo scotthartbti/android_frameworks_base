@@ -122,6 +122,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
 
     private Drawable mBackIcon, mBackAltIcon;
 
+    private Drawable mRecentAltIcon, mRecentAltLandIcon;
+
     boolean mWasNotifsButtonVisible = false;
 
     protected DelegateViewHelper mDelegateHelper;
@@ -278,6 +280,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         mShowMenu = false;
         mDelegateHelper = new DelegateViewHelper(this);
 
+        getIcons(res);
+
         mBarTransitions = new NavigationBarTransitions(this);
 
         disableCameraByUser();
@@ -426,6 +430,11 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
     // used for lockscreen notifications
     public View getNotifsButton() {
         return mCurrentView.findViewById(R.id.show_notifs);
+    }
+
+    private void getIcons(Resources res) {
+        mRecentAltIcon = res.getDrawable(R.drawable.ic_sysbar_recent_clear);
+        mRecentAltLandIcon = res.getDrawable(R.drawable.ic_sysbar_recent_clear_land);
     }
 
     @Override
