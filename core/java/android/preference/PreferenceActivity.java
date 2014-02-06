@@ -23,7 +23,6 @@ import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
@@ -32,7 +31,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -712,22 +710,6 @@ public abstract class PreferenceActivity extends ListActivity implements
     public boolean onIsMultiPane() {
         boolean preferMultiPane = getResources().getBoolean(
                 com.android.internal.R.bool.preferences_prefer_dual_pane);
-        int multiPaneMode = Settings.System.getInt(getContentResolver(),
-                Settings.System.DUAL_PANE_PREFS, (preferMultiPane ? 1 : 0));
-        boolean landscape = getResources().getConfiguration().orientation ==
-                Configuration.ORIENTATION_LANDSCAPE;
-        switch (multiPaneMode) {
-            case 0:
-                preferMultiPane = false;
-                break;
-            case 1:
-                preferMultiPane = true;
-                break;
-            case 2:
-                if (landscape) preferMultiPane = true;
-                else preferMultiPane = false;
-                break;
-        }
         return preferMultiPane;
     }
 

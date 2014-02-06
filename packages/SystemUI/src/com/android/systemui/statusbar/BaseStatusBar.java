@@ -252,6 +252,13 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     };
 
+    private ContentObserver mShowNavObserver = new ContentObserver(mHandler) {
+        @Override
+        public void onChange(boolean selfChange) {
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
+    };
+
     private RemoteViews.OnClickHandler mOnClickHandler = new RemoteViews.OnClickHandler() {
         @Override
         public boolean onClickHandler(View view, PendingIntent pendingIntent, Intent fillInIntent) {
