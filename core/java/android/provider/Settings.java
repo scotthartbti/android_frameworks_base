@@ -2836,12 +2836,6 @@ public final class Settings {
                 "lockscreen_use_widget_container_carousel";
 
         /**
-         * Custom LCD density
-         * @hide
-         */
-        public static final String LCD_DENSITY = "lcd_density";
-
-        /**
          * Whether double-tap and hold on the lock glowpad starts the torch
          * @hide
          */
