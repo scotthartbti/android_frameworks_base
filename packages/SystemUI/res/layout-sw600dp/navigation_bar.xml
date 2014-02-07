@@ -30,6 +30,25 @@
         android:layout_width="match_parent"
         >
 
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <com.android.systemui.statusbar.policy.BatteryBarController
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                systemui:viewLocation="2"
+                android:layout_alignParentTop="true" />
+
+            <com.android.systemui.statusbar.policy.BatteryBarController
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                systemui:viewLocation="3"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
@@ -56,7 +75,7 @@
                 android:layout_weight="1"
                 android:visibility="invisible"
                 />
-            <Space 
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -88,7 +107,7 @@
                 systemui:glowBackground="@drawable/ic_sysbar_highlight"
                 android:contentDescription="@string/accessibility_recent"
                 />
-            <Space 
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -114,7 +133,7 @@
             android:id="@+id/lights_out"
             android:visibility="gone"
             >
-            <Space 
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -142,7 +161,7 @@
                 android:scaleType="center"
                 android:layout_weight="0"
                 />
-            <Space 
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -180,6 +199,26 @@
         android:paddingTop="0dp"
         >
 
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <com.android.systemui.statusbar.policy.BatteryBarController
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                systemui:viewLocation="2"
+                android:layout_alignParentTop="true" />
+
+            <com.android.systemui.statusbar.policy.BatteryBarController
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                systemui:viewLocation="3"
+                android:layout_alignParentBottom="true" />
+
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent"
@@ -198,7 +237,7 @@
                 android:layout_marginStart="2dp"
                 android:visibility="invisible"
                 />
-            <Space 
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -230,7 +269,7 @@
                 systemui:glowBackground="@drawable/ic_sysbar_highlight"
                 android:contentDescription="@string/accessibility_recent"
                 />
-            <Space 
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -256,7 +295,7 @@
             android:id="@+id/lights_out"
             android:visibility="gone"
             >
-            <Space 
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -284,7 +323,7 @@
                 android:scaleType="center"
                 android:layout_weight="0"
                 />
-            <Space 
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

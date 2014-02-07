@@ -4,4 +4,8 @@
     <declare-styleable name="BatteryIcon">
         <attr name="batteryView" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="BatteryBarController">
+        <attr name="viewLocation" format="integer" />
+    </declare-styleable>
 </resources>
