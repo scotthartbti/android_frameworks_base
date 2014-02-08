@@ -1033,7 +1033,7 @@ public final class PowerManagerService extends IPowerManager.Stub
     private void notifyWakeLockReleasedLocked(WakeLock wakeLock) {
         if (mSystemReady) {
             if (!wakeLock.isBlocked()){
-                mNotifier.onWakeLockAcquired(wakeLock.mFlags, wakeLock.mTag, wakeLock.mPackageName,
+                mNotifier.onWakeLockReleased(wakeLock.mFlags, wakeLock.mTag, wakeLock.mPackageName,
                     wakeLock.mOwnerUid, wakeLock.mOwnerPid, wakeLock.mWorkSource);
 	    }
         }
@@ -1547,9 +1547,12 @@ public final class PowerManagerService extends IPowerManager.Stub
                           continue;
                          }
 
-                        //Slog.d(TAG, "updateWakeLockSummaryLocked: PARTIAL_WAKE_LOCK tag=" + wakeLock.mTag);
-                        mWakeLockSummary |= WAKE_LOCK_CPU;
+                        
+						//Slog.d(TAG, "updateWakeLockSummaryLocked: PARTIAL_WAKE_LOCK tag=" + wakeLock.mTag);
+						else{                        
+						mWakeLockSummary |= WAKE_LOCK_CPU;
                         break;
+						}
                     case PowerManager.FULL_WAKE_LOCK:
                         if (mWakefulness != WAKEFULNESS_ASLEEP) {
                             mWakeLockSummary |= WAKE_LOCK_CPU
