@@ -104,6 +104,9 @@
   <!-- Statusbar double tap gesture -->
   <java-symbol type="bool" name="config_disableDoubleTapSleepGesture" />
 
+  <!-- BeanStalk platlogo -->
+  <java-symbol type="drawable" name="bs_platlogo" />
+
     <!-- ColorPickerPreference -->
     <java-symbol type="id" name="color_picker_view" />
     <java-symbol type="id" name="old_color_panel" />
