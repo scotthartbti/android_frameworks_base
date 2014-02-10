@@ -137,6 +137,18 @@
     <string name="quick_settings_custom_toggle">Custom</string>
     <string name="quick_settings_contact_toggle">Contact</string>
 
+    <string name="quick_settings_reminder">Reminder</string>
+    <string name="quick_settings_reminder_title">Title:</string>
+    <string name="quick_settings_reminder_message">Message:</string>
+    <string name="quick_settings_reminder_time">Reminder Time</string>
+    <string name="quick_settings_reminder_set">Set Time</string>
+    <string name="quick_settings_reminder_update">Update Time</string>
+    <string name="quick_settings_reminder_no_expire">No notification</string>
+    <string name="quick_settings_reminder_dismiss">Clear Reminder</string>
+    <string name="quick_settings_reminder_dismiss_message">Clear current reminder?</string>
+    <string name="quick_settings_reminder_help_title">Touch:</string>
+    <string name="quick_settings_reminder_help_message">Touch here to set a reminder. Long-press to clear the current reminder.</string>
+
     <!-- Label in drop down to identify brightness slider -->
     <string name="brightness_label">Brightness</string>
     <string name="powerwidget_screen_timeout_never_toast">Screen set to always on</string>
