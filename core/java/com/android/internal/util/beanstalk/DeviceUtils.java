@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.hardware.SensorManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -23,6 +24,8 @@ import android.view.WindowManager;
 import android.util.Log;
 
 import com.android.internal.telephony.PhoneConstants;
+import static android.hardware.Sensor.TYPE_LIGHT;
+import static android.hardware.Sensor.TYPE_PROXIMITY;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -180,6 +183,16 @@ public class DeviceUtils {
 
     public static boolean isTablet(Context con) {
         return getScreenType(con) == DEVICE_TABLET;
+    }
+
+    public static boolean deviceSupportsProximitySensor(Context context) {
+	SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+	return sm.getDefaultSensor(TYPE_PROXIMITY) != null;
+    }
+
+    public static boolean deviceSupportsLightSensor(Context context) {
+	SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+	return sm.getDefaultSensor(TYPE_LIGHT) != null;
     }
 
     public static boolean fchargeEnabled(Context con) {
