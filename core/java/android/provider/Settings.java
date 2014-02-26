@@ -3632,6 +3632,12 @@ public final class Settings {
         public static final String START_SCREEN_STATE_SERVICE = "start_screen_state_service";
 
         /**
+         * Reminder alert flip interval
+         * @hide
+         */
+        public static final String REMINDER_ALERT_INTERVAL = "reminder_alert_interval";
+
+        /**
          * @hide
          */
         public static final String SCREEN_STATE_TWOG = "screen_state_twog";
