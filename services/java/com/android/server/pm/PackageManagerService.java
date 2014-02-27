@@ -3963,7 +3963,7 @@ public class PackageManagerService extends IPackageManager.Stub {
                             public void run() {
                                 if (!isFirstBoot()) {
                                     i[0]++;
-                                    postBootMessageUpdate(i[0], pkgsSize, p);
+                                    postBootMessageUpdate(i[0], pkgsSize);
                                 }
                                 performDexOptLI(p, false, false, true);
                             }
@@ -3971,7 +3971,7 @@ public class PackageManagerService extends IPackageManager.Stub {
                     } else {
                         if (!isFirstBoot()) {
                             i[0]++;
-                            postBootMessageUpdate(i[0], pkgsSize, p);
+                            postBootMessageUpdate(i[0], pkgsSize);
                         }
                     }
                 }
@@ -3987,20 +3987,12 @@ public class PackageManagerService extends IPackageManager.Stub {
         }
     }
 
-    private void postBootMessageUpdate(int n, int total, PackageParser.Package pkg) {
+    private void postBootMessageUpdate(int n, int total) {
         try {
-            // give the packagename to the PhoneWindowManager
-            ApplicationInfo ai;
-            try {
-                ai = mContext.getPackageManager().getApplicationInfo(pkg.packageName, 0);
-            } catch (Exception e) {
-                ai = null;
-            }
-            mPolicy.setPackageName((String) (ai != null ? mContext.getPackageManager().getApplicationLabel(ai) : pkg.packageName));
             ActivityManagerNative.getDefault().showBootMessage(
                     mContext.getResources().getString(
-                    com.android.internal.R.string.android_upgrading_apk,
-                    n, total), true);
+                            com.android.internal.R.string.android_upgrading_apk,
+                            n, total), true);
         } catch (RemoteException e) {
         }
     }
