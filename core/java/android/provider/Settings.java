@@ -4685,6 +4685,12 @@ public final class Settings {
         public static final String ENABLE_FAST_TORCH = "enable_fast_torch";
 
         /**
+         *
+         * @hide
+         */
+        public static final String ANIMATION_CONTROLS_NO_SCROLL = "animation_controls_no_scroll";
+
+        /**
          * Determine custom scroll friction.
          * @hide
          */
