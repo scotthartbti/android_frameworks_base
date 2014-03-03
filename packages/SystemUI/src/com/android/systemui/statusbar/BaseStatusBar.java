@@ -59,6 +59,7 @@ import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuffXfermode;
@@ -121,8 +122,8 @@ import com.android.systemui.statusbar.halo.Halo;
 import com.android.systemui.statusbar.phone.KeyguardTouchDelegate;
 import com.android.systemui.statusbar.phone.NavigationBarOverlay;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
-import com.android.systemui.statusbar.policy.activedisplay.ActiveDisplayView;
 import com.android.systemui.statusbar.policy.PieController;
+import com.android.systemui.statusbar.policy.activedisplay.ActiveDisplayView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -250,8 +251,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     private RecentsComponent mRecents;
 
-    protected ActiveDisplayView mActiveDisplayView;
-
     @ChaosLab(name="GestureAnywhere", classification=Classification.NEW_FIELD)
     protected GestureAnywhereView mGestureAnywhereView;
 
@@ -268,6 +267,8 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     private ActivityManager mActivityManager;
+
+    protected ActiveDisplayView mActiveDisplayView;
 
     public IStatusBarService getStatusBarService() {
         return mBarService;
@@ -1810,11 +1811,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     protected void addActiveDisplayView() {
         mActiveDisplayView = (ActiveDisplayView)View.inflate(mContext, R.layout.active_display, null);
-        int activeDisplayVis = View.SYSTEM_UI_FLAG_LOW_PROFILE
-                             | View.SYSTEM_UI_FLAG_FULLSCREEN
-                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-        setSystemUIVisibility(mActiveDisplayView, activeDisplayVis);
         mActiveDisplayView.setStatusBar(this);
         mWindowManager.addView(mActiveDisplayView, getActiveDisplayViewLayoutParams());
     }
@@ -1830,12 +1826,18 @@ public abstract class BaseStatusBar extends SystemUI implements
                 LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.TYPE_STATUS_BAR_PANEL,
                 0
-                | WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING
-                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH,
-                PixelFormat.OPAQUE);
+                | WindowManager.LayoutParams.FLAG_FULLSCREEN
+                  | WindowManager.LayoutParams.FLAG_TOUCHABLE_WHEN_WAKING
+                  | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                  | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                  | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
+                  | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH
+                  | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                  | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,
+                  PixelFormat.OPAQUE);
+        if (ActivityManager.isHighEndGfx()) {
+            lp.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
+        }
         lp.gravity = Gravity.TOP | Gravity.FILL_VERTICAL | Gravity.FILL_HORIZONTAL;
         lp.setTitle("ActiveDisplayView");
 

@@ -34,7 +34,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -341,7 +340,7 @@ public class GlowPadView extends View {
         mPointCloud.makePointCloud(mInnerRadius, mOuterRadius);
         mPointCloud.glowManager.setRadius(mGlowRadius);
 
-        mArcPaint = new Paint();
+	mArcPaint = new Paint();
         mArcPaint.setStrokeWidth(10.0f);
         mArcPaint.setStyle(Paint.Style.STROKE);
         mArcRect = new RectF(mHandleDrawable.getPositionX() - mHandleDrawable.getWidth()/2,
@@ -774,7 +773,7 @@ public class GlowPadView extends View {
     public ArrayList<TargetDrawable> getTargetDrawables() {
         return mTargetDrawables;
     }    
-
+    
     public void setTargetResources(ArrayList<TargetDrawable> drawList) {
         if (mAnimatingTargets) {
             // postpone this change until we return to the initial state
@@ -782,6 +781,10 @@ public class GlowPadView extends View {
         } else {
             internalSetTargetResources(drawList);
         }
+    }
+
+    public void setMagneticTargets(boolean enabled) {
+        mMagneticTargets = enabled;
     }
 
     /**
@@ -845,14 +848,6 @@ public class GlowPadView extends View {
      */
     public int getDirectionDescriptionsResourceId() {
         return mDirectionDescriptionsResourceId;
-    }
-
-    public boolean getMagneticTargets() {
-        return mMagneticTargets;
-    }
-
-    public void setMagneticTargets(boolean enabled) {
-        mMagneticTargets = enabled;
     }
 
     /**
@@ -1394,7 +1389,7 @@ public class GlowPadView extends View {
         }
         mHandleDrawable.draw(canvas);
 
-        if (mArcAngle > 0 && mHandleDrawable.getAlpha() > 0) {
+	if (mArcAngle > 0 && mHandleDrawable.getAlpha() > 0) {
             mArcRect.set(mHandleDrawable.getPositionX() - mHandleDrawable.getWidth()/3,
                     mHandleDrawable.getPositionY() - mHandleDrawable.getHeight()/3,
                     mHandleDrawable.getPositionX() + mHandleDrawable.getWidth()/3,

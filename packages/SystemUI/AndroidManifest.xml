@@ -88,15 +88,15 @@
     <!-- Reboot -->
     <uses-permission android:name="android.permission.REBOOT" />
 
-    <!-- Active display -->
-    <uses-permission android:name="android.permission.SYSTEM_NOTIFICATION_LISTENER" />
-
     <!-- Development shortcut -->
     <uses-permission android:name="android.permission.CLEAR_APP_USER_DATA" />
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
 
     <!-- Record Audio QuickRecord -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Active display -->
+    <uses-permission android:name="android.permission.SYSTEM_NOTIFICATION_LISTENER" />
 
     <application
         android:persistent="true"
@@ -459,6 +459,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.android.systemui.Transparent"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity android:name=".statusbar.policy.activedisplay.DummyActivity"
                   android:label=""
                   android:taskAffinity=""
@@ -466,9 +469,6 @@
                   android:exported="true"
                   android:theme="@style/Theme.DummyActivity">
         </activity>
-
-        <activity android:name="com.android.systemui.Transparent"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
     </application>
 </manifest>
