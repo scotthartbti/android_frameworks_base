@@ -1210,6 +1210,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.NOTIFICATION_HIDE_LABELS, 0, UserHandle.USER_CURRENT);
                lpCarrierLabel = (FrameLayout.LayoutParams) mCarrierAndWifiView.getLayoutParams();
                mCarrierLabel.setVisibility(View.VISIBLE);
+	    }
 
             if (DEBUG) Log.v(TAG, "carrierlabel=" + mCarrierLabel + " show=" +
                                     mShowCarrierInPanel + "operator label=" + mSubsLabel);
@@ -1266,6 +1267,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                      Settings.System.NOTIFICATION_HIDE_LABELS, 0, UserHandle.USER_CURRENT);
                 lpCarrierLabel = (FrameLayout.LayoutParams) mCarrierAndWifiView.getLayoutParams();
                 mCarrierLabel.setVisibility(View.VISIBLE);
+	    }
 
             if (DEBUG) Slog.v(TAG, "carrierlabel=" + mCarrierLabel + " show=" + mShowCarrierInPanel);
             if (mShowCarrierInPanel) {
