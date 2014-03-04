@@ -227,8 +227,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected Ticker mTicker;
     protected boolean mHaloActive;
     public boolean mHaloTaskerActive = false;
-    protected ImageView mHaloButton;
-    protected boolean mHaloButtonVisible = true;
 
     private Runnable mPanelCollapseRunnable = new Runnable() {
         @Override
@@ -609,12 +607,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     }
 
-    protected void updateHaloButton() {
-        if (mHaloButton != null) {
-            mHaloButton.setVisibility(mHaloButtonVisible && !mHaloActive ? View.VISIBLE : View.GONE);
-        }
-    }
-
     public void restartHalo() {
         if (mHalo != null) {
             mHalo.cleanUp();
@@ -628,8 +620,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected void updateHalo() {
         mHaloActive = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.HALO_ACTIVE, 0) == 1;
-
-        updateHaloButton();
 
         if (mHaloActive) {
             if (mHalo == null) {
