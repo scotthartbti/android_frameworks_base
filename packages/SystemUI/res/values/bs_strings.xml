@@ -165,4 +165,9 @@
     <string name="pie_phone_status_emergency_only">Emergency calls only</string>
 
     <string name="status_bar_notification_hide_icon_packages">Hide status bar app\'s notification icon(s)</string>
+
+    <!-- Slim recents -->
+    <string name="status_bar_recent_playstore_item_title">Play Store</string>
+    <string name="status_bar_recent_amazon_item_title">Amazon Store</string>
+
 </resources>
