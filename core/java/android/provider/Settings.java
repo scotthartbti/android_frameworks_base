@@ -4139,6 +4139,12 @@ public final class Settings {
           */
          public static final String SWAP_VOLUME_KEYS_ON_ROTATION = "swap_volume_keys_on_rotation";
 
+        /**
+         * Disable FC Notifications
+         * @hide
+         */
+        public static final String DISABLE_FC_NOTIFICATIONS = "disable_fc_notifications";
+
          /**
           * Volume keys control cursor in text fields (default is 0)
           * 0 - Disabled
