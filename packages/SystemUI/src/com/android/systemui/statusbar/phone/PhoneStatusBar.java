@@ -3780,7 +3780,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
              if (message != null) {
                 Intent intent = new Intent(
                         "com.android.systemui.timedialog.ReminderTimeDialog");
-                intent.putExtra("clear", true);
+                intent.putExtra("type", "clear");
                 startActivityDismissingKeyguard(intent, true);
             }
             return true;
