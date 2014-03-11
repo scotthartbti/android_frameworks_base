@@ -900,47 +900,48 @@ public abstract class WallpaperService extends Service {
         
         void detach() {
            synchronized (mLock) {
-            if (mDestroyed) {
-                return;
-            }
-            
-            mDestroyed = true;
-            
-            if (mVisible) {
-                mVisible = false;
-                if (DEBUG) Log.v(TAG, "onVisibilityChanged(false): " + this);
-                onVisibilityChanged(false);
-            }
-            
-            reportSurfaceDestroyed();
-            
-            if (DEBUG) Log.v(TAG, "onDestroy(): " + this);
-            onDestroy();
-            
-            unregisterReceiver(mReceiver);
-            
-            if (mCreated) {
-                try {
-                    if (DEBUG) Log.v(TAG, "Removing window and destroying surface "
-                            + mSurfaceHolder.getSurface() + " of: " + this);
-                    
-                    if (mInputEventReceiver != null) {
-                        mInputEventReceiver.dispose();
-                        mInputEventReceiver = null;
-                    }
-                    
-                    mSession.remove(mWindow);
-                } catch (RemoteException e) {
-                }
-                mSurfaceHolder.mSurface.release();
-                mCreated = false;
-                
-                // Dispose the input channel after removing the window so the Window Manager
-                // doesn't interpret the input channel being closed as an abnormal termination.
-                if (mInputChannel != null) {
-                    mInputChannel.dispose();
-                    mInputChannel = null;
-                }
+              if (mDestroyed) {
+                  return;
+              }
+
+              mDestroyed = true;
+
+              if (mVisible) {
+                  mVisible = false;
+                  if (DEBUG) Log.v(TAG, "onVisibilityChanged(false): " + this);
+                  onVisibilityChanged(false);
+              }
+
+              reportSurfaceDestroyed();
+
+              if (DEBUG) Log.v(TAG, "onDestroy(): " + this);
+              onDestroy();
+
+              unregisterReceiver(mReceiver);
+
+              if (mCreated) {
+                  try {
+                       if (DEBUG) Log.v(TAG, "Removing window and destroying surface "
+                              + mSurfaceHolder.getSurface() + " of: " + this);
+
+                       if (mInputEventReceiver != null) {
+                           mInputEventReceiver.dispose();
+                           mInputEventReceiver = null;
+                       }
+
+                       mSession.remove(mWindow);
+                  } catch (RemoteException e) {
+                  }
+                  mSurfaceHolder.mSurface.release();
+                  mCreated = false;
+
+                  // Dispose the input channel after removing the window so the Window Manager
+                  // doesn't interpret the input channel being closed as an abnormal termination.
+                  if (mInputChannel != null) {
+                      mInputChannel.dispose();
+                      mInputChannel = null;
+                  }
+               }
             }
            }
         }
@@ -1036,7 +1037,7 @@ public abstract class WallpaperService extends Service {
                     return;
                 }
                 case DO_DETACH: {
-                        mEngine.detach();
+                    mEngine.detach();
                     synchronized (mActiveEngines) {
                         mActiveEngines.remove(mEngine);
                     }
@@ -1122,11 +1123,10 @@ public abstract class WallpaperService extends Service {
     public void onDestroy() {
         super.onDestroy();
         synchronized (mActiveEngines) {
-           for (int i=0; i<mActiveEngines.size(); i++) {
-                Engine engine = mActiveEngines.get(i);
-                engine.detach();
-           }
-           mActiveEngines.clear();
+            for (int i=0; i<mActiveEngines.size(); i++) {
+                 mActiveEngines.get(i).detach();
+            }
+            mActiveEngines.clear();
         }
     }
 
