@@ -57,6 +57,7 @@ import com.android.internal.util.beanstalk.AppHelper;
 import com.android.internal.util.beanstalk.LockscreenTargetUtils;
 import com.android.internal.util.beanstalk.DeviceUtils;
 import com.android.internal.util.beanstalk.SlimActions;
+import com.android.internal.util.beanstalk.ImageHelper;
 import com.android.internal.util.cm.TorchConstants;
 import com.android.internal.view.RotationPolicy;
 import com.android.internal.widget.LockPatternUtils;
@@ -287,6 +288,11 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                 Settings.Secure.LOCKSCREEN_DOTS_COLOR, -2,
                 UserHandle.USER_CURRENT);
 
+        int ringColor = Settings.Secure.getIntForUser(
+                mContext.getContentResolver(),
+                Settings.Secure.LOCKSCREEN_MISC_COLOR, -2,
+                UserHandle.USER_CURRENT);
+
         String lockIcon = Settings.Secure.getStringForUser(
                 mContext.getContentResolver(),
                 Settings.Secure.LOCKSCREEN_LOCK_ICON,
@@ -313,7 +319,7 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
             }
         }
 
-        mGlowPadView.setColoredIcons(lockColor, dotColor, lock);
+        mGlowPadView.setColoredIcons(lockColor, dotColor, ringColor, lock);
 
         updateTargets();
 
@@ -453,9 +459,37 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                     R.drawable.ic_lockscreen_target_activated);
             final InsetDrawable activeBack = new InsetDrawable(blankActiveDrawable, 0, 0, 0, 0);
 
+            int frontColor = Settings.Secure.getIntForUser(
+                    mContext.getContentResolver(),
+                    Settings.Secure.LOCKSCREEN_TARGETS_COLOR, -2,
+                    UserHandle.USER_CURRENT);
+
+            int backColor = Settings.Secure.getIntForUser(
+                    mContext.getContentResolver(),
+                    Settings.Secure.LOCKSCREEN_MISC_COLOR, -2,
+                    UserHandle.USER_CURRENT);
+
+            Drawable unlockFront = res.getDrawable(R.drawable.ic_lockscreen_unlock_normal);
+            Drawable unlockBack = res.getDrawable(R.drawable.ic_lockscreen_unlock_activated);;
+
+            if (frontColor != -2) {
+                unlockFront = new BitmapDrawable(
+                        res, ImageHelper.getColoredBitmap(unlockFront, frontColor));
+            }
+
+            if (backColor != -2) {
+                unlockBack = new BitmapDrawable(
+                        res, ImageHelper.getColoredBitmap(unlockBack, backColor));
+            }
+
+            int insetType = LockscreenTargetUtils.getInsetForIconType(
+                    mContext, GlowPadView.ICON_RESOURCE);
+            Drawable unlock = LockscreenTargetUtils.getLayeredDrawable(mContext,
+                    unlockBack, unlockFront, insetType, true);
+            TargetDrawable unlockTarget = new TargetDrawable(res, unlock);
+
             // Add unlock target
-            storedDrawables.add(new TargetDrawable(res,
-                    res.getDrawable(R.drawable.ic_lockscreen_unlock)));
+            storedDrawables.add(unlockTarget);
             description.add(getResources().getString(
                 com.android.internal.R.string.description_target_unlock));
             directionDescription.add(getResources().getString(
@@ -506,6 +540,22 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                     }
 
                     int inset = LockscreenTargetUtils.getInsetForIconType(mContext, type);
+
+                    if (frontColor != -2) {
+                        front = new BitmapDrawable(
+                                res, ImageHelper.getColoredBitmap(front, frontColor));
+                    }
+
+                    if (backColor != -2) {
+                        if ((back instanceof InsetDrawable)) {
+                            back = new BitmapDrawable(res, ImageHelper.getColoredBitmap(
+                                    blankActiveDrawable, backColor));
+                        } else {
+                            back = new BitmapDrawable(res, ImageHelper.getColoredBitmap(
+                                    back, backColor));
+                        }
+                    }
+
                     Drawable drawable = LockscreenTargetUtils.getLayeredDrawable(mContext,
                             back,front, inset, frontBlank);
                     TargetDrawable targetDrawable = new TargetDrawable(res, drawable);
