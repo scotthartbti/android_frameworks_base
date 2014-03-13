@@ -43,7 +43,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-import com.android.internal.util.liquid.DeviceUtils;
+import com.android.internal.util.beanstalk.DeviceUtils;
 
 import com.android.systemui.R;
 
