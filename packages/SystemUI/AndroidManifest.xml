@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INJECT_EVENTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.DUMP" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
@@ -134,6 +135,11 @@
 
         <service android:name=".CPUInfoService"
                 android:exported="true" />
+
+        <!--  TODO: Should have an android:permission attribute -->
+        <service android:name=".beanstalk.onthego.OnTheGoService"
+            android:process=":onthego"
+            android:exported="false" />
 
         <!-- battery saver mode -->
         <service android:name=".batterysaver.BatterySaverService" />

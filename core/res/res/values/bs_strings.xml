@@ -267,4 +267,7 @@
 
     <!-- Error message if user want to try to disable all navigation options -->
     <string name="disable_navigation_pie_error">You cannot disable the navigation bar. No other navigation is enabled. Enable first pie controls to turn off the navigation bar.</string>
+
+    <!-- label for item that takes On-The-Go in the phone options dialog -->
+    <string name="global_action_onthego">On-The-Go Mode</string>
 </resources>
