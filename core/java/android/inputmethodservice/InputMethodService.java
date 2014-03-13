@@ -75,7 +75,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.android.internal.statusbar.IStatusBarService;
-import com.android.internal.util.liquid.AnimationHelper;
+import com.android.internal.util.beanstalk.AwesomeAnimationHelper;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 
@@ -1750,11 +1750,11 @@ public class InputMethodService extends AbstractInputMethodService {
     }
 
     private Animation retrieveAnimation(boolean enter){
-        int[] animArray = AnimationHelper.getAnimations(enter ? mAnimationEnterIndex : mAnimationExitIndex);
+        int[] animArray = AwesomeAnimationHelper.getAnimations(enter ? mAnimationEnterIndex : mAnimationExitIndex);
         int animInt = enter ? animArray[1] : animArray[0];
         if (animInt == 0) return null;
         Animation anim = AnimationUtils.loadAnimation(this, animInt);
-        Interpolator intplr= AnimationHelper.getInterpolator(this, mInterpolatorIndex);
+        Interpolator intplr= AwesomeAnimationHelper.getInterpolator(this, mInterpolatorIndex);
         if (intplr != null) anim.setInterpolator(intplr);
         if (mAnimationDuration > 0) {
             anim.setDuration(mAnimationDuration);
