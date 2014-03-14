@@ -138,7 +138,7 @@ public class AwesomeAnimationHelper {
         Resources res = context.getResources();
         String value = "";
         switch (mAnim) {
-            case ANIMATION_DEFAULT:
+ case ANIMATION_DEFAULT:
                 value = res.getString(com.android.internal.R.string.animation_default);
                 break;
             case ANIMATION_FADE:
@@ -158,6 +158,31 @@ public class AwesomeAnimationHelper {
                 break;
             case ANIMATION_SLIDE_DOWN:
                 value = res.getString(com.android.internal.R.string.animation_slide_down);
+                break;
+            case ANIMATION_SLIDE_LEFT_NO_FADE:
+                value = res.getString(com.android.internal.R.string.animation_slide_left_no_fade);
+                break;
+            case ANIMATION_TRANSLUCENT:
+                value = res.getString(com.android.internal.R.string.animation_translucent);
+                break;
+            case ANIMATION_GROW_SHRINK_BOTTOM:
+                value = res.getString(com.android.internal.R.string.animation_grow_shrink_bottom);
+                break;
+            case ANIMATION_GROW_SHRINK_CENTER:
+                value = res.getString(com.android.internal.R.string.animation_grow_shrink_center);
+                break;
+            case ANIMATION_GROW_SHRINK_LEFT:
+                value = res.getString(com.android.internal.R.string.animation_grow_shrink_left);
+                break;
+            case ANIMATION_GROW_SHRINK_RIGHT:
+                value = res.getString(com.android.internal.R.string.animation_grow_shrink_right);
+                break;
+            case ANIMATION_GROW_SHRINK:
+                value = res.getString(com.android.internal.R.string.animation_grow_shrink);
+                break;
+            default:
+                value = res.getString(com.android.internal.R.string.action_null);
+                break;
         }
         return value;
     }
