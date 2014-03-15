@@ -88,6 +88,7 @@ import com.android.internal.util.beanstalk.ImageHelper;
 import com.android.internal.util.beanstalk.PolicyConstants;
 import com.android.internal.util.beanstalk.PolicyHelper;
 import com.android.internal.util.beanstalk.SlimActions;
+import com.android.internal.util.beanstalk.NamelessActions;
 
 /**
  * Helper to show the global actions dialog.  Each item is an {@link Action} that
