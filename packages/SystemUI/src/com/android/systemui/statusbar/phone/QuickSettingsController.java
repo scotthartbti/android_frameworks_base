@@ -54,6 +54,7 @@ import static com.android.internal.util.beanstalk.QSConstants.TILE_WIFIAP;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_REBOOT;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_INTERNALMEMORY;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_FCHARGE;
+import static com.android.internal.util.beanstalk.QSConstants.TILE_ONTHEGO;
 
 import android.app.Activity;
 import android.app.ActivityManagerNative;
@@ -111,7 +112,7 @@ import com.android.systemui.quicksettings.WiFiTile;
 import com.android.systemui.quicksettings.WifiAPTile;
 import com.android.systemui.quicksettings.RebootTile;
 import com.android.systemui.quicksettings.FastChargeTile;
-
+import com.android.systemui.quicksettings.OnTheGoTile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -264,6 +265,8 @@ public class QuickSettingsController {
                 qs = new InternalMemory(mContext, this);
             } else if (tile.contains(TILE_FCHARGE)) {
                 qs = new FastChargeTile(mContext, this);
+            } else if (tile.contains(TILE_ONTHEGO)) {
+                qs = new OnTheGoTile(mContext, this);
             }
 
             if (qs != null) {
