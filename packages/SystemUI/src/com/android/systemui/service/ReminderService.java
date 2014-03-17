@@ -32,7 +32,7 @@ import android.os.IBinder;
 import android.os.UserHandle;
 import android.provider.Settings;
 
-import com.android.internal.util.slim.SlimActions;
+import com.android.internal.util.beanstalk.SlimActions;
 import com.android.systemui.R;
 
 public class ReminderService extends Service {
