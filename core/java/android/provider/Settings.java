@@ -4787,7 +4787,12 @@ public final class Settings {
         public static final String NOTIFICATION_HIDE_LABELS = "notification_hide_labels";
 
         /**
-         * Width and height of output vide expressed in WxH
+         * Whether quiet hours will enable or disable themselves on volume change
+         * @hide
+         */
+        public static final String QUIET_HOURS_AUTOMATIC = "quiet_hours_automatic";
+
+        /**
          * @hide
          */
         public static final String SCREEN_RECORDER_OUTPUT_DIMENSIONS = "screen_recorder_output_dimensions";
