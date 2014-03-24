@@ -55,15 +55,14 @@ public class SignalClusterView
     private int mMobileStrengthId = 0, mMobileActivityId = 0, mMobileTypeId = 0;
     private boolean mIsAirplaneMode = false;
     private int mAirplaneIconId = 0;
-    private String mWifiDescription, mMobileDescription, mMobileTypeDescription,
-            mEthernetDescription;
+    private String mWifiDescription, mMobileDescription, mMobileTypeDescription;
     private boolean mCustomColor;
     private int systemColor;
 
     private boolean mShowSignalText = false;
 
     ViewGroup mWifiGroup, mMobileGroup;
-    ImageView mWifi, mMobile, mWifiActivity, mMobileActivity, mMobileType, mAirplane, mEthernet;
+    ImageView mWifi, mMobile, mWifiActivity, mMobileActivity, mMobileType, mAirplane;
     TextView mMobileText;
     View mSpacer;
 
@@ -136,7 +135,6 @@ public class SignalClusterView
         mMobileText     = (TextView)  findViewById(R.id.signal_text);
         mSpacer         =             findViewById(R.id.spacer);
         mAirplane       = (ImageView) findViewById(R.id.airplane);
-        mEthernet       = (ImageView) findViewById(R.id.ethernet);
 
         apply();
     }
@@ -155,7 +153,6 @@ public class SignalClusterView
         mMobileText     = null;
         mSpacer         = null;
         mAirplane       = null;
-        mEthernet       = null;
 
         super.onDetachedFromWindow();
     }
@@ -188,16 +185,6 @@ public class SignalClusterView
     public void setIsAirplaneMode(boolean is, int airplaneIconId) {
         mIsAirplaneMode = is;
         mAirplaneIconId = airplaneIconId;
-
-        apply();
-    }
-
-    @Override
-    public void setEthernetIndicators(boolean visible, int ethernetIcon,
-            String contentDescription) {
-        mEthernetVisible = visible;
-        mEthernetIconId = ethernetIcon;
-        mEthernetDescription = contentDescription;
 
         apply();
     }
@@ -236,10 +223,6 @@ public class SignalClusterView
 
         if(mAirplane != null) {
             mAirplane.setImageDrawable(null);
-        }
-
-        if(mEthernet != null) {
-            mEthernet.setImageDrawable(null);
         }
 
         apply();
@@ -318,14 +301,6 @@ public class SignalClusterView
             mSpacer.setVisibility(View.INVISIBLE);
         } else {
             mSpacer.setVisibility(View.GONE);
-        }
-
-        if (mEthernetVisible) {
-            mEthernet.setVisibility(View.VISIBLE);
-            mEthernet.setImageResource(mEthernetIconId);
-            mEthernet.setContentDescription(mEthernetDescription);
-        } else {
-            mEthernet.setVisibility(View.GONE);
         }
 
         if (DEBUG) Log.d(TAG,
