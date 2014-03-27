@@ -48,7 +48,6 @@ public class LTEButton extends PowerButton{
     protected void toggleState(Context context) {
         TelephonyManager tm = (TelephonyManager)
             context.getSystemService(Context.TELEPHONY_SERVICE);
-        tm.toggleLTE();
     }
 
     @Override
