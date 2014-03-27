@@ -16,6 +16,8 @@
     <!-- [CHAR LIMIT=10] Running services, summary of foreground processes -->
     <string name="service_used_mem"><xliff:g id="memory">%1$s</xliff:g> used</string>
 
+    <string name="accessibility_data_connection_DC">DC-HSPA+</string>
+
     <!-- Screenshot -->
     <string name="screenshot_delete_confirmation">Screenshot deleted</string>
 
