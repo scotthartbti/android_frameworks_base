@@ -17,6 +17,8 @@ import java.util.List;
 
 public class LTEButton extends PowerButton{
 
+    private Context mContext;
+
     private static final List<Uri> OBSERVED_URIS = new ArrayList<Uri>();
     static {
         OBSERVED_URIS.add(Settings.Global.getUriFor(Settings.Global.PREFERRED_NETWORK_MODE));
@@ -27,6 +29,8 @@ public class LTEButton extends PowerButton{
     @Override
     protected void updateState(Context context) {
         int network = getCurrentPreferredNetworkMode(context);
+
+    mContext = context;
         switch(network) {
             case Phone.NT_MODE_GLOBAL:
             case Phone.NT_MODE_LTE_CDMA_AND_EVDO:
@@ -47,7 +51,21 @@ public class LTEButton extends PowerButton{
     @Override
     protected void toggleState(Context context) {
         TelephonyManager tm = (TelephonyManager)
-            context.getSystemService(Context.TELEPHONY_SERVICE);
+            mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        int network = getCurrentPreferredNetworkMode(mContext);
+        switch(network) {
+            case Phone.NT_MODE_GLOBAL:
+            case Phone.NT_MODE_LTE_CDMA_AND_EVDO:
+            case Phone.NT_MODE_LTE_GSM_WCDMA:
+            case Phone.NT_MODE_LTE_CMDA_EVDO_GSM_WCDMA:
+            case Phone.NT_MODE_LTE_ONLY:
+            case Phone.NT_MODE_LTE_WCDMA:
+                tm.toggleLTE(false);
+                break;
+            default:
+                tm.toggleLTE(true);
+                break;
+        }
     }
 
     @Override
@@ -65,12 +83,8 @@ public class LTEButton extends PowerButton{
     }
 
     private static int getCurrentPreferredNetworkMode(Context context) {
-        int preferredNetworkMode = RILConstants.PREFERRED_NETWORK_MODE;
-        if (TelephonyManager.getLteOnCdmaModeStatic() == PhoneConstants.LTE_ON_CDMA_TRUE) {
-            preferredNetworkMode = Phone.NT_MODE_GLOBAL;
-        }
         int network = Settings.Global.getInt(context.getContentResolver(),
-                    Settings.Global.PREFERRED_NETWORK_MODE, preferredNetworkMode);
+                    Settings.Global.PREFERRED_NETWORK_MODE, -1);
         return network;
     }
 }
