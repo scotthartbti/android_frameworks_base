@@ -107,6 +107,18 @@ public class SlimActions {
                     || action.equals(ButtonsConstants.ACTION_MENU_BIG)) {
                 injectKeyDelayed(KeyEvent.KEYCODE_MENU, isLongpress, false);
                 return;
+            } else if (action.equals(ButtonsConstants.ACTION_IME_NAVIGATION_LEFT)) {
+                triggerVirtualKeypress(KeyEvent.KEYCODE_DPAD_LEFT, isLongpress);
+                return;
+            } else if (action.equals(ButtonsConstants.ACTION_IME_NAVIGATION_RIGHT)) {
+                triggerVirtualKeypress(KeyEvent.KEYCODE_DPAD_RIGHT, isLongpress);
+                return;
+            } else if (action.equals(ButtonsConstants.ACTION_IME_NAVIGATION_UP)) {
+                triggerVirtualKeypress(KeyEvent.KEYCODE_DPAD_UP, isLongpress);
+                return;
+            } else if (action.equals(ButtonsConstants.ACTION_IME_NAVIGATION_DOWN)) {
+                triggerVirtualKeypress(KeyEvent.KEYCODE_DPAD_DOWN, isLongpress);
+                return;
             } else if (action.equals(ButtonsConstants.ACTION_POWER_MENU)) {
                 try {
                     windowManagerService.toggleGlobalMenu();
@@ -420,7 +432,16 @@ public class SlimActions {
     private static void injectKeyDelayed(int keyCode,
             boolean longpress, boolean sendOnlyDownMessage) {
         long when = SystemClock.uptimeMillis();
-        int downflags = KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY;
+        int downflags = 0;
+        int upflags = 0;
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT
+            || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+            || keyCode == KeyEvent.KEYCODE_DPAD_UP
+            || keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+            downflags = upflags = KeyEvent.FLAG_SOFT_KEYBOARD | KeyEvent.FLAG_KEEP_TOUCH_MODE;
+        } else {
+            downflags = upflags = KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY;
+        }
         if (longpress) {
             downflags |= KeyEvent.FLAG_LONG_PRESS;
         }
@@ -435,7 +456,7 @@ public class SlimActions {
 
         KeyEvent up = new KeyEvent(when, when + 30, KeyEvent.ACTION_UP, keyCode, 0, 0,
                 KeyCharacterMap.VIRTUAL_KEYBOARD, 0,
-                KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY,
+                upflags,
                 InputDevice.SOURCE_KEYBOARD);
         mHandler.sendMessageDelayed(Message.obtain(mHandler, MSG_INJECT_KEY_UP, up), 30);
     }
