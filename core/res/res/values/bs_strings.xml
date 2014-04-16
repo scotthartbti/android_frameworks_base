@@ -289,4 +289,13 @@
 
     <!-- App circle bar -->
     <string name="app_stop_item_title">Kill app</string>
+
+    <!-- Floating Window -->
+    <string name="floating_window_snap_top">Snap top</string>
+    <string name="floating_window_snap_bottom">Snap bottom</string>
+    <string name="floating_window_snap_left">Snap left</string>
+    <string name="floating_window_snap_right">Snap right</string>
+
+    <!-- Immersive mode confirmation: Pick confirmation window from bottom when status bar is visible -->
+    <string name="immersive_mode_confirmation_bottom">Swipe up from the bottom to exit full screen.</string>
 </resources>
