@@ -1337,7 +1337,7 @@ final class ActivityStack {
             if (DEBUG_STACK)  mStackSupervisor.validateTopActivitiesLocked();
             if (prevTask == nextTask) {
                 prevTask.setFrontOfTask();
-            } else if (prevTask != topTask()) {
+            } else if (prevTask != topTask() && !prev.floatingWindow) {
                 // This task is going away but it was supposed to return to the home task.
                 // Now the task above it has to return to the home task instead.
                 final int taskNdx = mTaskHistory.indexOf(prevTask) + 1;
@@ -2842,7 +2842,7 @@ final class ActivityStack {
                 if (r.finishing) {
                     continue;
                 }
-                if (r.fullscreen && !r.floatingWindow) {
+                if (r.fullscreen) {
                     lastIsOpaque = true;
                 }
                 if (owner != null && r.app != owner) {
