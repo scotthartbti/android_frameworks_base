@@ -4256,6 +4256,14 @@ public final class Settings {
           */
          public static final String KEY_MENU_ACTION = "key_menu_action";
 
+       /**
+	* Either if notification peek is enabled of disabled
+	* 0 = disabled (default)
+	* 1 = enabled
+	* @hide
+	*/
+        public static final String PEEK_STATE = "peek_state";
+
          /**
           * Action to perform when the menu key is long-pressed.
           * (Default is 0 on devices with a search key, 3 on devices without)
