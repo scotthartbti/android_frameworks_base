@@ -3644,6 +3644,12 @@ public final class Settings {
         public static final String MUSIC_TILE_MODE = "music_tile_mode";
 
         /**
+         * Let Quick Settings Panel Tiles vibrate on click
+         * @hide
+         */
+        public static final String QUICK_SETTINGS_TILES_VIBRATE = "quick_settings_tiles_vibrate";
+
+        /**
          * Custom toggle click/long-click/icons for infinite toggles: actions 1-5
          * @hide
          */
