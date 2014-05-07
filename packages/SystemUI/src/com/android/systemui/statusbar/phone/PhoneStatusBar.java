@@ -114,6 +114,8 @@ import com.android.internal.util.beanstalk.ButtonConfig;
 import com.android.internal.util.beanstalk.ButtonsConstants;
 import com.android.internal.util.beanstalk.ButtonsHelper;
 import com.android.internal.util.beanstalk.DeviceUtils;
+import com.android.internal.util.beanstalk.ShakeListener;
+import com.android.internal.util.beanstalk.SlimActions;
 
 import com.android.systemui.BatteryMeterView;
 import com.android.systemui.BatteryCircleMeterView;
@@ -219,6 +221,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     BatteryController mBatteryController;
     LocationController mLocationController;
     NetworkController mNetworkController;
+
+    // Shake listener for user-defined events
+    private ShakeListener mShakeListener;
 
     int mNaturalBarHeight = -1;
     int mIconSize = -1;
@@ -340,6 +345,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private FrameLayout.LayoutParams lpCarrierLabel;
     private int mShortcutsDrawerMargin;
     private int mShortcutsSpacingHeight;
+
+    private boolean mShakeEnabled;
+    private boolean mUserPresent;
 
     // drag bar
     private int mCloseViewHeight;
@@ -542,6 +550,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.VOLUME_KEY_CURSOR_CONTROL), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SHAKE_LISTENER_ENABLED), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SHAKE_SENSITIVITY), false, this,
+                    UserHandle.USER_ALL);
             update();
         }
 
@@ -655,6 +669,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.EXPANDED_DESKTOP_STATE))) {
                 mNavigationBarOverlay.setIsExpanded(isExpanded());
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.SHAKE_LISTENER_ENABLED))) {
+                updateShakeListener();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.SHAKE_SENSITIVITY))) {
+                updateShakeSensitivity();
             }
 
             update();
@@ -1438,6 +1458,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
         filter.addAction(ACTION_DEMO);
         filter.addAction(SCHEDULE_REMINDER_NOTIFY);
         context.registerReceiver(mBroadcastReceiver, filter);
@@ -1466,6 +1487,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mIsAutoBrightNess = checkAutoBrightNess();
 
         mNetworkController.setListener(this);
+
+        updateShakeListener();
 
         return mStatusBarView;
     }
@@ -2353,6 +2376,92 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         } else if ((diff & StatusBarManager.DISABLE_NOTIFICATION_TICKER) != 0) {
             if (mTicking && (state & StatusBarManager.DISABLE_NOTIFICATION_TICKER) != 0) {
                 haltTicker();
+            }
+        }
+    }
+
+    private void unregisterShakeListener() {
+        if (mShakeEnabled) {
+            getShakeListener().unregisterShakeListener();
+        }
+    }
+
+    private void registerShakeListener() {
+        if (mShakeEnabled) {
+            getShakeListener().registerShakeListener();
+        }
+    }
+
+    private void updateShakeListener() {
+        mShakeEnabled = Settings.System.getIntForUser(
+                mContext.getContentResolver(),
+                Settings.System.SHAKE_LISTENER_ENABLED, 0,
+                UserHandle.USER_CURRENT) == 1;
+        if (mShakeEnabled) {
+            getShakeListener().setOnShakeListener(new ShakeListener.OnShakeListener() {
+                public void onShake(int direction) {
+                    performShakeEvent(direction);
+                }
+            });
+            updateShakeSensitivity();
+            if ((mScreenOn == null || mScreenOn) && mUserPresent) {
+                mShakeListener.registerShakeListener();
+            }
+        } else {
+            getShakeListener().unregisterShakeListener();
+        }
+    }
+
+    private boolean shakeAppDisabled() {
+        ActivityManager am = (ActivityManager)
+                mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        final String thisPackage = am.getRunningTasks(1)
+                .get(0).topActivity.getPackageName();
+        String resolvedApp = null;
+        boolean shakeDisabled = false;
+        for (ButtonConfig app : ButtonsHelper.getDisabledShakeApps(mContext)) {
+            resolvedApp = app.getClickAction();
+            resolvedApp = resolvedApp.substring(
+                    resolvedApp.lastIndexOf("component=") + 10,
+                    resolvedApp.lastIndexOf("/"));
+            if (resolvedApp.equals(thisPackage)) {
+                shakeDisabled = true;
+            }
+        }
+        return shakeDisabled;
+    }
+
+    private void updateShakeSensitivity() {
+        getShakeListener().setSensitivity(true, Settings.System.getIntForUser(
+                mContext.getContentResolver(),
+                Settings.System.SHAKE_SENSITIVITY, 0, UserHandle.USER_CURRENT));
+    }
+
+    private ShakeListener getShakeListener() {
+        if (mShakeListener == null) {
+            mShakeListener = new ShakeListener(mContext);
+        }
+        return mShakeListener;
+    }
+
+    private void performShakeEvent(int setting) {
+        if (mShakeEnabled && !shakeAppDisabled()) {
+            if (mCurrOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                // X and Y values are swapped in landscape for ease of
+                // understanding which event will be launched by the user
+                if (setting == 0) {
+                    setting = 1;
+                } else if (setting == 1) {
+                    setting = 0;
+                }
+            }
+            final String event = Settings.System.getStringForUser(
+                    mContext.getContentResolver(),
+                    Settings.System.SHAKE_EVENTS_REGULAR[setting],
+                    UserHandle.USER_CURRENT);
+            if (event != null && !event.equals(ButtonsConstants.ACTION_NULL)) {
+                customButtonVibrate();
+                SlimActions.processAction(mContext, event, false);
             }
         }
     }
@@ -3894,16 +4003,21 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 animateCollapsePanels(flags);
             } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
                 mScreenOn = false;
+                mUserPresent = false;
                 // no waiting!
                 makeExpandedInvisible();
                 notifyNavigationBarScreenOn(false);
                 notifyHeadsUpScreenOn(false);
+                unregisterShakeListener();
                 finishBarAnimations();
             } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
                 mScreenOn = true;
                 // work around problem where mDisplay.getRotation() is not stable while screen is off (bug 7086018)
                 repositionNavigationBar();
                 notifyNavigationBarScreenOn(true);
+            } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
+                mUserPresent = true;
+                registerShakeListener();
             } else if (SCHEDULE_REMINDER_NOTIFY.equals(action)) {
                 updateAndNotifyReminder();
             } else if (ACTION_DEMO.equals(action)) {

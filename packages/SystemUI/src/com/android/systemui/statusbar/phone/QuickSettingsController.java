@@ -43,6 +43,7 @@ import static com.android.internal.util.beanstalk.QSConstants.TILE_QUIETHOURS;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_RINGER;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_SCREENTIMEOUT;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_SETTINGS;
+import static com.android.internal.util.beanstalk.QSConstants.TILE_SHAKE;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_SLEEP;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_SYNC;
 import static com.android.internal.util.beanstalk.QSConstants.TILE_TORCH;
@@ -102,6 +103,7 @@ import com.android.systemui.quicksettings.QuietHoursTile;
 import com.android.systemui.quicksettings.RingerModeTile;
 import com.android.systemui.quicksettings.ScreenTimeoutTile;
 import com.android.systemui.quicksettings.SleepScreenTile;
+import com.android.systemui.quicksettings.ShakeEventTile;
 import com.android.systemui.quicksettings.SyncTile;
 import com.android.systemui.quicksettings.ToggleLockscreenTile;
 import com.android.systemui.quicksettings.TorchTile;
@@ -257,6 +259,8 @@ public class QuickSettingsController {
                 qs = new RebootTile(mContext, this);
             } else if (tile.equals(TILE_QUICKRECORD)) {
                 qs = new QuickRecordTile(mContext, this);
+            } else if (tile.equals(TILE_SHAKE)) {
+                qs = new ShakeEventTile(mContext, this);
             } else if (tile.contains(TILE_CUSTOM)) {
                 qs = new CustomTile(mContext, this, findCustomKey(tile));
 	    } else if (tile.contains(TILE_CONTACT)) {
