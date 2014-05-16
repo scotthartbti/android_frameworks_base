@@ -12458,7 +12458,6 @@ public class PackageManagerService extends IPackageManager.Stub {
     }
 
     public void updateIconMapping(String pkgName) {
-        SystemProperties.set("sys.refresh_theme", "1");
         mContext.enforceCallingOrSelfPermission(
                 android.Manifest.permission.CHANGE_CONFIGURATION,
                 "could not update icon mapping because caller does not have change config permission");
