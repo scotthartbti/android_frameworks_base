@@ -71,8 +71,6 @@ public class Peek implements SensorActivityHandler.SensorChangedCallback {
     public final static boolean DEBUG = false;
 
     private static final float ICON_LOW_OPACITY = 0.3f;
-    private static final int NOTIFICATION_PEEK_TIME = 5000; // 5 secs
-    private static final int PARTIAL_WAKELOCK_TIME = 10000; // 10 secs
     private static final long SCREEN_ON_START_DELAY = 300; // 300 ms
     private static final long REMOVE_VIEW_DELAY = 300; // 300 ms
 
@@ -103,6 +101,8 @@ public class Peek implements SensorActivityHandler.SensorChangedCallback {
 
     private boolean mShowing;
     private boolean mAnimating;
+    private int mPeekWakeTimeout;
+    private int mPeekPickupTimeout;
 
     public boolean mEnabled;
 
@@ -320,6 +320,9 @@ public class Peek implements SensorActivityHandler.SensorChangedCallback {
     private void scheduleTasks() {
         mHandler.removeCallbacksAndMessages(null);
 
+        mPeekWakeTimeout = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.PEEK_WAKE_TIMEOUT, 5000, UserHandle.USER_CURRENT);
+
         // turn on screen task
         mHandler.postDelayed(new Runnable() {
 		    @Override
@@ -338,7 +341,7 @@ public class Peek implements SensorActivityHandler.SensorChangedCallback {
                     mPowerManager.goToSleep(SystemClock.uptimeMillis());
                 }
 		    }
-	    }, SCREEN_ON_START_DELAY + NOTIFICATION_PEEK_TIME);
+	    }, SCREEN_ON_START_DELAY + mPeekWakeTimeout);
 
         // remove view task (make sure screen is off by delaying a bit)
         mHandler.postDelayed(new Runnable() {
@@ -346,7 +349,7 @@ public class Peek implements SensorActivityHandler.SensorChangedCallback {
 		    public void run() {
                 dismissNotification();
 		    }
-	    }, SCREEN_ON_START_DELAY + (NOTIFICATION_PEEK_TIME * (long) 1.3));
+	    }, SCREEN_ON_START_DELAY + (mPeekWakeTimeout * (long) 1.3));
     }
 
     public void showNotification(StatusBarNotification n, boolean update) {
@@ -387,7 +390,9 @@ public class Peek implements SensorActivityHandler.SensorChangedCallback {
                 }
 
                 mWakeLockHandler.removeCallbacks(mPartialWakeLockRunnable);
-                mWakeLockHandler.postDelayed(mPartialWakeLockRunnable, PARTIAL_WAKELOCK_TIME);
+                mPeekPickupTimeout = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.PEEK_PICKUP_TIMEOUT, 10000, UserHandle.USER_CURRENT);
+                mWakeLockHandler.postDelayed(mPartialWakeLockRunnable, mPeekPickupTimeout);
 
                 mNextNotification = n;
                 return;
@@ -667,5 +672,23 @@ public class Peek implements SensorActivityHandler.SensorChangedCallback {
             mHandler.removeCallbacksAndMessages(null);
             dismissNotification();
         }
+    }
+
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.System.PEEK_PICKUP_TIMEOUT), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.System.PEEK_WAKE_TIMEOUT), false, this,
+                    UserHandle.USER_ALL);
+        }
+
+        @Override public void onChange(boolean selfChange) {}
     }
 }

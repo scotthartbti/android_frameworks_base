@@ -4264,6 +4264,19 @@ public final class Settings {
 	*/
         public static final String PEEK_STATE = "peek_state";
 
+        /**
+	* Set the timeout of peek when pikcing up the device
+	* @hide
+	*/
+        public static final String PEEK_PICKUP_TIMEOUT = "peek_pickup_timeout";
+
+        /**
+	* Time to show notification
+	* 5000ms = default
+	* @hide
+	*/
+        public static final String PEEK_WAKE_TIMEOUT = "peek_wake_timeout";
+
          /**
           * Action to perform when the menu key is long-pressed.
           * (Default is 0 on devices with a search key, 3 on devices without)
