@@ -3725,6 +3725,13 @@ public final class Settings {
                 "quick_tiles_per_row_duplicate_landscape";
 
         /**
+         * QuickSettings tiles background color
+         *
+         * @hide
+         */
+        public static final String QUICK_TILES_CUSTOM_COLOR = "quick_tiles_custom_color";
+
+        /**
          * Color of QuickSettings tiles text
          * @hide
          */

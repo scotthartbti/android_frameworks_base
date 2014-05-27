@@ -41,35 +41,23 @@ public class QuickSettingsTileView extends FrameLayout {
     private boolean mPrepared;
     private OnPrepareListener mOnPrepareListener;
 
+    public void setColors(int bgColor, int presColor, float bgAlpha) {
+        if (bgColor != -2 || presColor != -2) {
+            ColorDrawable bgDrawable = new ColorDrawable(bgColor);
+            ColorDrawable presDrawable = new ColorDrawable(presColor);
+            StateListDrawable states = new StateListDrawable();
+            states.addState(new int[] {android.R.attr.state_pressed}, presDrawable);
+            states.addState(new int[] {}, bgDrawable);
+            states.setAlpha((int) ((1 - bgAlpha) * 255));
+            setBackground(states);
+        }
+    }
+
     public QuickSettingsTileView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mContentLayoutId = -1;
         mColSpan = 1;
-
-        int bgColor = Settings.System.getIntForUser(context.getContentResolver(),
-                Settings.System.QUICK_TILES_BG_COLOR, -2,
-                UserHandle.USER_CURRENT);
-        int presColor = Settings.System.getIntForUser(context.getContentResolver(),
-                Settings.System.QUICK_TILES_BG_PRESSED_COLOR, -2,
-                UserHandle.USER_CURRENT);
-        float bgAlpha = Settings.System.getFloatForUser(context.getContentResolver(),
-                Settings.System.QUICK_TILES_BG_ALPHA, 0.0f,
-                UserHandle.USER_CURRENT);
-
-        if (bgColor == -2) {
-            bgColor = context.getResources().getColor(R.color.qs_background_color);
-        }
-        if (presColor == -2) {
-            presColor = context.getResources().getColor(R.color.qs_background_pressed_color);
-        }
-        ColorDrawable bgDrawable = new ColorDrawable(bgColor);
-        ColorDrawable presDrawable = new ColorDrawable(presColor);
-        StateListDrawable states = new StateListDrawable();
-        states.addState(new int[] {android.R.attr.state_pressed}, presDrawable);
-        states.addState(new int[] {}, bgDrawable);
-        states.setAlpha((int) ((1 - bgAlpha) * 255));
-        setBackground(states);
     }
 
     void setColumnSpan(int span) {
