@@ -434,6 +434,7 @@ public class KeyguardViewManager {
                 setBackground(mBackgroundDrawable);
             }
 
+            if (!isLaidOut()) return;
             if (!ActivityManager.isHighEndGfx() || !mScreenOn) {
                 if (d == null) {
                     d = mUserBackground;
