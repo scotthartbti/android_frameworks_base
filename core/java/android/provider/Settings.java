@@ -5303,11 +5303,18 @@ public final class Settings {
         public static final String HOVER_EXCLUDE_LOW_PRIORITY = "hover_exclude_low_priority";
 
         /**
-         * Hover: Only show up if StatusBar is hidden, default is 1 (on).
+         * Hover: Only show up if StatusBar is hidden, default is 0 (off).
          *
          * @hide
          */
         public static final String HOVER_REQUIRE_FULLSCREEN_MODE = "hover_require_fullscreen_mode";
+
+        /**
+         * Hover: Option to exclude topmost app, default is 0 (off).
+         *
+         * @hide
+         */
+        public static final String HOVER_EXCLUDE_TOPMOST = "hover_exclude_topmost";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings

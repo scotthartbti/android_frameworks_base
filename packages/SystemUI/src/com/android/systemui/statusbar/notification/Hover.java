@@ -342,7 +342,7 @@ public class Hover {
 
     public boolean requireFullscreenMode() {
         return Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.HOVER_REQUIRE_FULLSCREEN_MODE, 1) != 0;
+                Settings.System.HOVER_REQUIRE_FULLSCREEN_MODE, 0) != 0;
     }
 
     public boolean excludeNonClearable() {
@@ -358,6 +358,11 @@ public class Hover {
     public int longFadeOutDelay() {
         return Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.HOVER_LONG_FADE_OUT_DELAY, 5000);
+    }
+
+    public boolean excludeTopmost() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.HOVER_EXCLUDE_TOPMOST, 0) != 0;
     }
 
     public boolean isInCallUINotification(Entry entry) {
@@ -654,6 +659,12 @@ public class Hover {
         //Exclude low priority
         if (excludeLowPriority() && entry.notification.getNotification().priority < Notification.PRIORITY_LOW)
             allowed = false;
+
+        //Exclude topmost app
+        if (excludeTopmost() && entry.notification.getPackageName().equals(
+                mNotificationHelper.getForegroundPackageName())) {
+            allowed = false;
+        }
 
         if (!allowed) {
             addStatusBarNotification(entry.notification);
