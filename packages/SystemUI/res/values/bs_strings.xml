@@ -260,4 +260,15 @@
     <string name="status_bar_notification_heads_up_disable_title">Disable heads up</string>
     <string name="heads_up_snooze_message">Heads up is disabled for <xliff:g id="number">%d</xliff:g> minutes.</string>
 
+    <!-- Swipe recents for floating window confirmation dialog -->
+    <string name="recents_swipe_floating_title">Swipe recents to float</string>
+    <string name="recents_swipe_floating_message_portrait">Would you like to swipe left to open apps in floating window?</string>
+    <string name="recents_swipe_floating_message_landscape">Would you like to swipe down to open apps in floating window?</string>
+    <string name="recents_swipe_floating" translatable="false">@string/recents_swipe_floating_title</string>
+
+    <!-- Swipe notification for floating window confirmation dialog -->
+    <string name="status_bar_notification_swipe_floating_title">Swipe notification to float</string>
+    <string name="status_bar_notification_swipe_floating_message">Would you like to swipe left to open apps in floating window?</string>
+    <string name="status_bar_notification_swipe_floating" translatable="false">@string/status_bar_notification_swipe_floating_title</string>
+
 </resources>

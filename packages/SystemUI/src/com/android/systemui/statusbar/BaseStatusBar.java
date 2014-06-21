@@ -1421,15 +1421,11 @@ public abstract class BaseStatusBar extends SystemUI implements
                 // System is dead
             }
 
-            if (mPendingIntent != null) {
-                /*
-                 if (mFloat && !"android".equals(mPkg)) {
-                    Intent transparent = new Intent(mContext, com.android.systemui.Transparent.class);
-                    transparent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_FLOATING_WINDOW);
-                    mContext.startActivity(transparent);
+            if (mPile.launchNextNotificationFloating()) {
+                if (mPendingIntent != null) {
+                    launchFloating(mPendingIntent);
                 }
-                */
-
+            } else if (mPendingIntent != null) {
                 int[] pos = new int[2];
                 v.getLocationOnScreen(pos);
                 Intent overlay = new Intent();
