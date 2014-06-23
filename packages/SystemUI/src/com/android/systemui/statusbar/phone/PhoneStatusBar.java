@@ -3574,14 +3574,28 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     @Override
     public void animateStatusBarOut() {
-        mStatusBarView.setVisibility(View.GONE);
-        mStatusBarView.startAnimation(loadAnim(com.android.internal.R.anim.push_up_out, null));
+        // ensure to not overload
+        if (mStatusBarView.getVisibility() == View.VISIBLE) {
+            mHandler.post(new Runnable() {
+                public void run() {
+                    mStatusBarView.setVisibility(View.GONE);
+                    mStatusBarView.startAnimation(loadAnim(com.android.internal.R.anim.push_up_out, null));
+                }
+            });
+        }
     }
 
     @Override
     public void animateStatusBarIn() {
-        mStatusBarView.setVisibility(View.VISIBLE);
-        mStatusBarView.startAnimation(loadAnim(com.android.internal.R.anim.push_down_in, null));
+        // ensure to not overload
+        if (mStatusBarView.getVisibility() == View.GONE) {
+            mHandler.post(new Runnable() {
+                public void run() {
+                    mStatusBarView.setVisibility(View.VISIBLE);
+                    mStatusBarView.startAnimation(loadAnim(com.android.internal.R.anim.push_down_in, null));
+                }
+            });
+        }
     }
 
     private class MyTicker extends Ticker {
