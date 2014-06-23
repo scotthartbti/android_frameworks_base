@@ -5546,6 +5546,13 @@ public final class Settings {
          */
         public static final String HOVER_EXCLUDE_TOPMOST = "hover_exclude_topmost";
 
+	/**
+	 * Hover: Option to exclude from lock screen, default is 0 (off).
+	 *
+	 * @hide
+	 */
+	public static final String HOVER_EXCLUDE_FROM_LOCK_SCREEN = "hover_exclude_from_lock_screen";
+
         /**
          * Disable ads (HFM)
          * @hide
