@@ -4882,6 +4882,14 @@ public final class Settings {
          */
         public static final String NON_INTRUSIVE_INCALL = "non_intrusive_incall";
 
+	/**
+         * In call dialpad state.
+         * 0 = hidden
+         * 1 = showing
+         * @hide
+         */
+        public static final String DIALPAD_STATE = "dialpad_state";
+
         /**
 	 * @hide
 	 */
