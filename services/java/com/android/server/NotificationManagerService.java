@@ -2419,6 +2419,8 @@ public class NotificationManagerService extends INotificationManager.Stub
                         final boolean useDefaultVibrate =
                                 (notification.defaults & Notification.DEFAULT_VIBRATE) != 0;
 
+                        ContentResolver resolver = mContext.getContentResolver();
+
                         if (Settings.System.getInt(resolver,
                                    Settings.System.QUIET_HOURS_STILL, 0) != 2
                                 && (useDefaultVibrate || convertSoundToVibration || hasCustomVibrate)
@@ -2809,7 +2811,6 @@ public class NotificationManagerService extends INotificationManager.Stub
             }
         }
 
-<<<<<<< HEAD
         // Don't flash while we are in a call, screen is on or we are
         // in quiet hours with light dimmed
         // (unless Notification has EXTRA_FORCE_SHOW_LGHTS)
@@ -2820,7 +2821,7 @@ public class NotificationManagerService extends INotificationManager.Stub
             enableLed = true;
         } else if (mBatterySaverDisableLED || mInCall || (mScreenOn && !ScreenOnNotificationLed && !mDreaming)) {
             enableLed = false;
-        } else if Settings.System.getInt(mContext.getContentResolver(), 
+        } else if (Settings.System.getInt(mContext.getContentResolver(), 
 		  Settings.System.QUIET_HOURS_DIM, 0) == 2) {
             enableLed = false;
         } else {
