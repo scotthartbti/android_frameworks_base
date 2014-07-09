@@ -4212,7 +4212,6 @@ public final class Settings {
         public static final String LOCKSCREEN_NOTIFICATIONS_COLOR = "lockscreen_notifications_color";
 
         /**
-<<<<<<< HEAD
          * Show the pending notification counts as overlays on the status bar
          * @hide
          */
