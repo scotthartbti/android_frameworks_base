@@ -3263,6 +3263,11 @@ public final class Settings {
 	*/
 	public static final String SYSTEMUI_WEATHER_NOTIFICATION = "cfx_weather_notification";
 
+	/**
+	* @hide
+	*/
+	public static final String SYSTEMUI_WEATHER_ICON = "cfx_weather_icon";
+
         /**
          * Navigation controls to Use
          *
