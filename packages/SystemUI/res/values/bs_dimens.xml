@@ -61,4 +61,8 @@
     <dimen name="app_sidebar_listview_width">160dp</dimen>
     <dimen name="app_sidebar_icon_width">72dp</dimen>
     <dimen name="app_sidebar_icon_height">72dp</dimen>
+
+    <dimen name="shadow_width">8dp</dimen>
+    <dimen name="layer_width">300dp</dimen>
+    <dimen name="offset_width">48dp</dimen>
 </resources>
