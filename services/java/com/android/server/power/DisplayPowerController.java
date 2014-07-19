@@ -888,7 +888,7 @@ final class DisplayPowerController {
                         setScreenOn(false);
                         unblockScreenOn();
                     } else if (mPowerState.prepareElectronBeam(
-                            mElectronBeamMode == 0 ?
+                            mElectronBeamMode == 0 || mElectronBeamFadesConfig ?
                                     ElectronBeam.MODE_FADE :
                                         (mElectronBeamMode == 4
                                         ? ElectronBeam.MODE_SCALE_DOWN
