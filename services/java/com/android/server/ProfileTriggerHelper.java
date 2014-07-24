@@ -60,11 +60,30 @@ public class ProfileTriggerHelper extends BroadcastReceiver {
         mWifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
         mLastConnectedSSID = getActiveSSID();
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-        filter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-        filter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-        filter.addAction(AudioManager.A2DP_ROUTE_CHANGED_ACTION);
+        mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        mIntentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        mIntentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        mIntentFilter.addAction(AudioManager.A2DP_ROUTE_CHANGED_ACTION);
+        updateEnabled();
+
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.SYSTEM_PROFILES_ENABLED), false,
+                mSettingsObserver);
+    }
+
+    public void updateEnabled() {
+        boolean enabled = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SYSTEM_PROFILES_ENABLED, 1) == 1;
+        if (enabled && !mFilterRegistered) {
+            Log.v(TAG, "Enabling");
+            mContext.registerReceiver(this, mIntentFilter);
+            mFilterRegistered = true;
+        } else if (!enabled && mFilterRegistered) {
+            Log.v(TAG, "Disabling");
+            mContext.unregisterReceiver(this);
+            mFilterRegistered = false;
+        }
     }
 
     @Override
