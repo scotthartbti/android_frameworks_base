@@ -4859,6 +4859,13 @@ public final class Settings {
          */
         public static final String MENU_VISIBILITY = "menu_visibility";
 
+	/**
+	 * Detailed incall info
+	 *
+	 * @hide
+	 */
+	public static final String DETAILED_INCALL_INFO = "detailed_incall_info";
+
         /**
           * Stores values for notification shortcut targets
           * @hide
