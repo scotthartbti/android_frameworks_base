@@ -4214,6 +4214,12 @@ public final class Settings {
         public static final String LOCKSCREEN_NOTIFICATIONS = "lockscreen_notifications";
 
         /**
+         * Disable heads up on the lockscreen when notifications are enabled
+         * @hide
+         */
+        public static final String LOCKSCREEN_NOTIFICATIONS_DISABLE_HEADS_UP = "lockscreen_notifications_disable_heads_up";
+
+        /**
          * Turn screen on when device is pulled out of pocket
          * @hide
          */
