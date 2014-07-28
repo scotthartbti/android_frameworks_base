@@ -180,6 +180,9 @@ public final class PowerManagerService extends IPowerManager.Stub
     // Max time (microseconds) to allow a CPU boost for
     private static final int MAX_CPU_BOOST_TIME = 5000000;
 
+    // Max time allowed for proximity check
+    private static final int MAX_PROXIMITY_WAIT = 200;
+
     private Context mContext;
     private LightsService mLightsService;
     private BatteryService mBatteryService;
@@ -427,6 +430,7 @@ public final class PowerManagerService extends IPowerManager.Stub
     private SensorManager mSensorManager;
     private Sensor mProximitySensor;
     private boolean mProximityWake;
+
     public PowerManagerService() {
         synchronized (mLock) {
             mWakeLockSuspendBlocker = createSuspendBlockerLocked("PowerManagerService.WakeLocks");
@@ -1208,30 +1212,14 @@ public final class PowerManagerService extends IPowerManager.Stub
     /**
      * @hide
      */
-    private void wakeUp(Runnable r, final long eventTime, boolean wakeupFromKeyEvent) {
+    private void wakeUp(final long eventTime, boolean checkProximity) {
         if (eventTime > SystemClock.uptimeMillis()) {
             throw new IllegalArgumentException("event time must not be in the future");
         }
 
         mContext.enforceCallingOrSelfPermission(android.Manifest.permission.DEVICE_POWER, null);
 
-        if (mHandler.hasMessages(MSG_WAKE_UP)) {
-            // There is already a message queued;
-            return;
-        }
-
-        if (mProximityWake && wakeupFromKeyEvent && mProximitySensor != null) {
-            Message msg = mHandler.obtainMessage(MSG_WAKE_UP);
-            msg.obj = r;
-            mHandler.sendMessageDelayed(msg, 200);
-            runPostProximityCheck(r);
-        } else {
-            r.run();
-        }
-    }
-
-    private Runnable getWakeUpRunnable(final long eventTime) {
-        return new Runnable() {
+        Runnable r = new Runnable() {
             @Override
             public void run() {
                 final long ident = Binder.clearCallingIdentity();
@@ -1242,21 +1230,30 @@ public final class PowerManagerService extends IPowerManager.Stub
                 }
             }
         };
+        runWithProximityCheck(r);
     }
 
-    @Override // Binder call
-    public void wakeUpFromKeyEvent(long eventTime) {
-        wakeUp(getWakeUpRunnable(eventTime), eventTime, true);
-    }
-
-    @Override // Binder call
-    public void wakeUp(long eventTime) {
-        wakeUp(getWakeUpRunnable(eventTime), eventTime, false);
+    private void runWithProximityCheck(Runnable r) {
+        if (mHandler.hasMessages(MSG_WAKE_UP)) {
+            // There is already a message queued;
+            return;
+        }
+        if (mProximityWake && mProximitySensor != null) {
+            Message msg = mHandler.obtainMessage(MSG_WAKE_UP);
+            msg.obj = r;
+            mHandler.sendMessageDelayed(msg, MAX_PROXIMITY_WAIT);
+            runPostProximityCheck(r);
+        } else {
+            r.run();
+        }
     }
 
     private void runPostProximityCheck(final Runnable r) {
+        if (mSensorManager == null) {
+            r.run();
+            return;
+        }
         mSensorManager.registerListener(new SensorEventListener() {
-
             @Override
             public void onSensorChanged(SensorEvent event) {
                 mSensorManager.unregisterListener(this);
@@ -1276,6 +1273,16 @@ public final class PowerManagerService extends IPowerManager.Stub
         }, mProximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
+    @Override // Binder call
+    public void wakeUpWithProximityCheck(long eventTime) {
+        wakeUp(eventTime, true);
+    }
+
+    @Override // Binder call
+    public void wakeUp(long eventTime) {
+        wakeUp(eventTime, false);
+    }
+
     // Called from native code.
     private void wakeUpFromNative(final long eventTime) {
         Runnable r = new Runnable() {
@@ -1284,7 +1291,7 @@ public final class PowerManagerService extends IPowerManager.Stub
                 wakeUpInternal(eventTime);
             }
         };
-        wakeUp(r, eventTime, true);
+        runWithProximityCheck(r);
     }
 
     private void wakeUpInternal(long eventTime) {
