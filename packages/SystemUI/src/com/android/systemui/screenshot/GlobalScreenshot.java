@@ -540,13 +540,11 @@ class GlobalScreenshot {
         mScreenshotLayout.post(new Runnable() {
             @Override
             public void run() {
-                // Play the shutter sound to notify that we've taken a screenshot, but only if
-                // we aren't in quiet hours
-                // The reason behind this code is added here and not in MediaActionSound is for
-                // legal considerations (take a photo or record with the camera cannot be silence),
-                // but take a screenshot of the current has no legal considerations.
+
+                // Play the shutter sound to notify that we've taken a screenshot
                 if (Settings.System.getIntForUser(mContext.getContentResolver(),
-                        Settings.System.QUIET_HOURS_MUTE, 0, UserHandle.USER_CURRENT_OR_SELF) != 2) {
+                        Settings.System.QUIET_HOURS_SYSTEM, 1,
+                        UserHandle.USER_CURRENT) != 2) {
                     mCameraSound.play(MediaActionSound.SHUTTER_CLICK);
                 }
 
