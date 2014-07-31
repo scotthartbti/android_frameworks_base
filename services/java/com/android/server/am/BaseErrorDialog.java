@@ -27,11 +27,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 class BaseErrorDialog extends AlertDialog {
-    private static final int ENABLE_BUTTONS = 0;
-    private static final int DISABLE_BUTTONS = 1;
-
-    private boolean mConsuming = true;
-
     public BaseErrorDialog(Context context) {
         super(context, com.android.internal.R.style.Theme_Dialog_AppError);
 
@@ -46,8 +41,8 @@ class BaseErrorDialog extends AlertDialog {
 
     public void onStart() {
         super.onStart();
-        mHandler.sendEmptyMessage(DISABLE_BUTTONS);
-        mHandler.sendMessageDelayed(mHandler.obtainMessage(ENABLE_BUTTONS), 1000);
+        setEnabled(false);
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(0), 1000);
     }
 
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -76,12 +71,12 @@ class BaseErrorDialog extends AlertDialog {
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            if (msg.what == ENABLE_BUTTONS) {
+            if (msg.what == 0) {
                 mConsuming = false;
                 setEnabled(true);
-            } else if (msg.what == DISABLE_BUTTONS) {
-                setEnabled(false);
             }
         }
     };
+
+    private boolean mConsuming = true;
 }
