@@ -50,6 +50,7 @@ import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.ScrollView;
 
+import com.android.internal.statusbar.IStatusBarService;
 import com.android.keyguard.KeyguardViewMediator.ViewMediatorCallback;
 
 import java.util.ArrayDeque;
