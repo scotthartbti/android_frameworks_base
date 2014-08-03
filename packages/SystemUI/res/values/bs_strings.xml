@@ -285,4 +285,10 @@
     <!-- Content description of the data connection type DC-HSPA+ -->
     <string name="accessibility_data_connection_DC" translatable="false">DC-HSPA+</string>
 
+    <!--Show plug type for battery tile -->
+    <string name="power_ac"> (AC)</string>
+    <string name="power_usb"> (USB)</string>
+    <string name="power_wireless"> (wireless)</string>
+    <string name="power_ac_usb"> (AC+USB)</string>
+
 </resources>
