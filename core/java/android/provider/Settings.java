@@ -5554,6 +5554,13 @@ public final class Settings {
         public static final String HFM_DISABLE_ADS = "hfm_disable_ads";
 
         /**
+         * Heads up: Option to exclude from lockscreen, default is 0 (off).
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_EXCLUDE_FROM_LOCK_SCREEN = "heads_up_exclude_from_lock_screen";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
