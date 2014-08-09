@@ -3461,6 +3461,12 @@ public final class Settings {
          */
         public static final String PIE_SHOW_BACKGROUND = "pie_show_background";
 
+	/**
+	 * Pie trigger sensitivity
+	 * @hide
+	 */
+	public static final String PIE_TRIGGER_SENSITIVITY = "pie_trigger_sensitivity";
+
         /**
          * Locations of the pie in the screen.
          * (1<<0) = LEFT
