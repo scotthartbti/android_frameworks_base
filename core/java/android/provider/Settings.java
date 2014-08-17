@@ -4537,6 +4537,26 @@ public final class Settings {
           */
          public static final String KEY_MENU_LONG_PRESS_ACTION = "key_menu_long_press_action";
 
+	/**
+	 *
+	 * OverScroll Glow Color
+	 * @hide
+ 	 */
+	public static final String OVERSCROLL_GLOW_COLOR = "overscroll_glow_color";
+
+	/**
+	 *
+	 * OverScroll effects configuration
+	 * @hide
+	 */
+	public static final String OVERSCROLL_EFFECT = "overscroll_effect";
+
+	/**
+	 * Sets the overscroller weight (edge bounce effect on lists)
+	 * @hide
+	 */
+	public static final String OVERSCROLL_WEIGHT = "overscroll_weight";
+
          /**
           * Action to perform when the assistant (search) key is pressed. (Default is 3)
           * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
