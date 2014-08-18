@@ -190,8 +190,9 @@ public class NotificationViewManager {
             boolean showNotification = !mHostView.containsNotification(sbn) || mHostView.getNotification(sbn).when != sbn.getNotification().when;
             boolean added = mHostView.addNotification(sbn, (screenOffAndNotCovered || mIsScreenOn) && showNotification,
                     config.forceExpandedView);
-            if ( added && config.wakeOnNotification && screenOffAndNotCovered
-                        && showNotification && mTimeCovered == 0) {
+            if (added && config.wakeOnNotification && screenOffAndNotCovered
+                      && showNotification && mTimeCovered == 0
+                      && !inQuietHours()) {
                 wakeDevice();
                 mHostView.showAllNotifications();
             }
