@@ -307,7 +307,9 @@ public abstract class Ticker {
                     mSegments.remove(0);
                     continue;
                 }
-                mTextSwitcher.setText(text);
+                if (mTextSwitcher != null) {
+                    mTextSwitcher.setText(text);
+                }
 
                 scheduleAdvance();
                 break;
