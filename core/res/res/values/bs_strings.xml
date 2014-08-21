@@ -298,4 +298,8 @@
 
     <!-- WiFi turn off notification -->
     <string name="notify_turn_wifi_off_title">Turn Wi-Fi off</string>
+
+    <!-- USB OTG notification message -->
+    <string name="usb_storage_notification_manage_message">Tap to manage</string>
+
 </resources>

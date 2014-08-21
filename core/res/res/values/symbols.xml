@@ -2039,4 +2039,8 @@
   <!-- LTE signal strength calculation -->
   <java-symbol type="integer" name="config_LTE_antenna_bar_quantity_metric" />
   <java-symbol type="integer" name="config_LTE_RSRP_threshold_type" />
+
+  <!-- USB OTG Notification -->
+  <java-symbol type="string" name="usb_storage_notification_manage_message" />
+
 </resources>
