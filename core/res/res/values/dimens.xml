@@ -368,4 +368,8 @@
 
     <!-- EdgeGesture service: Thickness of the active trigger fields around the screen border -->
     <dimen name="edge_gesture_trigger_thickness">15dp</dimen>
+
+    <!-- PIE -->
+    <!-- Height of the bottom navigation / system bar. -->
+    <dimen name="navigation_bar_at_zero">0dp</dimen>
 </resources>

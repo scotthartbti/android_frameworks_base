@@ -291,7 +291,6 @@ public class PhoneStatusBarView extends PanelBar {
         updateShortcutsVisibility();
     }
 
-
     public void updateShortcutsVisibility() {
         // Notification Shortcuts check for fully expanded panel
         if (mBar.mSettingsButton == null || mBar.mNotificationButton == null) {
@@ -318,4 +317,12 @@ public class PhoneStatusBarView extends PanelBar {
         }
     }
 
+    // PIE
+    @Override
+    public void collapseAllPanels(boolean animate) {
+        super.collapseAllPanels(animate);
+
+        if (mBar.mPieControlPanel != null)
+            mBar.mPieControlPanel.animateCollapsePanels();
+    }
 }
