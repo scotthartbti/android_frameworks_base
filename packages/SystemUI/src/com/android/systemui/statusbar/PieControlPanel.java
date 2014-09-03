@@ -226,7 +226,7 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel,
                 }
             }
             Settings.System.putInt(mContext.getContentResolver(),
-                    Settings.System.PIE_GRAVITY, convertGravitytoPieGravity(gravityOffset));
+                    Settings.System.PA_PIE_GRAVITY, convertGravitytoPieGravity(gravityOffset));
         }
     }
 
