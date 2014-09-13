@@ -1562,14 +1562,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (upgradeVersion == 98) {
             if (mUserHandle == UserHandle.USER_OWNER) {
-                loadQuickBootSetting(db);
             }
             upgradeVersion = 99;
         }
 
         if (upgradeVersion == 99) {
             if (mUserHandle == UserHandle.USER_OWNER) {
-                loadScreenAnimationStyle(db);
             }
             upgradeVersion = 100;
         }

@@ -119,9 +119,6 @@ public class KeyButtonView extends ImageView {
 
         a.recycle();
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.KeyButtonView,
-                defStyle, 0);
-
         mGlowBgId = a.getResourceId(R.styleable.KeyButtonView_glowBackground, 0);
         setClickable(true);
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();

@@ -2071,19 +2071,19 @@ class ContextImpl extends Context {
         mDisplayAdjustments.setCompatibilityInfo(compatInfo);
         mDisplayAdjustments.setActivityToken(activityToken);
 
-        Resources resources = packageInfo.getResources(mainThread);
-        if (resources != null) {
-            if (activityToken != null
-                    || displayId != Display.DEFAULT_DISPLAY
-                    || overrideConfiguration != null
-                    || (compatInfo != null && compatInfo.applicationScale
-                            != resources.getCompatibilityInfo().applicationScale)) {
-                resources = mResourcesManager.getTopLevelResources(
-                        packageInfo.getResDir(), displayId,
-                        overrideConfiguration, compatInfo, activityToken);
-            }
-        }
-        mResources = resources;
+ 	Resources resources = packageInfo.getResources(mainThread);
+	if (resources != null) {
+	    if (activityToken != null
+		|| displayId != Display.DEFAULT_DISPLAY
+		|| overrideConfiguration != null
+		|| (compatInfo != null && compatInfo.applicationScale
+			!= resources.getCompatibilityInfo().applicationScale)) {
+	    resources = mResourcesManager.getTopLevelResources(
+		    packageInfo.getResDir(), packageInfo.getOverlayDirs(), displayId,
+	  	    packageInfo.getAppDir(), overrideConfiguration, compatInfo, activityToken, mOuterContext);
+	   }
+	}
+	mResources = resources;
 
         if (container != null) {
             mBasePackageName = container.mBasePackageName;
