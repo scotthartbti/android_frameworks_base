@@ -47,7 +47,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
-import android.content.res.CustomTheme;
+import android.content.res.ThemeConfig;
 import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.graphics.Canvas;
@@ -320,8 +320,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private int mHideLabels;
 
-    private boolean mRecreating = false;
-
     // position
     int[] mPositionTmp = new int[2];
     boolean mExpandedVisible;
@@ -395,7 +393,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     // last theme that was applied in order to detect theme change (as opposed
     // to some other configuration change).
-    CustomTheme mCurrentTheme;
+    ThemeConfig mCurrentTheme;
     private boolean mRecreating = false;
 
     // for disabling the status bar
@@ -1088,9 +1086,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNetworkController = new NetworkController(mContext);
         mBluetoothController = new BluetoothController(mContext);
 
-        CustomTheme currentTheme = mContext.getResources().getConfiguration().customTheme;
+        ThemeConfig currentTheme = mContext.getResources().getConfiguration().themeConfig;
         if (currentTheme != null) {
-            mCurrentTheme = (CustomTheme)currentTheme.clone();
+            mCurrentTheme = (ThemeConfig)currentTheme.clone();
         }
 
         super.start(); // calls createAndAddWindows()
@@ -1902,7 +1900,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mNavigationBarView.setNavigationBarCanMove(mNavigationBarCanMove);
 
-        CustomTheme newTheme = mContext.getResources().getConfiguration().customTheme;
+        ThemeConfig newTheme = mContext.getResources().getConfiguration().themeConfig;
         if (newTheme != null &&
                 (mCurrentTheme == null || !mCurrentTheme.equals(newTheme))) {
             // Nevermind, this will be re-created
@@ -4517,9 +4515,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         rebuildRecentsScreen();
         addHeadsUpView();
 
-	if (mNavigationBarView != null) {
-	    mNavigationBarView.updateResources();
-	}
+	/* if (mNavigationBarView != null) {
+	    mNavigationBarView.recreateNavigationBar();
+	} */
 
         // recreate StatusBarIconViews.
         for (int i = 0; i < nIcons; i++) {
@@ -4573,11 +4571,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (mQS != null) mQS.updateResources();
 
                 // detect theme change.
-        CustomTheme newTheme = res.getConfiguration().customTheme;
+        ThemeConfig newTheme = res.getConfiguration().themeConfig;
         if (newTheme != null &&
                 (mCurrentTheme == null || !mCurrentTheme.equals(newTheme))) {
-            mCurrentTheme = (CustomTheme)newTheme.clone();
-            recreateStatusBar();
+            mCurrentTheme = (ThemeConfig)newTheme.clone();
+            recreateStatusBar(true);
         } else {
 
             if (mClearButton instanceof TextView) {
