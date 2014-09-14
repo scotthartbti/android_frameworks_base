@@ -380,7 +380,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     int[] mAbsPos = new int[2];
     Runnable mPostCollapseCleanup = null;
 
-<<<<<<< HEAD
     // status bar brightness control
     private boolean mBrightnessControl;
     private float mScreenWidth;
