@@ -4515,9 +4515,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         rebuildRecentsScreen();
         addHeadsUpView();
 
-	/* if (mNavigationBarView != null) {
-	    mNavigationBarView.recreateNavigationBar();
-	} */
+	if (mNavigationBarView != null) {
+	    mNavigationBarView.updateResources();
+            updateSearchPanel(mNavigationBarCanMove, mNavigationRingConfig);
+	}
 
         // recreate StatusBarIconViews.
         for (int i = 0; i < nIcons; i++) {
