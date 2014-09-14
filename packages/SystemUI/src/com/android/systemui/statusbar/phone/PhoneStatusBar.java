@@ -4532,6 +4532,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             addNotificationViews(createNotificationViews(notifData.first, notifData.second));
         }
 
+	updateBatteryIcons();
         setAreThereNotifications();
 
         mStatusBarContainer.addView(mStatusBarWindow);
@@ -4541,6 +4542,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         restorePieTriggerMask();
 
         updateHalo();
+
+	checkBarModes();
 
         mRecreating = false;
     }
