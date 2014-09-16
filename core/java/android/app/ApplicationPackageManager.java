@@ -1430,15 +1430,6 @@ final class ApplicationPackageManager extends PackageManager {
     private static ArrayMap<ResourceName, WeakReference<CharSequence>> sStringCache
             = new ArrayMap<ResourceName, WeakReference<CharSequence>>();
 
-    @Override
-    public void setComponentProtectedSetting(ComponentName componentName, boolean newState) {
-        try {
-            mPM.setComponentProtectedSetting(componentName, newState, mContext.getUserId());
-        } catch (RemoteException re) {
-            Log.e(TAG, "Failed to set component protected setting", re);
-        }
-    }
-
     /**
      * @hide
      */
@@ -1448,6 +1439,29 @@ final class ApplicationPackageManager extends PackageManager {
             mPM.updateIconMapping(pkgName);
         } catch (RemoteException re) {
             Log.e(TAG, "Failed to update icon maps", re);
+        }
+    }
+
+    /**
+     * @hide
+     */
+    @Override
+    public int processThemeResources(String themePkgName) {
+        try {
+            return mPM.processThemeResources(themePkgName);
+        } catch (RemoteException e) {
+            Log.e(TAG, "Unable to process theme resources for " + themePkgName, e);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public void setComponentProtectedSetting(ComponentName componentName, boolean newState) {
+        try {
+            mPM.setComponentProtectedSetting(componentName, newState, mContext.getUserId());
+        } catch (RemoteException re) {
+            Log.e(TAG, "Failed to set component protected setting", re);
         }
     }
 }

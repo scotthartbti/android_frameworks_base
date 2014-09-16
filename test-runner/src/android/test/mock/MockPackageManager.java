@@ -684,7 +684,7 @@ public class MockPackageManager extends PackageManager {
      * @hide
      */
     @Override
-    public void setComponentProtectedSetting(ComponentName componentName, boolean newState) {
+    public void updateIconMaps(String pkgName) {
         throw new UnsupportedOperationException();
     }
 
@@ -692,7 +692,15 @@ public class MockPackageManager extends PackageManager {
      * @hide
      */
     @Override
-    public void updateIconMaps(String pkgName) {
+    public int processThemeResources(String themePkgName) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @hide
+     */
+    @Override
+    public void setComponentProtectedSetting(ComponentName componentName, boolean newState) {
         throw new UnsupportedOperationException();
     }
 }
