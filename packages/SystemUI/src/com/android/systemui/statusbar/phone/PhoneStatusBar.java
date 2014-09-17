@@ -264,6 +264,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     ClockCenter mClockCenter;
     View mCenterSpacer;
 
+    private boolean mForceShowClockOnLockscreen = false;
+
     // expanded notifications
     NotificationPanelView mNotificationPanel; // the sliding/resizing panel within the notification window
     ScrollView mScrollView;
@@ -615,6 +617,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QUICK_SETTINGS_RIBBON_TILES),
                     false, this, UserHandle.USER_ALL);
+	    mForceShowClockOnLockscreen = Settings.System.getIntForUser(
+                    resolver, Settings.System.STATUS_BAR_FORCE_CLOCK_LOCKSCREEN, 0
+                    , UserHandle.USER_CURRENT) == 1;
             update();
         }
 
@@ -2534,6 +2539,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             UserHandle.USER_CURRENT);
         if (clockLocation == 0 && clock != null) {
             clock.setVisibility(show ? (showClock ? View.VISIBLE : View.GONE) : View.GONE);
+	}
+        if (mForceShowClockOnLockscreen) {
+            show = true;
         }
         if (clockLocation == 1 && cclock != null) {
             cclock.setVisibility(show ? (showClock ? View.VISIBLE : View.GONE) : View.GONE);
