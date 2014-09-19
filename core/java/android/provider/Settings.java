@@ -4345,6 +4345,13 @@ public final class Settings {
         public static final String POWER_MENU_PROFILES_ENABLED = "power_menu_profiles_enabled";
 
 	/**
+	 * Whether incomming call UI stays in background
+	 *
+	 * @hide
+	 */
+	public static final String CALL_UI_IN_BACKGROUND = "call_ui_in_background";
+
+	/**
          * Whether incomming call UI stays in background and shows as heads up notification
          *
          * @hide
@@ -4914,13 +4921,6 @@ public final class Settings {
          */
         public static final String MENU_VISIBILITY = "menu_visibility";
 
-	/**
-	 * Detailed incall info
-	 *
-	 * @hide
-	 */
-	public static final String DETAILED_INCALL_INFO = "detailed_incall_info";
-
         /**
           * Stores values for notification shortcut targets
           * @hide
@@ -4978,6 +4978,12 @@ public final class Settings {
          * @hide
          */
         public static final String EXPANDED_DESKTOP_STATE = "expanded_desktop_state";
+
+        /**
+	 * Whether national data roaming should be used.
+	 * @hide
+	 */
+	public static final String MVNO_ROAMING = "mvno_roaming";
 
         /**
          * HALO, should default to 0 (no, do not show)
@@ -5132,13 +5138,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_NOTIF_COUNT = "status_bar_notif_count";
-
-        /**
-         * Should the non-intrsive incall ui be used
-         *
-         * @hide
-         */
-        public static final String NON_INTRUSIVE_INCALL = "non_intrusive_incall";
 
         /**
 	 * @hide
