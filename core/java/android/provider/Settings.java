@@ -4352,11 +4352,33 @@ public final class Settings {
 	public static final String CALL_UI_IN_BACKGROUND = "call_ui_in_background";
 
 	/**
+	 * Whether incomming call UI stays in background
+	 *
+	 * @hide
+	 */
+	public static final String NON_INTRUSIVE_INCALL = "non_intrusive_incall";
+
+	/**
+	 * Whether incomming call UI stays in background
+	 *
+	 * @hide
+	 */
+	public static final String T9_SEARCH_INPUT_LOCALE = "t9_search_input_locale";
+
+	/**
          * Whether incomming call UI stays in background and shows as heads up notification
          *
          * @hide
          */
         public static final String CALL_UI_AS_HEADS_UP = "call_ui_as_heads_up";
+
+	/**
+	 * Whether flip action during incomming call should mute or dismiss
+	 * the call (mute = 0, dismiss = 1, nothing = 2 (default))
+	 *
+	 * @hide
+	 */
+	public static final String CALL_FLIP_ACTION_KEY = "call_flip_action_key";
 
 	/**
          * Whether power menu screen record is enabled
@@ -4978,12 +5000,6 @@ public final class Settings {
          * @hide
          */
         public static final String EXPANDED_DESKTOP_STATE = "expanded_desktop_state";
-
-        /**
-	 * Whether national data roaming should be used.
-	 * @hide
-	 */
-	public static final String MVNO_ROAMING = "mvno_roaming";
 
         /**
          * HALO, should default to 0 (no, do not show)
