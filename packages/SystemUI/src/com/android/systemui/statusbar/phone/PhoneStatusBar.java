@@ -402,6 +402,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private StatusHeaderMachine mStatusHeaderMachine;
     private Runnable mStatusHeaderUpdater;
 
+    private ImageView mCarrierLogo;
+    private boolean mCarrierLogoEnabled = false;
+
     // last theme that was applied in order to detect theme change (as opposed
     // to some other configuration change).
     ThemeConfig mCurrentTheme;
@@ -418,7 +421,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private BatteryMeterView mBattery;
     private BatteryCircleMeterView mCircleBattery;
-    private ImageView mCarrierLogo;
     boolean mTransparentNav = false;
 
     private boolean mCustomColor;
@@ -630,6 +632,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QUICK_SETTINGS_RIBBON_TILES),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.TOGGLE_CARRIER_LOGO), false, this,
+                    UserHandle.USER_ALL);
             update();
         }
 
@@ -865,6 +870,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 	    mForceShowClockOnLockscreen = Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_FORCE_CLOCK_LOCKSCREEN, 0
                     , UserHandle.USER_CURRENT) == 1;
+            mCarrierLogoEnabled = Settings.System.getIntForUser(
+                    resolver, Settings.System.TOGGLE_CARRIER_LOGO, 0
+                    , UserHandle.USER_CURRENT) == 1;
+            setCarrierVisibility();
 
             if (mCarrierLabel != null) {
                 mHideLabels = Settings.System.getIntForUser(resolver,
@@ -4464,8 +4473,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
+    private void setCarrierVisibility() {
+        if (mCarrierLogo != null) {
+            mCarrierLogo.setVisibility(mCarrierLogoEnabled ? View.VISIBLE : View.GONE);
+        }
+    }
+
     public void setCarrierVisibility(int vis) {
-        mCarrierLogo.setVisibility(vis);
+        if (mCarrierLogoEnabled) {
+            mCarrierLogo.setVisibility(vis);
+        }
     }
 
     public void setCarrierImageResource(int res) {
