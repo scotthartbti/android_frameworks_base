@@ -304,8 +304,6 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                     @Override
                     public void run() {
                         mCameraDisabledByDpm = isCameraDisabledByDpm();
-			mWasNotifsButtonVisible = iconId != 0 && ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0);
-			setVisibleOrGone(getNotifsButton(), mWasNotifsButtonVisible);
                     }
                 });
             }
@@ -770,6 +768,16 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         }
         handleIMENavigation(backAlt, false);
         setDisabledFlags(mDisabledFlags, true);
+    }
+
+    public void setButtonDrawable(int buttonId, final int iconId) {
+	final ImageView iv = (ImageView)getNotifsButton();
+	mHandler.post(new Runnable() {
+	    public void run() {
+		mWasNotifsButtonVisible = iconId != 0 && ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0);
+		setVisibleOrGone(getNotifsButton(), mWasNotifsButtonVisible);
+	    }
+	});
     }
 
     @Override
