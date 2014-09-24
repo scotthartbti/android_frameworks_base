@@ -294,6 +294,8 @@ public class ActiveDisplayView extends FrameLayout {
                     Settings.System.ACTIVE_DISPLAY_TURNOFF_MODE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ACTIVE_DISPLAY_THRESHOLD), false, this);
+	    resolver.registerContentObserver(Settings.System.getUriFor(
+		    Settings.System.IMMERSIVE_MODE), false, this);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.LOCK_SCREEN_LOCK_AFTER_TIMEOUT), false, this);
             update();
@@ -340,6 +342,8 @@ public class ActiveDisplayView extends FrameLayout {
                     resolver, Settings.System.ACTIVE_DISPLAY_TURNOFF_MODE, 0) == 1;
             mProximityThreshold = Settings.System.getLong(
                     resolver, Settings.System.ACTIVE_DISPLAY_THRESHOLD, 8000L);
+	    mForceImmersiveMode = Settings.System.getInt(
+		    resolver, Settings.System.IMMERSIVE_MODE, 0) == 1;
             mLockScreenTimeOut = Settings.Secure.getLong(
                     resolver, Settings.Secure.LOCK_SCREEN_LOCK_AFTER_TIMEOUT, 5000);
 
