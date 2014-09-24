@@ -326,6 +326,9 @@ public class ActiveDisplayView extends FrameLayout
         public void onGrabbedStateChange(View v, int handle) {
         }
 
+	public void onTargetChange(View v, int target) {
+	}
+
         public void onFinishFinalAnimation() {
         }
     };
