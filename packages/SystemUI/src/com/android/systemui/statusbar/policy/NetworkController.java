@@ -27,7 +27,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
-import android.text.TextUtils;
 import android.net.wifi.WifiManager;
 import android.net.wimax.WimaxManagerConstants;
 import android.os.Bundle;
@@ -162,7 +161,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
     ArrayList<SignalCluster> mSignalClusters = new ArrayList<SignalCluster>();
     ArrayList<NetworkSignalChangedCallback> mSignalsChangedCallbacks =
             new ArrayList<NetworkSignalChangedCallback>();
-    ArrayList<CarrierCluster> mCarrierCluster = new ArrayList<CarrierCluster>();
     int mLastPhoneSignalIconId = -1;
     int mLastDataDirectionIconId = -1;
     int mLastDataDirectionOverlayIconId = -1;
@@ -170,7 +168,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
     int mLastWimaxIconId = -1;
     int mLastCombinedSignalIconId = -1;
     int mLastDataTypeIconId = -1;
-    int mCarrierIconId = -1;
     String mLastCombinedLabel = "";
 
     private boolean mHasMobileDataFeature;
@@ -185,10 +182,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         void setMobileDataIndicators(boolean visible, int strengthIcon, int activityIcon,
                 int typeIcon, String contentDescription, String typeContentDescription);
         void setIsAirplaneMode(boolean is, int airplaneIcon);
-    }
-
-    public interface CarrierCluster {
-        void setCarrierIndicators(int carrierIcon);
     }
 
     public interface NetworkSignalChangedCallback {
@@ -339,11 +332,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         mEmergencyLabelViews.add(v);
     }
 
-    public void addCarrierCluster(CarrierCluster ccluster) {
-        mCarrierCluster.add(ccluster);
-        refreshCarrierCluster(ccluster);
-    }
-
     public void addSignalCluster(SignalCluster cluster) {
         mSignalClusters.add(cluster);
         refreshSignalCluster(cluster);
@@ -356,11 +344,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
 
     public void removeNetworkSignalChangedCallback(NetworkSignalChangedCallback cb) {
         mSignalsChangedCallbacks.remove(cb);
-    }
-
-    public void refreshCarrierCluster(CarrierCluster ccluster) {
-        if (mDemoMode) return;
-        ccluster.setCarrierIndicators(mCarrierIconId);
     }
 
     public void refreshSignalCluster(SignalCluster cluster) {
@@ -1136,7 +1119,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         String combinedLabel = "";
         String wifiLabel = "";
         String mobileLabel = "";
-        String carrierNumber = "";
         int N;
         final boolean emergencyOnly = isEmergencyOnly();
         final String customLabel = Settings.System.getString(mContext.getContentResolver(),
@@ -1146,7 +1128,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
             mDataSignalIconId = mPhoneSignalIconId = 0;
             mQSPhoneSignalIconId = 0;
             mobileLabel = "";
-            carrierNumber = "";
         } else {
             // We want to show the carrier name if in service and either:
             //   - We are connected to mobile data, or
@@ -1158,21 +1139,17 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
 
             if (mDataConnected) {
                 mobileLabel = mNetworkName;
-                carrierNumber = mPhone.getNetworkOperator();
             } else if (mConnected || emergencyOnly) {
                 if (hasService() || emergencyOnly) {
                     // The isEmergencyOnly test covers the case of a phone with no SIM
                     mobileLabel = mNetworkName;
-                    carrierNumber = mPhone.getNetworkOperator();
                 } else {
                     // Tablets, basically
                     mobileLabel = "";
-                    carrierNumber = "";
                 }
             } else {
                 mobileLabel
                     = context.getString(R.string.status_bar_settings_signal_meter_disconnected);
-                carrierNumber = mPhone.getNetworkOperator();
             }
 
             // Now for things that should only be shown when actually using mobile data.
@@ -1199,9 +1176,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
                 mContentDescriptionCombinedSignal = mContentDescriptionDataType;
             } else {
                 mMobileActivityIconId = 0;
-            }
-            if (!TextUtils.isEmpty(carrierNumber)) {
-                mCarrierIconId = mContext.getResources().getIdentifier("l" + carrierNumber, "drawable", mContext.getPackageName());
             }
         }
 
@@ -1357,12 +1331,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         // update QS
         for (NetworkSignalChangedCallback cb : mSignalsChangedCallbacks) {
             notifySignalsChangedCallbacks(cb);
-        }
-
-        if (mCarrierIconId != -1) {
-            for (CarrierCluster ccluster : mCarrierCluster) {
-                 refreshCarrierCluster(ccluster);
-            }
         }
 
         if (mLastPhoneSignalIconId          != mPhoneSignalIconId
