@@ -783,6 +783,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
 	final ImageView iv = (ImageView)getNotifsButton();
 	mHandler.post(new Runnable() {
 	    public void run() {
+		if (iconId == 1) iv.setImageResource(R.drawable.search_light_land);
+		else iv.setImageDrawable(mVertical ? mRecentAltLandIcon : mRecentAltIcon);
 		mWasNotifsButtonVisible = iconId != 0 && ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0);
 		setVisibleOrGone(getNotifsButton(), mWasNotifsButtonVisible);
 	    }
@@ -858,11 +860,13 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         }
         final boolean showNotifs = !((disabledFlags & View.STATUS_BAR_DISABLE_SEARCH) != 0) &&
             Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.LOCKSCREEN_NOTIFICATIONS, 1) == 1
-            && Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.LOCKSCREEN_NOTIFICATIONS, 1) == 1 &&
+                Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE, 0) == 0;
-
-	setVisibleOrGone(getNotifsButton(), showNotifs && mWasNotifsButtonVisible);
+        final View notifsButton = getNotifsButton();
+        if (notifsButton != null) {
+	    setVisibleOrGone(getNotifsButton(), showNotifs && mWasNotifsButtonVisible);
+        }
 
         mBarTransitions.applyBackButtonQuiescentAlpha(mBarTransitions.getMode(), true /*animate*/);
 
