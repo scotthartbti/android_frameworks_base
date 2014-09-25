@@ -34,6 +34,7 @@ import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.pm.ThemeUtils;
 import android.content.pm.UserInfo;
 import android.database.ContentObserver;
@@ -183,10 +184,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     public void showDialog(boolean keyguardShowing, boolean isDeviceProvisioned) {
         mKeyguardShowing = keyguardShowing;
         mDeviceProvisioned = isDeviceProvisioned;
-        if (mDialog != null) {
-	    if (mUiContext != null) {
-                mUiContext = null;
-            }
+        if (mDialog != null && mUiContext == null) {
             mDialog.dismiss();
             mDialog = null;
 	    mDialog = createDialog();
@@ -502,12 +500,12 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         mAdapter = new MyAdapter();
 
-        AlertParams params = new AlertParams(mContext);
+        AlertParams params = new AlertParams(getUiContext());
         params.mAdapter = mAdapter;
         params.mOnClickListener = this;
         params.mForceInverseBackground = true;
 
-        GlobalActionsDialog dialog = new GlobalActionsDialog(mContext, params);
+        GlobalActionsDialog dialog = new GlobalActionsDialog(getUiContext(), params);
         dialog.setCanceledOnTouchOutside(false); // Handled by the custom class.
 
         dialog.getListView().setItemsCanFocus(true);
@@ -886,7 +884,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         public View getView(int position, View convertView, ViewGroup parent) {
             Action action = getItem(position);
-            return action.create(mContext, convertView, parent, LayoutInflater.from(mContext));
+	    final Context context = getUiContext();
+            return action.create(context, convertView, parent, LayoutInflater.from(context));
         }
     }
 
