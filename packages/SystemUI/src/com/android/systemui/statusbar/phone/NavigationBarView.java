@@ -858,7 +858,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             setVisibleOrGone(cameraButton, shouldShowCamera && !mCameraDisabledByDpm
                     && !mCameraDisabledByUser);
         }
-        final boolean showNotifs = !((disabledFlags & View.STATUS_BAR_DISABLE_SEARCH) != 0) &&
+        final boolean showNotifs = disableHome
+            && !((disabledFlags & View.STATUS_BAR_DISABLE_SEARCH) != 0) &&
             Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.LOCKSCREEN_NOTIFICATIONS, 1) == 1 &&
                 Settings.System.getInt(mContext.getContentResolver(),
