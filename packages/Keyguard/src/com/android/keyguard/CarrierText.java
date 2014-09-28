@@ -98,10 +98,16 @@ public class CarrierText extends TextView {
         CharSequence text = getCarrierTextForSimState(simState, plmn, spn);
         String customLabel = Settings.System.getString(getContext().getContentResolver(),
                 Settings.System.CUSTOM_CARRIER_LABEL);
+        int noCarrierLabel = Settings.System.getIntForUser(getContext().getContentResolver(),
+		Settings.System.NO_CARRIER_LABEL, 0, UserHandle.USER_CURRENT);
+	if (noCarrierLabel == 0) {
         if (customLabel == null || customLabel.length() == 0) {
-            setText(text != null ? text.toString().toUpperCase() : null);
+                setText(text != null ? text.toString().toUpperCase() : null);
+	    } else {
+                setText(customLabel);
+	    }
         } else {
-            setText(customLabel);
+            setText("");
         }
     }
 
