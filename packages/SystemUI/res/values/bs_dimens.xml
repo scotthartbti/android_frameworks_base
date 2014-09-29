@@ -63,8 +63,6 @@
     <dimen name="layer_width">300dp</dimen>
     <dimen name="offset_width">48dp</dimen>
 
-    <dimen name="weather_text_margin">56dp</dimen>
-
     <!-- Heads up -->
     <dimen name="heads_up_bottom_gap">5dp</dimen>
 
