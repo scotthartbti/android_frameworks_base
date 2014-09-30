@@ -5318,7 +5318,13 @@ public final class Settings {
          */
         public static final String GESTURE_THREE = "gesture_three";
 
-         /**
+        /**
+         * Force expanded notifications on all apps that support it.
+         * @hide
+         */
+        public static final String FORCE_EXPANDED_NOTIFICATIONS = "force_expanded_notifications";
+
+        /**         
          * Action for long-pressing back button on lock screen
          * @hide
          */
