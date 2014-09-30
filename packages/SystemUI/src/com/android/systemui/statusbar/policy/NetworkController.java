@@ -1394,7 +1394,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         if (!TextUtils.isEmpty(carrierNumber)) {
             mCarrierIconId = context.getResources().getIdentifier("l" + carrierNumber,
                                       "drawable", context.getPackageName());
-            Log.w(TAG, "Search for network drawable from carrier number : l" + carrierNumber);
         }
 
         if (mCarrierIconId <= 0) {
@@ -1402,7 +1401,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
                 carrierName = filterNetworkName(carrierName);
                 mCarrierIconId = context.getResources().getIdentifier("l" + carrierName,
                                          "drawable", context.getPackageName());
-                Log.w(TAG, "Search for network drawable from carrier name : l" + carrierName);
             }
         }
 
