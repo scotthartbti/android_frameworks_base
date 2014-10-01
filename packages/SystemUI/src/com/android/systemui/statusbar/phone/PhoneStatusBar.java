@@ -404,6 +404,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mRecreating = false;
 
     private ImageView mCarrierLogo;
+    private boolean mCarrierLogoEnabled = false;
 
     // for disabling the status bar
     int mDisabled = 0;
@@ -619,6 +620,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QUICK_SETTINGS_RIBBON_TILES),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.TOGGLE_CARRIER_LOGO),
+                    false, this);
 	    mForceShowClockOnLockscreen = Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_FORCE_CLOCK_LOCKSCREEN, 0
                     , UserHandle.USER_CURRENT) == 1;
@@ -850,6 +854,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mNotificationShortcutsIsActive = !(notificationShortcutsIsActive == null
                     || notificationShortcutsIsActive.isEmpty());
 
+	    mCarrierLogoEnabled = Settings.System.getIntForUser(
+            	    resolver, Settings.System.TOGGLE_CARRIER_LOGO, 0,
+           	    UserHandle.USER_CURRENT) == 1;
+
             if (mCarrierLabel != null) {
                 mHideLabels = Settings.System.getIntForUser(resolver,
                         Settings.System.NOTIFICATION_HIDE_LABELS, 0, UserHandle.USER_CURRENT);
@@ -859,6 +867,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
             updateBatteryIcons();
 	    updateCustomHeaderStatus();
+            setCarrierVisibility();
 
             mFlipInterval = Settings.System.getIntForUser(mContext.getContentResolver(),
                         Settings.System.REMINDER_ALERT_INTERVAL, 1500, UserHandle.USER_CURRENT);
@@ -1484,7 +1493,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNetworkController.addSignalCluster(signalCluster);
         mNetworkController.addCarrierCluster(signalCluster);
         signalCluster.setNetworkController(mNetworkController);
-        signalCluster.setStatusBar(this);
+        signalCluster.setStatusBarCarrier(this);
 
         final boolean isAPhone = mNetworkController.hasVoiceCallingFeature();
         if (isAPhone) {
@@ -4428,8 +4437,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
+    private void setCarrierVisibility() {
+        if (mCarrierLogo != null) {
+            mCarrierLogo.setVisibility(mCarrierLogoEnabled ? View.VISIBLE : View.GONE);
+        }
+    }
+
     public void setCarrierVisibility(int vis) {
-        mCarrierLogo.setVisibility(vis);
+        if (mCarrierLogoEnabled) {
+            mCarrierLogo.setVisibility(vis);
+        }
     }
 
     public void setCarrierImageResource(int res) {
