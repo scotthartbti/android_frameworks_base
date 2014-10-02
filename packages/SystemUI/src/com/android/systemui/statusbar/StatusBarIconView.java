@@ -17,6 +17,7 @@
 package com.android.systemui.statusbar;
 
 import android.app.Notification;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -27,8 +28,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.UserHandle;
+import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -54,6 +56,9 @@ public class StatusBarIconView extends AnimatedImageView {
     private String mNumberText;
     private Notification mNotification;
     private boolean mShowNotificationCount;
+
+    private boolean mCustomColor;
+    private int systemColor;
 
     public StatusBarIconView(Context context, String slot, Notification notification) {
         super(context);
@@ -169,6 +174,13 @@ public class StatusBarIconView extends AnimatedImageView {
         if (withClear) {
             setImageDrawable(null);
         }
+        //Color icons
+        if (mCustomColor) {
+            drawable.setColorFilter(systemColor, Mode.SRC_ATOP);
+        } else {
+            drawable.clearColorFilter();
+        }
+
         setImageDrawable(drawable);
         return true;
     }
@@ -318,9 +330,15 @@ public class StatusBarIconView extends AnimatedImageView {
             super(handler);
         }
         void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
             mContext.getContentResolver().registerContentObserver(
                     Settings.System.getUriFor(Settings.System.STATUS_BAR_NOTIF_COUNT),
                     false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.CUSTOM_SYSTEM_ICON_COLOR), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SYSTEM_ICON_COLOR), false, this, UserHandle.USER_ALL);
+            updateSettings();
         }
         void unobserve() {
             mContext.getContentResolver().unregisterContentObserver(this);
@@ -333,5 +351,13 @@ public class StatusBarIconView extends AnimatedImageView {
                         R.bool.config_statusBarShowNumber) ? 1 : 0) == 1;
             set(mIcon, true);
         }
+    }
+
+    private void updateSettings() {
+        ContentResolver resolver = mContext.getContentResolver();
+        mCustomColor = Settings.System.getIntForUser(resolver,
+                Settings.System.CUSTOM_SYSTEM_ICON_COLOR, 0, UserHandle.USER_CURRENT) == 1;
+        systemColor = Settings.System.getIntForUser(resolver,
+                Settings.System.SYSTEM_ICON_COLOR, -2, UserHandle.USER_CURRENT);
     }
 }

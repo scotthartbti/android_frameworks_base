@@ -20,6 +20,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
+import android.graphics.drawable.Drawable;
+import android.graphics.PorterDuff.Mode;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.AttributeSet;
@@ -60,6 +62,31 @@ public class SignalClusterView
     TextView mMobileText;
     View mSpacer;
 
+    private SettingsObserver mSettingsObserver;
+
+    private boolean mCustomColor;
+    private int systemColor;
+
+    protected class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.CUSTOM_SYSTEM_ICON_COLOR), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SYSTEM_ICON_COLOR), false, this, UserHandle.USER_ALL);
+            updateSettings();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
     public SignalClusterView(Context context) {
         this(context, null);
     }
@@ -70,6 +97,11 @@ public class SignalClusterView
 
     public SignalClusterView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        if (mSettingsObserver == null) {
+            mSettingsObserver = new SettingsObserver(new Handler());
+        }
+        mSettingsObserver.observe();
     }
 
     public void setNetworkController(NetworkController nc) {
@@ -80,11 +112,6 @@ public class SignalClusterView
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-
-        ContentResolver res = mContext.getContentResolver();
-        res.registerContentObserver(Settings.System.getUriFor(Settings.System.STATUS_BAR_SIGNAL_TEXT), false, mSettingsObserver);
-        updateSettings();
-
         mWifiGroup      = (ViewGroup) findViewById(R.id.wifi_combo);
         mWifi           = (ImageView) findViewById(R.id.wifi_signal);
         mWifiActivity   = (ImageView) findViewById(R.id.wifi_inout);
@@ -101,8 +128,6 @@ public class SignalClusterView
 
     @Override
     protected void onDetachedFromWindow() {
-        mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
-
         mWifiGroup      = null;
         mWifi           = null;
         mWifiActivity   = null;
@@ -193,8 +218,25 @@ public class SignalClusterView
         if (mWifiGroup == null) return;
 
         if (mWifiVisible) {
-            mWifi.setImageResource(mWifiStrengthId);
-            mWifiActivity.setImageResource(mWifiActivityId);
+            if (mWifiStrengthId != 0) {
+        Drawable wifiBitmap = mContext.getResources().getDrawable(mWifiStrengthId);
+        if (mCustomColor) {
+                    wifiBitmap.setColorFilter(systemColor, Mode.SRC_ATOP);
+                } else {
+                    wifiBitmap.clearColorFilter();
+                }
+                mWifi.setImageDrawable(wifiBitmap);
+        }
+        if (mWifiActivityId != 0) {
+                Drawable mWifiActivityBitmap = mContext.getResources().getDrawable(mWifiActivityId);
+            if (mCustomColor) {
+                    mWifiActivityBitmap.setColorFilter(systemColor, Mode.SRC_ATOP);
+                } else {
+                    mWifiActivityBitmap.clearColorFilter();
+                }
+        mWifiActivity.setImageDrawable(mWifiActivityBitmap);
+        }
+        mWifiActivity.setImageResource(mWifiActivityId);
 
             mWifiGroup.setContentDescription(mWifiDescription);
             mWifiGroup.setVisibility(View.VISIBLE);
@@ -208,9 +250,39 @@ public class SignalClusterView
                     mWifiStrengthId, mWifiActivityId));
 
         if (mMobileVisible && !mIsAirplaneMode) {
+            if (mMobileStrengthId != 0) {
+                Drawable mobileBitmap = mContext.getResources().getDrawable(mMobileStrengthId);
+                if (mCustomColor) {
+                    mobileBitmap.setColorFilter(systemColor, Mode.SRC_ATOP);
+                } else {
+                    mobileBitmap.clearColorFilter();
+                }
+                mMobile.setImageDrawable(mobileBitmap);
+            }
+
             mMobile.setImageResource(mMobileStrengthId);
-            mMobileActivity.setImageResource(mMobileActivityId);
-            mMobileType.setImageResource(mMobileTypeId);
+            
+        if (mMobileActivityId != 0) {
+        Drawable mMobileActivityBitmap = mContext.getResources().getDrawable(mMobileActivityId);
+        if (mCustomColor) {
+                    mMobileActivityBitmap.setColorFilter(systemColor, Mode.SRC_ATOP);
+                } else {
+                    mMobileActivityBitmap.clearColorFilter();
+                }
+            mMobileActivity.setImageDrawable(mMobileActivityBitmap);
+        }
+        mMobileActivity.setImageResource(mMobileActivityId);
+            
+        if (mMobileTypeId != 0) {
+        Drawable mMobileTypeBitmap = mContext.getResources().getDrawable(mMobileTypeId);
+        if (mCustomColor) {
+                    mMobileTypeBitmap.setColorFilter(systemColor, Mode.SRC_ATOP);
+                } else {
+                    mMobileTypeBitmap.clearColorFilter();
+                }
+            mMobileType.setImageDrawable(mMobileTypeBitmap);
+        }
+        mMobileType.setImageResource(mMobileTypeId);
 
             mMobileGroup.setContentDescription(mMobileTypeDescription + " " + mMobileDescription);
             mMobileGroup.setVisibility(View.VISIBLE);
@@ -227,6 +299,15 @@ public class SignalClusterView
         }
 
         if (mIsAirplaneMode) {
+            if (mAirplaneIconId != 0) {
+                Drawable AirplaneBitmap = mContext.getResources().getDrawable(mAirplaneIconId);
+                if (mCustomColor) {
+                    mAirplane.setColorFilter(systemColor, Mode.SRC_ATOP);
+                } else {
+                    mAirplane.clearColorFilter();
+                }
+                mAirplane.setImageDrawable(AirplaneBitmap);
+            }
             mAirplane.setImageResource(mAirplaneIconId);
             mAirplane.setVisibility(View.VISIBLE);
         } else {
@@ -248,27 +329,14 @@ public class SignalClusterView
                 !mWifiVisible ? View.VISIBLE : View.GONE);
     }
 
-
-    protected void updateSettings() {
+    private void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
 
-        mShowSignalText = Settings.System.getInt(resolver,
-                Settings.System.STATUS_BAR_SIGNAL_TEXT, SignalText.STYLE_HIDE) != SignalText.STYLE_HIDE;
+        mCustomColor = Settings.System.getIntForUser(resolver,
+                Settings.System.CUSTOM_SYSTEM_ICON_COLOR, 0, UserHandle.USER_CURRENT) == 1;
+        systemColor = Settings.System.getIntForUser(resolver,
+                Settings.System.SYSTEM_ICON_COLOR, -2, UserHandle.USER_CURRENT);
+        apply();
     }
-
-
-    private ContentObserver mSettingsObserver = new ContentObserver(new Handler()) {
-        @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-            apply();
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            updateSettings();
-            apply();
-        }
-    };
 }
 

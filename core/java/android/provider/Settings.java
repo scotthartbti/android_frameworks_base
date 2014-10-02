@@ -3776,6 +3776,24 @@ public final class Settings {
         public static final String STATUS_BAR_BATTERY = "status_bar_battery";
 
 	/**
+	 * Status bar color
+	 * @hide
+	 */
+	public static final String CUSTOM_STATUS_BAR_COLOR = "custom_status_bar_color";
+
+	/**
+	 * Status icon color
+	 * @hide
+	 */
+	public static final String CUSTOM_SYSTEM_ICON_COLOR = "custom_system_icon_color";
+
+	/** @hide */
+	public static final String SYSTEM_ICON_COLOR = "system_icon_color";
+
+	/** @hide */
+	public static final String CUSTOM_STATUS_BAR_APPLY = "custom_status_bar_apply";
+
+	/**
          * @hide
          */
         public static final String WAKELOCK_BLOCKING_ENABLED = "wakelock_blocking_enabled";
