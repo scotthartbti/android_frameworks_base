@@ -868,8 +868,6 @@ public class ThemeService extends IThemeService.Stub {
         synchronized (mThemesToProcessQueue) {
             for (Object key : componentMap.keySet()) {
                 if (ThemesColumns.MODIFIES_OVERLAYS.equals(key) ||
-                        ThemesColumns.MODIFIES_NAVIGATION_BAR.equals(key) ||
-                        ThemesColumns.MODIFIES_STATUS_BAR.equals(key) ||
                         ThemesColumns.MODIFIES_ICONS.equals(key)) {
                     String pkgName = (String) componentMap.get(key);
                     if (mThemesToProcessQueue.indexOf(pkgName) > 0) {
