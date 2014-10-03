@@ -623,9 +623,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.TOGGLE_CARRIER_LOGO),
                     false, this);
-	    mForceShowClockOnLockscreen = Settings.System.getIntForUser(
-                    resolver, Settings.System.STATUS_BAR_FORCE_CLOCK_LOCKSCREEN, 0
-                    , UserHandle.USER_CURRENT) == 1;
             update();
         }
 
@@ -857,6 +854,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 	    mCarrierLogoEnabled = Settings.System.getIntForUser(
             	    resolver, Settings.System.TOGGLE_CARRIER_LOGO, 0,
            	    UserHandle.USER_CURRENT) == 1;
+
+	    mForceShowClockOnLockscreen = Settings.System.getIntForUser(
+                    resolver, Settings.System.STATUS_BAR_FORCE_CLOCK_LOCKSCREEN, 0
+                    , UserHandle.USER_CURRENT) == 1;
 
             if (mCarrierLabel != null) {
                 mHideLabels = Settings.System.getIntForUser(resolver,
