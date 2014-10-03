@@ -4875,6 +4875,12 @@ public final class Settings {
 	 */
 	public static final String NO_CARRIER_LABEL = "no_carrier_label";
 
+	/**
+	 * Carrier Logo toggle
+	 * @hide
+	 */
+	public static final String TOGGLE_CARRIER_LOGO = "toggle_carrier_logo";
+
        /**
         * Sets the portrait background of notification drawer
         * @hide

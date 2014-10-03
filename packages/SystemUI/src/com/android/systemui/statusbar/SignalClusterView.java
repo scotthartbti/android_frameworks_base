@@ -34,11 +34,12 @@ import android.widget.TextView;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.SignalText;
+import com.android.systemui.statusbar.phone.PhoneStatusBar;
 
 // Intimately tied to the design of res/layout/signal_cluster_view.xml
 public class SignalClusterView
         extends LinearLayout
-        implements NetworkController.SignalCluster {
+        implements NetworkController.SignalCluster, NetworkController.CarrierCluster {
 
     static final boolean DEBUG = false;
     static final String TAG = "SignalClusterView";
@@ -53,7 +54,10 @@ public class SignalClusterView
     private int mAirplaneIconId = 0;
     private String mWifiDescription, mMobileDescription, mMobileTypeDescription;
 
+    private int mCarrierIconId = 0;
     private boolean mShowSignalText = false;
+
+    private PhoneStatusBar mStatusBar;
 
     ViewGroup mWifiGroup, mMobileGroup;
     ImageView mWifi, mMobile, mWifiActivity, mMobileActivity, mMobileType, mAirplane;
@@ -70,6 +74,10 @@ public class SignalClusterView
 
     public SignalClusterView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    public void setStatusBar(PhoneStatusBar phoneStatusBar) {
+        mStatusBar = phoneStatusBar;
     }
 
     public void setNetworkController(NetworkController nc) {
@@ -115,6 +123,13 @@ public class SignalClusterView
         mAirplane       = null;
 
         super.onDetachedFromWindow();
+    }
+
+    @Override
+    public void setCarrierIndicators(int carrierIcon) {
+        mCarrierIconId = carrierIcon;
+
+        apply();
     }
 
     @Override
@@ -181,7 +196,7 @@ public class SignalClusterView
             mMobileType.setImageDrawable(null);
         }
 
-        if(mAirplane != null) {
+        if (mAirplane != null) {
             mAirplane.setImageDrawable(null);
         }
 
@@ -222,8 +237,18 @@ public class SignalClusterView
                 mMobile.setVisibility(View.VISIBLE);
                 mMobileText.setVisibility(View.GONE);
             }
+            if (mCarrierIconId != -1) {
+                mStatusBar.setCarrierImageResource(mCarrierIconId);
+            }
+            if (Settings.System.getInt(mContext.getContentResolver(),
+                     Settings.System.TOGGLE_CARRIER_LOGO, 0) != 1) {
+                     mStatusBar.setCarrierVisibility(View.VISIBLE);
+            } else {
+                mStatusBar.setCarrierVisibility(View.GONE);
+            }
         } else {
             mMobileGroup.setVisibility(View.GONE);
+            mStatusBar.setCarrierVisibility(View.GONE);
         }
 
         if (mIsAirplaneMode) {
