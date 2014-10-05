@@ -27,7 +27,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
-import android.text.TextUtils;
 import android.net.wifi.WifiManager;
 import android.net.wimax.WimaxManagerConstants;
 import android.os.Bundle;
@@ -163,7 +162,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
     ArrayList<SignalCluster> mSignalClusters = new ArrayList<SignalCluster>();
     ArrayList<NetworkSignalChangedCallback> mSignalsChangedCallbacks =
             new ArrayList<NetworkSignalChangedCallback>();
-    ArrayList<CarrierCluster> mCarrierCluster = new ArrayList<CarrierCluster>();
     int mLastPhoneSignalIconId = -1;
     int mLastDataDirectionIconId = -1;
     int mLastDataDirectionOverlayIconId = -1;
@@ -171,7 +169,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
     int mLastWimaxIconId = -1;
     int mLastCombinedSignalIconId = -1;
     int mLastDataTypeIconId = -1;
-    int mCarrierIconId = -1;
     String mLastCombinedLabel = "";
 
     private boolean mHasMobileDataFeature;
@@ -188,10 +185,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         void setMobileDataIndicators(boolean visible, int strengthIcon, int activityIcon,
                 int typeIcon, String contentDescription, String typeContentDescription);
         void setIsAirplaneMode(boolean is, int airplaneIcon);
-    }
-
-    public interface CarrierCluster {
-        void setCarrierIndicators(int carrierIcon);
     }
 
     public interface NetworkSignalChangedCallback {
@@ -348,11 +341,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         mEmergencyLabelViews.add(v);
     }
 
-    public void addCarrierCluster(CarrierCluster ccluster) {
-        mCarrierCluster.add(ccluster);
-        refreshCarrierCluster(ccluster);
-    }
-
     public void addSignalCluster(SignalCluster cluster) {
         mSignalClusters.add(cluster);
         refreshSignalCluster(cluster);
@@ -365,11 +353,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
 
     public void removeNetworkSignalChangedCallback(NetworkSignalChangedCallback cb) {
         mSignalsChangedCallbacks.remove(cb);
-    }
-
-    public void refreshCarrierCluster(CarrierCluster ccluster) {
-        if (mDemoMode) return;
-        ccluster.setCarrierIndicators(mCarrierIconId);
     }
 
     public void refreshSignalCluster(SignalCluster cluster) {
@@ -1172,8 +1155,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         String combinedLabel = "";
         String wifiLabel = "";
         String mobileLabel = "";
-        String carrierNumber = "";
-        String carrierName = "";
         int N;
         final boolean emergencyOnly = isEmergencyOnly();
         final String customLabel = Settings.System.getString(mContext.getContentResolver(),
@@ -1182,7 +1163,7 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         if (!mHasMobileDataFeature) {
             mDataSignalIconId = mPhoneSignalIconId = 0;
             mQSPhoneSignalIconId = 0;
-            mobileLabel = carrierName = carrierNumber = "";
+            mobileLabel = "";
         } else {
             // We want to show the carrier name if in service and either:
             //   - We are connected to mobile data, or
@@ -1193,22 +1174,18 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
             // Otherwise (nothing connected) we show "No internet connection".
 
             if (mDataConnected) {
-                mobileLabel = carrierName = mNetworkName;
-                carrierNumber = mPhone.getNetworkOperator();
+                mobileLabel = mNetworkName;
             } else if (mConnected || emergencyOnly) {
                 if (hasService() || emergencyOnly) {
                     // The isEmergencyOnly test covers the case of a phone with no SIM
-                    mobileLabel = carrierName = mNetworkName;
-                    carrierNumber = mPhone.getNetworkOperator();
+                    mobileLabel = mNetworkName;
                 } else {
                     // Tablets, basically
-                    mobileLabel = carrierName = carrierNumber = "";
+                    mobileLabel = "";
                 }
             } else {
                 mobileLabel
                     = context.getString(R.string.status_bar_settings_signal_meter_disconnected);
-                carrierName = mNetworkName;
-                carrierNumber = mPhone.getNetworkOperator();
             }
 
             // Now for things that should only be shown when actually using mobile data.
@@ -1392,25 +1369,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
             notifySignalsChangedCallbacks(cb);
         }
 
-        if (!TextUtils.isEmpty(carrierNumber)) {
-            mCarrierIconId = mContext.getResources().getIdentifier("l" + carrierNumber,
-                                      "drawable", mContext.getPackageName());
-        }
-
-        if (mCarrierIconId <= 0) {
-            if (!TextUtils.isEmpty(carrierName)) {
-                carrierName = filterNetworkName(carrierName);
-                mCarrierIconId = mContext.getResources().getIdentifier("l" + carrierName,
-                                         "drawable", mContext.getPackageName());
-            }
-        }
-
-        if (mCarrierIconId > 0) {
-            for (CarrierCluster ccluster : mCarrierCluster) {
-                 refreshCarrierCluster(ccluster);
-            }
-        }
-
         if (mLastPhoneSignalIconId          != mPhoneSignalIconId
          || mLastDataDirectionOverlayIconId != combinedActivityIconId
          || mLastWifiIconId                 != mWifiIconId
@@ -1587,24 +1545,6 @@ public class NetworkController extends BroadcastReceiver implements DemoMode {
         if (mUpdateUIListener != null) {
             mUpdateUIListener.onUpdateUI();
         }
-    }
-
-    private String filterNetworkName(String string) {
-        boolean bl = true;
-        String string2 = string.replace((" "), (""))
-                        .replace(("."), ("_")).replace(("&"), ("_"))
-                        .replace(("-"), ("")).replace(("*"), (""))
-                        .replace(("@"), (""));
-        boolean bl2 = (string2.length() > 3) ? bl : false;
-        if (string2.length() != 3) {
-            bl = false;
-        }
-        if (!bl2 && bl) return string2.toLowerCase();
-        String string3 = (string2.length() > 3)
-                         ? (string2.substring(0, 4))
-                         : (string2.substring(0, 3));
-        string2 = string3.toLowerCase();
-        return string2.toLowerCase();
     }
 
     public void dump(FileDescriptor fd, PrintWriter pw, String[] args) {
