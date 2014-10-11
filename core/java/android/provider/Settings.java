@@ -8426,7 +8426,6 @@ public final class Settings {
          */
         public static final String AIRPLANE_MODE_ON = "airplane_mode_on";
 
-<<<<<<< HEAD
         /**
          * Constant for use in AIRPLANE_MODE_RADIOS to specify Bluetooth radio.
          */
