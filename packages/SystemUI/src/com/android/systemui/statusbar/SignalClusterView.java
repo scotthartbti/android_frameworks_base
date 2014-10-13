@@ -82,7 +82,7 @@ public class SignalClusterView
         super.onAttachedToWindow();
 
         ContentResolver res = mContext.getContentResolver();
-        res.registerContentObserver(Settings.System.getUriFor(Settings.System.STATUSBAR_SIGNAL_TEXT), false, mSettingsObserver);
+        res.registerContentObserver(Settings.System.getUriFor(Settings.System.STATUS_BAR_SIGNAL_TEXT), false, mSettingsObserver);
         updateSettings();
 
         mWifiGroup      = (ViewGroup) findViewById(R.id.wifi_combo);
@@ -253,7 +253,7 @@ public class SignalClusterView
         ContentResolver resolver = mContext.getContentResolver();
 
         mShowSignalText = Settings.System.getInt(resolver,
-                Settings.System.STATUSBAR_SIGNAL_TEXT, SignalText.STYLE_HIDE) != SignalText.STYLE_HIDE;
+                Settings.System.STATUS_BAR_SIGNAL_TEXT, SignalText.STYLE_HIDE) != SignalText.STYLE_HIDE;
     }
 
 
