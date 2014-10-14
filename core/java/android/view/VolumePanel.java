@@ -363,7 +363,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
         // We always want to show multiple volumes
         if (!mShowCombinedVolumes) {
             mMoreButton.setVisibility(View.GONE);
-            mDivider.setVisibility(View.GONE);
         } else {
             mMoreButton.setOnClickListener(this);
         }
@@ -618,7 +617,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
             }
         }
         mMoreButton.setVisibility(View.GONE);
-        mDivider.setVisibility(View.GONE);
     }
 
     private void collapse() {

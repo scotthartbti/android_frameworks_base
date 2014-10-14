@@ -1140,6 +1140,22 @@ public final class Settings {
                 return def;
             }
         }
+
+        /** @hide */
+        public static boolean getBooleanForUser(ContentResolver cr, String name, boolean def,
+                                                int userHandle) {
+            final String v = getStringForUser(cr, name, userHandle);
+            try {
+                if (v != null) {
+                    return "1".equals(v);
+                } else {
+                    return def;
+                }
+            } catch (NumberFormatException e) {
+                return def;
+            }
+        }
+
 	/**
 	 * Need to AOKP Custom Systems Animations
 	 *
@@ -3789,6 +3805,9 @@ public final class Settings {
 	 * @hide
 	 */
 	public static final String CUSTOM_STATUS_BAR_COLOR = "custom_status_bar_color";
+
+	/** @hide */
+	public static final String STATUS_BAR_OPAQUE_COLOR = "status_bar_opaque_color";
 
 	/**
 	 * Status icon color
