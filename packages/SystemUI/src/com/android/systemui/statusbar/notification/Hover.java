@@ -20,10 +20,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.KeyguardManager;
 import android.app.Notification;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -63,10 +60,6 @@ public class Hover {
     private static final String IN_CALL_UI = "com.android.incallui";
     private static final String DIALER = "com.android.dialer";
     private static final String DELIMITER = "|";
-    private static final String ACTION_VOLUMEPANEL_SHOWN
-            = "android.view.volumepanel.SHOWN";
-    private static final String ACTION_VOLUMEPANEL_HIDDEN
-            = "android.view.volumepanel.HIDDEN";
 
     private static final int ANIMATION_DURATION = 350; // 350 ms
     private static final int INDEX_CURRENT = 0; // first array object
@@ -83,10 +76,8 @@ public class Hover {
 
     private boolean mAnimatingVisibility;
     private boolean mAttached;
-    private boolean mHasFlipSettings;
     private boolean mHiding;
     private boolean mShowing;
-    private boolean mVolumePanelShowing;
     private boolean mUserLocked;
     private int mHoverHeight;
     private int mHoverTabletWidth; // same as notification panel
@@ -110,32 +101,6 @@ public class Hover {
 
     private IWindowManager mWindowManagerService;
 
-    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (ACTION_VOLUMEPANEL_SHOWN.equals(intent.getAction())) {
-                mVolumePanelShowing = true;
-                if (mShowing) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            getCurrentLayout().clearAnimation();
-                            setAnimatingVisibility(false);
-                            dismissHover(false, false);
-                        }
-                    });
-                }
-            } else if (ACTION_VOLUMEPANEL_HIDDEN.equals(intent.getAction())) {
-                mVolumePanelShowing = false;
-                mHandler.post(new Runnable() {
-                    public void run() {
-                        processShowingQueue();
-                    }
-                });
-            }
-        }
-    };
-
     /**
      * Creates a new hover instance
      * @Param context the current Context
@@ -153,10 +118,6 @@ public class Hover {
         mNotificationList = new ArrayList<HoverNotification>();
         mStatusBarNotifications = new ArrayList<StatusBarNotification>();
         mWindowManagerService = WindowManagerGlobal.getWindowManagerService();
-
-        // check if we're on phone, we discriminate hover size,
-        // on phone matches parent width, on tablets notification panel one
-        mHasFlipSettings = mContext.getResources().getBoolean(R.bool.config_hasFlipSettingsPanel);
 
         // root hover view
         mNotificationView = (FrameLayout) mHoverLayout.findViewById(R.id.hover_notification);
@@ -189,11 +150,6 @@ public class Hover {
         mKeyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
         mTelephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
         mAnimInterpolator = new DecelerateInterpolator();
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_VOLUMEPANEL_HIDDEN);
-        filter.addAction(ACTION_VOLUMEPANEL_SHOWN);
-        mContext.registerReceiver(mBroadcastReceiver, filter);
     }
 
     public static String getContentDescription(StatusBarNotification content) {
@@ -283,7 +239,7 @@ public class Hover {
     }
 
     private WindowManager.LayoutParams getHoverLayoutParams() {
-        int width = mHasFlipSettings ? WindowManager.LayoutParams.MATCH_PARENT : mHoverTabletWidth;
+        int width = isPhone() ? WindowManager.LayoutParams.MATCH_PARENT : mHoverTabletWidth;
         WindowManager.LayoutParams lp = getLayoutParams(
                 width,
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -447,6 +403,10 @@ public class Hover {
         return getCurrentNotification().getLayout().hasOnClickListeners();
     }
 
+    public boolean isPhone() {
+        return mContext.getResources().getBoolean(R.bool.config_hasFlipSettingsPanel);
+    }
+
     public void dismissHover(boolean instant, boolean quit) {
         hideCurrentNotification(instant, quit);
     }
@@ -483,7 +443,7 @@ public class Hover {
             currentNotification.getEntry().row.setExpanded(false);
 
             // hide status bar right before showing hover
-            if (mHasFlipSettings) mStatusBar.animateStatusBarOut();
+            mStatusBar.animateStatusBarOut();
 
             final View notificationLayout = getCurrentLayout();
             notificationLayout.setY(-getCurrentHeight());
@@ -606,7 +566,7 @@ public class Hover {
             if (mUserLocked) setLocked(false); // unlock if locked
 
             // show statusbar
-            if (mHasFlipSettings && !mVolumePanelShowing) mStatusBar.animateStatusBarIn();
+            mStatusBar.animateStatusBarIn();
 
             // animate container to make sure we hide hover
             mNotificationView.animate().yBy(-mNotificationView.getHeight())
@@ -642,7 +602,7 @@ public class Hover {
                             setTouchOutside(false); // reset
 
                             // check if there are other notif to show
-                            if (!quit && !mVolumePanelShowing) {
+                            if (!quit) {
                                 processShowingQueue();
                             } else {
                                 // clear everything and go home
@@ -797,7 +757,7 @@ public class Hover {
                 addNotificationToList(notif);
             } else if (isOnList && show) {
                 notif = getNotificationForEntry(entry);
-                // if updates are for current notification live update entry, content and click listener 
+                // if updates are for current notification update click listener
                 HoverNotification current = getCurrentNotification();
                 if (current != null && getEntryDescription(current.getEntry()).equals(getEntryDescription(entry))) {
                     current.setEntry(entry);
@@ -823,7 +783,7 @@ public class Hover {
         // call showCurrentNotification() only if is not showing,
         // if not will clear all notifications, that is even safe
         // but unneeded (@link showCurrentNotification())
-        if (!mShowing && !mVolumePanelShowing) showCurrentNotification();
+        if (!mShowing) showCurrentNotification();
     }
 
     public void processShowingQueue() {
