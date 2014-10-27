@@ -359,13 +359,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
         mToneGenerators = new ToneGenerator[AudioSystem.getNumStreamTypes()];
         mVibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
         mVoiceCapable = context.getResources().getBoolean(R.bool.config_voice_capable);
-        mShowCombinedVolumes = true;
-        // We always want to show multiple volumes
-        if (!mShowCombinedVolumes) {
-            mMoreButton.setVisibility(View.GONE);
-        } else {
-            mMoreButton.setOnClickListener(this);
-        }
 
         // Get the user's preferences
         mVolumeLinkNotification = Settings.System.getInt(mContext.getContentResolver(),
@@ -616,7 +609,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
                 mSliderGroup.getChildAt(i).setVisibility(View.GONE);
             }
         }
-        mMoreButton.setVisibility(View.GONE);
     }
 
     private void collapse() {
@@ -1218,9 +1210,7 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
             }
         } else if (v instanceof ImageView) {
             Intent volumeSettings = new Intent(android.provider.Settings.ACTION_SOUND_SETTINGS);
-            volumeSettings.setFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+            volumeSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             forceTimeout();
             mContext.startActivity(volumeSettings);
             return;
