@@ -120,6 +120,11 @@ public class SignalClusterView
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+
+	ContentResolver res = mContext.getContentResolver();
+	res.registerContentObserver(Settings.System.getUriFor(Settings.System.STATUSBAR_SIGNAL_TEXT), false, 			mSettingsObserver2);
+	updates();
+
         mWifiGroup      = (ViewGroup) findViewById(R.id.wifi_combo);
         mWifi           = (ImageView) findViewById(R.id.wifi_signal);
         mWifiActivity   = (ImageView) findViewById(R.id.wifi_inout);
@@ -136,6 +141,8 @@ public class SignalClusterView
 
     @Override
     protected void onDetachedFromWindow() {
+	mContext.getContentResolver().unregisterContentObserver(mSettingsObserver2);
+
         mWifiGroup      = null;
         mWifi           = null;
         mWifiActivity   = null;
@@ -361,4 +368,25 @@ public class SignalClusterView
                 Settings.System.SYSTEM_ICON_COLOR, -2, UserHandle.USER_CURRENT);
         apply();
     }
+
+    protected void updates() {
+	ContentResolver resolver = mContext.getContentResolver();
+        mShowSignalText = Settings.System.getInt(resolver,
+	    Settings.System.STATUSBAR_SIGNAL_TEXT, SignalText.STYLE_HIDE) != SignalText.STYLE_HIDE;
+
+    }
+
+    private ContentObserver mSettingsObserver2 = new ContentObserver(new Handler()) {
+	@Override
+	public void onChange(boolean selfChange) {
+		updates();
+		apply();
+	}
+
+   	@Override
+   	public void onChange(boolean selfChange, Uri uri) {
+		updates();
+		apply();
+	}
+    };
 }
