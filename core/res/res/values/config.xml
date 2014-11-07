@@ -2124,4 +2124,7 @@
     <string-array name="config_disabledComponents" translatable="false">
     </string-array>
 
+    <!-- Support for disabling to fetch APN from OMH card
+         for some cdma carriers -->
+    <bool name="config_fetch_apn_from_omh_card">true</bool>
 </resources>
