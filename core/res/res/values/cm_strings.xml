@@ -259,4 +259,9 @@
 
     <!-- screenrecord in the power menu -->
     <string name="powermenu_screenrecord">Screen record</string>
+
+    <!-- Setting confirmation dialog strings. Shown when any UI interaction can be modified by user input -->
+    <string name="setting_confirmation_ask_me_later">Ask later</string>
+    <string name="setting_confirmation_yes">Yes</string>
+    <string name="setting_confirmation_no">No</string>
 </resources>

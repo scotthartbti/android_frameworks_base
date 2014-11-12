@@ -85,4 +85,13 @@
   <!-- Last app switch animations -->
   <java-symbol type="anim" name="last_app_in" />
   <java-symbol type="anim" name="last_app_out" />
+
+  <!--Setting confirmation dialog-->
+  <java-symbol type="style" name="Widget.GifView" />
+  <java-symbol type="id" name="setting_confirmation_dialog_visual_hint" />
+  <java-symbol type="id" name="setting_confirmation_dialog_visual_gif" />
+  <java-symbol type="layout" name="setting_confirmation_dialog" />
+  <java-symbol type="string" name="setting_confirmation_ask_me_later" />
+  <java-symbol type="string" name="setting_confirmation_yes" />
+  <java-symbol type="string" name="setting_confirmation_no" />
 </resources>
