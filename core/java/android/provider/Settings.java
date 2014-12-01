@@ -5543,6 +5543,14 @@ public final class Settings {
         public static final String PRIVACY_GUARD_DEFAULT = "privacy_guard_default";
 
         /**
+         * Whether to display a menu containing 'Wipe data', 'Force close' and other options
+         * in the notification area and in the recent app list
+         * @hide
+         */
+        public static final String DEVELOPMENT_SHORTCUT = "development_shortcut";
+
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
@@ -5594,7 +5602,8 @@ public final class Settings {
             UI_NIGHT_MODE,
             SLEEP_TIMEOUT,
             PRIVACY_GUARD_DEFAULT,
-            ADVANCED_REBOOT
+            ADVANCED_REBOOT,
+            DEVELOPMENT_SHORTCUT
         };
 
         /**
