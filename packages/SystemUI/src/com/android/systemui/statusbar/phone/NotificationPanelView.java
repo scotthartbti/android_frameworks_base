@@ -47,6 +47,7 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.MathUtils;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -85,6 +86,7 @@ import com.android.systemui.statusbar.stack.StackStateAnimator;
 
 import cyanogenmod.externalviews.KeyguardExternalView;
 import cyanogenmod.providers.CMSettings;
+import android.provider.Settings;
 
 import java.util.List;
 import java.util.Objects;
@@ -259,6 +261,7 @@ public class NotificationPanelView extends PanelView implements
     private SettingsObserver mSettingsObserver;
 
     private boolean mOneFingerQuickSettingsIntercept;
+    private int mQsSmartPullDown;
     private boolean mDoubleTapToSleepEnabled;
     private int mStatusBarHeaderHeight;
     private GestureDetector mDoubleTapGesture;
@@ -834,6 +837,18 @@ public class NotificationPanelView extends PanelView implements
         if (!mHeadsUpTouchHelper.isTrackingHeadsUp() && handleQsTouch(event)) {
             return true;
         }
+        if (mQsSmartPullDown == 1 && !mStatusBar.hasActiveClearableNotifications()
+                || mQsSmartPullDown == 2 && !mStatusBar.hasActiveVisibleNotifications()
+                || (mQsSmartPullDown == 3 && !mStatusBar.hasActiveVisibleNotifications()
+                        && !mStatusBar.hasActiveClearableNotifications())) {
+            mQsExpandImmediate = true;
+
+            requestPanelHeightUpdate();
+
+            // Normally, we start listening when the panel is expanded, but here we need to start
+            // earlier so the state is already up to date when dragging down.
+            setListening(true);
+        }
         if (event.getActionMasked() == MotionEvent.ACTION_DOWN && isFullyCollapsed()) {
             MetricsLogger.count(mContext, COUNTER_PANEL_OPEN, 1);
             updateVerticalPanelPosition(event.getX());
@@ -877,6 +892,7 @@ public class NotificationPanelView extends PanelView implements
                 && event.getY(event.getActionIndex()) < mStatusBarMinHeight) {
             MetricsLogger.count(mContext, COUNTER_PANEL_OPEN_QS, 1);
             mQsExpandImmediate = true;
+
             requestPanelHeightUpdate();
 
             // Normally, we start listening when the panel is expanded, but here we need to start
@@ -2635,6 +2651,9 @@ public class NotificationPanelView extends PanelView implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_TRANSPARENT_SHADE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_SMART_PULLDOWN),
+		    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2659,6 +2678,8 @@ public class NotificationPanelView extends PanelView implements
                     resolver, CMSettings.System.STATUS_BAR_QUICK_QS_PULLDOWN, 1) == 1;
             mDoubleTapToSleepEnabled = CMSettings.System.getInt(
                     resolver, CMSettings.System.DOUBLE_TAP_SLEEP_GESTURE, 1) == 1;
+            mQsSmartPullDown = Settings.System.getIntForUser(
+                    resolver, Settings.System.QS_SMART_PULLDOWN, 0, UserHandle.USER_CURRENT);
             mStatusBarLockedOnSecureKeyguard = Settings.Secure.getIntForUser(
                     resolver, Settings.Secure.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD, 0,
                     UserHandle.USER_CURRENT) == 1;

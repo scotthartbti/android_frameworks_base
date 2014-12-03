@@ -2097,6 +2097,21 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNotificationPanel.notifyVisibleChildrenChanged();
     }
 
+    protected boolean hasActiveVisibleNotifications() {
+        Log.d(TAG, "hasActiveVisibleNotifications: " +
+                    mNotificationData.hasActiveVisibleNotifications());
+        return mNotificationData.hasActiveVisibleNotifications();
+    }
+
+    protected boolean hasActiveClearableNotifications() {
+        final boolean clearable = hasActiveNotifications() &&
+                    mNotificationData.hasActiveClearableNotifications();
+        Log.d(TAG, "hasActiveClearableNotifications: N=" +
+                    mNotificationData.getActiveNotifications().size() + " any=" +
+                    hasActiveNotifications() + " clearable=" + clearable);
+        return clearable;
+    }
+
     @Override
     protected void setAreThereNotifications() {
 
