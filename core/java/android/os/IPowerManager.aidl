@@ -72,5 +72,8 @@ interface IPowerManager
 	boolean setPowerProfile(String profile);
 	String getPowerProfile();
 
+    // blocked wakelock support
+    String getSeenWakeLocks();
+
     void activityResumed(String componentName);
 }
