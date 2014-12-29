@@ -3409,7 +3409,7 @@ public final class Settings {
          * Volume music controls
          * @hide
          */
-        public static final String VOLUME_MUSIC_CONTROLS = "volume_music_controls";
+        public static final String VOLBTN_MUSIC_CONTROLS = "volbtn_music_controls";
 
         /**
          * Enable statusbar double tap gesture on to put device to sleep
