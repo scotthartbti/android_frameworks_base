@@ -281,10 +281,6 @@ public class VanirActions {
                 }
                 break;
 
-            case ACTION_GESTURE_ACTIONS:
-                mContext.sendBroadcast(new Intent(Intent.TOGGLE_GESTURE_ACTIONS));
-                break;
-
             case ACTION_NULL:
             case ACTION_BLANK:
                 break;
