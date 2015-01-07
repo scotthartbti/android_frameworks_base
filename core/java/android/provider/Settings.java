@@ -3441,12 +3441,6 @@ public final class Settings {
          */
         public static final String NAVBAR_LEFT_IN_LANDSCAPE = "navigation_bar_left";
 
-	/**
-         * Height of navigation bar buttons
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
-
         /**
          * Whether to use gesture anywhere feature.
          * @hide
