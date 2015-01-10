@@ -49,6 +49,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowManagerGlobal;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
@@ -69,7 +70,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import android.util.SparseArray;
 
-public class NavigationBarView extends LinearLayout {
+public class NavigationBarView extends LinearLayout
+        implements BaseStatusBar.NavigationBarCallback {
+
     final static boolean DEBUG = false;
     final static String TAG = "PhoneStatusBar/NavigationBarView";
 
@@ -97,6 +100,9 @@ public class NavigationBarView extends LinearLayout {
     boolean mShowMenu;
     int mDisabledFlags = 0;
     int mNavigationIconHints = 0;
+
+    private FrameLayout mRot0;
+    private FrameLayout mRot90;
 
     private NavigationBarViewTaskSwitchHelper mTaskSwitchHelper;
     private DelegateViewHelper mDelegateHelper;
@@ -394,6 +400,7 @@ public class NavigationBarView extends LinearLayout {
         setDisabledFlags(mDisabledFlags, true);
     }
 
+    @Override
     public void setNavigationIconHints(int hints) {
         setNavigationIconHints(hints, false);
     }
@@ -509,6 +516,7 @@ public class NavigationBarView extends LinearLayout {
         }
     };
 
+    @Override
     public void setDisabledFlags(int disabledFlags) {
         setDisabledFlags(disabledFlags, false);
     }
@@ -618,6 +626,7 @@ public class NavigationBarView extends LinearLayout {
         }
     }
 
+    @Override
     public void setMenuVisibility(final boolean show) {
         setMenuVisibility(show, false);
     }
@@ -648,6 +657,9 @@ public class NavigationBarView extends LinearLayout {
 
     @Override
     public void onFinishInflate() {
+        mRot0 = (FrameLayout) findViewById(R.id.rot0);
+        mRot90 = (FrameLayout) findViewById(R.id.rot90);
+
         mRotatedViews[Surface.ROTATION_0] =
                 mRotatedViews[Surface.ROTATION_180] = findViewById(R.id.rot0);
 
@@ -1090,6 +1102,15 @@ public class NavigationBarView extends LinearLayout {
                 return "GONE";
             default:
                 return "VISIBLE";
+        }
+    }
+
+    public void setForgroundColor(Drawable drawable) {
+        if (mRot0 != null) {
+            mRot0.setForeground(drawable);
+        }
+        if (mRot90 != null) {
+            mRot90.setForeground(drawable);
         }
     }
 
