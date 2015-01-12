@@ -209,7 +209,9 @@ public class QSPanel extends ViewGroup {
     private void refreshAllTiles() {
         mUseMainTiles = Settings.Secure.getIntForUser(getContext().getContentResolver(),
                 Settings.Secure.QS_USE_MAIN_TILES, 1, UserHandle.myUserId()) == 1;
-        for (TileRecord r : mRecords) {
+        for (int i = 0; i < mRecords.size(); i++) {
+            TileRecord r = mRecords.get(i);
+            r.tileView.setDual(mUseMainTiles && i < 2);
             r.tile.refreshState();
         }
         mFooter.refreshState();
@@ -414,11 +416,9 @@ public class QSPanel extends ViewGroup {
             record.row = r;
             record.col = c;
             rows = r + 1;
-
         }
 
         for (TileRecord record : mRecords) {
-            record.tileView.setDual(record.tile.supportsDualTargets());
             if (record.tileView.getVisibility() == GONE) continue;
             final int cw = (mUseMainTiles && record.row == 0) ? mLargeCellWidth : mCellWidth;
             final int ch = (mUseMainTiles && record.row == 0) ? mLargeCellHeight : mCellHeight;
@@ -447,12 +447,6 @@ public class QSPanel extends ViewGroup {
                 mBrightnessPaddingTop + mBrightnessView.getMeasuredHeight());
         boolean isRtl = getLayoutDirection() == LAYOUT_DIRECTION_RTL;
         for (TileRecord record : mRecords) {
-            // Only set as main tiles if the option is enabled
-            if(mUseMainTiles && record.row == 0) {
-                record.tile.setmLargeTile(true);
-            } else {
-                record.tile.setmLargeTile(false);
-            }
             if (record.tileView.getVisibility() == GONE) continue;
             final int cols = getColumnCount(record.row);
             final int cw = (mUseMainTiles && record.row == 0) ? mLargeCellWidth : mCellWidth;
