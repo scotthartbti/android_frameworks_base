@@ -254,9 +254,6 @@
     <string name="def_ime_layout">**arrow_left**,,,|**arrow_up**,,,|**arrow_down**,,,|**arrow_right**,,,</string>
     <string name="def_navbar_layout">**back**,,,|**home**,,,|**recents**,,,</string>
 
-    <!-- screenshot in the power menu -->
-    <string name="powermenu_screenshot">Screenshot</string>
-
     <!-- Setting confirmation dialog strings. Shown when any UI interaction can be modified by user input -->
     <string name="setting_confirmation_ask_me_later">Ask later</string>
     <string name="setting_confirmation_yes">Yes</string>
