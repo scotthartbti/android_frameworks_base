@@ -124,9 +124,7 @@ public class QSTileView extends ViewGroup {
         }
         if (mDualLabel != null) {
             labelText = mDualLabel.getText();
-            if (mLabel != null) {
-                labelDescription = mLabel.getContentDescription();
-            }
+            labelDescription = mLabel.getContentDescription();
             removeView(mDualLabel);
             mDualLabel = null;
         }
