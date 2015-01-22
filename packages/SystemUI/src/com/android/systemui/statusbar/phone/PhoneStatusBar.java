@@ -907,9 +907,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         updateShowSearchHoldoff();
 
-        addGestureAnywhereView();
-        addAppCircleSidebar();
-
         try {
             boolean showNav = mWindowManagerService.hasNavigationBar();
             if (DEBUG) Log.v(TAG, "hasNavigationBar=" + showNav);
@@ -940,6 +937,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         } catch (RemoteException ex) {
             // no window manager? good luck with that
         }
+
+ 	// Setup pie container if enabled
+	attachPieContainer(isPieEnabled());
+
+	if (mRecreating) {
+	} else {
+ 	    addAppCircleSidebar();
+	    addGestureAnywhereView();
+	}
 
         // figure out which pixel-format to use for the status bar.
         mPixelFormat = PixelFormat.OPAQUE;
