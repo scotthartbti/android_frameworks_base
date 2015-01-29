@@ -31,12 +31,6 @@
     <!-- Weather string format in expanded statusbar header -->
     <string name="status_bar_expanded_header_weather_format"><xliff:g id="temp">%1$s</xliff:g> - <xliff:g id="condition">%2$s</xliff:g></string>
 
-    <!-- Notify changed wifi network -->
-    <string name="wifi_status_changed">New connection</string>
-    <string name="wifi_restored">Connection restored</string>
-    <string name="wifi_address_changed">Wi\u2011Fi SSID changed to <xliff:g id="name">%s</xliff:g></string>
-    <string name="wifi_changed_ticker">Wi\u2011Fi SSID: <xliff:g id="name">%s</xliff:g></string>
-
     <!-- Content description of the mobile data tile in quick settings when off (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_quick_settings_data_off">Mobile data off.</string>
     <!-- Content description of the mobile data tile in quick settings when on (not shown on the screen). [CHAR LIMIT=NONE] -->
@@ -90,9 +84,6 @@
     <string name="tasklist_killall">Kill All</string>
     <string name="tasklist_memory_usage">"Free/Total Memory: [<xliff:g id="number">%s</xliff:g>] / [<xliff:g id="name">%s</xliff:g>]"</string>
     <string name="message_keep_one_launcher">Should keep at lease one home activity!</string>
-
-    <!-- Navigation bar -->
-    <string name="def_navbar_layout_warning">Empty layout: using default!</string>
 
     <!-- Lockscreen shortcuts -->
     <string name="left_shortcut_hint">Swipe right for %1$s</string>

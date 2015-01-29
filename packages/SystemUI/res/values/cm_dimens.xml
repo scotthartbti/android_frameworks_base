@@ -20,10 +20,4 @@
     <dimen name="detail_radio_group_padding">8dp</dimen>
     <dimen name="qs_tile_icon_size_visualizer">40dp</dimen>
 
-
-    <!-- The width of the view containing the menu status bar icon -->
-    <dimen name="navigation_menu_key_width">40dip</dimen>
-    <!-- The width of the view containing the layout changer icon -->
-    <dimen name="navigation_layout_changer_width">25dip</dimen>
-
 </resources>
