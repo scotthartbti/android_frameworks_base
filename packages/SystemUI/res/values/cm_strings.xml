@@ -94,8 +94,10 @@
     <string name="quick_settings_network_adb_enabled_label">Enabled</string>
     <string name="quick_settings_network_adb_disabled_label">Disabled</string>
 
-    <!-- Navigation ring shortcuts -->
+    <!-- Dialog title for navigation bar button selection -->
     <string name="navbar_dialog_title">Choose action to assign</string>
+
+    <!-- Navigation ring shortcuts -->
     <string name="navigation_ring_title">Quick launch shortcuts</string>
     <string name="navring_target_reset_message">Delete all user created navigation bar shortcuts and restore to default?</string>
     <string name="navring_target_reset">Navigation bar shortcuts reset to default</string>
