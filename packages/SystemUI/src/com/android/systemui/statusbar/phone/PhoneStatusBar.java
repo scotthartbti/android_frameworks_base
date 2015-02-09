@@ -293,7 +293,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private DozeServiceHost mDozeServiceHost;
     private boolean mScreenOnComingFromTouch;
     private boolean mHeadsUpViewAttached;
-    private boolean mHeadsUpSwitch = false;
+    private boolean mHeadsUpSwitch = true;
 
     int mPixelFormat;
     Object mQueueLock = new Object();
@@ -869,7 +869,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // If system disabled system wide notification alert
         // we do not add the view here and will do it later
         // when StatusBarManager notifies us that the state has changed.
-        if (!mDisableNotificationAlerts) {
+        if (!mDisableNotificationAlerts && mHeadsUpSwitch) {
             addHeadsUpView();
         }
 
@@ -2584,7 +2584,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mHeadsUpNotificationView.release();
                     removeHeadsUpView();
                 } else {
-                    addHeadsUpView();
+                    if (mHeadsUpSwitch) {
+                        addHeadsUpView();
+                    }
                 }
             }
         }
@@ -3971,7 +3973,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mContext.getContentResolver(),
                 Settings.System.HEADS_UP_SWITCH,
                 1, UserHandle.USER_CURRENT) == 1;
-        vis = vis && mHeadsUpSwitch;
         mHeadsUpNotificationView.setVisibility(vis ? View.VISIBLE : View.GONE);
         if (!vis) {
             mHeadsUpPackageName = null;
@@ -4040,7 +4041,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         makeStatusBarView();
         repositionNavigationBar();
-        addHeadsUpView();
+        if (mHeadsUpSwitch) {
+            addHeadsUpView();
+        }
         if (mNavigationBarView != null) {
             mNavigationBarView.updateResources(getNavbarThemedResources());
         }

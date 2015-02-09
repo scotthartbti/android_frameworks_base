@@ -204,6 +204,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     private int mHeadsUpSnoozeTime;
     private long mHeadsUpSnoozeStartTime;
     protected String mHeadsUpPackageName;
+    private boolean mHeadsUpSwitch;
 
     protected DevicePolicyManager mDevicePolicyManager;
     protected IDreamManager mDreamManager;
@@ -323,6 +324,31 @@ public abstract class BaseStatusBar extends SystemUI implements
             mUsersAllowingPrivateNotifications.clear();
             // ... and refresh all the notifications
             updateNotifications();
+        }
+    };
+
+    private class SettingsObserver extends ContentObserver {
+        public SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        public void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.HEADS_UP_SWITCH),
+                    false, this);
+            update();
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            update();
+        }
+
+        private void update() {
+            ContentResolver resolver = mContext.getContentResolver();
+            mHeadsUpSwitch = Settings.System.getInt(
+                    resolver, Settings.System.HEADS_UP_SWITCH, 1) == 1;
         }
     };
 
@@ -530,6 +556,9 @@ public abstract class BaseStatusBar extends SystemUI implements
         mDreamManager = IDreamManager.Stub.asInterface(
                 ServiceManager.checkService(DreamService.DREAM_SERVICE));
         mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+
+	SettingsObserver observer = new SettingsObserver(mHandler);
+		observer.observe();
 
         mSettingsObserver.onChange(false); // set up
         mContext.getContentResolver().registerContentObserver(
@@ -2045,7 +2074,7 @@ public abstract class BaseStatusBar extends SystemUI implements
                 && !TextUtils.equals(n.tickerText,
                 oldEntry.notification.getNotification().tickerText);
 
-        final boolean shouldInterrupt = shouldInterrupt(notification);
+        final boolean shouldInterrupt = shouldInterrupt(notification) && mHeadsUpSwitch;
         final boolean alertAgain = alertAgain(oldEntry, n);
         boolean updateSuccessful = false;
         if (contentsUnchanged && bigContentsUnchanged && headsUpContentsUnchanged
