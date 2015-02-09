@@ -50,6 +50,7 @@ public class QSConstants {
     public static final String TILE_SCREENSHOT = "screenshot";
     public static final String TILE_SCREENRECORD = "screenrecord";
     public static final String TILE_BATTERY_SAVER = "battery_saver";
+    public static final String TILE_BRIGHTNESS = "brightness";
 
     // Order matters
     protected static final ArrayList<String> TILES_DEFAULT = new ArrayList<String>();
@@ -90,5 +91,6 @@ public class QSConstants {
         TILES_AVAILABLE.add(TILE_SCREENSHOT);
         TILES_AVAILABLE.add(TILE_SCREENRECORD);
         TILES_AVAILABLE.add(TILE_BATTERY_SAVER);
+        TILES_AVAILABLE.add(TILE_BRIGHTNESS);
     }
 }
