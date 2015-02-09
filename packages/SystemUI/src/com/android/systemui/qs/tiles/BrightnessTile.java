@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2014 The Android Open Source Project
  * Copyright (C) 2013-2015 The CyanogenMod Project
- * Copyright (C) 2015 The Euphoria-OS Project
+ * Copyright 2014-2015 The Euphoria-OS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,9 +76,17 @@ public class BrightnessTile extends QSTile<QSTile.BooleanState> {
     }
 
     @Override
+    protected void handleSecondaryClick() {
+        toggleState();
+        refreshState();
+        qsCollapsePanel();
+    }
+
+    @Override
     public void handleLongClick() {
         toggleState();
         refreshState();
+        qsCollapsePanel();
     }
 
     @Override
@@ -88,7 +96,7 @@ public class BrightnessTile extends QSTile<QSTile.BooleanState> {
         state.visible = true;
         state.label = mContext.getString(R.string.quick_settings_brightness);
         state.iconId = autoBrightness
-                ? R.drawable.ic_qs_brightness_auto_on
+                ? R.drawable.ic_qs_brightness_auto_on_alpha
                 : R.drawable.ic_qs_brightness_auto_off_alpha;
     }
 
