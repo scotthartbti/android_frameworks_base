@@ -4458,9 +4458,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNotificationPanel.setDozing(mDozing);
         if (mDozing) {
             mKeyguardBottomArea.setVisibility(View.INVISIBLE);
-            mStackScroller.setDark(
-                    mContext.getResources().getBoolean(R.bool.config_invert_colors_on_doze),
-                    false /*animate*/);
+            mStackScroller.setDark(true, false /*animate*/);
         } else {
             mKeyguardBottomArea.setVisibility(View.VISIBLE);
             mStackScroller.setDark(false, false /*animate*/);
