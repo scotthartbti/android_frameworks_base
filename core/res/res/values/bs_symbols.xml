@@ -23,8 +23,6 @@
   <!-- Package Manager -->
   <java-symbol type="array" name="config_disabledComponents" />
 
-  <java-symbol type="bool" name="config_doze_enabled_by_default" />
-
   <!-- Shortcut actions -->
   <java-symbol type="drawable" name="ic_shortcut_action_silent" />
   <java-symbol type="drawable" name="ic_shortcut_action_theme_switch" />
