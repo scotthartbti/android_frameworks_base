@@ -363,6 +363,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     // Status bar carrier
     private boolean mShowStatusBarCarrier;
 
+    // BS logo
+    private boolean mBSLogo;
+    private ImageView bsLogo;
+
     // position
     int[] mPositionTmp = new int[2];
     boolean mExpandedVisible;
@@ -466,6 +470,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.RECENTS_LONG_PRESS_ACTIVITY),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_BS_LOGO),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -538,6 +545,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
             // This method reads Settings.Secure.RECENTS_LONG_PRESS_ACTIVITY
             updateCustomRecentsLongPressHandler(false);
+
+            mBSLogo = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_BS_LOGO, 0, mCurrentUserId) == 1;
+            showBSLogo(mBSLogo);
         }
     }
 
@@ -3808,6 +3819,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         View statusBarCarrierLabel = mStatusBarView.findViewById(R.id.status_bar_carrier_label);
         if (statusBarCarrierLabel != null) {
             statusBarCarrierLabel.setVisibility(show ? (mShowStatusBarCarrier ? View.VISIBLE : View.GONE) : View.GONE);
+        }
+    }
+
+    public void showBSLogo(boolean show) {
+        if (mStatusBarView == null) return;
+        ContentResolver resolver = mContext.getContentResolver();
+        bsLogo = (ImageView) mStatusBarView.findViewById(R.id.bs_logo);
+        if (bsLogo != null) {
+            bsLogo.setVisibility(show ? (mBSLogo ? View.VISIBLE : View.GONE) : View.GONE);
         }
     }
 
