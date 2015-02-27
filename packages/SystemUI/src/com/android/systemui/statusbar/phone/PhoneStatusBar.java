@@ -4039,6 +4039,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     resolver, Settings.System.STATUS_BAR_CARRIER, 0) == 1;
             showStatusBarCarrierLabel(mShowStatusBarCarrier);
 
+            // detect beanstalk logo state when theme change.
+            mBSLogo = Settings.System.getInt(
+                    resolver, Settings.System.STATUS_BAR_BS_LOGO, 0) == 1;
+            showBSLogo(mBSLogo);
+
         } else {
             loadDimens();
         }
