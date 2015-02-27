@@ -1258,6 +1258,7 @@ public final class Settings {
             for (String s : Secure.NAVIGATION_RING_TARGETS) {
                 MOVED_TO_SECURE.add(s);
             }
+            MOVED_TO_SECURE.add(Secure.DEV_FORCE_SHOW_NAVBAR);
         }
 
         private static final HashSet<String> MOVED_TO_GLOBAL;
@@ -1447,8 +1448,9 @@ public final class Settings {
             }
             if (MOVED_TO_GLOBAL.contains(name) || MOVED_TO_SECURE_THEN_GLOBAL.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.System"
-                        + " to android.provider.Settings.Global, value is unchanged.");
-                return false;
+                        + " to android.provider.Settings.Global.");
+
+                return Global.putStringForUser(resolver, name, value, userHandle);
             }
             return sNameValueCache.putStringForUser(resolver, name, value, userHandle);
         }
@@ -1472,6 +1474,7 @@ public final class Settings {
             }
             return getUriFor(CONTENT_URI, name);
         }
+
 
         /**
          * Convenience function for retrieving a single system settings value
@@ -2796,9 +2799,10 @@ public final class Settings {
 
         /**
         * Developer options - Navigation Bar show switch
+        * @deprecated
         * @hide
         */
-        public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
+        public static final String DEV_FORCE_SHOW_NAVBAR = Secure.DEV_FORCE_SHOW_NAVBAR;
 
 
         /**
@@ -6831,6 +6835,12 @@ public final class Settings {
                 "navigation_ring_targets_2",
         };
 
+	/**
+         * Developer options - Navigation Bar show switch
+         * @hide
+         */
+        public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
+
         /**
          * Whether to enable "advanced mode" for the current user.
          * Boolean setting. 0 = no, 1 = yes.
@@ -8808,6 +8818,12 @@ public final class Settings {
          * @return the corresponding content URI, or null if not present
          */
         public static Uri getUriFor(String name) {
+            if (MOVED_TO_SECURE.contains(name)) {
+                Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.Global"
+                        + " to android.provider.Settings.Secure, returning Secure URI.");
+                return Secure.getUriFor(Secure.CONTENT_URI, name);
+            }
+
             return getUriFor(CONTENT_URI, name);
         }
 
