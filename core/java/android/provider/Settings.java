@@ -1258,7 +1258,6 @@ public final class Settings {
             for (String s : Secure.NAVIGATION_RING_TARGETS) {
                 MOVED_TO_SECURE.add(s);
             }
-	    MOVED_TO_SECURE.add(Secure.DEV_FORCE_SHOW_NAVBAR);
             MOVED_TO_SECURE.add(Secure.KEYBOARD_BRIGHTNESS);
             MOVED_TO_SECURE.add(Secure.BUTTON_BRIGHTNESS);
             MOVED_TO_SECURE.add(Secure.BUTTON_BACKLIGHT_TIMEOUT);
@@ -2807,7 +2806,7 @@ public final class Settings {
         * Developer options - Navigation Bar show switch
         * @hide
         */
-        public static final String DEV_FORCE_SHOW_NAVBAR = Secure.DEV_FORCE_SHOW_NAVBAR;
+        public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
 
 
         /**
@@ -6831,12 +6830,6 @@ public final class Settings {
                 "navigation_ring_targets_1",
                 "navigation_ring_targets_2",
         };
-
-	/**
-	 * Developer options - Navigation Bar show switch
-	 * @hide
- 	 */
-	public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
 
         /**
          * Whether to enable "advanced mode" for the current user.
