@@ -36,4 +36,5 @@
     <color name="pie_long_pressed_color">#ff8c8c8c</color>
     <color name="pie_outline_color">#ff5c5c5c</color>
 
+    <color name="qs_background_drawable_color">#aa000000</color>
 </resources>
