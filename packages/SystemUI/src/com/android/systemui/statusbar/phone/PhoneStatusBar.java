@@ -361,6 +361,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     private boolean mShowCarrierInPanel = false;
     private boolean mShowLabel;
+    private int mShowLabelTimeout;
 
     // Status bar carrier
     private boolean mShowStatusBarCarrier;
@@ -467,6 +468,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_GREETING),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_GREETING_TIMEOUT),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -547,6 +551,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             if (mGreeting != null && !TextUtils.isEmpty(mGreeting)) {
                 mBSLabel.setText(mGreeting);
             }
+
+            mShowLabelTimeout = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_GREETING_TIMEOUT, 400, mCurrentUserId);
         }
     }
 
@@ -2516,7 +2523,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         mBSLabel.animate().cancel();
                         mBSLabel.animate()
                                 .alpha(1f)
-                                .setDuration(400)
+                                .setDuration(mShowLabelTimeout)
                                 .setInterpolator(ALPHA_IN)
                                 .setStartDelay(50)
                                 .withEndAction(new Runnable() {
@@ -4096,6 +4103,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mBSLogo = Settings.System.getInt(
                     resolver, Settings.System.STATUS_BAR_BS_LOGO, 0) == 1;
             showBSLogo(mBSLogo);
+
+            mGreeting = Settings.System.getStringForUser(resolver,
+                    Settings.System.STATUS_BAR_GREETING,
+                    UserHandle.USER_CURRENT);
+            if (mGreeting != null && !TextUtils.isEmpty(mGreeting)) {
+                mBSLabel.setText(mGreeting);
+            }
+            mShowLabelTimeout = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_GREETING_TIMEOUT, 400,
+                    UserHandle.USER_CURRENT);
 
         } else {
             loadDimens();
