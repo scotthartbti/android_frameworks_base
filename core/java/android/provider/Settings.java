@@ -4203,6 +4203,14 @@ public final class Settings {
         public static final String PIE_BUTTON_ALPHA = "pie_button_alpha";
 
         /**
+         * Visibility of SIM icons of unpopulated SIM slots in MSIM mode
+         * 0: Hide unpopulated SIM icons
+         * 1: Show unpopulated SIM icons
+         * @hide
+         */
+        public static final String STATUS_BAR_MSIM_SHOW_EMPTY_ICONS = "status_bar_show_empty_sims";
+
+        /**
          * Pie button pressed and long pressed alpha
          * @hide
          */
