@@ -35,6 +35,7 @@ import android.telephony.TelephonyManager;
 import android.net.Uri;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
+import android.os.UserHandle;
 import android.provider.CalendarContract.Events;
 import android.os.Handler;
 import android.provider.Settings;
