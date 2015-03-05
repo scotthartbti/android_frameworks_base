@@ -196,10 +196,10 @@ class AutomaticBrightnessController {
             mLightSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         }
 
+        if (USE_TWILIGHT_ADJUSTMENT) {
+            mTwilight.registerListener(mTwilightListener, mHandler);
+        }
         mLiveDisplay = new LiveDisplayController(mContext, looper);
-        mTwilight.registerListener(mTwilightListener, mHandler);
-
-
     }
 
     public int getAutomaticScreenBrightness() {
@@ -238,6 +238,8 @@ class AutomaticBrightnessController {
         pw.println("  mScreenAutoBrightness=" + mScreenAutoBrightness);
         pw.println("  mScreenAutoBrightnessAdjustment=" + mScreenAutoBrightnessAdjustment);
         pw.println("  mLastScreenAutoBrightnessGamma=" + mLastScreenAutoBrightnessGamma);
+
+        mLiveDisplay.dump(pw);;
     }
 
     private boolean setLightSensorEnabled(boolean enable) {

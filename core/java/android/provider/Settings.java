@@ -6826,14 +6826,6 @@ public final class Settings {
 	public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
 
         /**
-         * Stored color matrix for LiveDisplay. This is used to allow co-existence with
-         * display tuning done by DisplayAdjustmentUtils when hardware support isn't
-         * available.
-         * @hide
-         */
-        public static final String LIVE_DISPLAY_COLOR_MATRIX = "live_display_color_matrix";
-
-        /**
          * Whether to enable "advanced mode" for the current user.
          * Boolean setting. 0 = no, 1 = yes.
          * @hide
@@ -6867,6 +6859,14 @@ public final class Settings {
          * @hide
          */
         public static final String BUTTON_BACKLIGHT_TIMEOUT = "button_backlight_timeout";
+
+        /**
+         * Stored color matrix for LiveDisplay. This is used to allow co-existence with
+         * display tuning done by DisplayAdjustmentUtils when hardware support isn't
+         * available.
+         * @hide
+         */
+        public static final String LIVE_DISPLAY_COLOR_MATRIX = "live_display_color_matrix";
 
         /**
          * This are the settings to be backed up.

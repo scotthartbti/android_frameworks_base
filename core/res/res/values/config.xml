@@ -2152,7 +2152,7 @@
     <bool name="config_ui_blur_enabled">false</bool>
 
     <!-- Default values for display color temperature -->
-    <string name="config_dayColorTemperature">6500</string>
-    <string name="config_nightColorTemperature">4500</string>
-    <string name="config_outdoorAmbientLux">9000</string>
+    <integer name="config_dayColorTemperature">6500</integer>
+    <integer name="config_nightColorTemperature">4500</integer>
+    <integer name="config_outdoorAmbientLux">9000</integer>
 </resources>

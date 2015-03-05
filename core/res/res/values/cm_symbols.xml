@@ -289,7 +289,7 @@
     <java-symbol type="array" name="live_display_values" />
     <java-symbol type="drawable" name="ic_livedisplay_notif" />
 
-    <java-symbol type="string" name="config_dayColorTemperature" />
-    <java-symbol type="string" name="config_nightColorTemperature" />
-    <java-symbol type="string" name="config_outdoorAmbientLux" />
+    <java-symbol type="integer" name="config_dayColorTemperature" />
+    <java-symbol type="integer" name="config_nightColorTemperature" />
+    <java-symbol type="integer" name="config_outdoorAmbientLux" />
 </resources>
