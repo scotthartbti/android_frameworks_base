@@ -67,4 +67,6 @@ interface IStatusBarService
     void hideHeadsUpCandidate(String packageName);
     void scheduleHeadsUpClose();
     void setPieTriggerMask(int newMask, boolean lock);
+    void toggleLastApp();
+    void toggleKillApp();
 }
