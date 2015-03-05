@@ -4229,20 +4229,6 @@ public final class Settings {
         public static final String SCREENSHOT_DELAY = "screenshot_delay";
 
         /**
-         * Should the storage removed notification be shown
-         *
-         * @hide
-         */
-        public static final String STORAGE_MEDIA_REMOVED_NOTIFICTION = "storage_media_removed_notification";
-
-        /**
-         * Enable ongoing mount notifications for those storage volumes
-         *
-         * @hide
-         */
-        public static final String STORAGE_MOUNT_NOTIFICATION = "storage_mount_notification";
-
-        /**
          * Statusbar BS logo
          * @hide
          */
