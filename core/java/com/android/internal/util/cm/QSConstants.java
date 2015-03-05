@@ -54,6 +54,7 @@ public class QSConstants {
     public static final String TILE_LIVE_DISPLAY = "live_display";
     public static final String TILE_AMBIENT_DISPLAY = "ambient_display";
     public static final String TILE_REBOOT = "reboot";
+    public static final String TILE_SLIMACTION = "slimaction";
 
     // Order matters
     protected static final ArrayList<String> TILES_DEFAULT = new ArrayList<String>();
@@ -98,5 +99,6 @@ public class QSConstants {
         TILES_AVAILABLE.add(TILE_LIVE_DISPLAY);
         TILES_AVAILABLE.add(TILE_AMBIENT_DISPLAY);
         TILES_AVAILABLE.add(TILE_REBOOT);
+        TILES_AVAILABLE.add(TILE_SLIMACTION);
     }
 }
