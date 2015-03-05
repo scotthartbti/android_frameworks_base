@@ -2164,6 +2164,13 @@ public final class Settings {
         public static final String STATUS_BAR_BRIGHTNESS_CONTROL = "status_bar_brightness_control";
 
         /**
+         * Whether to enable ticker animation in statusbar
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_TICKER_ENABLED = "status_bar_ticker_enabled";
+
+        /**
          * Whether to show the battery bar
          * @hide
          */
@@ -2228,6 +2235,20 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_SHORTCUTS_LONGPRESS =
                 "lockscreen_shortcuts_longpress";
+
+        /**
+         * Defines global heads up snooze time if user want to snooze it.
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_SNOOZE_TIME = "heads_up_snooze_time";
+
+        /**
+         * Defines the global heads up notification decay
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_NOTIFCATION_DECAY = "heads_up_notification_decay";
 
         /**
          * Defines the status and navigation bar color is battery safe mode is enabled.
@@ -3590,19 +3611,6 @@ public final class Settings {
          */
         public static final String STATUS_BAR_CLOCK = "status_bar_clock";
 
-
-        /**
-         * Hide notification instead of remove when swiping headsup
-         * @hide
-         */
-        public static final String HEADS_UP_DISMISS_ON_REMOVE = "heads_up_dismiss_on_remove";
-
-        /**
-         * Hide notification 1 second after touching outside
-         * @hide
-         */
-        public static final String HEADS_UP_TOUCH_OUTSIDE = "heads_up_touch_outside";
-
         /**
          * AM/PM Style for clock options
          * 0 - Normal AM/PM
@@ -4219,34 +4227,6 @@ public final class Settings {
          * @hide
          */
         public static final String SCREENSHOT_DELAY = "screenshot_delay";
-
-        /**
-         * Heads Up Notifications
-         *
-         * @hide
-         */
-        public static final String HEADS_UP_NOTIFICATION = "heads_up_enabled";
-
-        /**
-         * Which applications to disable heads up notifications for
-         *
-         * @hide
-         */
-        public static final String HEADS_UP_CUSTOM_VALUES = "heads_up_custom_values";
-
-        /**
-         * Which applications to disable heads up notifications for
-         *
-         * @hide
-         */
-        public static final String HEADS_UP_BLACKLIST_VALUES = "heads_up_blacklist_values";
-
-        /**
-         * Defines the global heads up notification decay
-         *
-         * @hide
-         */
-        public static final String HEADS_UP_NOTIFCATION_DECAY = "heads_up_notification_decay";
 
         /**
          * Should the storage removed notification be shown
