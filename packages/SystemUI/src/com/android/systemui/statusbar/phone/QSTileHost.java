@@ -37,7 +37,6 @@ import com.android.systemui.qs.tiles.AdbOverNetworkTile;
 import com.android.systemui.qs.tiles.AirplaneModeTile;
 import com.android.systemui.qs.tiles.AmbientDisplayTile;
 import com.android.systemui.qs.tiles.ApnTile;
-import com.android.systemui.qs.tiles.BatterySaverTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.BrightnessTile;
 import com.android.systemui.qs.tiles.CastTile;
@@ -336,8 +335,6 @@ public class QSTileHost implements QSTile.Host {
                 return new ScreenshotTile(this);
             case QSConstants.TILE_SCREENRECORD:
                 return new ScreenrecordTile(this);
-            case QSConstants.TILE_BATTERY_SAVER:
-                return new BatterySaverTile(this);
             case QSConstants.TILE_BRIGHTNESS:
                 return new BrightnessTile(this);
             case QSConstants.TILE_LIVE_DISPLAY:
