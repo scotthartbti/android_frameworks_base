@@ -373,6 +373,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mBSLogo;
     private ImageView bsLogo;
 
+    private boolean mQSCSwitch;
+
     // position
     int[] mPositionTmp = new int[2];
     boolean mExpandedVisible;
@@ -478,6 +480,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_GREETING_TIMEOUT),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_COLOR_SWITCH),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -530,6 +535,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.PIE_CONTROLS))) {
                     attachPieContainer(isPieEnabled());
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.QS_COLOR_SWITCH))) {
+                    mQSCSwitch = Settings.System.getIntForUser(
+                            mContext.getContentResolver(),
+                            Settings.System.QS_COLOR_SWITCH,
+                            0, UserHandle.USER_CURRENT) == 1;
+                    recreateStatusBar();
             }
             update();
         }
@@ -570,6 +582,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
             mShowLabelTimeout = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_GREETING_TIMEOUT, 400, mCurrentUserId);
+
+            mQSCSwitch = Settings.System.getIntForUser(resolver,
+                    Settings.System.QS_COLOR_SWITCH, 0, mCurrentUserId) == 1;
         }
     }
 
@@ -4104,33 +4119,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
      */
     void updateResources(Configuration newConfig) {
         final Context context = mContext;
-        ContentResolver resolver = mContext.getContentResolver();
+        SettingsObserver observer = new SettingsObserver(mHandler);
 
         // detect theme change.
         ThemeConfig newTheme = newConfig != null ? newConfig.themeConfig : null;
         if (shouldUpdateStatusbar(mCurrentTheme, newTheme)) {
             mCurrentTheme = (ThemeConfig)newTheme.clone();
             recreateStatusBar();
-
-            // detect status bar carrier state when theme change.
-            mShowStatusBarCarrier = Settings.System.getInt(
-                    resolver, Settings.System.STATUS_BAR_CARRIER, 0) == 1;
-            showStatusBarCarrierLabel(mShowStatusBarCarrier);
-
-            // detect beanstalk logo state when theme change.
-            mBSLogo = Settings.System.getInt(
-                    resolver, Settings.System.STATUS_BAR_BS_LOGO, 0) == 1;
-            showBSLogo(mBSLogo);
-
-            mGreeting = Settings.System.getStringForUser(resolver,
-                    Settings.System.STATUS_BAR_GREETING,
-                    UserHandle.USER_CURRENT);
-            if (mGreeting != null && !TextUtils.isEmpty(mGreeting)) {
-                mBSLabel.setText(mGreeting);
-            }
-            mShowLabelTimeout = Settings.System.getIntForUser(resolver,
-                    Settings.System.STATUS_BAR_GREETING_TIMEOUT, 400,
-                    UserHandle.USER_CURRENT);
+            observer.update();
 
         } else {
             loadDimens();
