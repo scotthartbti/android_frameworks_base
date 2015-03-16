@@ -3593,7 +3593,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
-    Animation.AnimationListener mTickingDoneListener = new Animation.AnimationListener() {;
+    Animation.AnimationListener mTickingDoneListener = new Animation.AnimationListener() {
         public void onAnimationEnd(Animation animation) {
             mTicking = false;
         }
