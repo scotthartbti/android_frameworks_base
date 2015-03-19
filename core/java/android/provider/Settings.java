@@ -4089,12 +4089,6 @@ public final class Settings {
          */
         public static final String HEADS_UP_DISMISS_ON_REMOVE = "heads_up_swipe_action";
 
-	/**
-	 * Hide notification 1 second after touching outside
-	 * @hide
-	 */
-	public static final String HEADS_UP_TOUCH_OUTSIDE = "heads_up_touch_outside";
-
         /**
          * Pie show text (0 or 1)
          * @hide
