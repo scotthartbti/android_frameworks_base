@@ -155,7 +155,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     protected static final boolean ENABLE_HEADS_UP = true;
     // scores above this threshold should be displayed in heads up mode.
-    protected static final int INTERRUPTION_THRESHOLD = 1;
+    protected static final int INTERRUPTION_THRESHOLD = 10;
     protected static final String SETTING_HEADS_UP_TICKER = "ticker_gets_heads_up";
 
     // Should match the value in PhoneWindowManager
@@ -276,9 +276,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     protected int mZenMode;
 
-    private ArrayList<String> mDndList;
-    private ArrayList<String> mBlacklist;
-
     protected AppCircleSidebar mAppCircleSidebar;
 
     @ChaosLab(name="GestureAnywhere", classification=Classification.NEW_FIELD)
@@ -341,10 +338,7 @@ public abstract class BaseStatusBar extends SystemUI implements
         public void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.HEADS_UP_CUSTOM_VALUES),
-                    false, this);
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.HEADS_UP_BLACKLIST_VALUES),
+                    Settings.Secure.getUriFor(Settings.Secure.SEARCH_PANEL_ENABLED),
                     false, this);
             update();
         }
@@ -356,12 +350,8 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         private void update() {
             ContentResolver resolver = mContext.getContentResolver();
-            final String dndString = Settings.System.getString(mContext.getContentResolver(),
-                    Settings.System.HEADS_UP_CUSTOM_VALUES);
-            final String blackString = Settings.System.getString(mContext.getContentResolver(),
-                    Settings.System.HEADS_UP_BLACKLIST_VALUES);
-            splitAndAddToArrayList(mDndList, dndString, "\\|");
-            splitAndAddToArrayList(mBlacklist, blackString, "\\|");
+            mSearchPanelViewEnabled = Settings.Secure.getInt(
+                    resolver, Settings.Secure.SEARCH_PANEL_ENABLED, 1) == 1;
         }
     };
 
@@ -570,11 +560,8 @@ public abstract class BaseStatusBar extends SystemUI implements
                 ServiceManager.checkService(DreamService.DREAM_SERVICE));
         mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
 
-        mDndList = new ArrayList<String>();
-        mBlacklist = new ArrayList<String>();
-
-        SettingsObserver observer = new SettingsObserver(mHandler);
-        observer.observe();
+	SettingsObserver observer = new SettingsObserver(mHandler);
+		observer.observe();
 
         mSettingsObserver.onChange(false); // set up
         mContext.getContentResolver().registerContentObserver(
@@ -1068,7 +1055,7 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     }
 
-    public void onHeadsUpDismissed(boolean direction) {
+    public void onHeadsUpDismissed() {
     }
 
     public void notifyLayoutChange(int direction) { }
@@ -1313,7 +1300,6 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     public abstract void resetHeadsUpDecayTimer();
-    public abstract void hideHeadsUp();
 
     public abstract void scheduleHeadsUpOpen();
 
@@ -2250,12 +2236,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
 
         Notification notification = sbn.getNotification();
-
-        // check if notification from the package is blacklisted first
-        if (isPackageBlacklisted(sbn.getPackageName())) {
-            return false;
-        }
-
         // some predicates to make the boolean logic legible
         boolean isNoisy = (notification.defaults & Notification.DEFAULT_SOUND) != 0
                 || (notification.defaults & Notification.DEFAULT_VIBRATE) != 0
@@ -2267,70 +2247,24 @@ public abstract class BaseStatusBar extends SystemUI implements
         int asHeadsUp = notification.extras.getInt(Notification.EXTRA_AS_HEADS_UP,
                 Notification.HEADS_UP_ALLOWED);
         boolean isAllowed = asHeadsUp != Notification.HEADS_UP_NEVER;
-        boolean isOngoing = sbn.isOngoing();
         boolean accessibilityForcesLaunch = isFullscreen
                 && mAccessibilityManager.isTouchExplorationEnabled();
 
         final KeyguardTouchDelegate keyguard = KeyguardTouchDelegate.getInstance(mContext);
-        boolean keyguardIsShowing = keyguard.isShowingAndNotOccluded()
-                && keyguard.isInputRestricted();
-
         boolean interrupt = (isFullscreen || (isHighPriority && (isNoisy || hasTicker))
                 || asHeadsUp == Notification.HEADS_UP_REQUESTED)
                 && isAllowed
-                && !isOngoing
                 && !accessibilityForcesLaunch
                 && mPowerManager.isScreenOn()
-                && !keyguardIsShowing;
-
+                && !keyguard.isShowingAndNotOccluded()
+                && !keyguard.isInputRestricted();
         try {
             interrupt = interrupt && !mDreamManager.isDreaming();
         } catch (RemoteException e) {
             Log.d(TAG, "failed to query dream manager", e);
         }
-
-        // its below our threshold priority, we might want to always display
-        // notifications from certain apps
-        if (!isHighPriority && !isOngoing && !keyguardIsShowing) {
-            // However, we don't want to interrupt if we're in an application that is
-            // in Do Not Disturb
-            if (!isPackageInDnd(getTopLevelPackage())) {
-                return true;
-            }
-        }
-
         if (DEBUG) Log.d(TAG, "interrupt: " + interrupt);
         return interrupt;
-    }
-
-    private String getTopLevelPackage() {
-        final ActivityManager am = (ActivityManager)
-                mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo > taskInfo = am.getRunningTasks(1);
-        ComponentName componentInfo = taskInfo.get(0).topActivity;
-        return componentInfo.getPackageName();
-    }
-
-    private boolean isPackageInDnd(String packageName) {
-        return mDndList.contains(packageName);
-    }
-
-    private boolean isPackageBlacklisted(String packageName) {
-        return mBlacklist.contains(packageName);
-    }
-
-    private void splitAndAddToArrayList(ArrayList<String> arrayList,
-                                        String baseString, String separator) {
-        // clear first
-        if (arrayList != null) {
-            arrayList.clear();
-            if (baseString != null) {
-                final String[] array = TextUtils.split(baseString, separator);
-                for (String item : array) {
-                    arrayList.add(item.trim());
-                }
-            }
-        }
     }
 
     public boolean inKeyguardRestrictedInputMode() {
