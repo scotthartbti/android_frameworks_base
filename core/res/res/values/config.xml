@@ -2074,6 +2074,10 @@
          service state to display signal strength bars -->
     <bool name="config_combined_signal">true</bool>
 
+    <!-- The list of components which should be forced to be enabled. -->
+    <string-array name="config_forceEnabledComponents" translatable="false">
+    </string-array>
+
     <!-- Default value for proximity check on screen wake
          NOTE ! - Enable for devices that have a fast response proximity sensor (ideally < 300ms)
     -->
