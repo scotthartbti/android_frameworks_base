@@ -160,6 +160,9 @@
   <java-symbol type="anim" name="slide_out_right_no_fade" />
   <java-symbol type="anim" name="no_animation" />
 
+    <!-- Automatic brightness enhancements -->
+    <java-symbol type="integer" name="config_autoBrightnessBrighteningLightFastDebounce"/>
+
     <!-- LiveDisplay -->
     <java-symbol type="string" name="live_display_title" />
     <java-symbol type="string" name="live_display_hint" />
