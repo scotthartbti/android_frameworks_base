@@ -51,6 +51,7 @@ import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.EditTile;
 import com.android.systemui.qs.tiles.ExpandedDesktopTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
+import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
@@ -386,6 +387,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("lockscreen")) return  new LockscreenToggleTile(this);
         else if (tileSpec.equals("ambient_display")) return new AmbientDisplayTile(this);
         else if (tileSpec.equals("live_display")) return new LiveDisplayTile(this);
+        else if (tileSpec.equals("heads_up")) return new HeadsUpTile(this);
         else if (tileSpec.equals("brightness")) return new BrightnessTile(this);
         else if (tileSpec.equals("screen_off")) return new ScreenOffTile(this);
         else if (tileSpec.equals("screenshot")) return new ScreenshotTile(this);
@@ -483,6 +485,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("lockscreen")) return R.string.quick_settings_lockscreen_label;
         else if (spec.equals("ambient_display")) return R.string.quick_settings_ambient_display_label;
         else if (spec.equals("live_display")) return R.string.live_display_title;
+        else if (spec.equals("heads_up")) return R.string.quick_settings_heads_up_label;
         else if (spec.equals("brightness")) return R.string.quick_settings_brightness_label;
         else if (spec.equals("screen_off")) return R.string.quick_settings_screen_off_label;
         else if (spec.equals("screenshot")) return R.string.quick_settings_screenshot_label;
@@ -522,6 +525,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("lockscreen")) return R.drawable.ic_qs_lock_screen_on;
         else if (spec.equals("ambient_display")) return R.drawable.ic_qs_ambientdisplay_on;
         else if (spec.equals("live_display")) return R.drawable.ic_livedisplay_auto;
+        else if (spec.equals("heads_up")) return R.drawable.ic_qs_heads_up_on;
         else if (spec.equals("music")) return R.drawable.ic_qs_media_play;
         else if (spec.equals("brightness")) return R.drawable.ic_qs_brightness_auto_on;
         else if (spec.equals("screen_off")) return R.drawable.ic_qs_power;
