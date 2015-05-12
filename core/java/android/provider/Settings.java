@@ -3716,6 +3716,12 @@ public final class Settings {
         public static final String BATTERY_SAVER_MODE_COLOR = "battery_save_mode_color";
 
         /**
+         * What color to use for the battery LED while charging - really full (100%)
+         * @hide
+         */
+        public static final String BATTERY_LIGHT_REALLY_FULL_COLOR = "battery_light_really_full_color";
+
+        /**
          * Force expanded notifications on all apps that support it.
          * @hide
          */

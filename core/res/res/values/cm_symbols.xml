@@ -228,4 +228,5 @@
     <java-symbol type="bool" name="config_showBatteryFullyChargedNotification" />
     <java-symbol type="string" name="notify_battery_fully_charged_title" />
     <java-symbol type="string" name="notify_battery_fully_charged_text" />
+    <java-symbol type="integer" name="config_notificationsBatteryReallyFullARGB" />
 </resources>
