@@ -211,6 +211,15 @@ public class NavigationBarView extends LinearLayout {
         }
     };
 
+    // provides a listener for the empty space in the navbar
+    private final OnTouchListener mNavButtonsTouchListener = new OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+                onNavButtonTouched();
+            return true;
+        }
+    };
+
     public void onNavButtonTouched() {
         mHandler.removeCallbacks(mNavButtonDimmer);
         if (getNavButtons() != null) {
@@ -631,7 +640,12 @@ public class NavigationBarView extends LinearLayout {
         mRotatedViews[Configuration.ORIENTATION_LANDSCAPE] = findViewById(R.id.rot90);
         mCurrentView = mRotatedViews[getResources().getConfiguration().orientation];
 
-        getImeSwitchButton().setOnClickListener(mImeSwitcherClickListener);
+        if (getImeSwitchButton() != null)
+            getImeSwitchButton().setOnClickListener(mImeSwitcherClickListener);
+        if (mDimNavButtons) {
+            if (getNavButtons() != null)
+                getNavButtons().setOnTouchListener(mNavButtonsTouchListener);
+        }
 
         updateRTLOrder();
     }
@@ -662,6 +676,11 @@ public class NavigationBarView extends LinearLayout {
         }
         mEditBar = new NavbarEditor(mCurrentView, mVertical, mIsLayoutRtl);
         updateSettings();
+
+        if (mDimNavButtons) {
+            if (getNavButtons() != null)
+                getNavButtons().setOnTouchListener(mNavButtonsTouchListener);
+        }
 
         getImeSwitchButton().setOnClickListener(mImeSwitcherClickListener);
 
