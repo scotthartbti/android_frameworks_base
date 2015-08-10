@@ -3770,6 +3770,13 @@ public final class Settings {
          */
         public static final String STATUS_BAR_CUSTOM_HEADER_DEFAULT = "status_bar_custom_header_default";
 
+         /**
+         * Three Finger Gesture from Oppo
+         *
+         * @hide
+         */
+        public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
