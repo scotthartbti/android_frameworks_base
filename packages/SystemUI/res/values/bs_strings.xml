@@ -21,4 +21,8 @@
 
     <!-- Screenshot Delete Toast -->
     <string name="delete_screenshot_toast">Screenshot Deleted</string>
+    <string name="navbar_power_button">Power button</string>
+    <!-- Content description of the power button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_power">Power</string>
+    
 </resources>
