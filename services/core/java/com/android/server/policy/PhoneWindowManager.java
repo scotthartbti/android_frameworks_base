@@ -7035,10 +7035,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     mBootMsgDialog.setMessage(Html.fromHtml(msg +
                                                             "<br><b><font color=\"#" + randomColor + "\">" +
                                                             currentPackageName +
-                                                            "</font><br><br>Powered by AICP</b>"));
+                                                            "</font><br><br>BeanStalk 6.0</b>"));
                 }
                 else {
-                    mBootMsgDialog.setMessage(Html.fromHtml(msg + "<br><br><b>Powered by AICP</b>"));
+                    mBootMsgDialog.setMessage(Html.fromHtml(msg + "<br><br><b>BeanStalk 6.0</b>"));
                 }
             }
         });
