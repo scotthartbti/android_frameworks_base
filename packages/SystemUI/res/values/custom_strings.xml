@@ -32,4 +32,6 @@
 
     <!-- Screen record notification error title -->
     <string name="screenrecord_notif_error">Unable to record screen</string>
+
+    <string name="status_bar_icons">Status bar icons</string>
 </resources>
