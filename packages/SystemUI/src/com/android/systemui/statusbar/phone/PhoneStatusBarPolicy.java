@@ -160,7 +160,7 @@ public class PhoneStatusBarPolicy implements Callback {
         mSettingsObserver.onChange(true);
         mContext.getContentResolver().registerContentObserver(
                 CMSettings.System.getUriFor(CMSettings.System.SHOW_ALARM_ICON),
-                false, mAlarmIconObserver);
+                false, mSettingsObserver);
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.SHOW_SU_INDICATOR),
                 false, mSettingsObserver);
