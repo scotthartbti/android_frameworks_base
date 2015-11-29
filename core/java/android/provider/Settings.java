@@ -3457,6 +3457,12 @@ public final class Settings {
         public static final String RECENTS_SHOW_SEARCH_BAR = "recents_show_search_bar";
 
         /**
+         * Whether to display recents in full screen
+         * @hide
+         */
+        public static final String RECENTS_FULL_SCREEN = "recents_full_screen";
+
+        /**
          * I am the lolrus.
          * <p>
          * Nonzero values indicate that the user has a bukkit.
