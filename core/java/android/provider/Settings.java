@@ -3514,12 +3514,6 @@ public final class Settings {
         public static final String BATTERY_SAVER_MODE_COLOR = "battery_save_mode_color";
 
         /**
-         * Disable ads (HFM)
-         * @hide
-         */
-        public static final String HFM_DISABLE_ADS = "hfm_disable_ads";
-
-        /**
          * Force expanded notifications on all apps that support it.
          * @hide
          */
