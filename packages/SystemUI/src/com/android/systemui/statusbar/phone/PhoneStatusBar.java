@@ -958,6 +958,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
          }
 
         addGestureAnywhereView();
+        addAppCircleSidebar();
 	mNavigationBarView.setDisabledFlags(mDisabled1);
         mNavigationBarView.setBar(this);
         mNavigationBarView.setOnVerticalChangedListener(
