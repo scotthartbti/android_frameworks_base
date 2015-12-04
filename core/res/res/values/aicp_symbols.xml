@@ -17,4 +17,6 @@
 <resources>
   <!-- Power menu -->
   <java-symbol type="string" name="system_error_vendorprint" />
+
+  <java-symbol type="bool" name="config_enableScreenrecordChord" />
 </resources>
