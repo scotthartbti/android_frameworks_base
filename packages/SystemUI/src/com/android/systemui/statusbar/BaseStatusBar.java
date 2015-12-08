@@ -298,6 +298,10 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     };
 
+    public RemoteViews.OnClickHandler getOnClickHandler() {
+        return mOnClickHandler;
+    }
+
     private RemoteViews.OnClickHandler mOnClickHandler = new RemoteViews.OnClickHandler() {
         @Override
         public boolean onClickHandler(
