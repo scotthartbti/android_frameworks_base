@@ -64,9 +64,7 @@ public class MediaMetadataRetriever
             throw new IllegalArgumentException();
         }
 
-        FileInputStream is = null;
-        try {
-            is = new FileInputStream(path);
+        try (FileInputStream is = new FileInputStream(path)) {
             FileDescriptor fd = is.getFD();
             setDataSource(fd, 0, 0x7ffffffffffffffL);
         } catch (FileNotFoundException fileEx) {
