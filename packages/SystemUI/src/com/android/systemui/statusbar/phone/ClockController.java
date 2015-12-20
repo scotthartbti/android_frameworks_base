@@ -7,10 +7,8 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.graphics.Color;
 import android.os.Handler;
-import android.os.UserHandle;
 import android.view.View;
 import com.android.systemui.R;
-import com.android.systemui.cm.UserContentObserver;
 import com.android.systemui.statusbar.policy.Clock;
 
 import cyanogenmod.providers.CMSettings;
@@ -34,30 +32,26 @@ public class ClockController {
     private int mAmPmStyle;
     private int mIconTint = Color.WHITE;
 
-    class SettingsObserver extends UserContentObserver {
+    class SettingsObserver extends ContentObserver {
         SettingsObserver(Handler handler) {
             super(handler);
         }
 
-        @Override
-        protected void observe() {
-            super.observe();
+        void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(CMSettings.System.getUriFor(
-                    CMSettings.System.STATUS_BAR_AM_PM), false, this, UserHandle.USER_ALL);
+                    CMSettings.System.STATUS_BAR_AM_PM), false, this);
             resolver.registerContentObserver(CMSettings.System.getUriFor(
-                    CMSettings.System.STATUS_BAR_CLOCK), false, this, UserHandle.USER_ALL);
+                    CMSettings.System.STATUS_BAR_CLOCK), false, this);
             updateSettings();
         }
 
-        @Override
-        protected void unobserve() {
-            super.unobserve();
+        void unobserve() {
             mContext.getContentResolver().unregisterContentObserver(this);
         }
 
         @Override
-        public void update() {
+        public void onChange(boolean selfChange) {
             updateSettings();
         }
     }
@@ -109,12 +103,10 @@ public class ClockController {
 
     private void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
-        mAmPmStyle = CMSettings.System.getIntForUser(resolver,
-                CMSettings.System.STATUS_BAR_AM_PM, Clock.AM_PM_STYLE_GONE,
-                UserHandle.USER_CURRENT);
-        mClockLocation = CMSettings.System.getIntForUser(
-                resolver, CMSettings.System.STATUS_BAR_CLOCK, STYLE_CLOCK_RIGHT,
-                UserHandle.USER_CURRENT);
+        mAmPmStyle = CMSettings.System.getInt(resolver,
+                CMSettings.System.STATUS_BAR_AM_PM, Clock.AM_PM_STYLE_GONE);
+        mClockLocation = CMSettings.System.getInt(
+                resolver, CMSettings.System.STATUS_BAR_CLOCK, STYLE_CLOCK_RIGHT);
         updateActiveClock();
     }
 

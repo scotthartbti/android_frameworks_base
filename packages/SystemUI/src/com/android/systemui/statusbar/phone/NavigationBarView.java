@@ -896,15 +896,13 @@ public class NavigationBarView extends LinearLayout {
         setMenuVisibility(mShowMenu, true);
     }
 
-    private class SettingsObserver extends UserContentObserver {
+    private class SettingsObserver extends ContentObserver {
 
         SettingsObserver(Handler handler) {
             super(handler);
         }
 
-        @Override
-        public void observe() {
-            super.observe();
+        void observe() {
             ContentResolver resolver = getContext().getContentResolver();
             resolver.registerContentObserver(
                     CMSettings.System.getUriFor(CMSettings.System.NAVIGATION_BAR_MENU_ARROW_KEYS),
@@ -914,14 +912,12 @@ public class NavigationBarView extends LinearLayout {
             onChange(false);
         }
 
-        @Override
-        public void unobserve() {
-            super.unobserve();
+        void unobserve() {
             getContext().getContentResolver().unregisterContentObserver(this);
         }
 
         @Override
-        protected void update() {
+        public void onChange(boolean selfChange) {
             mShowDpadArrowKeys = CMSettings.System.getIntForUser(getContext().getContentResolver(),
                     CMSettings.System.NAVIGATION_BAR_MENU_ARROW_KEYS, 0, UserHandle.USER_CURRENT) != 0;
             // reset saved side button visibilities
