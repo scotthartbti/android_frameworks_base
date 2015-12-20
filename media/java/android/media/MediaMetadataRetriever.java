@@ -73,12 +73,6 @@ public class MediaMetadataRetriever
             throw new IllegalArgumentException();
         } catch (IOException ioEx) {
             throw new IllegalArgumentException();
-        } finally {
-            try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (Exception e) {}
         }
 
         try {
