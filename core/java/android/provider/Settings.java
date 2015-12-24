@@ -3555,7 +3555,13 @@ public final class Settings {
         public static final String VOICE_LAUNCH_INTENT = "voice_launch_intent";
 
         /**
-         * Volume key controls ringtone or media sound stream
+         * Show four g instead of lte
+         * @hide
+         */
+        public static final String SHOW_FOURG = "show_fourg";
+
+        /**
+         * Override and forcefully disable the fullscreen keyboard
          * @hide
          */
         public static final String VOLUME_KEYS_CONTROL_RING_STREAM =
