@@ -192,4 +192,8 @@
     <java-symbol type="anim" name="recent_screen_enter" />
     <java-symbol type="anim" name="recent_screen_enter_left" />
     <java-symbol type="anim" name="recent_screen_fade_out" />
+
+    <!-- Power menu Animations  -->
+   <java-symbol type="style" name="PowerMenuBottomAnimation" />
+   <java-symbol type="style" name="PowerMenuTopAnimation" />
 </resources>
