@@ -243,6 +243,12 @@
             </intent-filter>
         </receiver>
 
+        <!-- started from PhoneWindowManager
+             TODO: Should have an android:permission attribute -->
+        <service android:name=".aicp.onthego.OnTheGoService"
+            android:process=":onthego"
+            android:exported="false" />
+
         <service android:name=".CPUInfoService"
                 android:exported="true" />
 
