@@ -4185,7 +4185,11 @@ public final class Settings {
          * @hide
          */
         public static final String DOZE_BRIGHTNESS = "doze_brightness";
-
+        /**
+         * Change the screenshot delay
+         * @hide
+         */
+        public static final String SCREENSHOT_DELAY = "screenshot_delay";
         /**
          * Whether to use slim recents
          * @hide
