@@ -368,8 +368,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     // task manager click state
     private boolean mShowTaskList = false;
 
-    private boolean mShow4G;
-
     // top bar
     StatusBarHeaderView mHeader;
     KeyguardStatusBarView mKeyguardStatusBar;
@@ -499,9 +497,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RECENT_CARD_TEXT_COLOR), false, this,
                     UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.SHOW_FOURG),
-                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -532,12 +527,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             mContext.getContentResolver(),
                             Settings.System.ENABLE_TASK_MANAGER,
                             0, UserHandle.USER_CURRENT) == 1;
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.SHOW_FOURG))) {
-                    mShow4G = Settings.System.getIntForUser(
-                            mContext.getContentResolver(),
-                            Settings.System.SHOW_FOURG,
-                            0, UserHandle.USER_CURRENT) == 1;
             }
 
             update();
@@ -562,10 +551,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     resolver, CMSettings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
                     UserHandle.USER_CURRENT) == 1;
 
-            boolean mShow4G = Settings.System.getIntForUser(resolver,
-                    Settings.System.SHOW_FOURG, 0, UserHandle.USER_CURRENT) == 1;
-
-            boolean showTaskManager = Settings.System.getIntForUser(resolver,
+                        boolean showTaskManager = Settings.System.getIntForUser(resolver,
                     Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
 	    if (mShowTaskManager != showTaskManager) {
                 if (!mShowTaskManager) {
