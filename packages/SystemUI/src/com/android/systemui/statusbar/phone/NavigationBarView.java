@@ -168,6 +168,7 @@ public class NavigationBarView extends LinearLayout {
     private boolean mWakeAndUnlocking;
 
     private GestureDetector mDoubleTapGesture;
+    private boolean mDoubleTapToSleep;
 
     private class NavTransitionListener implements TransitionListener {
         private boolean mBackTransitioning;
@@ -227,6 +228,9 @@ public class NavigationBarView extends LinearLayout {
     private final OnTouchListener mNavButtonsTouchListener = new OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+		if (mDoubleTapToSleep) {
+                     mDoubleTapGesture.onTouchEvent(event);
+                }
                 onNavButtonTouched();
             return true;
         }
@@ -349,9 +353,9 @@ public class NavigationBarView extends LinearLayout {
         if (mDimNavButtonsTouchAnywhere) {
             onNavButtonTouched();
         }
-        if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0) == 1)
+        if (mDoubleTapToSleep) {
             mDoubleTapGesture.onTouchEvent(event);
+        }
 
         return super.onTouchEvent(event);
     }
@@ -1010,8 +1014,9 @@ public class NavigationBarView extends LinearLayout {
                     Settings.System.DIM_NAV_BUTTONS_ANIMATE_DURATION), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DIM_NAV_BUTTONS_TOUCH_ANYWHERE), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR), false, this);
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.DOUBLE_TAP_SLEEP_NAVBAR),
+                    false, this, UserHandle.USER_ALL);
 
             // intialize mModlockDisabled
             onChange(false);
@@ -1032,6 +1037,7 @@ public class NavigationBarView extends LinearLayout {
                 }
             }
             setNavigationIconHints(mNavigationIconHints, true);
+
             super.onChange(selfChange);
             update();
             onNavButtonTouched();
@@ -1058,6 +1064,9 @@ public class NavigationBarView extends LinearLayout {
                     UserHandle.USER_CURRENT);
             mDimNavButtonsTouchAnywhere = (Settings.System.getIntForUser(resolver,
                     Settings.System.DIM_NAV_BUTTONS_TOUCH_ANYWHERE, 0,
+                    UserHandle.USER_CURRENT) == 1);
+	    mDoubleTapToSleep = (Settings.System.getIntForUser(resolver,
+                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0,
                     UserHandle.USER_CURRENT) == 1);
         }
     }
