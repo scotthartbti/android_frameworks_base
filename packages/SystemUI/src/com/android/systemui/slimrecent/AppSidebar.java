@@ -39,10 +39,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
-import com.android.internal.util.slim.Action;
-import com.android.internal.util.slim.ActionConfig;
-import com.android.internal.util.slim.ActionConstants;
-import com.android.internal.util.slim.ActionHelper;
+import com.android.internal.util.du.Action;
+import com.android.internal.util.du.ActionConfig;
+import com.android.internal.util.du.ActionConstants;
+import com.android.internal.util.du.ActionHelper;
 import com.android.systemui.R;
 
 import java.util.ArrayList;
