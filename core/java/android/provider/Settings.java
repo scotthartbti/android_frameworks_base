@@ -4190,6 +4190,14 @@ public final class Settings {
          * @hide
          */
         public static final String SCREENSHOT_DELAY = "screenshot_delay";
+
+         /**
+         * Whether to mute annoying notifications
+         * @hide
+         */
+        public static final String MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD =
+                "mute_annoying_notifications_threshold";
+
         /**
          * Whether to use slim recents
          * @hide
