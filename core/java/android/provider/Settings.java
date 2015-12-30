@@ -4093,6 +4093,31 @@ public final class Settings {
          */
         public static final String LISTVIEW_INTERPOLATOR = "listview_interpolator";
 
+
+        /**
+         *
+         * @hide
+         */
+        public static final String ANIMATION_IME_DURATION = "animation_ime_duration";
+
+        /**
+         *
+         * @hide
+         */
+        public static final String ANIMATION_IME_ENTER = "animation_ime_enter";
+
+        /**
+         *
+         * @hide
+         */
+        public static final String ANIMATION_IME_EXIT = "animation_ime_exit";
+
+        /**
+         *
+         * @hide
+         */
+        public static final String ANIMATION_IME_INTERPOLATOR = "animation_ime_interpolator";
+
         /**
          * If On-The-Go should be displayed at the power menu.
          *
@@ -4101,8 +4126,6 @@ public final class Settings {
         public static final String POWER_MENU_ONTHEGO_ENABLED = "power_menu_onthego_enabled";
 
         /**
-         * The alpha value of the On-The-Go overlay.
-         *
          * @hide
          */
         public static final String ON_THE_GO_ALPHA = "on_the_go_alpha";
