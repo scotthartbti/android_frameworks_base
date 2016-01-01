@@ -965,6 +965,14 @@
     <string name="wifi_available_sign_in" msgid="9157196203958866662">"In WLAN-Netzwerk anmelden"</string>
     <string name="network_available_sign_in" msgid="1848877297365446605">"Im Netzwerk anmelden"</string>
     <!-- no translation found for network_available_sign_in_detailed (8000081941447976118) -->
+    <string name="usb_charging_notification_title">Verbunden im Lademodus</string>
+    <string name="usb_mtp_notification_title">Verbunden für Dateiübertragung (MTP)</string>
+    <string name="usb_ptp_notification_title">Verbunden für Fotoübertragung (PTP)</string>
+    <string name="usb_midi_notification_title">Verbunden über MIDI</string>
+    <string name="usb_accessory_notification_title">Verbunden mit einem USB Accessory</string>
+    <string name="usb_notification_message">Für weitere Optionen tippen.</string>
+    <string name="adb_active_notification_title">USB Debugging verbunden</string>
+    <string name="adb_active_notification_message">Berühren, um Debugging zu deaktivieren.</string>
     <skip />
     <string name="wifi_no_internet" msgid="8451173622563841546">"WLAN hat keinen Internetzugriff"</string>
     <string name="wifi_no_internet_detailed" msgid="7593858887662270131">"Für Optionen tippen"</string>
