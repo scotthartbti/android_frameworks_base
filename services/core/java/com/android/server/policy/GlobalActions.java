@@ -204,8 +204,15 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         awakenIfNecessary();
 	checkSettings();
         prepareDialog();
-        WindowManager.LayoutParams attrs = mDialog.getWindow().getAttributes();
-        attrs.setTitle("GlobalActions");
+
+        // If we only have 1 item and it's a simple press action, just do this action.
+        if (mAdapter.getCount() == 1
+                && mAdapter.getItem(0) instanceof SinglePressAction
+                && !(mAdapter.getItem(0) instanceof LongPressAction)) {
+            ((SinglePressAction) mAdapter.getItem(0)).onPress();
+        } else {
+            WindowManager.LayoutParams attrs = mDialog.getWindow().getAttributes();
+            attrs.setTitle("GlobalActions");
 
         boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
         int powermenuAnimations = isPrimary ? getPowermenuAnimations() : 0;
@@ -226,9 +233,10 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             attrs.gravity = Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL;
         }
 
-        mDialog.getWindow().setAttributes(attrs);
-        mDialog.show();
-        mDialog.getWindow().getDecorView().setSystemUiVisibility(View.STATUS_BAR_DISABLE_EXPAND);
+            mDialog.getWindow().setAttributes(attrs);
+            mDialog.show();
+            mDialog.getWindow().getDecorView().setSystemUiVisibility(View.STATUS_BAR_DISABLE_EXPAND);
+	}
     }
 
     private int getPowermenuAnimations() {
