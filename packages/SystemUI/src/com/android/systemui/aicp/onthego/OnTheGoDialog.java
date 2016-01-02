@@ -1,20 +1,23 @@
 /*
- * Copyright (C) 2014 The NamelessRom Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* <!--
+*    Copyright (C) 2014 The NamelessROM Project
+*
+*    This program is free software: you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation, either version 3 of the License, or
+*    (at your option) any later version.
+*
+*    This program is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+* -->
+*/
 
-package com.android.systemui.xd.onthego;
+package com.android.systemui.aicp.onthego;
 
 import android.app.Dialog;
 import android.content.ContentResolver;
@@ -31,7 +34,7 @@ import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
-import com.android.internal.util.xd.OnTheGoUtils;
+import com.android.internal.util.aicp.AicpUtils;
 import com.android.systemui.R;
 
 public class OnTheGoDialog extends Dialog {
@@ -98,19 +101,20 @@ public class OnTheGoDialog extends Dialog {
             }
         });
 
-        if (!OnTheGoUtils.hasFrontCamera(getContext())) {
+        if (!AicpUtils.hasFrontCamera(getContext())) {
             findViewById(R.id.onthego_category_1).setVisibility(View.GONE);
         } else {
             final Switch mServiceToggle = (Switch) findViewById(R.id.onthego_service_toggle);
-            final boolean restartService = Settings.System.getInt(resolver,
-                    Settings.System.ON_THE_GO_SERVICE_RESTART, 0) == 1;
+            final boolean restartService = Settings.System.getBoolean(resolver,
+                    Settings.System.ON_THE_GO_SERVICE_RESTART,
+                    false);
             mServiceToggle.setChecked(restartService);
             mServiceToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    Settings.System.putInt(resolver,
+                    Settings.System.putBoolean(resolver,
                             Settings.System.ON_THE_GO_SERVICE_RESTART,
-                            (b ? 1 : 0));
+                            b);
                     dismissOnTheGoDialog(mOnTheGoDialogShortTimeout);
                 }
             });

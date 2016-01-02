@@ -17,13 +17,13 @@
 * -->
 */
 
-package com.android.internal.util.xd;
+package com.android.internal.util.aicp;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
-public class OnTheGoActions {
+public class AicpActions {
 
     public static final String ACTION_ONTHEGO_TOGGLE = "action_onthego_toggle";
 
@@ -41,7 +41,7 @@ public class OnTheGoActions {
 
     private static void actionOnTheGoToggle(final Context context) {
         final ComponentName cn = new ComponentName("com.android.systemui",
-                "com.android.systemui.xd.onthego.OnTheGoService");
+                "com.android.systemui.aicp.onthego.OnTheGoService");
         final Intent startIntent = new Intent();
         startIntent.setComponent(cn);
         startIntent.setAction("start");

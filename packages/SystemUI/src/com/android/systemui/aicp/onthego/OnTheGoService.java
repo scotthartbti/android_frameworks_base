@@ -1,20 +1,23 @@
 /*
- * Copyright (C) 2014 The NamelessRom Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* <!--
+*    Copyright (C) 2014 The NamelessROM Project
+*
+*    This program is free software: you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation, either version 3 of the License, or
+*    (at your option) any later version.
+*
+*    This program is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+* -->
+*/
 
-package com.android.systemui.xd.onthego;
+package com.android.systemui.aicp.onthego;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -39,7 +42,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.android.internal.util.xd.OnTheGoUtils;
+import com.android.internal.util.aicp.AicpUtils;
 import com.android.systemui.R;
 
 import java.io.IOException;
@@ -113,8 +116,9 @@ public class OnTheGoService extends Service {
         public void onReceive(Context context, Intent intent) {
             synchronized (mRestartObject) {
                 final ContentResolver resolver = getContentResolver();
-                final boolean restartService = Settings.System.getInt(resolver,
-                        Settings.System.ON_THE_GO_SERVICE_RESTART, 0) == 1;
+                final boolean restartService = Settings.System.getBoolean(resolver,
+                        Settings.System.ON_THE_GO_SERVICE_RESTART,
+                        false);
                 if (restartService) {
                     restartOnTheGo();
                 } else {
@@ -128,7 +132,7 @@ public class OnTheGoService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         logDebug("onStartCommand called");
 
-        if (intent == null || !OnTheGoUtils.hasCamera(this)) {
+        if (intent == null || !AicpUtils.hasCamera(this)) {
             stopSelf();
             return START_NOT_STICKY;
         }
@@ -218,7 +222,7 @@ public class OnTheGoService extends Service {
     private void getCameraInstance(int type) throws RuntimeException, IOException {
         releaseCamera();
 
-        if (!OnTheGoUtils.hasFrontCamera(this)) {
+        if (!AicpUtils.hasFrontCamera(this)) {
             mCamera = Camera.open();
             return;
         }
@@ -349,7 +353,7 @@ public class OnTheGoService extends Service {
 
         if (type == 1 || type == 2) {
             final ComponentName cn = new ComponentName("com.android.systemui",
-                    "com.android.systemui.xd.onthego.OnTheGoService");
+                    "com.android.systemui.aicp.onthego.OnTheGoService");
             final Intent startIntent = new Intent();
             startIntent.setComponent(cn);
             startIntent.setAction(ACTION_START);

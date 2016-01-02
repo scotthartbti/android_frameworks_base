@@ -92,7 +92,9 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.android.internal.util.cm.PowerMenuConstants.*;
-import com.android.internal.util.xd.OnTheGoActions;
+
+
+import com.android.internal.util.aicp.AicpActions;
 
 /**
  * Helper to show the global actions dialog.  Each item is an {@link Action} that
@@ -308,35 +310,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         mItems = new ArrayList<Action>();
 
-        // next: On-The-Go, if enabled
-	ContentResolver resolver = mContext.getContentResolver();
-        boolean showOnTheGo = Settings.System.getInt(
-                resolver, Settings.System.POWER_MENU_ONTHEGO_ENABLED, 0) == 1;
-        if (showOnTheGo) {
-            mItems.add(
-                new SinglePressAction(com.android.internal.R.drawable.ic_lock_onthego,
-                        R.string.global_action_onthego) {
-
-                        public void onPress() {
-                            OnTheGoActions.processAction(mContext,
-                                    OnTheGoActions.ACTION_ONTHEGO_TOGGLE);
-                        }
-
-                        public boolean onLongPress() {
-                            return false;
-                        }
-
-                        public boolean showDuringKeyguard() {
-                            return true;
-                        }
-
-                        public boolean showBeforeProvisioning() {
-                            return true;
-                        }
-                    }
-            );
-        }
-
         String[] actionsArray;
         if (mActions == null) {
             actionsArray = mContext.getResources().getStringArray(
@@ -363,6 +336,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 mItems.add(getScreenshotAction());
             } else if (GLOBAL_ACTION_KEY_SCREENRECORD.equals(actionKey)) {
                 mItems.add(getScreenrecordAction());
+            } else if (GLOBAL_ACTION_KEY_ONTHEGO.equals(actionKey)) {
+                mItems.add(getOTGToggleAction());
             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
                 mItems.add(mAirplaneModeOn);
             } else if (GLOBAL_ACTION_KEY_BUGREPORT.equals(actionKey)) {
@@ -520,6 +495,30 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
             public boolean showBeforeProvisioning() {
                 return false;
+            }
+        };
+    }
+
+    private Action getOTGToggleAction() {
+        return new SinglePressAction(com.android.internal.R.drawable.ic_lock_onthego,
+                R.string.global_action_onthego) {
+
+            public void onPress() {
+                AicpActions.processAction(mContext,
+                AicpActions.ACTION_ONTHEGO_TOGGLE);
+                return;
+            }
+
+            public boolean onLongPress() {
+                return false;
+            }
+
+            public boolean showDuringKeyguard() {
+                return true;
+            }
+
+            public boolean showBeforeProvisioning() {
+                return true;
             }
         };
     }
@@ -872,7 +871,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
     private void startOnTheGo() {
         final ComponentName cn = new ComponentName("com.android.systemui",
-                "com.android.systemui.xd.onthego.OnTheGoService");
+                "com.android.systemui.aicp.onthego.OnTheGoService");
         final Intent startIntent = new Intent();
         startIntent.setComponent(cn);
         startIntent.setAction("start");
@@ -889,6 +888,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             mContext.registerReceiver(mRingerModeReceiver, filter);
         }
     }
+
    private void checkSettings() {
         mScreenshotDelay = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.SCREENSHOT_DELAY, 1);
