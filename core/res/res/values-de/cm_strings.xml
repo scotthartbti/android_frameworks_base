@@ -17,6 +17,9 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="profile_picker_title">Profile</string>
+  <string name="global_action_choose_profile">Profil</string>
+  <string name="profile_none">Kein Profil</string>
   <string name="global_action_screenshot">Bildschirmfoto</string>
   <string name="permlab_receiveProtectedSms">geschützte SMS empfangen</string>
   <string name="permdesc_receiveProtectedSms">Ermöglicht der App, eine eingehende geschützte SMS zu empfangen.</string>
@@ -24,13 +27,24 @@
   <string name="permdesc_modifyProtectedSmsList">Ermöglicht der App, die Adressliste der geschützten SMS zu ändern.</string>
   <string name="permgrouplab_security">Sicherheit</string>
   <string name="permgroupdesc_security">Berechtigungen welche die Gerätesicherheit betreffen.</string>
+  <string name="permlab_accessThemeService">Zugriff auf den Design-Dienst</string>
+  <string name="permdesc_accessThemeService">Ermöglicht der App, auf den Design-Dienst zuzugreifen. Wird für normale Apps nicht benötigt.</string>
+  <string name="permlab_readThemes">Design-Informationen lesen</string>
+  <string name="permdesc_readThemesDesc">Ermöglicht der App, auszulesen, welche Designs Sie installiert und aktiviert haben.</string>
+  <string name="permlab_writeThemes">aktives Design ändern</string>
+  <string name="permdesc_writeThemesDesc">Ermöglicht der App, neue Designs zu installieren und das aktive Design zu wählen.</string>
   <string name="permlab_readPhoneBlacklist">Sperrliste lesen</string>
   <string name="permdesc_readPhoneBlacklist">Ermöglicht der App, gesperrte Telefonnummern für eingehende Anrufe oder Nachrichten zu lesen.</string>
   <string name="permlab_changePhoneBlacklist">Sperrliste ändern</string>
   <string name="permdesc_changePhoneBlacklist">Ermöglicht der App, gesperrte Telefonnummern für eingehende Anrufe oder Nachrichten zu ändern.</string>
-  <string name="global_action_choose_profile">Profil</string>
+  <string name="permlab_changePrivacyGuardState">Datenschutz aktivieren oder deaktivieren</string>
+  <string name="permdesc_changePrivacyGuardState">Ermöglicht der App, den Datenschutz für andere Apps zu aktivieren oder deaktivieren. Eine App mit aktiviertem Datenschutz hat keinen Zugriff auf persönliche Daten wie Kontakte, Nachrichten oder das Anrufprotokoll.</string>
+  <string name="privacy_guard_notification">Datenschutz aktiv</string>
+  <string name="privacy_guard_notification_detail"><xliff:g id="app">%1$s</xliff:g> hat keinen Zugriff auf persönliche Daten</string>
   <string name="permlab_setKeyguardWallpaper">Sperrbildschirm-Hintergrund ändern</string>
   <string name="permdesc_setKeyguardWallpaper">Ermöglicht der App, den Sperrbildschirm-Hintergrund zu ändern.</string>
+  <string name="privacy_guard_dialog_title">Datenschutz</string>
+  <string name="privacy_guard_dialog_summary"><xliff:g id="app">%1$s</xliff:g> versucht, <xliff:g id="op">%2$s</xliff:g>.</string>
   <string name="global_action_reboot">Neu starten</string>
   <string name="global_action_current_user">Aktuell</string>
   <string name="reboot_reboot">Neu starten</string>
@@ -46,37 +60,19 @@
   <string name="adb_net_active_notification_title">ADB über Netzwerk aktiviert</string>
   <string name="adb_both_active_notification_title">ADB über USB &amp; Netzwerk aktiviert</string>
   <string name="adb_active_generic_notification_message">Berühren, um Debugging zu deaktivieren.</string>
+  <string name="usb_choose_notification_title">Berühren, um eine USB-Option auszuwählen.</string>
   <string name="adb_active_custom_tile">ADB: <xliff:g id="adb_type" example="USB">%1$s</xliff:g></string>
   <string name="adb_active_custom_tile_both">USB &amp; Netzwerk</string>
   <string name="adb_active_custom_tile_usb">USB</string>
   <string name="adb_active_custom_tile_net">Netzwerk</string>
-  <string name="permlab_accessThemeService">Zugriff auf den Design-Dienst</string>
   <string name="permlab_interceptPackageLaunch">App-Start verhindern</string>
-  <string name="permdesc_accessThemeService">Ermöglicht der App, auf den Design-Dienst zuzugreifen. Wird für normale Apps nicht benötigt.</string>
-  <string name="permlab_readThemes">Design-Informationen lesen</string>
-  <string name="permdesc_readThemesDesc">Ermöglicht der App, auszulesen, welche Designs Sie installiert und aktiviert haben.</string>
-  <string name="permlab_writeThemes">aktives Design ändern</string>
-  <string name="permdesc_writeThemesDesc">Ermöglicht der App, neue Designs zu installieren und das aktive Design zu wählen.</string>
-  <string name="theme_install_error_title">Design konnte nicht intalliert werden</string>
-  <string name="theme_install_error_message">%s konnte nicht installiert werden</string>
-  <string name="stylus_app_not_installed">%s ist nicht installiert</string>
-  <string name="theme_reset_notification_title">Design zurückgesetzt</string>
-  <string name="theme_reset_notification_body">Das System-Design wurde aufgrund mehrer App-Abstürze wiederhergestellt.</string>
-  <string name="silent_mode_priority">Wichtig</string>
-  <string name="silent_mode_none">Keine</string>
-  <string name="subscription_change_disabled_wifi_ap">WLAN-Hotspot wurde aufgrund von Änderungen am SIM-Abonnement deaktiviert</string>
-  <string name="notify_turn_wifi_off_title">WLAN ausschalten</string>
-  <string name="permlab_changePrivacyGuardState">Datenschutz aktivieren oder deaktivieren</string>
-  <string name="permdesc_changePrivacyGuardState">Ermöglicht der App, den Datenschutz für andere Apps zu aktivieren oder deaktivieren. Eine App mit aktiviertem Datenschutz hat keinen Zugriff auf persönliche Daten wie Kontakte, Nachrichten oder das Anrufprotokoll.</string>
-  <string name="privacy_guard_notification">Datenschutz aktiv</string>
-  <string name="privacy_guard_notification_detail"><xliff:g id="app">%1$s</xliff:g> hat keinen Zugriff auf persönliche Daten</string>
-  <string name="privacy_guard_dialog_title">Datenschutz</string>
-  <string name="privacy_guard_dialog_summary"><xliff:g id="app">%1$s</xliff:g> versucht, <xliff:g id="op">%2$s</xliff:g>.</string>
-  <string name="permission_remember_choice">Meine Auswahl merken</string>
+  <string name="permdesc_interceptPackageLaunch">Ermöglicht der App, den Start anderer Apps zu zu verhindern</string>
   <string name="app_ops_access_camera">auf die Kamera zuzugreifen</string>
   <string name="app_ops_access_location">den Standort abzurufen</string>
   <string name="app_ops_access_notifications">auf Benachrichtigungen zuzugreifen</string>
   <string name="app_ops_activate_vpn">ein VPN zu aktivieren</string>
+  <string name="app_ops_alarm_wakeup">das Gerät aufzuwecken</string>
+  <string name="app_ops_su">Root-Zugriff zu erhalten</string>
   <string name="app_ops_auto_start">automatisch zu starten</string>
   <string name="app_ops_delete_call_log">Anrufliste zu löschen</string>
   <string name="app_ops_delete_contacts">Kontakte zu löschen</string>
@@ -123,17 +119,74 @@
   <string name="app_ops_use_voice_volume">die Sprachlautstärke zu ändern</string>
   <string name="app_ops_write_mms">MMS zu schreiben</string>
   <string name="app_ops_write_sms">SMS zu schreiben</string>
-  <string name="app_ops_add_voicemail">eine Sprachnachricht hinzuzufügen</string>
-  <string name="app_ops_read_phone_state">auf Telefon-Status zuzugreifen</string>
-  <string name="app_ops_scan_wifi">WLAN-Netzwerke zu scannen</string>
-  <string name="app_ops_change_wallpaper">Hintergrundbild zu ändern</string>
-  <string name="app_ops_assist_screenshot">Bildschirmfoto zu erstellen</string>
-  <string name="app_ops_read_cell_broadcasts">Cell-Broadcasts zu lesen</string>
-  <string name="app_ops_mock_location">Ihren Standort zu simulieren</string>
-  <string name="app_ops_get_accounts">Geräte-Konten abzurufen</string>
-  <string name="app_ops_wifi_change">WLAN-Status zu ändern</string>
-  <string name="app_ops_su">Root-Zugriff zu erhalten</string>
-  <string name="lock_to_app_toast_no_navbar">Um diese Ansicht zu lösen die Zurück-Taste drücken und halten.</string>
+  <string name="lockscreen_sim_error_message_short">Ungültige Karte.</string>
+  <string name="lockscreen_airplane_mode_on">Flugmodus</string>
+  <string name="usb_charging_notification_title">Verbunden im Lademodus</string>
+  <string name="tethered_notification_no_device_message">Kein verbundenes Gerät</string>
+  <string name="tethered_notification_one_device_message"><xliff:g id="count">%1$s</xliff:g> verbundenes Gerät</string>
+  <string name="tethered_notification_multi_device_message"><xliff:g id="count">%1$s</xliff:g> verbundene Geräte</string>
+  <string name="progress_nomediapresent" product="default">Keine SD-Karte vorhanden\u2026</string>
+  <string name="storage_uicc">UICC-Speicher</string>
+  <string name="China_Mobile">China Mobile</string>
+  <string name="China_Unicom">China Unicom</string>
+  <string name="China_Telecom">China Telecom</string>
+  <string name="permission_remember_choice">Meine Auswahl merken</string>
+  <string name="perf_profile_pwrsv">Energie sparen</string>
+  <string name="perf_profile_bal">Ausgeglichen</string>
+  <string name="perf_profile_perf">Mehr Leistung</string>
+  <string name="perf_profile_bias_power">Effizient</string>
+  <string name="perf_profile_bias_perf">Schnell</string>
+  <string name="theme_install_error_title">Design konnte nicht intalliert werden</string>
+  <string name="theme_install_error_message">%s konnte nicht installiert werden</string>
+  <string name="theme_reset_notification_title">Design zurückgesetzt</string>
+  <string name="theme_reset_notification_body">Das System-Design wurde aufgrund mehrer App-Abstürze wiederhergestellt.</string>
+  <string name="stylus_app_not_installed">%s ist nicht installiert</string>
+  <string name="permlab_interceptSmsSent">verschickte SMS abfangen</string>
+  <string name="permdesc_interceptSmsSent">Ermöglicht der App, ausgehende SMS abzufangen. Schädliche Apps könnten so das Versenden von SMS-Nachrichten verhindern.</string>
+  <string name="permlab_accessTorchService">auf die Taschenlampe zuzugreifen</string>
+  <string name="permdesc_accessTorchService">Ermöglicht der App, auf die Taschenlampe zuzugreifen. Wird für normale Apps nicht benötigt.</string>
+  <string name="permlab_preventpower">Ein/Aus-Taste überschreiben</string>
+  <string name="permdesc_preventpower">Ermöglicht der App, der Ein/Aus-Taste eine andere Funktion zuzuweisen.</string>
+  <string name="usb_extmedia_format_message">Alle auf Ihrem USB-Speicher im Pfad \"%1$s\" abgelegten Dateien werden gelöscht. Diese Aktion kann nicht rückgängig gemacht werden!</string>
+  <string name="sd_extmedia_format_message">Alle auf Ihrer SD-Karte im Pfad \"%1$s\" abgelegten Dateien werden gelöscht. Diese Aktion kann nicht rückgängig gemacht werden!</string>
+  <string name="sd_progress_unmounting">SD-Karte wird ausgeworfen\u2026</string>
+  <string name="sd_progress_erasing">SD-Karte wird gelöscht\u2026</string>
+  <string name="sd_format_error">SD-Karte konnte nicht gelöscht werden.</string>
+  <string name="sd_media_bad_removal">Die SD-Karte wurde entfernt, bevor sie ausgeworfen werden konnte.</string>
+  <string name="sd_media_checking">Die SD-Karte wird gerade geprüft.</string>
+  <string name="sd_media_removed">SD-Karte wurde entfernt.</string>
+  <string name="sd_media_shared">Die SD-Karte wird momentan von einem Computer verwendet.</string>
+  <string name="usb_progress_unmounting">USB-Speicher wird ausgeworfen\u2026</string>
+  <string name="usb_progress_erasing">USB-Speicher wird gelöscht\u2026</string>
+  <string name="usb_format_error">USB-Speicher konnte nicht gelöscht werden.</string>
+  <string name="usb_media_bad_removal">USB-Speicher  wurde entfernt, bevor er ausgeworfen werden konnte.</string>
+  <string name="usb_media_checking">USB-Speicher wird gerade geprüft.</string>
+  <string name="usb_media_removed">USB-Speicher wurde entfernt.</string>
+  <string name="usb_media_shared">USB-Speicher wird momentan von einem Computer verwendet.</string>
+  <string name="sd_ext_media_checking_notification_title">SD-Karte wird vorbereitet</string>
+  <string name="sd_ext_media_checking_notification_message">SD-Karte wird auf Fehler überprüft.</string>
+  <string name="sd_ext_media_nofs_notification_title">Leere SD-Karte</string>
+  <string name="sd_ext_media_nofs_notification_message">SD-Karte ist leer oder hat ein nicht unterstütztes Dateisystem.</string>
+  <string name="sd_ext_media_unmountable_notification_title">SD-Karte ist beschädigt</string>
+  <string name="sd_ext_media_unmountable_notification_message">SD-Karte ist beschädigt. Versuchen Sie, sie erneut zu formatieren.</string>
+  <string name="sd_ext_media_badremoval_notification_title">SD-Karte wurde unerwartet entfernt</string>
+  <string name="sd_ext_media_badremoval_notification_message">Vor dem Entfernen die SD-Karte auswerfen, um Datenverlust zu vermeiden.</string>
+  <string name="sd_ext_media_safe_unmount_notification_title">SD-Karte kann sicher entfernt werden</string>
+  <string name="sd_ext_media_safe_unmount_notification_message">Die SD-Karte kann jetzt sicher entfernt werden.</string>
+  <string name="sd_ext_media_nomedia_notification_title">SD-Karte entfernt</string>
+  <string name="sd_ext_media_nomedia_notification_message">SD-Karte entfernt. Legen Sie eine neue ein.</string>
+  <string name="usb_ext_media_checking_notification_title">USB-Speicher wird vorbereitet</string>
+  <string name="usb_ext_media_checking_notification_message">USB-Speicher wird auf Fehler überprüft.</string>
+  <string name="usb_ext_media_nofs_notification_title">Unformatierter USB-Speicher</string>
+  <string name="usb_ext_media_nofs_notification_message">USB-Speicher ist leer oder hat ein nicht unterstütztes Dateisystem.</string>
+  <string name="usb_ext_media_unmountable_notification_title">USB-Speicher ist beschädigt</string>
+  <string name="usb_ext_media_unmountable_notification_message">USB-Speicher ist beschädigt. Versuchen Sie, ihn erneut zu formatieren.</string>
+  <string name="usb_ext_media_badremoval_notification_title">USB-Speicher wurde unerwartet entfernt</string>
+  <string name="usb_ext_media_badremoval_notification_message">Vor dem Entfernen den USB-Speicher auswerfen, um Datenverlust zu vermeiden.</string>
+  <string name="usb_ext_media_safe_unmount_notification_title">USB-Speicher kann sicher entfernt werden</string>
+  <string name="usb_ext_media_safe_unmount_notification_message">Sie können den USB-Speicher jetzt sicher entfernen.</string>
+  <string name="usb_ext_media_nomedia_notification_title">USB-Speicher entfernt</string>
+  <string name="usb_ext_media_nomedia_notification_message">USB-Speicher entfernt. Fügen Sie einen neuen Datenträger ein.</string>
   <string name="live_display_auto">Automatisch</string>
   <string name="live_display_auto_summary">Farbtemperatur des Bildschirms nach Sonnenaufgang und Sonnenuntergang automatisch anpassen</string>
   <string name="live_display_off">Aus</string>
@@ -145,7 +198,43 @@
   <string name="live_display_outdoor">Außen (helle Sonne)</string>
   <string name="live_display_outdoor_summary">Nur Außen-Modus verwenden</string>
   <string name="live_display_hint">LiveDisplay kann gegen eine Überanstrengung der Augen und beim Schlafen in der Nacht helfen. Klicken Sie hier, um es auszuprobieren!</string>
-  <string name="tethered_notification_no_device_message">Kein verbundenes Gerät</string>
-  <string name="tethered_notification_one_device_message"><xliff:g id="count">%1$s</xliff:g> verbundenes Gerät</string>
-  <string name="tethered_notification_multi_device_message"><xliff:g id="count">%1$s</xliff:g> verbundene Geräte</string>
+  <string name="lock_to_app_toast_no_navbar">Um diese Ansicht zu lösen die Zurück-Taste drücken und halten.</string>
+  <string name="quick_settings_tile_flashlight_not_title">Taschenlampe ist angeschaltet</string>
+  <string name="quick_settings_tile_flashlight_not_summary">Zum Ausschalten tippen</string>
+  <string name="storage_sd_dock_card">SD-Karte des Docks</string>
+  <string name="fingerprint_default_name">Fingerabdruck <xliff:g id="number">%d</xliff:g></string>
+  <string name="permlab_accessFingerprintService">auf Fingerabdruck-Dienst zugreifen</string>
+  <string name="permdesc_accessFingerprintService">Ermöglicht der App, auf den Fingerabdruck-Dienst zuzugreifen. Die App kann Fingerabdrücke hinzufügen, löschen, ändern und verifizieren</string>
+  <string name="permlab_resetBatteryStats">Akku-Verlaufsdetails zurücksetzen</string>
+  <string name="permdesc_resetBatteryStats">Ermöglicht der App, die Akku-Verlaufsdetails zurückzusetzen.</string>
+  <string name="silent_mode_priority">Wichtig</string>
+  <string name="silent_mode_none">Keine</string>
+  <string name="subscription_change_disabled_wifi_ap">WLAN-Hotspot wurde aufgrund von Änderungen am SIM-Abonnement deaktiviert</string>
+  <string name="notify_turn_wifi_off_title">WLAN ausschalten</string>
+  <string name="permlab_thirdPartyKeyguard">Drittanbieter Sperrbildschirm</string>
+  <string name="permdesc_thirdPartyKeyguard">Ermöglicht der App, als unsicherer Sperrbildschirm genutzt zu werden.</string>
+
+  <!-- AOKP custom system animations -->
+  <string name="animation_fade">Verblassen</string>
+  <string name="animation_slide_right">Von rechts hineingleiten</string>
+  <string name="animation_slide_left">Von links hineingleiten</string>
+  <string name="animation_slide_right_no_fade">Von rechts hineingleiten (ohne verblassen)</string>
+  <string name="animation_slide_left_no_fade">Von links hineingleiten (ohne verblassen)</string>
+  <string name="animation_slide_up">Von unten hineingleiten</string>
+  <string name="animation_slide_down">Von oben hineingleiten</string>
+  <string name="animation_default">Standard</string>
+  <string name="animation_translucent">Durchscheinen</string>
+  <string name="animation_grow_shrink">Einwachsen (oben)</string>
+  <string name="animation_grow_shrink_center">Einwachsen (mittig)</string>
+  <string name="animation_grow_shrink_bottom">Einwachsen (unten)</string>
+  <string name="animation_grow_shrink_left">Einwachsen (links)</string>
+  <string name="animation_grow_shrink_right">Einwachsen (rechts)</string>
+  <string name="action_null">Leer</string>
+
+  <!-- label for item that takes On-The-Go in the phone options dialog -->
+  <string name="global_action_onthego">On-The-Go Modus</string>
+
+  <!-- Slimseekbar -->
+  <string name="default_string">Standard</string>
+
 </resources>
