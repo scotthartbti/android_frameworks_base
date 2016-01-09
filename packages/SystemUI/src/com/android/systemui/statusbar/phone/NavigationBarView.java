@@ -90,7 +90,6 @@ public class NavigationBarView extends LinearLayout {
 
     private boolean mIsHandlerCallbackActive = false;
 
-    // NavBar Power Button
     private OnLongClickListener mPowerListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
