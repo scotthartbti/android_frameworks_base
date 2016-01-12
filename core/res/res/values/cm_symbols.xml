@@ -203,4 +203,7 @@
    <java-symbol type="style" name="PowerMenuTnAnimation" />
    <java-symbol type="style" name="PowerMenuflyAnimation" />
    <java-symbol type="style" name="PowerMenuCardAnimation" />
+
+    <!-- Wifi idle time default -->
+    <java-symbol type="integer" name="def_wifi_idle_ms" />
 </resources>
