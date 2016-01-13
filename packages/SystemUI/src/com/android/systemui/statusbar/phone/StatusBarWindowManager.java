@@ -53,7 +53,6 @@ public class StatusBarWindowManager implements KeyguardMonitor.Callback {
     private WindowManager.LayoutParams mLp;
     private WindowManager.LayoutParams mLpChanged;
     private int mBarHeight;
-    private final boolean mKeyguardScreenRotation;
     private final float mScreenBrightnessDoze;
 
     private boolean mKeyguardBlurEnabled;
