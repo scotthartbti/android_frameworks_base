@@ -3059,6 +3059,12 @@ public final class Settings {
         */
         public static final String DEV_FORCE_SHOW_NAVBAR = "dev_force_show_navbar";
 
+        /**
+         * Quick Settings Smart Pulldown
+         *
+         * @hide
+         */
+        public static final String QS_SMART_PULLDOWN = "qs_smart_pulldown";
 
         /**
          * Date format string
