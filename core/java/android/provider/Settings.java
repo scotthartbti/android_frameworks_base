@@ -3995,6 +3995,12 @@ public final class Settings {
         public static final String ENABLE_TASK_MANAGER = "enable_task_manager";
 
         /**
+         * whether to enable or disable vibration on succesful fingerprint auth
+         * @hide
+         */
+        public static final String FINGERPRINT_SUCCESS_VIB = "fingerprint_success_vib";
+
+        /**
          * Config for advanced pa pie 2.0
          *
          * @hide
