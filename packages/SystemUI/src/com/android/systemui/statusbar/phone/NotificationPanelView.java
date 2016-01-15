@@ -2651,7 +2651,7 @@ public class NotificationPanelView extends PanelView implements
             mDoubleTapToSleepEnabled = CMSettings.System.getInt(
                     resolver, CMSettings.System.DOUBLE_TAP_SLEEP_GESTURE, 1) == 1;
             mStatusBarLockedOnSecureKeyguard = Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD, 1,
+                    resolver, Settings.Secure.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD, 0,
                     UserHandle.USER_CURRENT) == 1;
         }
     }
