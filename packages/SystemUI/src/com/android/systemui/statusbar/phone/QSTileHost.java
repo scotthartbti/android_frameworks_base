@@ -56,6 +56,7 @@ import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.AppCircleBarTile;
+import com.android.systemui.qs.tiles.KernelAdiutorTile;
 import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.PieTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
@@ -392,6 +393,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("music")) return new MusicTile(this);
         else if (tileSpec.equals("reboot")) return new RebootTile(this);
         else if (tileSpec.equals("lte")) return new LteTile(this);
+	else if (tileSpec.equals("kernel_adiutor")) return new KernelAdiutorTile(this);
         else if (tileSpec.equals("navbar")) return new NavBarTile(this);
         else if (tileSpec.equals("appcirclebar")) return new AppCircleBarTile(this);
         else if (tileSpec.equals("pie")) return new PieTile(this);
@@ -488,6 +490,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("reboot")) return R.string.quick_settings_reboot_label;
         else if (spec.equals("expanded_desktop")) return R.string.quick_settings_expanded_desktop_label;
         else if (spec.equals("lte")) return R.string.qs_lte_label;
+	else if (spec.equals("kernel_adiutor")) return R.string.quick_settings_kernel_title;
         else if (spec.equals("navbar")) return R.string.quick_settings_navbar_title;
         else if (spec.equals("appcirclebar")) return R.string.quick_settings_appcirclebar_title;
         else if (spec.equals("pie")) return R.string.quick_settings_pie_title;
@@ -526,6 +529,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("expanded_desktop")) return R.drawable.ic_qs_expanded_desktop;
         else if (spec.equals("reboot")) return R.drawable.ic_qs_reboot;
         else if (spec.equals("lte")) return R.drawable.ic_qs_lte_on;
+	else if (spec.equals("kernel_adiutor")) return R.drawable.ic_qs_kernel_adiutor;	
         else if (spec.equals("navbar")) return R.drawable.ic_qs_navbar_on;
         else if (spec.equals("appcirclebar")) return R.drawable.ic_qs_appcirclebar_on;
         else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;	
