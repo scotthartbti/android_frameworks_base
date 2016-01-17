@@ -4558,6 +4558,12 @@ public final class Settings {
         public static final String PROXIMITY_AUTO_SPEAKER_INCALL_ONLY =
                 "proximity_auto_speaker_incall_only";
 
+	/**
+         * Transparent qs shade
+         * @hide
+         */
+        public static final String QS_TRANSPARENT_SHADE = "qs_transparent_shade";
+
         /**
          * Allows to show the background activity back the lockscreen
          * 0 = off
