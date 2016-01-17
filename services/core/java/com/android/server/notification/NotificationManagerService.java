@@ -1538,8 +1538,8 @@ public class NotificationManagerService extends SystemService {
         @Override
         public void setPackageKeyguard(String pkg, int uid, boolean keguard) {
             checkCallerIsSystem();
-
             mRankingHelper.setPackageKeyguard(pkg, uid, keguard);
+            savePolicyFile();
         }
 
         @Override
