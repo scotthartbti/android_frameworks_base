@@ -1456,7 +1456,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 }
                 boolean locked = isStatusBarKeyguard() && isKeyguardSecure();
                 boolean globalActionsOnLockScreen = Settings.System.getIntForUser(mContext.getContentResolver(),
-                            Settings.System.LOCKSCREEN_ENABLE_POWER_MENU, 1) == 1;
+                            Settings.System.LOCKSCREEN_ENABLE_POWER_MENU, 1, UserHandle.USER_CURRENT) == 1;
                 if (locked && !globalActionsOnLockScreen) {
                     behavior = LONG_PRESS_POWER_NOTHING;
                 } else {
