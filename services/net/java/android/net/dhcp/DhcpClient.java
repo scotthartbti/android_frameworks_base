@@ -644,6 +644,8 @@ public class DhcpClient extends BaseDhcpStateMachine {
     }
 
     public boolean isValidPacket(DhcpPacket packet) {
+        if (packet == null)
+            return false;
         // TODO: check checksum.
         if (packet == null)
             return false;
