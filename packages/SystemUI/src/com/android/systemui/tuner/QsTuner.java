@@ -156,6 +156,10 @@ public class QsTuner extends PreferenceFragment implements Callback {
     public void goToSettingsPage() {
     }
 
+    @Override
+    public void resetTiles() {
+    }
+
     private static class CustomHost extends QSTileHost {
 
         public CustomHost(Context context) {

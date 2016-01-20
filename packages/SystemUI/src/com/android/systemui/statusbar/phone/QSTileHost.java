@@ -451,9 +451,14 @@ public class QSTileHost implements QSTile.Host, Tunable {
                 TextUtils.join(",", tiles), ActivityManager.getCurrentUser());
     }
 
+    public void initiateReset() {
+        if (mCallback != null) {
+            mCallback.resetTiles();
+        }
+    }
+
     @Override
     public void resetTiles() {
-        setEditing(false);
         CMSettings.Secure.putStringForUser(getContext().getContentResolver(),
                 CMSettings.Secure.QS_TILES, "default", ActivityManager.getCurrentUser());
     }
@@ -540,7 +545,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	else if (spec.equals("kernel_adiutor")) return R.drawable.ic_qs_kernel_adiutor;	
         else if (spec.equals("navbar")) return R.drawable.ic_qs_navbar_on;
         else if (spec.equals("appcirclebar")) return R.drawable.ic_qs_appcirclebar_on;
-        else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;	
+        else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;
         return 0;
     }
 

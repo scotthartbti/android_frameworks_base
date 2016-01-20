@@ -264,4 +264,10 @@
 
     <!-- Slimseekbar -->
     <string name="default_string">Default</string>
+
+    <!-- Keyguard strings -->
+    <!-- Sequence of characters used to separate carrier message strings in keyguard. Typically just vertical line
+         with spaces on either side. [CHAR LIMIT=3] -->
+    <string name="kg_sub_separator" translatable="false">" | "</string>
+
 </resources>
