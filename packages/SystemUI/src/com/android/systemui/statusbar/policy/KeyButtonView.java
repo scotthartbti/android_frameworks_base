@@ -73,6 +73,7 @@ public class KeyButtonView extends ImageView {
 
     private boolean mShouldTintIcons = true;
     private static int color;
+    private static boolean mTintEnabled;
 
     private PerformanceManager mPerf;
 
@@ -383,7 +384,7 @@ public class KeyButtonView extends ImageView {
 
     public void setTint(boolean tint) {
         setColorFilter(null);
-        if (tint) {
+        if (tint && mTintEnabled) {
             color = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.NAVIGATION_BAR_TINT, -1);
             if (color != -1) {
@@ -395,7 +396,12 @@ public class KeyButtonView extends ImageView {
     }
 
     public static int reportColor() {
-        return color;
+        if (mTintEnabled) {
+            return color;
+        } else {
+            color = -1;
+            return color;
+        }
     }
 
     class SettingsObserver extends ContentObserver {
@@ -407,6 +413,8 @@ public class KeyButtonView extends ImageView {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_TINT), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_TINT_SWITCH), false, this);
             updateSettings();
         }
 
@@ -417,6 +425,8 @@ public class KeyButtonView extends ImageView {
     }
 
     protected void updateSettings() {
+        mTintEnabled = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_TINT_SWITCH, 0) == 1;
         setTint(mShouldTintIcons);
         invalidate();
     }
