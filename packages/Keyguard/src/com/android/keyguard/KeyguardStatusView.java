@@ -72,8 +72,6 @@ public class KeyguardStatusView extends GridLayout implements
     private TextView mWeatherConditionText;
     private boolean mShowWeather;
     private int mIconNameValue = 0;
-    private int mPrimaryTextColor;
-    private int mIconColor;
     private WeatherController mWeatherController;
 
     //On the first boot, keygard will start to receiver TIME_TICK intent.
@@ -290,23 +288,29 @@ public class KeyguardStatusView extends GridLayout implements
 
         mShowWeather = Settings.System.getInt(resolver,
                 Settings.System.LOCK_SCREEN_SHOW_WEATHER, 0) == 1;
-        mIconColor = Settings.System.getInt(resolver,
-                Settings.System.LOCK_SCREEN_WEATHER_ICON_COLOR, -2);
-        mPrimaryTextColor = Settings.System.getInt(resolver,
-                Settings.System.LOCK_SCREEN_WEATHER_TEXT_COLOR, -2);
         boolean showLocation = Settings.System.getInt(resolver,
                     Settings.System.LOCK_SCREEN_SHOW_WEATHER_LOCATION, 1) == 1;
         int iconNameValue = Settings.System.getInt(resolver,
                 Settings.System.LOCK_SCREEN_WEATHER_CONDITION_ICON, 0);
-        int secondaryTextColor = (179 << 24) | (mPrimaryTextColor & 0x00ffffff); // mPrimaryTextColor with a transparency of 70%
+        boolean colorizeAllIcons = Settings.System.getInt(resolver,
+                Settings.System.LOCK_SCREEN_WEATHER_COLORIZE_ALL_ICONS, 0) == 1;
+        int defaultPrimaryTextColor =
+                res.getColor(R.color.keyguard_default_primary_text_color);
+        int primaryTextColor = Settings.System.getInt(resolver,
+                Settings.System.LOCK_SCREEN_WEATHER_TEXT_COLOR, defaultPrimaryTextColor);
+        int secondaryTextColor = (179 << 24) | (primaryTextColor & 0x00ffffff); // primaryTextColor with a transparency of 70%
+        int defaultIconColor =
+                res.getColor(R.color.keyguard_default_icon_color);
+        int iconColor = Settings.System.getInt(resolver,
+                Settings.System.LOCK_SCREEN_WEATHER_ICON_COLOR, defaultIconColor);
         if (forceHide) {
             mWeatherView.setVisibility(View.GONE);
         } else {
             mWeatherView.setVisibility(mShowWeather ? View.VISIBLE : View.GONE);
         }
         mWeatherCity.setVisibility(showLocation ? View.VISIBLE : View.INVISIBLE);
-        mWeatherCity.setTextColor(mPrimaryTextColor);
-        mWeatherConditionText.setTextColor(mPrimaryTextColor);
+        mWeatherCity.setTextColor(primaryTextColor);
+        mWeatherConditionText.setTextColor(primaryTextColor);
         mWeatherCurrentTemp.setTextColor(secondaryTextColor);
 
         boolean isPrimary = UserHandle.getCallingUserId() == UserHandle.USER_OWNER;
@@ -374,12 +378,12 @@ public class KeyguardStatusView extends GridLayout implements
 
         mWeatherConditionImage.setImageDrawable(null);
         Drawable weatherIcon = mWeatherConditionDrawable;
-        if (mIconColor == -2) {
-            mWeatherConditionImage.setImageDrawable(weatherIcon);
-        } else {
+        if (iconNameValue == 0 || colorizeAllIcons) {
             Bitmap coloredWeatherIcon =
-                    ImageHelper.getColoredBitmap(weatherIcon, mIconColor);
+                    ImageHelper.getColoredBitmap(weatherIcon, iconColor);
             mWeatherConditionImage.setImageBitmap(coloredWeatherIcon);
+        } else {
+            mWeatherConditionImage.setImageDrawable(weatherIcon);
         }
     }
 
