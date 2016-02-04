@@ -43,6 +43,7 @@ import com.android.systemui.qs.tiles.AmbientDisplayTile;
 import com.android.systemui.qs.tiles.BatterySaverTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.BrightnessTile;
+import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.CastTile;
 import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorInversionTile;
@@ -390,6 +391,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("live_display")) return new LiveDisplayTile(this);
         else if (tileSpec.equals("heads_up")) return new HeadsUpTile(this);
         else if (tileSpec.equals("battery_saver")) return new BatterySaverTile(this);
+        else if (tileSpec.equals("caffeine")) return new CaffeineTile(this);
         else if (tileSpec.equals("brightness")) return new BrightnessTile(this);
         else if (tileSpec.equals("screen_off")) return new ScreenOffTile(this);
         else if (tileSpec.equals("screenshot")) return new ScreenshotTile(this);
@@ -494,6 +496,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("live_display")) return R.string.live_display_title;
         else if (spec.equals("heads_up")) return R.string.quick_settings_heads_up_label;
         else if (spec.equals("battery_saver")) return R.string.quick_settings_battery_saver_label;
+        else if (spec.equals("caffeine")) return R.string.quick_settings_caffeine_label;
         else if (spec.equals("brightness")) return R.string.quick_settings_brightness_label;
         else if (spec.equals("screen_off")) return R.string.quick_settings_screen_off_label;
         else if (spec.equals("screenshot")) return R.string.quick_settings_screenshot_label;
@@ -535,6 +538,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("live_display")) return R.drawable.ic_livedisplay_auto;
         else if (spec.equals("heads_up")) return R.drawable.ic_qs_heads_up_on;
         else if (spec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
+        else if (spec.equals("caffeine")) return R.drawable.ic_qs_caffeine_on;
         else if (spec.equals("music")) return R.drawable.ic_qs_media_play;
         else if (spec.equals("brightness")) return R.drawable.ic_qs_brightness_auto_on;
         else if (spec.equals("screen_off")) return R.drawable.ic_qs_power;
