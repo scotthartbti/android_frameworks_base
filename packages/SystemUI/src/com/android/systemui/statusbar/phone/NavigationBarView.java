@@ -169,6 +169,9 @@ public class NavigationBarView extends LinearLayout {
     private OnClickListener mCameraClickListener;
     private OnClickListener mScreenShotClickListener;
     private OnClickListener mImmersiveClickListener;
+    private OnClickListener mPieClickListener;
+    private OnClickListener mScreenClickListener;
+    private OnClickListener mKillClickListener;
 
     private SettingsObserver mSettingsObserver;
     private boolean mShowDpadArrowKeys;
@@ -967,7 +970,8 @@ public class NavigationBarView extends LinearLayout {
                       OnLongClickListener longPressHomeListener, OnClickListener notificationsClickListener,
                       OnLongClickListener notificationsLongListener,OnClickListener torchClickListener,
                       OnClickListener cameraClickListener, OnClickListener screenshotClickListener,
-                      OnClickListener immersiveClickListener) {
+                      OnClickListener immersiveClickListener, OnClickListener pieClickListener, 
+		      OnClickListener screenClickListener, OnClickListener killClickListener) {
         mRecentsClickListener = recentsClickListener;
         mRecentsPreloadListener = recentsPreloadListener;
         mHomeSearchActionListener = homeSearchActionListener;
@@ -979,6 +983,9 @@ public class NavigationBarView extends LinearLayout {
         mCameraClickListener = cameraClickListener;
         mScreenShotClickListener = screenshotClickListener;
         mImmersiveClickListener = immersiveClickListener;
+	mPieClickListener = pieClickListener;
+        mScreenClickListener = screenClickListener;
+	mKillClickListener = killClickListener;
         updateButtonListeners();
     }
 
@@ -1041,6 +1048,18 @@ public class NavigationBarView extends LinearLayout {
         View immersivetView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_EXPAND);
         if (immersivetView != null) {
             immersivetView.setOnClickListener(mImmersiveClickListener);
+        }
+	View pieView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_PIE);
+        if (pieView != null) {
+            pieView.setOnClickListener(mPieClickListener);
+        }
+	View screenView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_SCREENRECORD);
+        if (screenView != null) {
+            screenView.setOnClickListener(mScreenClickListener);
+        }
+	View killView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_KILLTASK);
+        if (killView != null) {
+            killView.setOnClickListener(mKillClickListener);
         }
     }
 
