@@ -3865,6 +3865,12 @@ public final class Settings {
          */
         public static final String HIDE_LOCKSCREEN_CLOCK = "hide_lockscreen_clock";
 
+        /**
+         * Hide lockscreen alarm
+         * @hide
+         */
+        public static final String HIDE_LOCKSCREEN_ALARM = "hide_lockscreen_alarm";
+
 	/**
          * Whether to use gesture anywhere feature.
          * @hide
