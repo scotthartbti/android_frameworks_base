@@ -168,16 +168,8 @@ public class NavbarEditor implements View.OnTouchListener {
             R.drawable.ic_sysbar_ss);
     public static final ButtonInfo NAVBAR_EXPAND = new ButtonInfo("expand",
             R.string.navbar_expand, R.string.accessibility_expand,
-<<<<<<< HEAD
             0, R.drawable.ic_sysbar_immersive_mode, R.drawable.ic_sysbar_immersive_mode,
             R.drawable.ic_sysbar_immersive_mode);
-=======
-            0, R.drawable.ic_sysbar_expand_ime, R.drawable.ic_sysbar_expand_land,
-            R.drawable.ic_sysbar_expand_side);
-    public static final ButtonInfo NAVBAR_CONFIGURATIONS = new ButtonInfo("configurations",
-            R.string.navbar_config, R.string.accessibility_config,
-            0, R.drawable.ic_sysbar_configurations, R.drawable.ic_sysbar_configurations_land,
-            R.drawable.ic_sysbar_configurations_side);	
     public static final ButtonInfo NAVBAR_PIE = new ButtonInfo("pie",
             R.string.navbar_pie, R.string.accessibility_pie,
             0, R.drawable.ic_sysbar_pie, R.drawable.ic_sysbar_pie_land,
@@ -189,18 +181,13 @@ public class NavbarEditor implements View.OnTouchListener {
    public static final ButtonInfo NAVBAR_KILLTASK = new ButtonInfo("killtask",
             R.string.navbar_killtask, R.string.accessibility_killtask,
             0, R.drawable.ic_sysbar_kill, R.drawable.ic_sysbar_kill_land,
-            R.drawable.ic_sysbar_kill_side);	
->>>>>>> a1cb009... [Squashed] More Navbar Buttons Part 2[1/2]
+            R.drawable.ic_sysbar_kill_side);
 
     private static final ButtonInfo[] ALL_BUTTONS = new ButtonInfo[] {
         NAVBAR_EMPTY, NAVBAR_HOME, NAVBAR_BACK, NAVBAR_SEARCH,
         NAVBAR_RECENT, NAVBAR_CONDITIONAL_MENU, NAVBAR_ALWAYS_MENU,
-<<<<<<< HEAD
         NAVBAR_MENU_BIG, NAVBAR_POWER, NAVBAR_NOTIFICATIONS, NAVBAR_TORCH,
-        NAVBAR_CAMERA, NAVBAR_SCREENSHOT, NAVBAR_EXPAND
-=======
-        NAVBAR_MENU_BIG, NAVBAR_POWER, NAVBAR_NOTIFICATIONS ,NAVBAR_TORCH ,NAVBAR_CAMERA , NAVBAR_SCREENSHOT ,NAVBAR_EXPAND ,NAVBAR_CONFIGURATIONS,NAVBAR_PIE ,NAVBAR_SCREENRECORD , NAVBAR_KILLTASK
->>>>>>> a1cb009... [Squashed] More Navbar Buttons Part 2[1/2]
+        NAVBAR_CAMERA, NAVBAR_SCREENSHOT, NAVBAR_EXPAND, NAVBAR_PIE, NAVBAR_SCREENRECORD, NAVBAR_KILLTASK
     };
 
     private static final String DEFAULT_SETTING_STRING = "empty|empty|back|home|recent|empty|menu0";
