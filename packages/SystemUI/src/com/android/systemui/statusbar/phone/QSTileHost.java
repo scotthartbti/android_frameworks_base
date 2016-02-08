@@ -40,6 +40,7 @@ import com.android.systemui.qs.QSTile;
 import com.android.systemui.qs.tiles.AdbOverNetworkTile;
 import com.android.systemui.qs.tiles.AirplaneModeTile;
 import com.android.systemui.qs.tiles.AmbientDisplayTile;
+import com.android.systemui.qs.tiles.AppPickerTile;
 import com.android.systemui.qs.tiles.BatterySaverTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.BrightnessTile;
@@ -403,6 +404,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("navbar")) return new NavBarTile(this);
         else if (tileSpec.equals("appcirclebar")) return new AppCircleBarTile(this);
         else if (tileSpec.equals("pie")) return new PieTile(this);
+        else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
     }
@@ -508,6 +510,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("navbar")) return R.string.quick_settings_navbar_title;
         else if (spec.equals("appcirclebar")) return R.string.quick_settings_appcirclebar_title;
         else if (spec.equals("pie")) return R.string.quick_settings_pie_title;
+        else if (spec.equals("app_picker")) return R.string.navbar_app_picker;
         return 0;
     }
 
@@ -550,6 +553,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("navbar")) return R.drawable.ic_qs_navbar_on;
         else if (spec.equals("appcirclebar")) return R.drawable.ic_qs_appcirclebar_on;
         else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;
+        else if (spec.equals("app_picker")) return R.drawable.ic_sysbar_app_picker;
         return 0;
     }
 
