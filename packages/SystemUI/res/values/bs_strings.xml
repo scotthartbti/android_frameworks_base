@@ -148,4 +148,8 @@
 
     <!-- Kill app toast -->
     <string name="app_killed_message">App Killed</string>
+
+    <!-- Screenrecord toast -->
+    <string name="screenrecord_start">Screenrecording started</string>
+    <string name="screenrecord_stop">Screenrecording stopped</string>
 </resources>

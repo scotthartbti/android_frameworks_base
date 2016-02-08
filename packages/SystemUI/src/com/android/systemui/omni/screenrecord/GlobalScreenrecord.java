@@ -45,6 +45,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.UserHandle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.systemui.R;
 
@@ -164,6 +165,7 @@ class GlobalScreenrecord {
     public void updateNotification(){
         final Resources r = mContext.getResources();
         // Display a notification
+        Toast.makeText(mContext, R.string.screenrecord_start, Toast.LENGTH_SHORT).show();
         Notification.Builder builder = new Notification.Builder(mContext)
             .setTicker(r.getString(R.string.screenrecord_notif_ticker))
             .setContentTitle(r.getString(R.string.screenrecord_notif_title))
@@ -208,6 +210,7 @@ class GlobalScreenrecord {
             Log.e(TAG, "No capture thread, cannot stop screen recording!");
             return;
         }
+	Toast.makeText(mContext, R.string.screenrecord_stop, Toast.LENGTH_SHORT).show();
 
         mNotificationManager.cancel(SCREENRECORD_NOTIFICATION_ID);
 
