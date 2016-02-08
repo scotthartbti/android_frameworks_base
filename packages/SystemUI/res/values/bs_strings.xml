@@ -145,4 +145,7 @@
     <string name="accessibility_killtask">Kill Task</string>
     <!-- Dialog title for navigation bar button selection -->
     <string name="navbar_killtask">Kill Task</string>
+
+    <!-- Kill app toast -->
+    <string name="app_killed_message">App Killed</string>
 </resources>
