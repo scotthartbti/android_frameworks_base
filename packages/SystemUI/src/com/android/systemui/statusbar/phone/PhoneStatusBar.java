@@ -1792,6 +1792,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
+    //App picker
+    private final View.OnClickListener mAppPickerClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            appPicker();
+        }
+    };
+
     private void awakenDreams() {
         if (mDreamManager != null) {
             try {
@@ -2038,6 +2045,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     }
 
+    private void appPicker() {
+        Intent intent = new Intent(".aicp.apppicker.AppPickerActivity");
+        startActivity(intent, true);
+    }
+
 	public void killapp() {
             final Intent intent = new Intent(Intent.ACTION_MAIN);
             String defaultHomePackage = "com.android.launcher";
@@ -2084,7 +2096,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNavigationBarView.setListeners(mRecentsClickListener, mRecentsPreloadOnTouchListener,
                 mLongPressBackRecentsListener, mHomeActionListener, mLongPressHomeListener,
                 mNotificationsClickListener, mNotificationsLongListener, mTorchClickListener,
-                mCameraClickListener, mScreenShotClickListener, mImmersiveClickListener, mPieClickListener, 			mScreenClickListener, mKillClickListener);
+                mCameraClickListener, mScreenShotClickListener, mImmersiveClickListener, mPieClickListener, 			mScreenClickListener, mKillClickListener, mAppPickerClickListener);
         mAssistManager.onConfigurationChanged();
     }
 
