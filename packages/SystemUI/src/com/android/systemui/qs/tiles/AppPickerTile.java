@@ -34,7 +34,7 @@ import com.android.systemui.qs.QSTileView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.cyanogenmod.internal.logging.CMMetricsLogger;
+import com.android.internal.logging.MetricsLogger;
 
 
 public class AppPickerTile extends QSTile<QSTile.BooleanState> {
@@ -55,7 +55,7 @@ public class AppPickerTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return CMMetricsLogger.AICPEXTRAS;
+        return MetricsLogger.DONT_TRACK_ME_BRO;
     }
 
 
