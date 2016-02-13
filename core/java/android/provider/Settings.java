@@ -3820,34 +3820,6 @@ public final class Settings {
         public static final String LOCK_SCREEN_SHOW_WEATHER = "lock_screen_show_weather";
 
         /**
-         * Change the color of the lockscreen owner's info text
-         *
-         * @hide
-         */
-        public static final String LOCKSCREEN_OWNER_INFO_COLOR = "lockscreen_owner_info_color";
-
-        /**
-         * Change the color of the lockscreen alarm text
-         *
-         * @hide
-         */
-        public static final String LOCKSCREEN_ALARM_COLOR = "lockscreen_alarm_color";
-
-        /**
-         * Change the color of the lockscreen clock
-         *
-         * @hide
-         */
-        public static final String LOCKSCREEN_CLOCK_COLOR = "lockscreen_clock_color";
-
-        /**
-         * Change the color of the lockscreen date underneath the clock
-         *
-         * @hide
-         */
-        public static final String LOCKSCREEN_CLOCK_DATE_COLOR = "lockscreen_clock_date_color";
-
-        /**
          * Whether to show the weather location on the lock screen
          * @hide
          */
