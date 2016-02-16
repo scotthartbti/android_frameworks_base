@@ -573,12 +573,33 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(musicPackage, STORAGE_PERMISSIONS, userId);
             }
 
-            // DU ALLOWED PERMISSIONS
-            PackageParser.Package chromiumPackage = getDefaultProviderAuthorityPackageLPr(
+            // Chromium Regular
+            PackageParser.Package chromiumRPackage = getDefaultProviderAuthorityPackageLPr(
                     "org.chromium.chrome", userId);
-            if (chromiumPackage != null) {
-                grantRuntimePermissionsLPw(chromiumPackage, CONTACTS_PERMISSIONS, userId);
+            if (chromiumRPackage != null) {
+                grantRuntimePermissionsLPw(chromiumRPackage, CONTACTS_PERMISSIONS, userId);
+            }
 
+            // Chromium Other
+            PackageParser.Package chromiumOPackage = getDefaultProviderAuthorityPackageLPr(
+                    "org.swe.atego.browser", userId);
+            if (chromiumOPackage != null) {
+                grantRuntimePermissionsLPw(chromiumOPackage, CONTACTS_PERMISSIONS, userId);
+            }
+
+            // SaberChrome
+            PackageParser.Package saberChrome = getDefaultProviderAuthorityPackageLPr(
+                    "org.frap129.saberchrome.browser", userId);
+            if (saberChrome != null) {
+                grantRuntimePermissionsLPw(saberChrome, CONTACTS_PERMISSIONS, userId);
+            }
+
+            // Google Services Framework
+            PackageParser.Package gsfPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.gsf", userId);
+            if (gsfPackage != null) {
+                grantRuntimePermissionsLPw(gsfPackage, CONTACTS_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(gsfPackage, PHONE_PERMISSIONS, userId);
             }
 
             // Google Account
@@ -627,36 +648,20 @@ final class DefaultPermissionGrantPolicy {
             }
 
             // Google Contacts Sync
-            PackageParser.Package googlecontactssyncPackage = getDefaultProviderAuthorityPackageLPr(
+            PackageParser.Package contactssyncPackage = getDefaultProviderAuthorityPackageLPr(
                     "com.google.android.syncadapters.contacts", userId);
-            if (googlecontactssyncPackage != null) {
-                grantRuntimePermissionsLPw(googlecontactssyncPackage, CONTACTS_PERMISSIONS, userId);
+            if (contactssyncPackage != null) {
+                grantRuntimePermissionsLPw(contactssyncPackage, CONTACTS_PERMISSIONS, userId);
             }
 
             // Google Backup Transport
-            PackageParser.Package googlebackuptransportPackage = getDefaultProviderAuthorityPackageLPr(
+            PackageParser.Package backuptransportPackage = getDefaultProviderAuthorityPackageLPr(
                     "com.google.android.backuptransport", userId);
-            if (googlebackuptransportPackage != null) {
-                grantRuntimePermissionsLPw(googlebackuptransportPackage, CONTACTS_PERMISSIONS, userId);
+            if (backuptransportPackage != null) {
+                grantRuntimePermissionsLPw(backuptransportPackage, CONTACTS_PERMISSIONS, userId);
             }
 
-            // Google Play Framework
-            PackageParser.Package gsfcorePackage = getDefaultProviderAuthorityPackageLPr(
-                    "com.google.android.gsf", userId);
-            if (gsfcorePackage != null) {
-                grantRuntimePermissionsLPw(gsfcorePackage, CONTACTS_PERMISSIONS, userId);
-                grantRuntimePermissionsLPw(gsfcorePackage, PHONE_PERMISSIONS, userId);
-            }
-
-            // Google Setup Wizard
-            PackageParser.Package setupwizardPackage = getDefaultProviderAuthorityPackageLPr(
-                    "com.google.android.setupwizard", userId);
-            if (setupwizardPackage != null) {
-                grantRuntimePermissionsLPw(setupwizardPackage, CONTACTS_PERMISSIONS, userId);
-                grantRuntimePermissionsLPw(setupwizardPackage, PHONE_PERMISSIONS, userId);
-            }
-
-            // Google Play Store
+            // Play Store
             PackageParser.Package vendingPackage = getDefaultProviderAuthorityPackageLPr(
                     "com.android.vending", userId);
             if (vendingPackage != null) {
@@ -664,6 +669,17 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(vendingPackage, PHONE_PERMISSIONS, userId);
                 grantRuntimePermissionsLPw(vendingPackage, LOCATION_PERMISSIONS, userId);
                 grantRuntimePermissionsLPw(vendingPackage, SMS_PERMISSIONS, userId);
+            }
+
+            // Project-Fi
+            PackageParser.Package tychoPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.apps.tycho", userId);
+            if (tychoPackage != null) {
+                grantRuntimePermissionsLPw(tychoPackage, CONTACTS_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(tychoPackage, PHONE_PERMISSIONS, userId);
+		grantRuntimePermissionsLPw(tychoPackage, MICROPHONE_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(tychoPackage, LOCATION_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(tychoPackage, SMS_PERMISSIONS, userId);
             }
 
             mService.mSettings.onDefaultRuntimePermissionsGrantedLPr(userId);
