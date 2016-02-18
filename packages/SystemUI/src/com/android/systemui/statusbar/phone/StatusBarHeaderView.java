@@ -33,6 +33,7 @@ import android.graphics.Outline;
 import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.graphics.Typeface;
@@ -1242,6 +1243,19 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         } else {
             mBackgroundImage.setImageDrawable(dw);
         }
+	applyHeaderBackgroundShadow();
+    }
+
+    private void applyHeaderBackgroundShadow() {
+        final int headerShadow = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW, 0,
+                UserHandle.USER_CURRENT);
+
+        if (headerShadow != 0 && mBackgroundImage != null) {
+            ColorDrawable shadow = new ColorDrawable(Color.BLACK);
+            shadow.setAlpha(headerShadow);
+            mBackgroundImage.setForeground(shadow);
+        }
     }
 
     @Override
@@ -1612,5 +1626,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 mEditTileDoneText.setTypeface(Typeface.create("serif", Typeface.BOLD_ITALIC));
                 break;
         }
+
+	applyHeaderBackgroundShadow();
     }
 }
