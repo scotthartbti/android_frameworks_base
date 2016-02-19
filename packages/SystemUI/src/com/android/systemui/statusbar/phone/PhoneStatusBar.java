@@ -554,6 +554,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_NUM_TILE_COLUMNS), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_NUM_TILE_ROWS), false, this,
+                    UserHandle.USER_ALL);
             update();
         }
 
@@ -735,7 +738,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
 
             if (mQSPanel != null) {
-                mQSPanel.updateNumColumns();
+                mQSPanel.updateQSLayout();
             }
         }
     };
