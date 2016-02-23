@@ -26,12 +26,6 @@
   <string name="permdesc_modifyProtectedSmsList">Ermöglicht der App, die Adressliste der geschützten SMS zu ändern.</string>
   <string name="permgrouplab_security">Sicherheit</string>
   <string name="permgroupdesc_security">Berechtigungen im Zusammenhang mit der Gerätesicherheit.</string>
-  <string name="permlab_accessThemeService">Zugriff auf den Design-Dienst</string>
-  <string name="permdesc_accessThemeService">Ermöglicht der App, auf den Design-Dienst zuzugreifen. Wird für normale Apps nicht benötigt.</string>
-  <string name="permlab_readThemes">Design-Informationen lesen</string>
-  <string name="permdesc_readThemesDesc">Ermöglicht der App, auszulesen, welche Designs Sie installiert und aktiviert haben.</string>
-  <string name="permlab_writeThemes">aktive Designs ändern</string>
-  <string name="permdesc_writeThemesDesc">Ermöglicht der App, neue Designs zu installieren und das aktive Design zu wählen.</string>
   <string name="permlab_readPhoneBlacklist">Sperrliste lesen</string>
   <string name="permdesc_readPhoneBlacklist">Ermöglicht der App, gesperrte Telefonnummern für eingehende Anrufe oder Nachrichten zu lesen.</string>
   <string name="permlab_changePhoneBlacklist">Sperrliste ändern</string>
@@ -135,10 +129,6 @@
   <string name="perf_profile_perf">Mehr Leistung</string>
   <string name="perf_profile_bias_power">Effizient</string>
   <string name="perf_profile_bias_perf">Schnell</string>
-  <string name="theme_install_error_title">Design konnte nicht intalliert werden</string>
-  <string name="theme_install_error_message">%s konnte nicht installiert werden</string>
-  <string name="theme_reset_notification_title">Design zurückgesetzt</string>
-  <string name="theme_reset_notification_body">Das Systemdesign wurde aufgrund mehrer App-Abstürze wiederhergestellt.</string>
   <string name="stylus_app_not_installed">%s ist nicht installiert</string>
   <string name="permlab_interceptSmsSent">verschickte SMS abfangen</string>
   <string name="permdesc_interceptSmsSent">Ermöglicht der App, ausgehende SMS abzufangen. Schädliche Apps könnten so das Versenden von SMS-Nachrichten verhindern.</string>
