@@ -3722,6 +3722,11 @@ public final class Settings {
         public static final String BATTERY_LIGHT_REALLY_FULL_COLOR = "battery_light_really_full_color";
 
         /**
+         * Define when Nfc polling is activated.
+         */
+        public static final String NFC_POLLING_MODE = "nfc_polling";
+
+        /**
          * Force expanded notifications on all apps that support it.
          * @hide
          */
