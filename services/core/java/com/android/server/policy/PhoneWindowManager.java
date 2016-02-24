@@ -2695,7 +2695,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mHaveBuiltInKeyboard = (keyboardPresence & PRESENCE_INTERNAL) != 0;
 
         readLidState();
-        applyLidSwitchState();
 
         if (config.keyboard == Configuration.KEYBOARD_NOKEYS
                 || (keyboardPresence == PRESENCE_INTERNAL
