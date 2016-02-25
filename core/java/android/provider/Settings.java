@@ -3727,6 +3727,11 @@ public final class Settings {
         public static final String NFC_POLLING_MODE = "nfc_polling";
 
         /**
+         * Nfc sound mode.
+         */
+        public static final String NFC_SOUND_MODE = "nfc_sound_mode";
+
+        /**
          * Force expanded notifications on all apps that support it.
          * @hide
          */
