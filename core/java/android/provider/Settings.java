@@ -4033,12 +4033,6 @@ public final class Settings {
          */
         public static final String LOCK_CLOCK_FONTS = "lock_clock_fonts";
 
-	/**
-         * Whether to vibrate when quick settings tile is pressed.
-         * @hide
-         */
-        public static final String QUICK_SETTINGS_TILES_VIBRATE = "quick_settings_vibrate";
-
         /**
          * Whether to show four tiles per row.
          * @hide
