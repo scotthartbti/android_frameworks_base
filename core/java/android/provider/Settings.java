@@ -4806,12 +4806,6 @@ public final class Settings {
         public static final String DASHBOARD_COLUMNS = "dashboard_columns";
 
         /**
-         * Show four g instead of lte
-         * @hide
-         */
-        public static final String SHOW_FOURG = "show_fourg";
-
-        /**
          * Custom status bar header font style
          * @hide
          */
