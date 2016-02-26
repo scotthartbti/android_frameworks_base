@@ -76,6 +76,7 @@ public class RecentsConfiguration {
 
     /** Search bar */
     public int searchBarSpaceHeightPx;
+    public boolean showSearchBar;
 
     /** Task stack */
     public int taskStackScrollDuration;
@@ -311,7 +312,7 @@ public class RecentsConfiguration {
     }
 
     private void updateShowSearch(Context context) {
-        boolean showSearchBar = Settings.System.getIntForUser(context.getContentResolver(),
+        showSearchBar = Settings.System.getIntForUser(context.getContentResolver(),
                 Settings.System.RECENTS_SHOW_SEARCH_BAR, 1, UserHandle.USER_CURRENT) == 1;
         searchBarSpaceHeightPx = showSearchBar ? context.getResources().getDimensionPixelSize(
                 R.dimen.recents_search_bar_space_height): 0;
