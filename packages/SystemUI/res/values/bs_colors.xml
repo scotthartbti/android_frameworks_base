@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2015 The Pure Nexus Project
+     Copyright (C) 2015 - 2016 BeanStalk
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -22,6 +22,9 @@
     <!-- Gesture Anywhere specific colors -->
     <color name="gesture_overlay_background_fill_color">#80000000</color>
     <color name="gesture_color">#FF07998B</color>
+
+    <!-- Color for the RAM bar text in the recent view -->
+    <color name="ram_bar_text">#FFFFFFFF</color>
 
      <!-- PA PIE -->
     <color name="pie_menu_background">#C0000000</color>
