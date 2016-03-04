@@ -54,7 +54,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
 import android.view.ContextThemeWrapper;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -178,8 +177,6 @@ public class NavigationBarView extends LinearLayout {
 
     private SettingsObserver mSettingsObserver;
     private boolean mShowDpadArrowKeys;
-
-    private boolean mNavButtonsRotation;
 
     // performs manual animation in sync with layout transitions
     private final NavTransitionListener mTransitionListener = new NavTransitionListener();
@@ -1013,12 +1010,8 @@ public class NavigationBarView extends LinearLayout {
     }
 
     protected void updateButtonListeners() {
-        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.rotate_around_center);
         View recentView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_RECENT);
         if (recentView != null) {
-            if (mNavButtonsRotation) {
-                recentView.startAnimation(animation);
-            }
             recentView.setOnClickListener(mRecentsClickListener);
             recentView.setOnTouchListener(mRecentsPreloadListener);
             recentView.setLongClickable(true);
@@ -1026,66 +1019,42 @@ public class NavigationBarView extends LinearLayout {
         }
         View backView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_BACK);
         if (backView != null) {
-            if (mNavButtonsRotation) {
-                backView.startAnimation(animation);
-            }
             backView.setLongClickable(true);
             backView.setOnLongClickListener(mRecentsBackListener);
         }
         View homeView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_HOME);
         if (homeView != null) {
-            if (mNavButtonsRotation) {
-                homeView.startAnimation(animation);
-            }
             homeView.setOnTouchListener(mHomeSearchActionListener);
             homeView.setLongClickable(true);
             homeView.setOnLongClickListener(mLongPressHomeListener);
         }
         View powerView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_POWER);
         if (powerView != null) {
-            if (mNavButtonsRotation) {
-                powerView.startAnimation(animation);
-            }
             powerView.setLongClickable(true);
             powerView.setOnLongClickListener(mPowerListener);
         }
         View notificationsView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_NOTIFICATIONS);
         if (notificationsView != null) {
-            if (mNavButtonsRotation) {
-                notificationsView.startAnimation(animation);
-            }
             notificationsView.setOnClickListener(mNotificationsClickListener);
             notificationsView.setLongClickable(true);
             notificationsView.setOnLongClickListener(mNotificationsLongListener);
         }
         View torchView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_TORCH);
         if (torchView != null) {
-            if (mNavButtonsRotation) {
-                torchView.startAnimation(animation);
-            }
             torchView.setOnClickListener(mTorchClickListener);
         }
         View cameraView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_CAMERA);
         if (cameraView != null) {
-            if (mNavButtonsRotation) {
-                cameraView.startAnimation(animation);
-            }
             cameraView.setOnClickListener(mCameraClickListener);
             cameraView.setLongClickable(true);
             cameraView.setOnLongClickListener(mCameraLongClickListener);
         }
         View screenshotView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_SCREENSHOT);
         if (screenshotView != null) {
-            if (mNavButtonsRotation) {
-                screenshotView.startAnimation(animation);
-            }
             screenshotView.setOnClickListener(mScreenShotClickListener);
         }
         View immersivetView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_EXPAND);
         if (immersivetView != null) {
-            if (mNavButtonsRotation) {
-                immersivetView.startAnimation(animation);
-            }
             immersivetView.setOnClickListener(mImmersiveClickListener);
         }
 	View pieView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_PIE);
@@ -1102,9 +1071,6 @@ public class NavigationBarView extends LinearLayout {
         }
         View appPickerView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_APP_PICKER);
         if (appPickerView != null) {
-            if (mNavButtonsRotation) {
-                appPickerView.startAnimation(animation);
-            }
             appPickerView.setOnClickListener(mAppPickerClickListener);
         }
     }
@@ -1193,8 +1159,6 @@ public class NavigationBarView extends LinearLayout {
                     Settings.System.DOUBLE_TAP_SLEEP_NAVBAR), false, this);
             resolver.registerContentObserver(Settings.Global.getUriFor(
                     Settings.Global.POLICY_CONTROL), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAV_BUTTONS_ROTATION), false, this);
 
             // intialize mModlockDisabled
             onChange(false);
@@ -1245,9 +1209,6 @@ public class NavigationBarView extends LinearLayout {
                     UserHandle.USER_CURRENT) == 1);
 	    mDoubleTapToSleep = (Settings.System.getIntForUser(resolver,
                     Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0,
-                    UserHandle.USER_CURRENT) == 1);
-            mNavButtonsRotation = (Settings.System.getIntForUser(resolver,
-                    Settings.System.NAV_BUTTONS_ROTATION, 1,
                     UserHandle.USER_CURRENT) == 1);
             String expDeskString = Settings.Global.getStringForUser(resolver,
                     Settings.Global.POLICY_CONTROL, UserHandle.USER_CURRENT);
