@@ -186,26 +186,13 @@
   <string name="usb_ext_media_safe_unmount_notification_message">Sie können den USB-Speicher jetzt sicher entfernen.</string>
   <string name="usb_ext_media_nomedia_notification_title">USB-Speicher entfernt</string>
   <string name="usb_ext_media_nomedia_notification_message">USB-Speicher entfernt. Fügen Sie einen neuen Datenträger ein.</string>
-  <string name="live_display_auto">Automatisch</string>
-  <string name="live_display_auto_summary">Farbtemperatur des Bildschirms nach Sonnenaufgang und Sonnenuntergang automatisch anpassen</string>
-  <string name="live_display_off">Aus</string>
-  <string name="live_display_off_summary">Alle Anpassungen deaktivieren</string>
-  <string name="live_display_day">Tag</string>
-  <string name="live_display_day_summary">Nur Tag-Modus verwenden</string>
-  <string name="live_display_night">Nacht</string>
-  <string name="live_display_night_summary">Nur Nacht-Modus verwenden</string>
-  <string name="live_display_outdoor">Außen (helle Sonne)</string>
-  <string name="live_display_outdoor_summary">Nur Außen-Modus verwenden</string>
-  <string name="live_display_hint">LiveDisplay kann gegen eine Überanstrengung der Augen und beim Schlafen in der Nacht helfen. Klicken Sie hier, um es auszuprobieren!</string>
   <string name="lock_to_app_toast_no_navbar">Zum Lösen dieser Ansicht drücken und halten Sie die Zurück-Taste.</string>
-  <string name="quick_settings_tile_flashlight_not_title">Taschenlampe ist angeschaltet</string>
+  <string name="quick_settings_tile_flashlight_not_title">Taschenlampe ist eingeschaltet</string>
   <string name="quick_settings_tile_flashlight_not_summary">Zum Ausschalten tippen</string>
   <string name="storage_sd_dock_card">SD-Karte des Docks</string>
   <string name="fingerprint_default_name">Fingerabdruck <xliff:g id="number">%d</xliff:g></string>
   <string name="permlab_accessFingerprintService">auf Fingerabdruck-Dienst zugreifen</string>
   <string name="permdesc_accessFingerprintService">Ermöglicht der App, auf den Fingerabdruck-Dienst zuzugreifen. Die App kann Fingerabdrücke hinzufügen, löschen, ändern und verifizieren</string>
-  <string name="permlab_resetBatteryStats">Akku-Verlaufsdetails zurücksetzen</string>
-  <string name="permdesc_resetBatteryStats">Ermöglicht der App, die Akku-Verlaufsdetails zurückzusetzen.</string>
   <string name="silent_mode_priority">Wichtig</string>
   <string name="silent_mode_none">Keine</string>
   <string name="subscription_change_disabled_wifi_ap">Der WLAN-Hotspot wurde aufgrund einer SIM-Abonnementänderung deaktiviert.</string>
@@ -229,9 +216,18 @@
   <string name="animation_grow_shrink_left">Einwachsen (links)</string>
   <string name="animation_grow_shrink_right">Einwachsen (rechts)</string>
   <string name="action_null">Leer</string>
-
-  <!-- label for item that takes On-The-Go in the phone options dialog -->
-  <string name="global_action_onthego">On-The-Go Modus</string>
+  <!-- LiveDisplay strings -->
+  <string name="live_display_auto">Automatisch</string>
+  <string name="live_display_auto_summary">Farbtemperatur des Bildschirms nach Sonnenaufgang und Sonnenuntergang automatisch anpassen</string>
+  <string name="live_display_off">Aus</string>
+  <string name="live_display_off_summary">Alle Anpassungen deaktivieren</string>
+  <string name="live_display_day">Tag</string>
+  <string name="live_display_day_summary">Nur Tag-Modus verwenden</string>
+  <string name="live_display_night">Nacht</string>
+  <string name="live_display_night_summary">Nur Nacht-Modus verwenden</string>
+  <string name="live_display_outdoor">Außen (helle Sonne)</string>
+  <string name="live_display_outdoor_summary">Nur Außen-Modus verwenden</string>
+  <string name="live_display_hint">LiveDisplay kann gegen eine Überanstrengung der Augen und beim Schlafen in der Nacht helfen. Klicken Sie hier, um es auszuprobieren!</string>
 
   <!-- Slimseekbar -->
   <string name="default_string">Standard</string>
