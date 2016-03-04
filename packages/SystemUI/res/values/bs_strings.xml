@@ -78,7 +78,7 @@
     <string name="accessibility_quick_settings_expanded_desktop_off">Expanded desktop disabled</string>
 
     <!-- Content description of the brightness tile in quick settings (not shown on the screen). [CHAR LIMIT=NONE] -->
-    <string name="accessibility_quick_settings_brightness">Volume panel.</string>
+    <string name="accessibility_quick_settings_brightness">Brightness panel.</string>
 
     <!-- Content description of the screen off tile in quick settings (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_quick_settings_screen_off">Screen off.</string>
