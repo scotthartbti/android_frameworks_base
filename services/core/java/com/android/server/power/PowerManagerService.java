@@ -85,6 +85,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.cyanogenmod.internal.util.ThemeUtils;
 import cyanogenmod.providers.CMSettings;
 import libcore.util.Objects;
 
