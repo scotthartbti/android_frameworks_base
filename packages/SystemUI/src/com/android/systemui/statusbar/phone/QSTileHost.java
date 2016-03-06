@@ -76,7 +76,6 @@ import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.SoundTile;
 import com.android.systemui.qs.tiles.SyncTile;
-import com.android.systemui.qs.tiles.ThemesTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
 import com.android.systemui.qs.tiles.VolumeTile;
 import com.android.systemui.qs.tiles.WifiTile;
@@ -407,7 +406,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("appcirclebar")) return new AppCircleBarTile(this);
         else if (tileSpec.equals("pie")) return new PieTile(this);
         else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
-        else if (tileSpec.equals("themes")) return new ThemesTile(this);
         else if (tileSpec.equals("sound")) return new SoundTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
@@ -515,7 +513,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("appcirclebar")) return R.string.quick_settings_appcirclebar_title;
         else if (spec.equals("pie")) return R.string.quick_settings_pie_title;
         else if (spec.equals("app_picker")) return R.string.navbar_app_picker;
-        else if (spec.equals("themes")) return R.string.quick_settings_themes;
         else if (spec.equals("sound")) return R.string.quick_settings_sound_label;
         return 0;
     }
@@ -560,7 +557,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("appcirclebar")) return R.drawable.ic_qs_appcirclebar_on;
         else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;
         else if (spec.equals("app_picker")) return R.drawable.ic_sysbar_app_picker;
-        else if (spec.equals("themes")) return R.drawable.ic_qs_themes_on;
         else if (spec.equals("sound")) return R.drawable.ic_qs_ringer_audible;
         return 0;
     }
