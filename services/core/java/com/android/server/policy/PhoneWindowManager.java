@@ -90,7 +90,7 @@ import android.service.gesture.EdgeGestureManager;
 import com.android.internal.os.DeviceKeyHandler;
 
 import com.android.internal.util.cm.ActionUtils;
-import com.android.internal.util.pure.DimensionConverter;
+import com.android.internal.util.aicp.Converter;
 import cyanogenmod.providers.CMSettings;
 import dalvik.system.DexClassLoader;
 import android.text.Html;
@@ -2408,6 +2408,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             // Navbr on/off and custom dimensions
             setHasNavigationBar();
 
+            // Navbar dimensions
             mNavigationBarHeight =
                     Settings.System.getIntForUser(mContext.getContentResolver(),
                             Settings.System.NAVIGATION_BAR_HEIGHT, -2,
@@ -2417,9 +2418,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         com.android.internal.R.dimen.navigation_bar_height);
             } else {
                 mNavigationBarHeight =
-                        DimensionConverter.dpToPx(mContext, mNavigationBarHeight);
+                        Converter.dpToPx(mContext, mNavigationBarHeight);
             }
-
             mNavigationBarHeightLandscape =
                     Settings.System.getIntForUser(mContext.getContentResolver(),
                             Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE, -2,
@@ -2429,7 +2429,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         com.android.internal.R.dimen.navigation_bar_height_landscape);
             } else {
                 mNavigationBarHeightLandscape =
-                        DimensionConverter.dpToPx(mContext, mNavigationBarHeightLandscape);
+                        Converter.dpToPx(mContext, mNavigationBarHeightLandscape);
             }
 
             mNavigationBarWidth =
@@ -2441,7 +2441,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         com.android.internal.R.dimen.navigation_bar_width);
             } else {
                 mNavigationBarWidth =
-                        DimensionConverter.dpToPx(mContext, mNavigationBarWidth);
+                        Converter.dpToPx(mContext, mNavigationBarWidth);
             }
 
             if (!mHasNavigationBar) {
@@ -2459,7 +2459,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mNavigationBarHeightForRotation[mPortraitRotation] =
                 mNavigationBarHeightForRotation[mUpsideDownRotation] = mNavigationBarHeight;
 
-                mNavigationBarHeightForRotation[mLandscapeRotation] =
+               mNavigationBarHeightForRotation[mLandscapeRotation] =
                 mNavigationBarHeightForRotation[mSeascapeRotation] = mNavigationBarHeightLandscape;
 
                 // Width of the navigation bar when presented vertically along one side
@@ -8126,10 +8126,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // overridden by qemu.hw.mainkeys in the emulator.
     @Override
     public boolean hasNavigationBar() {
-        return mOverWriteHasNavigationBar
-            ? mHasNavigationBar || mDevForceNavbar
-            : mContext.getResources().getBoolean(
-                    com.android.internal.R.bool.config_showNavigationBar);
+        return mHasNavigationBar || mDevForceNavbar;
     }
 
     @Override
@@ -8138,10 +8135,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     public boolean needsNavigationBar() {
-        return mOverWriteHasNavigationBar
-            ? mHasNavigationBar
-            : mContext.getResources().getBoolean(
-                    com.android.internal.R.bool.config_showNavigationBar);
+        return mHasNavigationBar;
     }
 
     @Override
