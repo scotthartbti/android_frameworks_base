@@ -116,7 +116,6 @@ public class CommandQueue extends IStatusBar.Stub {
         public void showAssistDisclosure();
         public void startAssist(Bundle args);
         public void onCameraLaunchGestureDetected(int source);
-        public void toggleOrientationListener(boolean enable);
         public void showCustomIntentAfterKeyguard(Intent intent);
         public void setAutoRotate(boolean enabled);
     }
