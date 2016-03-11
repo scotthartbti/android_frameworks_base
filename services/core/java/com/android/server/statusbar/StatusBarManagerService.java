@@ -505,15 +505,6 @@ public class StatusBarManagerService extends IStatusBarService.Stub {
     }
 
     @Override
-    public void toggleOrientationListener(boolean enable) {
-        if (mBar != null) {
-            try {
-                mBar.toggleOrientationListener(enable);
-            } catch (RemoteException ex) {}
-        }
-    }
-
-    @Override
     public void setCurrentUser(int newUserId) {
         if (SPEW) Slog.d(TAG, "Setting current user to user " + newUserId);
         mCurrentUserId = newUserId;
@@ -562,32 +553,6 @@ public class StatusBarManagerService extends IStatusBarService.Stub {
         if (mBar != null) {
             try {
                 mBar.startAssist(args);
-            } catch (RemoteException ex) {}
-        }
-    }
-
-    public void toggleLastApp() {
-        if (mBar != null) {
-            try {
-                mBar.toggleLastApp();
-            } catch (RemoteException ex) {}
-        }
-    }
-
-    @Override
-    public void toggleKillApp() {
-        if (mBar != null) {
-            try {
-                mBar.toggleKillApp();
-            } catch (RemoteException ex) {}
-        }
-    }
-
-    @Override
-    public void toggleScreenshot() {
-        if (mBar != null) {
-            try {
-                mBar.toggleScreenshot();
             } catch (RemoteException ex) {}
         }
     }

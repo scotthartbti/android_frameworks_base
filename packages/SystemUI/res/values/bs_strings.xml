@@ -49,12 +49,6 @@
     <string name="app_float_item_title">Float view</string>
     <string name="app_stop_item_title">Kill app</string>
 
-    <!-- PA Pie controls -->
-    <string name="pie_date_format">ccc, dd MMM yyyy</string>
-    <string name="pie_hour_format_12">hh:mm</string>
-    <string name="pie_hour_format_24">HH:mm</string>
-    <string name="pie_am_pm">a</string>
-
     <!-- Task Manager -->
     <string name="task_manager_title">Task Manager</string>
     <string name="message_switch_fail">Cannot switch to this task, because it has no interface.</string>
