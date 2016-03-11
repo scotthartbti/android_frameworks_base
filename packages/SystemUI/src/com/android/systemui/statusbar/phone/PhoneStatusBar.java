@@ -1748,13 +1748,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
-    private final View.OnClickListener mPieClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-              Settings.System.putInt(mContext.getContentResolver(),
-                        Settings.System.PA_PIE_STATE, !isPieEnabled() ? 1 : 0);
-        }
-    };
-
     private final View.OnClickListener mScreenClickListener = new View.OnClickListener() {
         public void onClick(View v) {
 	takeRecord();
@@ -1766,13 +1759,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 	killapp();
         }
     };
-
-    private boolean isPieEnabled() {
-        return Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.PA_PIE_STATE, 0,
-                UserHandle.USER_CURRENT) == 1;
-    }
-
 
     private final View.OnClickListener mTorchClickListener = new View.OnClickListener() {
         public void onClick(View v) {
@@ -2133,7 +2119,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mNavigationBarView.setListeners(mRecentsClickListener, mRecentsPreloadOnTouchListener,
                 mLongPressBackRecentsListener, mHomeActionListener, mLongPressHomeListener,
                 mNotificationsClickListener, mNotificationsLongListener, mTorchClickListener,
-                mCameraClickListener, mCameraLongClickListener, mScreenShotClickListener, mImmersiveClickListener, 			mPieClickListener, mScreenClickListener, mKillClickListener, mAppPickerClickListener);
+                mCameraClickListener, mCameraLongClickListener, mScreenShotClickListener, mImmersiveClickListener, 			mScreenClickListener, mKillClickListener, mAppPickerClickListener);
         mAssistManager.onConfigurationChanged();
     }
 

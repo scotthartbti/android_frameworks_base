@@ -62,7 +62,6 @@ import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.AppCircleBarTile;
 import com.android.systemui.qs.tiles.KernelAdiutorTile;
 import com.android.systemui.qs.tiles.NavBarTile;
-import com.android.systemui.qs.tiles.PieTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.MusicTile;
 import com.android.systemui.qs.tiles.LteTile;
@@ -404,7 +403,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	else if (tileSpec.equals("kernel_adiutor")) return new KernelAdiutorTile(this);
         else if (tileSpec.equals("navbar")) return new NavBarTile(this);
         else if (tileSpec.equals("appcirclebar")) return new AppCircleBarTile(this);
-        else if (tileSpec.equals("pie")) return new PieTile(this);
         else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
         else if (tileSpec.equals("sound")) return new SoundTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
@@ -511,7 +509,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	else if (spec.equals("kernel_adiutor")) return R.string.quick_settings_kernel_title;
         else if (spec.equals("navbar")) return R.string.quick_settings_navbar_title;
         else if (spec.equals("appcirclebar")) return R.string.quick_settings_appcirclebar_title;
-        else if (spec.equals("pie")) return R.string.quick_settings_pie_title;
         else if (spec.equals("app_picker")) return R.string.navbar_app_picker;
         else if (spec.equals("sound")) return R.string.quick_settings_sound_label;
         return 0;
@@ -555,7 +552,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
 	else if (spec.equals("kernel_adiutor")) return R.drawable.ic_qs_kernel_adiutor;	
         else if (spec.equals("navbar")) return R.drawable.ic_qs_navbar_on;
         else if (spec.equals("appcirclebar")) return R.drawable.ic_qs_appcirclebar_on;
-        else if (spec.equals("pie")) return R.drawable.ic_qs_pie_on;
         else if (spec.equals("app_picker")) return R.drawable.ic_sysbar_app_picker;
         else if (spec.equals("sound")) return R.drawable.ic_qs_ringer_audible;
         return 0;

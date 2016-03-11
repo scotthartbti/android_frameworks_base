@@ -170,10 +170,6 @@ public class NavbarEditor implements View.OnTouchListener {
             R.string.navbar_expand, R.string.accessibility_expand,
             0, R.drawable.ic_sysbar_immersive_mode, R.drawable.ic_sysbar_immersive_mode,
             R.drawable.ic_sysbar_immersive_mode);
-    public static final ButtonInfo NAVBAR_PIE = new ButtonInfo("pie",
-            R.string.navbar_pie, R.string.accessibility_pie,
-            0, R.drawable.ic_sysbar_pie, R.drawable.ic_sysbar_pie_land,
-            R.drawable.ic_sysbar_pie_side);
    public static final ButtonInfo NAVBAR_SCREENRECORD = new ButtonInfo("screenrecord",
             R.string.navbar_screenrecord, R.string.accessibility_screenrecord,
             0, R.drawable.ic_sysbar_screenrecord, R.drawable.ic_sysbar_screenrecord_land,
@@ -191,7 +187,7 @@ public class NavbarEditor implements View.OnTouchListener {
         NAVBAR_EMPTY, NAVBAR_HOME, NAVBAR_BACK, NAVBAR_SEARCH,
         NAVBAR_RECENT, NAVBAR_CONDITIONAL_MENU, NAVBAR_ALWAYS_MENU,
         NAVBAR_MENU_BIG, NAVBAR_POWER, NAVBAR_NOTIFICATIONS, NAVBAR_TORCH,
-        NAVBAR_CAMERA, NAVBAR_SCREENSHOT, NAVBAR_EXPAND, NAVBAR_PIE, NAVBAR_SCREENRECORD,
+        NAVBAR_CAMERA, NAVBAR_SCREENSHOT, NAVBAR_EXPAND, NAVBAR_SCREENRECORD,
  	NAVBAR_KILLTASK, NAVBAR_APP_PICKER
     };
 
