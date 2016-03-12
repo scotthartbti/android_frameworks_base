@@ -90,6 +90,7 @@ import com.android.internal.os.DeviceKeyHandler;
 
 import com.android.internal.util.cm.ActionUtils;
 import com.android.internal.util.aicp.Converter;
+import cyanogenmod.hardware.CMHardwareManager;
 import cyanogenmod.providers.CMSettings;
 import dalvik.system.DexClassLoader;
 import android.text.Html;
@@ -765,6 +766,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mHasPermanentMenuKey;
     private boolean mClearedBecauseOfForceShow;
     private boolean mTopWindowIsKeyguard;
+    private CMHardwareManager mCMHardware;
 
     private CameraManager mCameraManager;
     private boolean mTorchEnabled;
@@ -1739,7 +1741,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mOrientationListener.setCurrentRotation(windowManager.getRotation());
         } catch (RemoteException ex) { }
         mSettingsObserver = new SettingsObserver(mHandler);
-        mSettingsObserver.observe();
         mShortcutManager = new ShortcutManager(context);
         mUiMode = context.getResources().getInteger(
                 com.android.internal.R.integer.config_defaultUiModeType);
@@ -2301,6 +2302,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     CMSettings.Secure.DEV_FORCE_SHOW_NAVBAR, 0, UserHandle.USER_CURRENT) == 1;
             if (devForceNavbar != mDevForceNavbar) {
                 mDevForceNavbar = devForceNavbar;
+		if (mCMHardware.isSupported(CMHardwareManager.FEATURE_KEY_DISABLE)) {
+                    mCMHardware.set(CMHardwareManager.FEATURE_KEY_DISABLE, mDevForceNavbar);
+                }
             }
 
             mNavigationBarLeftInLandscape = CMSettings.System.getIntForUser(resolver,
@@ -7227,6 +7231,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     public void systemReady() {
         mKeyguardDelegate = new KeyguardServiceDelegate(mContext);
         mKeyguardDelegate.onSystemReady();
+
+	mCMHardware = CMHardwareManager.getInstance(mContext);
+        // Ensure observe happens in systemReady() since we need
+        // CMHardwareService to be up and running
+        mSettingsObserver.observe();
 
         readCameraLensCoverState();
         updateUiMode();
