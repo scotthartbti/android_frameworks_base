@@ -1128,7 +1128,7 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
                 // Must happen before registerContentObserverLocked
                 mCMHardware = CMHardwareManager.getInstance(mContext);
 
-                mSettingsObserver.registerContentObserverLocked(userId);
+                mSettingsObserver.registerContentObserverLocked(mSettings.getCurrentUserId());
                 updateFromSettingsLocked(true);
 
                 updateTouchHovering();
