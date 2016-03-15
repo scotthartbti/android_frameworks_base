@@ -68,6 +68,7 @@ public class CommandQueue extends IStatusBar.Stub {
     private static final int MSG_CAMERA_LAUNCH_GESTURE      = 24 << MSG_SHIFT;
     private static final int MSG_START_CUSTOM_INTENT_AFTER_KEYGUARD = 25 << MSG_SHIFT;
     private static final int MSG_SET_AUTOROTATE_STATUS      = 26 << MSG_SHIFT;
+    private static final int MSG_SCREEN_PINNING_STATE_CHANGED = 27 << MSG_SHIFT;
 
     public static final int FLAG_EXCLUDE_NONE = 0;
     public static final int FLAG_EXCLUDE_SEARCH_PANEL = 1 << 0;
@@ -117,6 +118,7 @@ public class CommandQueue extends IStatusBar.Stub {
         public void onCameraLaunchGestureDetected(int source);
         public void showCustomIntentAfterKeyguard(Intent intent);
         public void setAutoRotate(boolean enabled);
+        public void screenPinningStateChanged(boolean enabled);
     }
 
     public CommandQueue(Callbacks callbacks, StatusBarIconList list) {
@@ -316,6 +318,14 @@ public class CommandQueue extends IStatusBar.Stub {
             mHandler.obtainMessage(MSG_CAMERA_LAUNCH_GESTURE, source, 0).sendToTarget();
         }
     }
+	
+    public void screenPinningStateChanged(boolean enabled) {
+        synchronized (mList) {
+            mHandler.removeMessages(MSG_SCREEN_PINNING_STATE_CHANGED);
+            mHandler.obtainMessage(MSG_SCREEN_PINNING_STATE_CHANGED,
+                    enabled ? 1 : 0, 0, null).sendToTarget();
+        }
+    }
 
     public void showCustomIntentAfterKeyguard(Intent intent) {
         mHandler.removeMessages(MSG_START_CUSTOM_INTENT_AFTER_KEYGUARD);
@@ -441,6 +451,9 @@ public class CommandQueue extends IStatusBar.Stub {
                     break;
                 case MSG_SET_AUTOROTATE_STATUS:
                     mCallbacks.setAutoRotate(msg.arg1 != 0);
+                    break;	
+                case MSG_SCREEN_PINNING_STATE_CHANGED:
+                    mCallbacks.screenPinningStateChanged(msg.arg1 != 0);
                     break;
             }
         }
