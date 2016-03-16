@@ -132,19 +132,6 @@
     <!-- Content description of the power button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_expand">Immersive Mode</string>
 
-    <!-- Content description of the power button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
-    <string name="accessibility_screenrecord">ScreenRecord</string>
-    <!-- Dialog title for navigation bar button selection -->
-    <string name="navbar_screenrecord">ScreenRecord</string>
-
-    <!-- Content description of the power button for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
-    <string name="accessibility_killtask">Kill Task</string>
-    <!-- Dialog title for navigation bar button selection -->
-    <string name="navbar_killtask">Kill Task</string>
-
-    <!-- Kill app toast -->
-    <string name="app_killed_message">App Killed</string>
-
     <!-- Screenrecord toast -->
     <string name="screenrecord_start">Screenrecording started</string>
     <string name="screenrecord_stop">Screenrecording stopped</string>

@@ -171,8 +171,6 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
     private OnLongClickListener mCameraLongClickListener;
     private OnClickListener mScreenShotClickListener;
     private OnClickListener mImmersiveClickListener;
-    private OnClickListener mScreenClickListener;
-    private OnClickListener mKillClickListener;
     private OnClickListener mAppPickerClickListener;
 
     private SettingsObserver mSettingsObserver;
@@ -974,8 +972,7 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                       OnLongClickListener notificationsLongListener, OnClickListener torchClickListener,
                       OnClickListener cameraClickListener, OnLongClickListener cameraLongClickListener,
 		      OnClickListener screenshotClickListener, OnClickListener immersiveClickListener,
-		      OnClickListener screenClickListener,
-		      OnClickListener killClickListener, OnClickListener appPickerClickListener) {
+		      OnClickListener appPickerClickListener) {
         mRecentsClickListener = recentsClickListener;
         mRecentsPreloadListener = recentsPreloadListener;
         mHomeSearchActionListener = homeSearchActionListener;
@@ -988,8 +985,6 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         mCameraLongClickListener = cameraLongClickListener;
         mScreenShotClickListener = screenshotClickListener;
         mImmersiveClickListener = immersiveClickListener;
-        mScreenClickListener = screenClickListener;
-	mKillClickListener = killClickListener;
         mAppPickerClickListener = appPickerClickListener;
         updateButtonListeners();
     }
@@ -1055,14 +1050,6 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         View immersivetView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_EXPAND);
         if (immersivetView != null) {
             immersivetView.setOnClickListener(mImmersiveClickListener);
-        }
-	View screenView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_SCREENRECORD);
-        if (screenView != null) {
-            screenView.setOnClickListener(mScreenClickListener);
-        }
-	View killView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_KILLTASK);
-        if (killView != null) {
-            killView.setOnClickListener(mKillClickListener);
         }
         View appPickerView = mCurrentView.findViewWithTag(NavbarEditor.NAVBAR_APP_PICKER);
         if (appPickerView != null) {
