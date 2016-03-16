@@ -507,7 +507,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("expanded_desktop")) return R.string.quick_settings_expanded_desktop_label;
         else if (spec.equals("lte")) return R.string.qs_lte_label;
 	else if (spec.equals("kernel_adiutor")) return R.string.quick_settings_kernel_title;
-        else if (spec.equals("navbar")) return R.string.quick_settings_navbar_title;
+        else if (spec.equals("navbar")) return R.string.quick_settings_navigation_bar;
         else if (spec.equals("appcirclebar")) return R.string.quick_settings_appcirclebar_title;
         else if (spec.equals("app_picker")) return R.string.navbar_app_picker;
         else if (spec.equals("sound")) return R.string.quick_settings_sound_label;
@@ -550,7 +550,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("reboot")) return R.drawable.ic_qs_reboot;
         else if (spec.equals("lte")) return R.drawable.ic_qs_lte_on;
 	else if (spec.equals("kernel_adiutor")) return R.drawable.ic_qs_kernel_adiutor;	
-        else if (spec.equals("navbar")) return R.drawable.ic_qs_navbar_on;
+        else if (spec.equals("navbar")) return R.drawable.ic_qs_smartbar;
         else if (spec.equals("appcirclebar")) return R.drawable.ic_qs_appcirclebar_on;
         else if (spec.equals("app_picker")) return R.drawable.ic_sysbar_app_picker;
         else if (spec.equals("sound")) return R.drawable.ic_qs_ringer_audible;
