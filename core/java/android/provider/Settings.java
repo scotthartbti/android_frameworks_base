@@ -4064,12 +4064,6 @@ public final class Settings {
          */
         public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
 
-        /**
-         * Allows setting the hold back to kill timeout
-         * @hide
-         */
-        public static final String HOLD_BACK_TO_KILL_TIMEOUT = "hold_back_to_kill_timeout";
-
 	/**
          * Enable built in CAF task manager
          * @hide
