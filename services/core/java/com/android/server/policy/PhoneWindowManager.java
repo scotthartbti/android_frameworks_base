@@ -986,6 +986,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.THREE_FINGER_GESTURE), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HOLD_BACK_TO_KILL_TIMEOUT), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEYGUARD_TOGGLE_TORCH), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
@@ -1852,8 +1855,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 com.android.internal.R.integer.config_deviceHardwareKeys);
         mHasRemovableLid = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_hasRemovableLid);
-	mBackKillTimeout = mContext.getResources().getInteger(
-                com.android.internal.R.integer.config_backKillTimeout);
 
         updateKeyAssignments();
 
@@ -2353,6 +2354,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mTorchEnabled = (Settings.System.getIntForUser(resolver,
                     Settings.System.KEYGUARD_TOGGLE_TORCH, 0, UserHandle.USER_CURRENT) == 1);
 
+            mBackKillTimeout = Settings.System.getInt(resolver,
+                    Settings.System.HOLD_BACK_TO_KILL_TIMEOUT, 750);
         }
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {
             WindowManagerPolicyControl.reloadFromSetting(mContext);
