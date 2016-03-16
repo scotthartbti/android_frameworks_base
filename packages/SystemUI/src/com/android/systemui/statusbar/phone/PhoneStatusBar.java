@@ -3797,6 +3797,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
             else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
                 mScreenOn = false;
+                mVisualizerView.setVisible(false);
                 notifyNavigationBarScreenOn(false);
                 notifyHeadsUpScreenOff();
                 finishBarAnimations();
