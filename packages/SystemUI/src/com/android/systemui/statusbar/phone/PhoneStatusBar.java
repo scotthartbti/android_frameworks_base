@@ -91,6 +91,7 @@ import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.NotificationListenerService.RankingMap;
 import android.service.notification.StatusBarNotification;
+import android.text.TextUtils;
 import android.util.ArraySet;
 import android.util.DisplayMetrics;
 import android.util.EventLog;
@@ -4130,7 +4131,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             if (mNavigationBarView != null) {
                 mNavigationBarView.onRecreateStatusbar();
             }
-            observer.update();
         } else {
             loadDimens();
         }
