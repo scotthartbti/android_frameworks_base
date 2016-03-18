@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Exposed Hard coded colors -->
+    <color name="busy_dialog_text">@android:color/white</color>
     <color name="edit_side_paste_window_text_color">@android:color/black</color>
     <color name="edit_paste_window_text_color">@android:color/black</color>
     <color name="edit_action_popup_text_color">@android:color/black</color>

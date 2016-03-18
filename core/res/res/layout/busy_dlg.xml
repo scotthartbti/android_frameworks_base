@@ -26,5 +26,5 @@
         android:layout_marginBottom="13.0dip"
         style="@android:style/TextAppearance.Medium"
         android:textStyle="bold"
-        android:textColor="@android:color/default_dialog_text_holo_light" />
+        android:textColor="@color/busy_dialog_text" />
 </LinearLayout>
