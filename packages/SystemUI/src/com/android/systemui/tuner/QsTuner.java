@@ -164,7 +164,7 @@ public class QsTuner extends PreferenceFragment implements Callback {
 
         public CustomHost(Context context) {
             super(context, null, null, null, null, null, null, null, null, null,
-                    null, null, new BlankSecurityController());
+                    null, null, new BlankSecurityController(), null);
         }
 
         @Override
