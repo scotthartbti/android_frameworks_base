@@ -2808,6 +2808,8 @@ public class NotificationPanelView extends PanelView implements
 		    false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DOUBLE_TAP_SLEEP_ANYWHERE), false, this, UserHandle.USER_ALL);
+	    resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.ENABLE_TASK_MANAGER), false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2840,6 +2842,9 @@ public class NotificationPanelView extends PanelView implements
 
             mQsSmartPullDown = Settings.System.getIntForUser(
                     resolver, Settings.System.QS_SMART_PULLDOWN, 0, UserHandle.USER_CURRENT);
+
+	    mShowTaskManager = Settings.System.getIntForUser(resolver,
+                    Settings.System.ENABLE_TASK_MANAGER, 0, UserHandle.USER_CURRENT) == 1;
 
             mStatusBarLockedOnSecureKeyguard = Settings.Secure.getIntForUser(
                     resolver, Settings.Secure.STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD, 0,

@@ -559,9 +559,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.BATTERY_SAVER_MODE_COLOR),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.ENABLE_TASK_MANAGER),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.USE_SLIM_RECENTS), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -619,12 +616,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     || uri.equals(Settings.System.getUriFor(
                     Settings.System.RECENT_CARD_TEXT_COLOR))) {
                 rebuildRecentsScreen();
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.ENABLE_TASK_MANAGER))) {
-                    mShowTaskManager = Settings.System.getIntForUser(
-                            mContext.getContentResolver(),
-                            Settings.System.ENABLE_TASK_MANAGER,
-                            0, UserHandle.USER_CURRENT) == 1;
 	    }   else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR))) {
                     UpdateNotifDrawerClearAllIconColor();
