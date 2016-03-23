@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
 
-import android.nfc.NfcManager;
 import android.util.Log;
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
@@ -36,7 +35,7 @@ public class NfcTile extends QSTile<QSTile.BooleanState> {
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean newState = getInternalState(intent.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE,
+            boolean newState = isEnabled(intent.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE,
                     NfcAdapter.STATE_OFF));
             refreshState(newState);
         }
@@ -65,18 +64,6 @@ public class NfcTile extends QSTile<QSTile.BooleanState> {
         mHost.startActivityDismissingKeyguard(new Intent("android.settings.NFC_SETTINGS"));
     }
 
-    private boolean getInternalState(int nfcState) {
-        switch (nfcState) {
-            case NfcAdapter.STATE_TURNING_ON:
-            case NfcAdapter.STATE_ON:
-                return true;
-            default:
-            case NfcAdapter.STATE_TURNING_OFF:
-            case NfcAdapter.STATE_OFF:
-                return false;
-        }
-    }
-
     private void setState(boolean on) {
         try {
             NfcAdapter nfcAdapter = NfcAdapter.getNfcAdapter(mContext);
@@ -101,19 +88,28 @@ public class NfcTile extends QSTile<QSTile.BooleanState> {
                 Log.e(TAG, "tried to get NFC state, but no NFC adapter was found");
                 return false;
             }
-            int state = nfcAdapter.getAdapterState();
-            switch (state) {
-                case NfcAdapter.STATE_TURNING_ON:
-                case NfcAdapter.STATE_ON:
-                    return true;
-                case NfcAdapter.STATE_TURNING_OFF:
-                case NfcAdapter.STATE_OFF:
-                default:
-                    return false;
-            }
+            return isEnabled(nfcAdapter.getAdapterState());
         } catch (UnsupportedOperationException e) {
             // ignore
             return false;
+        }
+    }
+
+    /**
+     * Helper method to encapsulate intermediate states (turning off/on) to help determine whether
+     * the adapter will be on or off.
+     * @param nfcState The current NFC adapter state.
+     * @return boolean representing what state the adapter is/will be in
+     */
+    private static boolean isEnabled(int nfcState) {
+        switch (nfcState) {
+            case NfcAdapter.STATE_TURNING_ON:
+            case NfcAdapter.STATE_ON:
+                return true;
+            case NfcAdapter.STATE_TURNING_OFF:
+            case NfcAdapter.STATE_OFF:
+            default:
+                return false;
         }
     }
 
