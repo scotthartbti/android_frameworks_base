@@ -336,10 +336,10 @@ public class KeyguardStatusView extends GridLayout implements
             mWeatherCity.setVisibility(showLocation ? View.VISIBLE : View.INVISIBLE);
         }
         if (mWeatherCity != null) {
-            mWeatherCity.setTextColor(mPrimaryTextColor);
+            mWeatherCity.setTextColor(primaryTextColor);
         }
         if (mWeatherConditionText != null) {
-            mWeatherConditionText.setTextColor(mPrimaryTextColor);
+            mWeatherConditionText.setTextColor(primaryTextColor);
         }
         if (mWeatherCurrentTemp != null) {
             mWeatherCurrentTemp.setTextColor(secondaryTextColor);
