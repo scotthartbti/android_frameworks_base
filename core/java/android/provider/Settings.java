@@ -4215,6 +4215,12 @@ public final class Settings {
         public static final String MUTE_ANNOYING_NOTIFICATIONS_THRESHOLD =
                 "mute_annoying_notifications_threshold";
 
+	/**
+         * Heads up timeout configuration
+         * @hide
+         */
+        public static final String HEADS_UP_TIMEOUT = "heads_up_timeout";
+
         /**
          * Whether to use slim recents
          * @hide
