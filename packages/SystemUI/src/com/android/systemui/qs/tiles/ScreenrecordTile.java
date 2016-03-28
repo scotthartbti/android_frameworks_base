@@ -29,7 +29,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.view.View;
 
-import org.cyanogenmod.internal.logging.CMMetricsLogger;
+import com.android.internal.logging.MetricsLogger;
 import com.android.systemui.R;
 import com.android.systemui.omni.screenrecord.TakeScreenrecordService;
 import com.android.systemui.qs.QSTile;
@@ -168,6 +168,6 @@ public class ScreenrecordTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return CMMetricsLogger.AICPEXTRAS;
+        return MetricsLogger.DONT_TRACK_ME_BRO;
     }
 }
