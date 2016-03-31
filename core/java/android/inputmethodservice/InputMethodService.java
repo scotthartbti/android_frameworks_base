@@ -1740,7 +1740,7 @@ public class InputMethodService extends AbstractInputMethodService {
     }
 
     private Animation retrieveAnimation(boolean enter){
-        int[] animArray = AwesomeAnimationHelper.getAnimations(enter ? mAnimationEnterIndex : mAnimationExitIndex, mExitOnly, mReverseExit);
+        int[] animArray = AwesomeAnimationHelper.getAnimations(enter ? mAnimationEnterIndex : mAnimationExitIndex);
         int animInt = enter ? animArray[1] : animArray[0];
         if (animInt == 0) return null;
         Animation anim = AnimationUtils.loadAnimation(this, animInt);
