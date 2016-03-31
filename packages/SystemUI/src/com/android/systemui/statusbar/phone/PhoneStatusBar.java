@@ -2424,7 +2424,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         // apply blurred image
         if (backdropBitmap == null && mMediaMetadata == null &&
-                !mNotificationPanel.hasExternalKeyguardView()) {
+                !mLiveLockScreenController.isShowingLiveLockScreenView()) {
             backdropBitmap = mBlurredImage;
             // might still be null
         }
