@@ -80,7 +80,6 @@ oneway interface IStatusBar
     void showAssistDisclosure();
     void startAssist(in Bundle args);
     void showCustomIntentAfterKeyguard(inout Intent intent);
-    void setAutoRotate(boolean enabled);
     void screenPinningStateChanged(boolean enabled);
 }
 

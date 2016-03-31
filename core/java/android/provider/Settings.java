@@ -4457,12 +4457,6 @@ public final class Settings {
          */
         public static final String NOTIFICATION_ICON_COLOR = "notification_icon_color";
 
-        /**
-         * Override and forcefully disable the fullscreen keyboard
-         * @hide
-         */
-        public static final String DISABLE_FULLSCREEN_KEYBOARD = "disable_fullscreen_keyboard";
-
 	/**
 	 * Enable blocking wakelock
 	 * @hide
@@ -4474,18 +4468,6 @@ public final class Settings {
 	 * @hide
 	 */
 	public static final String WAKELOCK_BLOCKING_LIST = "wakelock_blocking_list";
-
-        /**
-         * Automatic keyboard rotation timeout.  0 to disable completely.
-         * @hide
-         */
-        public static final String KEYBOARD_ROTATION_TIMEOUT = "keyboard_rotation_timeout";
-
-        /**
-         * Forces formal text input.  1 to replace emoticon key with enter key.
-         * @hide
-         */
-        public static final String FORMAL_TEXT_INPUT = "formal_text_input";
 
         /**
          * enable custom lockscreen max notifications config
