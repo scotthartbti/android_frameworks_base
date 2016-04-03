@@ -4204,6 +4204,12 @@ public final class Settings {
         public static final String HEADS_UP_SNOOZE_LENGTH_MS = "heads_up_snooze_length_ms";
 
         /**
+         * Force heads up in all applications
+         * @hide
+         */
+        public static final String HEADS_UP_FORCE_ALL = "heads_up_force_all";
+
+        /**
          * Whether to use slim recents
          * @hide
          */
