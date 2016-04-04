@@ -176,7 +176,7 @@ public class LiveLockScreenController {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mBar.focusKeyguardExternalView();
+                        mPanelView.slideLockScreenOut();
                     }
                 });
             }
