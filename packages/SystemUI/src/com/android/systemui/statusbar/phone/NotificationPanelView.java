@@ -316,6 +316,7 @@ public class NotificationPanelView extends PanelView implements
             mShowingExternalKeyguard = true;
             mCanDismissKeyguard = false;
             mStatusBar.focusKeyguardExternalView();
+            mLiveLockscreenController.onLiveLockScreenFocusChanged(true /* hasFocus */);
             resetAlphaTranslation();
             // Enables the left edge gesture to allow user
             // to return to keyguard
@@ -1927,6 +1928,7 @@ public class NotificationPanelView extends PanelView implements
         mNotificationStackScroller.setShadeExpanded(!isFullyCollapsed());
         if (mShowingExternalKeyguard && expandedHeight >= getMaxPanelHeight()) {
             mStatusBar.unfocusKeyguardExternalView();
+            mLiveLockscreenController.onLiveLockScreenFocusChanged(false /* hasFocus */);
             mShowingExternalKeyguard = false;
         }
         if (DEBUG) {
