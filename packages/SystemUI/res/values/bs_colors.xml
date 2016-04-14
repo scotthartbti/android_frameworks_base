@@ -47,4 +47,7 @@
     <color name="ripple_material_light">#40000000</color>
     <color name="ripple_material_dark">#40ffffff</color>
 
+    <!-- Navigation button ripple color -->
+    <color name="navbutton_ripple_color">#FFFFFFFF</color>
+
 </resources>
