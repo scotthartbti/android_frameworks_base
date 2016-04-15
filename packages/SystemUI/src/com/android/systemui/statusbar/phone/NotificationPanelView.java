@@ -492,6 +492,10 @@ public class NotificationPanelView extends PanelView implements
                     } else {
                         intercept = NotificationPanelView.this.onTouchEvent(e);
                     }
+                } else {
+                    // Ensure we expand as early as possible
+                    // to avoid any simultaneous animations on the views
+                    mKeyguardBottomArea.expand(true);
                 }
                 return intercept;
             }
@@ -2399,13 +2403,21 @@ public class NotificationPanelView extends PanelView implements
         requestDisallowInterceptTouchEvent(true);
         mOnlyAffordanceInThisMotion = true;
         mQsTracking = false;
-        mKeyguardBottomArea.expand(true);
     }
 
     @Override
     public void onSwipingAborted() {
         mKeyguardBottomArea.unbindCameraPrewarmService(false /* launched */);
-        mKeyguardBottomArea.expand(false);
+        mKeyguardBottomArea.animate().setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mKeyguardBottomArea.expand(false);
+            }
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mKeyguardBottomArea.expand(false);
+            }
+        });
     }
 
     @Override
