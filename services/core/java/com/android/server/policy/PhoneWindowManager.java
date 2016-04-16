@@ -1925,13 +1925,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                                 mNavigationBarLeftInLandscape) {
                             requestTransientBars(mNavigationBar);
                         }
-                        boolean focusedWindowIsExternalKeyguard = false;
-                        if (mFocusedWindow != null) {
-                            focusedWindowIsExternalKeyguard = (mFocusedWindow.getAttrs().type
-                                    & WindowManager.LayoutParams.TYPE_KEYGUARD_PANEL) != 0;
-                        }
-                        if (mShowKeyguardOnLeftSwipe && isKeyguardShowingOrOccluded()
-                                && focusedWindowIsExternalKeyguard) {
+                        if (mShowKeyguardOnLeftSwipe && isKeyguardShowingOrOccluded()) {
                             // Show keyguard
                             mKeyguardDelegate.showKeyguard();
                             mShowKeyguardOnLeftSwipe = false;
