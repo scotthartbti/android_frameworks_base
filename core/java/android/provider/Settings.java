@@ -4216,6 +4216,12 @@ public final class Settings {
         public static final String DOZE_WAKEUP_DOUBLETAP = "doze_wakeup_doubletap";
 
         /**
+         *  List of apps hidden from recents
+         * @hide
+         */
+        public static final String HIDE_FROM_RECENTS_LIST = "hide_from_recents_list";
+
+        /**
          * Whether to use slim recents
          * @hide
          */
