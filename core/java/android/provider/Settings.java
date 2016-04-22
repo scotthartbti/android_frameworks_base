@@ -4038,6 +4038,12 @@ public final class Settings {
         public static final String QS_NUM_TILE_COLUMNS = "sysui_qs_num_tile_columns";
 
         /**
+         * whether to enable /disable showing charging current on lockscreen
+         * @hide
+         */
+        public static final String LOCK_SCREEN_SHOW_CURRENT = "lock_screen_show_current";
+
+        /**
          * Whether to display set of animations when prompting the power menu
          *
          * @hide
