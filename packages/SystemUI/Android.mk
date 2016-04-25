@@ -34,7 +34,8 @@ LOCAL_STATIC_JAVA_LIBRARIES := \
     framework-protos \
     SystemUI-proto-tags \
     org.cyanogenmod.platform.internal \
-	trail-drawing \
+    uicommon \
+    trail-drawing \
     rebound
 
 LOCAL_JAVA_LIBRARIES := telephony-common org.dirtyunicorns.utils
