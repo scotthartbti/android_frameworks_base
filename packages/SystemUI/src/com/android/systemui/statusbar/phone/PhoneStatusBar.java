@@ -5548,6 +5548,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         return mLiveLockScreenController.isShowingLiveLockScreenView();
     }
 
+    public void slideNotificationPanelIn() {
+        mNotificationPanel.slideLockScreenIn();
+    }
+
     public void setBackgroundBitmap(Bitmap bmp) {
         if (bmp == null && mBlurredImage == null) return;
 
