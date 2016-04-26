@@ -213,4 +213,12 @@
     <string name="toast_recents_queue_app">Launch %s after closing recents</string>
     <string name="toast_recents_cancel_queued_app">Cancelled app launch</string>
 
+    <!-- Floating Windows tile -->
+    <string name="quick_settings_floating_windows_on">Float Mode Enabled</string>
+    <string name="quick_settings_floating_windows_off">Float Mode Disabled</string>
+
+    <!-- Floating Windows tile -->
+    <string name="quick_settings_slim_floats_on">Slim Float Mode Enabled</string>
+    <string name="quick_settings_slim_floats_off">Slim Float Mode Disabled</string>
+
 </resources>
