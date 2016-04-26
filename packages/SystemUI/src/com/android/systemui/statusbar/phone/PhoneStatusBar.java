@@ -4105,7 +4105,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             adapter.clear();
             adapter.notifyDataSetInvalidated();
         } else {
-            parent.removeAllViews();
+            if (!(parent instanceof AdapterView)) parent.removeAllViews();
         }
 
     }
