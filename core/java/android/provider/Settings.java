@@ -7241,6 +7241,12 @@ public final class Settings {
         public static final String FLING_PULSE_ENABLED = "fling_pulse_enabled";
 
         /**
+         * Custom Pulse Widths
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_DIMEN = "pulse_custom_dimen";
+
+        /**
          * Fling pulse music visualizer color
          *
          * @hide
