@@ -4011,6 +4011,12 @@ public final class Settings {
         public static final String APP_CIRCLE_BAR_SHOW_TRIGGER = "app_circle_bar_show_trigger";
 
         /**
+         * Custom Pulse Widths
+         * @hide
+         */
+        public static final String PULSE_CUSTOM_DIMEN = "pulse_custom_dimen";
+
+        /**
          * Change fonts for the system lockscreen clock widget
          *
          * @hide
@@ -7239,12 +7245,6 @@ public final class Settings {
          * @hide
          */
         public static final String FLING_PULSE_ENABLED = "fling_pulse_enabled";
-
-        /**
-         * Custom Pulse Widths
-         * @hide
-         */
-        public static final String PULSE_CUSTOM_DIMEN = "pulse_custom_dimen";
 
         /**
          * Fling pulse music visualizer color
