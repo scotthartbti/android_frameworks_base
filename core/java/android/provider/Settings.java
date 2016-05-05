@@ -3740,18 +3740,6 @@ public final class Settings {
          */
         public static final String NFC_SOUND_MODE = "nfc_sound_mode";
 
-	/**
-         * Dashboard title text size
-         * @hide
-         */
-        public static final String SETTINGS_TITLE_TEXT_SIZE = "settings_title_text_size";
-
-        /**
-         * Dashboard category text size
-         * @hide
-         */
-        public static final String SETTINGS_CATEGORY_TEXT_SIZE = "settings_category_text_size";
-
         /**
          * Force expanded notifications on all apps that support it.
          * @hide
@@ -4627,48 +4615,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_HEADER_FONT_STYLE = "status_bar_header_font_style";
-
-        /**
-         * Settings Dash Font Style
-         * @hide
-         */
-        public static final String DASHBOARD_FONT_STYLE = "dashboard_font_style";
-
-        /**
-         * Dashboard main color switch
-         * @hide
-         */
-        public static final String DASHBOARD_CUSTOMIZATIONS = "dashboard_customizations";
-
-        /**
-         * Dashboard color
-         * @hide
-         */
-        public static final String SETTINGS_BG_COLOR = "settings_bg_color";
-
-        /**
-         * Dashboard title text color
-         * @hide
-         */
-        public static final String SETTINGS_TITLE_TEXT_COLOR = "settings_title_text_color";
-
-        /**
-         * Toolbar title text color
-         * @hide
-         */
-        public static final String SETTINGS_TOOLBAR_TEXT_COLOR = "settings_toolbar_text_color";
-
-        /**
-         * Dashboard icon color
-         * @hide
-         */
-        public static final String SETTINGS_ICON_COLOR = "settings_icon_color";
-
-        /**
-         * Dashboard category text color
-         * @hide
-         */
-        public static final String SETTINGS_CATEGORY_TEXT_COLOR = "settings_category_text_color";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
