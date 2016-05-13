@@ -948,8 +948,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ACCELEROMETER_ROTATION_ANGLES), false, this,
                     UserHandle.USER_ALL);
-            resolver.registerContentObserver(CMSettings.Secure.getUriFor(
-                    CMSettings.Secure.DEV_FORCE_SHOW_NAVBAR), false, this,
+            resolver.registerContentObserver(CMSettings.Global.getUriFor(
+                    CMSettings.Global.DEV_FORCE_SHOW_NAVBAR), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(CMSettings.System.getUriFor(
                     CMSettings.System.VOLBTN_MUSIC_CONTROLS), false, this,
@@ -2298,8 +2298,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.THREE_FINGER_GESTURE, 1, UserHandle.USER_CURRENT) == 1;
             enableSwipeThreeFingerGesture(threeFingerGesture);
 
-            boolean devForceNavbar = CMSettings.Secure.getIntForUser(resolver,
-                    CMSettings.Secure.DEV_FORCE_SHOW_NAVBAR, 0, UserHandle.USER_CURRENT) == 1;
+            boolean devForceNavbar = CMSettings.Global.getIntForUser(resolver,
+                    CMSettings.Global.DEV_FORCE_SHOW_NAVBAR, 0, UserHandle.USER_CURRENT) == 1;
             if (devForceNavbar != mDevForceNavbar) {
                 mDevForceNavbar = devForceNavbar;
 		if (mCMHardware.isSupported(CMHardwareManager.FEATURE_KEY_DISABLE)) {
