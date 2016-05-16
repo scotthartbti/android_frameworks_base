@@ -287,7 +287,6 @@ public class NotificationPanelView extends PanelView implements
     private SwipeLockedDirection mLockedDirection;
 
     private SwipeHelper mSwipeHelper;
-    public boolean mShowingExternalKeyguard;
     private final int mMinimumFlingVelocity;
     private final int mScreenHeight;
     private LiveLockScreenController mLiveLockscreenController;
@@ -321,7 +320,6 @@ public class NotificationPanelView extends PanelView implements
 
         @Override
         public void onChildDismissed(View v) {
-            mShowingExternalKeyguard = true;
             mCanDismissKeyguard = false;
             mStatusBar.focusKeyguardExternalView();
             mLiveLockscreenController.onLiveLockScreenFocusChanged(true /* hasFocus */);
@@ -388,7 +386,6 @@ public class NotificationPanelView extends PanelView implements
                     return false;
                 }
                 mCanDismissKeyguard = true;
-                mShowingExternalKeyguard = false;
                 mStatusBar.showBouncer();
                 return true;
             }
@@ -479,7 +476,7 @@ public class NotificationPanelView extends PanelView implements
             @Override
             public boolean onInterceptTouchEvent(MotionEvent e) {
                 boolean intercept = false;
-                if (mShowingExternalKeyguard) {
+                if (mLiveLockscreenController.getLiveLockScreenHasFocus()) {
                     // Handles swipe up to fade/dismiss when showing
                     // live lock screen
                     intercept = mAfforanceHelper.onInterceptTouchEvent(e);
@@ -504,7 +501,7 @@ public class NotificationPanelView extends PanelView implements
                 }
 
                 boolean intercept = false;
-                if (mShowingExternalKeyguard) {
+                if (mLiveLockscreenController.getLiveLockScreenHasFocus()) {
                     intercept = mAfforanceHelper.onTouchEvent(e);
                     if (isCancelOrUp) {
                         mKeyguardBottomArea.expand(false);
@@ -1050,7 +1047,8 @@ public class NotificationPanelView extends PanelView implements
         }
         if ((!mIsExpanding || mHintAnimationRunning)
                 && !mQsExpanded
-                && (mStatusBar.getBarState() != StatusBarState.SHADE || mShowingExternalKeyguard)) {
+                && (mStatusBar.getBarState() != StatusBarState.SHADE
+                || mLiveLockscreenController.getLiveLockScreenHasFocus())) {
             mAfforanceHelper.onTouchEvent(event);
         }
         if (mOnlyAffordanceInThisMotion) {
@@ -1092,7 +1090,8 @@ public class NotificationPanelView extends PanelView implements
     }
 
     private boolean isKeyguardInteractiveAndShowing() {
-        return mShowingExternalKeyguard || mStatusBar.getBarState() != StatusBarState.KEYGUARD ||
+        return mLiveLockscreenController.getLiveLockScreenHasFocus() ||
+                mStatusBar.getBarState() != StatusBarState.KEYGUARD ||
                 !mLiveLockscreenController.isLiveLockScreenInteractive();
     }
 
@@ -1406,9 +1405,6 @@ public class NotificationPanelView extends PanelView implements
         if (statusBarState == StatusBarState.KEYGUARD ||
                 statusBarState == StatusBarState.SHADE_LOCKED) {
             updateDozingVisibilities(false /* animate */);
-        }
-        if (statusBarState == StatusBarState.KEYGUARD) {
-            mShowingExternalKeyguard = false;
         }
         resetVerticalPanelPosition();
         updateQsState();
@@ -2178,7 +2174,7 @@ public class NotificationPanelView extends PanelView implements
 
     private void updateKeyguardBottomAreaAlpha() {
         float alpha = Math.min(getKeyguardContentsAlpha(), 1 - getQsExpansionFraction());
-        if (mShowingExternalKeyguard) {
+        if (mLiveLockscreenController.getLiveLockScreenHasFocus()) {
             alpha = 1f;
         }
         mKeyguardBottomArea.setAlpha(alpha);
