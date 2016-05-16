@@ -4090,6 +4090,21 @@ public final class Settings {
          */
         public static final String TOAST_ANIMATION = "toast_animation";
 
+	/**
+         * Change quick settings tiles animation style
+         *
+         * @hide
+         */
+        public static final String ANIM_TILE_STYLE = "anim_tile_style";
+
+
+        /**
+         * Change quick settings tiles animation duration
+         *
+         * @hide
+         */
+        public static final String ANIM_TILE_DURATION = "anim_tile_duration";
+
         /**
          * Alternative recent apps integration using OmniSwitch
          * @hide
