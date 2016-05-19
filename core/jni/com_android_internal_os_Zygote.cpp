@@ -541,6 +541,8 @@ static pid_t ForkAndSpecializeCommon(JNIEnv* env, uid_t uid, gid_t gid, jintArra
   FDTWrapper fd_table(env, &debug_flags);
   ResetNicePriority(env);
 
+  ResetNicePriority(env);
+
   pid_t pid = fork();
 
   if (pid == 0) {
@@ -801,4 +803,3 @@ int register_com_android_internal_os_Zygote(JNIEnv* env) {
   return RegisterMethodsOrDie(env, "com/android/internal/os/Zygote", gMethods, NELEM(gMethods));
 }
 }  // namespace android
-
