@@ -293,8 +293,7 @@ public class NotificationPanelView extends PanelView implements
     private final GestureDetector mGestureDetector;
     private ViewLinker mViewLinker;
     private final UnlockMethodCache mUnlockMethodCache;
-
-
+    private boolean mDetailScrollLock;
     private enum SwipeLockedDirection {
         UNKNOWN,
         HORIZONTAL,
@@ -440,6 +439,7 @@ public class NotificationPanelView extends PanelView implements
         mKeyguardStatusBar = (KeyguardStatusBarView) findViewById(R.id.keyguard_header);
         mKeyguardStatusView = (KeyguardStatusView) findViewById(R.id.keyguard_status_view);
         mQsContainer = (QSContainer) findViewById(R.id.quick_settings_container);
+        mQsPanel.setPanelView(this);
         mTaskManagerPanel = (LinearLayout) findViewById(R.id.task_manager_panel);
         mQsPanel = (QSDragPanel) findViewById(R.id.quick_settings_panel);
         mClipper = new QSDetailClipper(mTaskManagerPanel);
@@ -1281,8 +1281,13 @@ public class NotificationPanelView extends PanelView implements
                 mTrackingPointer = -1;
                 trackMovement(event);
                 float fraction = getQsExpansionFraction();
-                if ((fraction != 0f || y >= mInitialTouchY)
-                        && (fraction != 1f || y <= mInitialTouchY)) {
+                final boolean fling = (fraction != 0f || y >= mInitialTouchY)
+                        && (fraction != 1f || y <= mInitialTouchY);
+                final boolean flingExpand = Math.abs(getCurrentVelocity())
+                        > mFlingAnimationUtils.getMinVelocityPxPerSecond();
+                final boolean detailFling = mDetailScrollLock && mQsExpanded
+                        && flingExpand;
+                if ((fling && !mDetailScrollLock) || detailFling) {
                     flingQsWithCurrentVelocity(y,
                             event.getActionMasked() == MotionEvent.ACTION_CANCEL);
                 } else {
@@ -1865,7 +1870,8 @@ public class NotificationPanelView extends PanelView implements
                 && y >= header.getTop() && y <= header.getBottom();
 
         if (mQsExpanded) {
-            return onHeader || (mScrollView.isScrolledToBottom() && yDiff < 0) && isInQsArea(x, y);
+            return onHeader || mDetailScrollLock
+                    || (mScrollView.isScrolledToBottom() && yDiff < 0) && isInQsArea(x, y);
         } else {
             return onHeader;
         }
@@ -1994,7 +2000,7 @@ public class NotificationPanelView extends PanelView implements
      */
     private int getTempQsMaxExpansion() {
         int qsTempMaxExpansion = mQsMaxExpansionHeight;
-        if (mScrollYOverride != -1) {
+        if (mScrollYOverride != -1 && !mDetailScrollLock) {
             qsTempMaxExpansion -= mScrollYOverride;
         }
         return qsTempMaxExpansion;
@@ -2974,6 +2980,32 @@ public class NotificationPanelView extends PanelView implements
         ActivityManager am = getContext().getSystemService(ActivityManager.class);
         List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
         return !tasks.isEmpty() && pkgName.equals(tasks.get(0).topActivity.getPackageName());
+    }
+
+    public void setDetailRequestedScrollLock(boolean detailScrollFlag) {
+        if (mDetailScrollLock != detailScrollFlag) {
+            if (mStatusBarState != StatusBarState.SHADE) {
+                mDetailScrollLock = false;
+            } else {
+                mDetailScrollLock = detailScrollFlag;
+            }
+            if (!detailScrollFlag && getQsExpansionFraction() > 0.3f) {
+                flingSettings(getCurrentVelocity(), true, new Runnable() {
+                    @Override
+                    public void run() {
+                        mStackScrollerOverscrolling = false;
+                        mQsExpansionFromOverscroll = false;
+                        updateQsState();
+                        updateHeader();
+                        updateMaxHeadsUpTranslation();
+                        updatePanelExpanded();
+                        requestLayout();
+                    }
+                }, false);
+            } else {
+                requestLayout();
+            }
+        }
     }
 
     private class SlideInAnimationListener implements ValueAnimator.AnimatorUpdateListener,
