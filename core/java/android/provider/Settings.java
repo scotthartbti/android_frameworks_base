@@ -3793,6 +3793,18 @@ public final class Settings {
         public static final String DOUBLE_TAP_SLEEP_NAVBAR = "double_tap_sleep_navbar";
 
         /**
+         * Define if screenshot crop & share is active
+         * @hide
+         */
+        public static final String SCREENSHOT_CROP_AND_SHARE = "screenshot_crop_and_share";
+
+        /**
+         * Define the crop behavior of screenshot crop & share
+         * @hide
+         */
+        public static final String SCREENSHOT_CROP_BEHAVIOR = "screenshot_crop_behavior";
+
+        /**
          * Defines the shortcuts to be shown on lockscreen
          * Usage is like this: target:icon|target:icon|target:icon
          * if :icon is not set, default application icon will be used
