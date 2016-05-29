@@ -17,6 +17,8 @@
 <resources>
 
   <java-symbol type="drawable" name="ic_lock_torch" />
+  <java-symbol type="drawable" name="ic_lock_screen_record" />
   <java-symbol type="string" name="global_action_torch" />
+  <java-symbol type="string" name="global_action_screen_record" />
 
 </resources>
