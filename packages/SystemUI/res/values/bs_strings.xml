@@ -181,4 +181,8 @@
 
     <!-- Heads up snooze toast -->
     <string name="heads_up_snooze_message">Heads up is snoozing for <xliff:g id="number">%d</xliff:g> minutes.</string>
+
+    <!-- SystemUI restart tile -->
+    <string name="quick_settings_systemui_restart_label">Restart SystemUI</string>
+
 </resources>

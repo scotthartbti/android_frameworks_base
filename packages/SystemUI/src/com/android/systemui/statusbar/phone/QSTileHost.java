@@ -75,6 +75,7 @@ import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.SoundTile;
 import com.android.systemui.qs.tiles.SyncTile;
+import com.android.systemui.qs.tiles.SystemUIRestartTile;
 import com.android.systemui.qs.tiles.ThemesTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
 import com.android.systemui.qs.tiles.VolumeTile;
@@ -415,6 +416,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("themes")) return new ThemesTile(this);
         else if (tileSpec.equals("sound")) return new SoundTile(this);
         else if (tileSpec.equals("screenrecord")) return new ScreenrecordTile(this);
+        else if (tileSpec.equals("restart_systemui")) return new SystemUIRestartTile(this);
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else if (TextUtils.split(tileSpec, "\\|").length == 3) {
             /** restores placeholder for
@@ -526,6 +528,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("themes")) return R.string.quick_settings_themes;
         else if (spec.equals("sound")) return R.string.quick_settings_sound_label;
         else if (spec.equals("screenrecord")) return R.string.quick_settings_screenrecord_label;
+        else if (spec.equals("restart_systemui")) return R.string.quick_settings_systemui_restart_label;
         return 0;
     }
 
@@ -570,6 +573,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (spec.equals("themes")) return R.drawable.ic_qs_themes_on;
         else if (spec.equals("sound")) return R.drawable.ic_qs_ringer_audible;
         else if (spec.equals("screenrecord")) return R.drawable.ic_qs_screenrecord;
+        else if (spec.equals("restart_systemui")) return R.drawable.ic_qs_systemui_restart;
         return 0;
     }
 
