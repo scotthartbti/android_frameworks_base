@@ -185,6 +185,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     // QS header alpha
     private int mQSHeaderAlpha;
 
+    private int headerShadow;
+    private int customHeader;
+
     // Font style
     public static final int FONT_NORMAL = 0;
     public static final int FONT_ITALIC = 1;
@@ -1228,6 +1231,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                     Settings.System.STATUS_BAR_HEADER_FONT_STYLE), false, this, UserHandle.USER_ALL);
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ENABLE_TASK_MANAGER), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER), false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -1274,6 +1281,14 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 UserHandle.USER_CURRENT);
             setStatusBarHeaderFontStyle(mStatusBarHeaderFontStyle);
 
+            headerShadow = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW, 0,
+                    UserHandle.USER_CURRENT);
+
+            customHeader = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
+                    UserHandle.USER_CURRENT);
+
             updateVisibilities();
             requestCaptureValues();
         }
@@ -1286,6 +1301,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                 mBackgroundImage.setVisibility(View.VISIBLE);
                 setNotificationPanelHeaderBackground(next, force);
                 mCurrentBackground = next;
+                applyHeaderBackgroundShadow();
             }
         } else {
             mCurrentBackground = null;
@@ -1310,13 +1326,13 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     }
 
     private void applyHeaderBackgroundShadow() {
-        final int headerShadow = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW, 0,
-                UserHandle.USER_CURRENT);
-
-        if (headerShadow != 0 && mBackgroundImage != null) {
+        if (customHeader == 1) {
             ColorDrawable shadow = new ColorDrawable(Color.BLACK);
             shadow.setAlpha(headerShadow);
+            mBackgroundImage.setForeground(shadow);
+        } else if (customHeader == 0) {
+            ColorDrawable shadow = new ColorDrawable(Color.BLACK);
+            shadow.setAlpha(0);
             mBackgroundImage.setForeground(shadow);
         }
     }
