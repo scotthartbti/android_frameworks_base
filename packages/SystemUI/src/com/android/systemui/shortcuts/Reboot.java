@@ -22,7 +22,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 
-import com.android.internal.util.aicp.Action;
+import com.android.internal.util.du.Action;
 
 public class Reboot extends Activity  {
 
