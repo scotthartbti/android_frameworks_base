@@ -572,9 +572,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.LOCKSCREEN_MAX_NOTIF_CONFIG),
 		    false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR),
-                    false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_BLUR_RADIUS), false, this);
 	    resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_ROTATION),
@@ -617,9 +614,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     || uri.equals(Settings.System.getUriFor(
                     Settings.System.RECENT_CARD_TEXT_COLOR))) {
                 rebuildRecentsScreen();
-	    }   else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR))) {
-                    UpdateNotifDrawerClearAllIconColor();
             }
 
             update();
@@ -1597,7 +1591,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         ThreadedRenderer.overrideProperty("ambientRatio", String.valueOf(1.5f));
 
         mStatusBarHeaderMachine.addObserver(mHeader);
-        UpdateNotifDrawerClearAllIconColor();
 	mStatusBarHeaderMachine.updateResources(mContext.getResources(), StatusBarHeaderMachine.STATUSBAR_RESOURCES);
         mStatusBarHeaderMachine.forceUpdate();
         return mStatusBarView;
@@ -2530,15 +2523,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     }
                 }
             }
-        }
-    }
-
-    private void UpdateNotifDrawerClearAllIconColor() {
-        int color = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR,
-                0xffffffff, mCurrentUserId);
-        if (mDismissView != null) {
-            mDismissView.updateIconColor(color);
         }
     }
 
