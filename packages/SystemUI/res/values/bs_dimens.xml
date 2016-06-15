@@ -47,12 +47,4 @@
     <dimen name="recent_app_sidebar_item_size">60dp</dimen>
     <dimen name="recent_app_sidebar_item_padding">2dp</dimen>
     <dimen name="recent_app_sidebar_item_title_text_size">11sp</dimen>
-
-    <!-- Screenshot Crop & Share -->
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_size_m">24sp</dimen>
-    <dimen name="text_size_s">17sp</dimen>
-    <dimen name="button_height">40dp</dimen>
-    <dimen name="crop_buttons">48dp</dimen>
-    <dimen name="crop_color_rect">32dp</dimen>
 </resources>
