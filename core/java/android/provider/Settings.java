@@ -4446,6 +4446,13 @@ public final class Settings {
         public static final String CLOCK_USE_SECOND = "clock_use_second";
 
 	/**
+         * Whether to apply a shadow on top of the header image
+         * value is the alpha value of the shadow image is 0 -> no shadow -> 255 black
+         * @hide
+         */
+        public static final String STATUS_BAR_CUSTOM_HEADER_SHADOW = "status_bar_custom_header_shadow";
+
+	/**
 	 * Enable blocking wakelock
 	 * @hide
 	 */
