@@ -4445,12 +4445,6 @@ public final class Settings {
          */
         public static final String CLOCK_USE_SECOND = "clock_use_second";
 
-	/*
-         * Custom Colors Switch
-         * @hide
-         */
-        public static final String NOTIF_COLOR_SWITCH = "notif_color_switch";
-
          /**
          * Colorize the media notifications background
          * 0: never

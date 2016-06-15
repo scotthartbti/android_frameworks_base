@@ -38,12 +38,10 @@ public class SpeedBumpView extends ExpandableView {
     private AlphaOptimizedView mLine;
     private boolean mIsVisible = true;
     private final Interpolator mFastOutSlowInInterpolator;
-    private boolean MColorSwitch = false;	
 
     private SettingsObserver mSettingsObserver;
 
     class SettingsObserver extends ContentObserver {
-	private boolean mColorSwitch = false;
         SettingsObserver(Handler handler) {
             super(handler);
         }
@@ -88,13 +86,9 @@ public class SpeedBumpView extends ExpandableView {
 
     @Override
     protected void onFinishInflate() {
-	MColorSwitch =  Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.NOTIF_COLOR_SWITCH, 0) == 1;
         super.onFinishInflate();
         mLine = (AlphaOptimizedView) findViewById(R.id.speedbump_line);
-	if (MColorSwitch) {
         updateDividerColor();
-	}
     }
 
     @Override
