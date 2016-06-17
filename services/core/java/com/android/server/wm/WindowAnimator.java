@@ -224,7 +224,14 @@ public class WindowAnimator {
 
         // Only hide windows if the keyguard is active and not animating away.
         boolean keyguardOn = mPolicy.isKeyguardShowingOrOccluded()
-                && (mForceHiding != KEYGUARD_ANIMATING_OUT && !mBlurUiEnabled);
+                && mForceHiding != KEYGUARD_ANIMATING_OUT;
+
+        final WindowState winKeyguardPanel = (WindowState) mPolicy.getWinKeyguardPanelLw();
+        // If a keyguard panel is currently being shown, we should
+        // continue to hide the windows as if blur is disabled.
+        if (winKeyguardPanel == null) {
+            keyguardOn &= !mBlurUiEnabled;
+        }
         return keyguardOn && !allowWhenLocked && (win.getDisplayId() == Display.DEFAULT_DISPLAY);
     }
 
