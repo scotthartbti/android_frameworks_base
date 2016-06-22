@@ -4277,6 +4277,29 @@ public final class Settings {
         public static final String DOZE_WAKEUP_DOUBLETAP = "doze_wakeup_doubletap";
 
         /**
+         * Volume dialog stroke
+         * 0 = disabled
+         * 1 = use accent color (default)
+         * 2 = use custom color
+         * @hide
+         */
+        public static final String VOLUME_DIALOG_STROKE = "volume_dialog_stroke";
+
+        /**
+         * Volume dialog stroke custom color
+         * Accent color is used as default
+         * @hide
+         */
+        public static final String VOLUME_DIALOG_STROKE_COLOR = "volume_dialog_stroke_color";
+
+        /**
+         * Volume dialog stroke custom thickness
+         * 4dp is default for AICP
+         * @hide
+         */
+        public static final String VOLUME_DIALOG_STROKE_THICKNESS = "volume_dialog_stroke_thickness";
+
+        /**
          *  List of apps hidden from recents
          * @hide
          */
