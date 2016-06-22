@@ -4307,6 +4307,36 @@ public final class Settings {
         public static final String VOLUME_DIALOG_CORNER_RADIUS = "volume_dialog_corner_radius";
 
         /**
+         * Quick settings stroke
+         * 0 = disabled
+         * 1 = use accent color (default)
+         * 2 = use custom color
+         * @hide
+         */
+        public static final String QS_STROKE = "qs_stroke";
+
+        /**
+         * Quick settings stroke custom color
+         * Accent color is used as default
+         * @hide
+         */
+        public static final String QS_STROKE_COLOR = "qs_stroke_color";
+
+        /**
+         * Quick settings stroke custom thickness
+         * 4dp is default for AICP
+         * @hide
+         */
+        public static final String QS_STROKE_THICKNESS = "qs_stroke_thickness";
+
+        /**
+         * Quick settings custom corner radius
+         * 0dp is default
+         * @hide
+         */
+        public static final String QS_CORNER_RADIUS = "qs_corner_radius";
+
+        /**
          *  List of apps hidden from recents
          * @hide
          */
