@@ -4300,6 +4300,13 @@ public final class Settings {
         public static final String VOLUME_DIALOG_STROKE_THICKNESS = "volume_dialog_stroke_thickness";
 
         /**
+         * Volume dialog custom corner radius
+         * 2dp is system default for VolumeDialog
+         * @hide
+         */
+        public static final String VOLUME_DIALOG_CORNER_RADIUS = "volume_dialog_corner_radius";
+
+        /**
          *  List of apps hidden from recents
          * @hide
          */
