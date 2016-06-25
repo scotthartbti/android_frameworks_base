@@ -281,6 +281,8 @@ public class NotificationPanelView extends PanelView implements
     private int mCustomStrokeColor;
     private int mCustomStrokeThickness;
     private int mCustomCornerRadius;
+    private int mCustomDashWidth;
+    private int mCustomDashGap;
 
     // Used to identify whether showUnlock() can dismiss the keyguard
     // or not.
@@ -2879,6 +2881,12 @@ public class NotificationPanelView extends PanelView implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_CORNER_RADIUS),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_STROKE_DASH_WIDTH),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_STROKE_DASH_GAP),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -2929,6 +2937,10 @@ public class NotificationPanelView extends PanelView implements
                         Settings.System.QS_STROKE_THICKNESS, 4);
             mCustomCornerRadius = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.QS_CORNER_RADIUS, 5);
+            mCustomDashWidth = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.QS_STROKE_DASH_WIDTH, 0);
+            mCustomDashGap = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.QS_STROKE_DASH_GAP, 10);
 
             setQSStroke();
             setQSBackgroundAlpha();
@@ -2954,10 +2966,11 @@ public class NotificationPanelView extends PanelView implements
                 mQsContainer.setBackground(qSGd);
             } else if (mQSStroke == 1) { // use accent color for border
                 qSGd.setColor(mContext.getResources().getColor(R.color.system_primary_color));
-                qSGd.setStroke(mCustomStrokeThickness, mContext.getResources().getColor(R.color.system_accent_color));
+                qSGd.setStroke(mCustomStrokeThickness, mContext.getResources().getColor(R.color.system_accent_color),
+                        mCustomDashWidth, mCustomDashGap);
             } else if (mQSStroke == 2) { // use custom border color
                 qSGd.setColor(mContext.getResources().getColor(R.color.system_primary_color));
-                qSGd.setStroke(mCustomStrokeThickness, mCustomStrokeColor);
+                qSGd.setStroke(mCustomStrokeThickness, mCustomStrokeColor, mCustomDashWidth, mCustomDashGap);
             }
 
             if (mQSStroke != 0) {

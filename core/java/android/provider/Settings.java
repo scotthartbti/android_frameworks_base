@@ -4645,6 +4645,20 @@ public final class Settings {
         public static final String STATUS_BAR_HEADER_FONT_STYLE = "status_bar_header_font_style";
 
         /**
+         * Quick settings custom stroke dash width
+         * Set 0 to disable (default)
+         * @hide
+         */
+        public static final String QS_STROKE_DASH_WIDTH = "qs_stroke_dash_width";
+
+        /**
+         * Quick settings custom stroke dash gap
+         * 10 is default for AICP
+         * @hide
+         */
+        public static final String QS_STROKE_DASH_GAP = "qs_stroke_dash_gap";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
