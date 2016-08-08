@@ -218,4 +218,7 @@
   <!-- Path data for landscape battery -->
   <!-- Path data for circle battery -->
   <!-- Weather string format in keyguard -->
+  <string name="expand_hint">Sveip ned for å utvide</string>
+  <string name="swipe_left_hint">Sveip til høyre for å <xliff:g id="app_name">%1$s</xliff:g></string>
+  <string name="swipe_right_hint">Sveip til høyre for å se varsler</string>
 </resources>
