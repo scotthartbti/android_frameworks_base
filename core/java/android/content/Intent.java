@@ -698,13 +698,6 @@ public class Intent implements Parcelable, Cloneable {
     public static final String ACTION_PICK = "android.intent.action.PICK";
 
     /**
-     * If set, this intent will always match start up as a floating window
-     * in multi window scenarios.
-     * @hide
-     */
-    public static final int FLAG_FLOATING_WINDOW = 0x00003000;
-
-    /**
      * Activity Action: Creates a shortcut.
      * <p>Input: Nothing.</p>
      * <p>Output: An Intent representing the shortcut. The intent must contain three
