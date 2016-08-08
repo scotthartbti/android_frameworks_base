@@ -37,7 +37,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:textAppearance="@android:style/TextAppearance.Material.Notification"
+            android:textColor="#ffffff"
             android:fontFamily="sans-serif-light"
             android:textSize="@dimen/halo_speech_text_size"
             android:textStyle="bold"
