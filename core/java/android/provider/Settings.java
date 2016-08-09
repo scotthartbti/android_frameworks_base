@@ -7672,6 +7672,12 @@ public final class Settings {
        public static final String HALO_UNLOCK_PING = "halo_unlock_ping";
 
         /**
+         * Launch notifications in floating mode
+         * @hide
+         */
+        public static final String HALO_FLOAT_NOTIFICATIONS = "halo_float_notifications";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
