@@ -32,7 +32,7 @@ import android.widget.ListView;
 
 import com.android.systemui.R;
 import com.android.systemui.qs.QSTile;
-import org.cyanogenmod.internal.logging.CMMetricsLogger;
+import com.android.internal.logging.MetricsLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,11 +60,11 @@ public class FloatingWindowsTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public void handleLongClick() {
-        final String AICPEXTRAS_PACKAGE_NAME = "com.lordclockan";
-        Intent INTENT_AICPEXTRAS = new Intent(Intent.ACTION_MAIN)
-                .setClassName(AICPEXTRAS_PACKAGE_NAME, AICPEXTRAS_PACKAGE_NAME
-                + ".aicpextras.FloatingWindows");
-        mHost.startActivityDismissingKeyguard(INTENT_AICPEXTRAS);
+        final String SETTINGS_PACKAGE_NAME = "com.android.settings";
+        Intent INTENT_SETTINGS = new Intent(Intent.ACTION_MAIN)
+                .setClassName(SETTINGS_PACKAGE_NAME, SETTINGS_PACKAGE_NAME
+                + ".cyanogenmod.FloatingWindows");
+        mHost.startActivityDismissingKeyguard(INTENT_SETTINGS);
     }
 
  protected void toggleState() {
@@ -124,6 +124,6 @@ public class FloatingWindowsTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return CMMetricsLogger.AICPEXTRAS;
+        return MetricsLogger.DONT_TRACK_ME_BRO;
     }
 }
