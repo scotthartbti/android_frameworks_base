@@ -3702,10 +3702,29 @@ public final class Settings {
          */
         public static final String STATUSBAR_BATTERY_BAR_CHARGING_COLOR = "statusbar_battery_bar_charging_color";
 
+	/**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_BATTERY_LOW_COLOR_WARNING =
+                "statusbar_battery_bar_battery_low_color_warning";
+
         /**
          * @hide
          */
-        public static final String STATUSBAR_BATTERY_BAR_BATTERY_LOW_COLOR = "statusbar_battery_bar_battery_low_color";
+        public static final String STATUSBAR_BATTERY_BAR_HIGH_COLOR =
+                "statusbar_battery_bar_high_color";
+
+        /**
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_BAR_LOW_COLOR =
+                "statusbar_battery_bar_low_color";
+
+        /**
+         * @hide
+         */
+	public static final String STATUSBAR_BATTERY_BAR_USE_GRADIENT_COLOR =
+                "statusbar_battery_bar_use_gradient_color";
 
         /**
          * @hide
@@ -4061,6 +4080,18 @@ public final class Settings {
         public static final String TOAST_ANIMATION = "toast_animation";
 
 	/**
+         * Color of toast message icon
+         * @hide
+         */
+        public static final String TOAST_ICON_COLOR = "toast_icon_color";
+
+        /**
+         * Color of toast message test
+         * @hide
+         */
+        public static final String TOAST_TEXT_COLOR = "toast_text_color";
+
+	/**
          * Change quick settings tiles animation style
          *
          * @hide
@@ -4350,6 +4381,33 @@ public final class Settings {
          * @hide
          */
         public static final String HIDE_FROM_RECENTS_LIST = "hide_from_recents_list";
+
+	/**
+         * Option to launch slim actions in floating mode
+         * @hide
+         */
+        public static final String SLIM_ACTION_FLOATS = "slim_action_floats";
+
+        /**
+         * Control the use of floating windows
+         * 0 = off
+         * 1 = on, duh
+         * @hide
+         */
+        public static final String FLOATING_WINDOW_MODE = "floating_window_mode";
+
+        /**
+         * Launch gesture anywhere in floating window or not
+         * @hide
+         */
+        public static final String GESTURE_ANYWHERE_FLOATING = "gesture_anywhere_floating";
+
+        /**
+         * Whether to display a menu containing 'Wipe data', 'Force close' and other options
+         * in the notification area and in the recent app list
+         * @hide
+         */
+        public static final String DEVELOPMENT_SHORTCUT = "development_shortcut";
 
         /**
          * Whether to use slim recents
@@ -7378,6 +7436,18 @@ public final class Settings {
          */
         public static final String STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD = "status_bar_locked_on_secure_keyguard";
 
+	/**
+         * Enable Disable Halo In Extended Statusbar
+         * @hide
+         */
+        public static final String HALO_ENABLE = "halo_enable";
+
+        /**
+         * HALO color, default is 0xffbbbbbb (normal)
+         * @hide
+         */
+        public static final String HALO_COLOR = "halo_color";
+
         /**
          * @hide
          */
@@ -7551,6 +7621,55 @@ public final class Settings {
          * @hide
          */
         public static final String NAVBAR_BUTTONS_ALPHA = "navbar_buttons_alpha";
+
+       /**
+        * HALO, should default to 0 (no, do not show)
+        * @hide
+        */
+       public static final String HALO_ACTIVE = "halo_active";
+
+       /**
+        * HALO hide?, should default to 0 (no, do not hide)
+        * @hide
+        */
+       public static final String HALO_HIDE = "halo_hide";
+
+       /**
+        * HALO pause activities?, defaults to 0 (no, do not pause) on devices which isLargeRAM() == true
+        * otherwise it defaults to 1 (yes, do pause)
+        * @hide
+        */
+       public static final String HALO_PAUSE = "halo_pause";
+
+       /**
+        * HALO size fraction, default is 1.0f (normal)
+        * @hide
+        */
+       public static final String HALO_SIZE = "halo_size";
+
+       /**
+        * HALO message box?, should default to 1 (yes, show message box on incoming notification)
+        * @hide
+        */
+       public static final String HALO_MSGBOX = "halo_msgbox";
+
+       /**
+        * HALO notificatoin count?, should default to 4 (both)
+        * @hide
+        */
+       public static final String HALO_NOTIFY_COUNT = "halo_notify_count";
+
+       /**
+        * HALO message box animation?, should default to 2 (flip animation)
+        * @hide
+        */
+       public static final String HALO_MSGBOX_ANIMATION = "halo_msgbox_animation";
+
+       /**
+        * HALO unlock ping?, should default to 0 (no, do not ping on unlock)
+        * @hide
+        */
+       public static final String HALO_UNLOCK_PING = "halo_unlock_ping";
 
         /**
          * This are the settings to be backed up.

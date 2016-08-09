@@ -9378,6 +9378,23 @@ public final class ActivityManagerService extends ActivityManagerNative
         }
     }
 
+    public IBinder getActivityForTask(int task, boolean onlyRoot) {
+        final ActivityStack mainStack = mStackSupervisor.getFocusedStack();
+        synchronized(this) {
+            ArrayList<ActivityStack> stacks = mStackSupervisor.getStacks();
+            for (ActivityStack stack : stacks) {
+                TaskRecord r = stack.taskForIdLocked(task);
+
+                if (r != null && r.getTopActivity() != null) {
+                    return r.getTopActivity().appToken;
+                } else {
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
     @Override
     public void updateLockTaskPackages(int userId, String[] packages) {
         final int callingUid = Binder.getCallingUid();
@@ -17830,11 +17847,6 @@ public final class ActivityManagerService extends ActivityManagerNative
                 if (values.themeConfig != null) {
                     saveThemeResourceLocked(values.themeConfig,
                             !values.themeConfig.equals(mConfiguration.themeConfig));
-                }
-
-                if ((changes & ActivityInfo.CONFIG_THEME_FONT) != 0) {
-                    // Notify zygote that themes need a refresh
-                    SystemProperties.set(PROP_REFRESH_THEME, "1");
                 }
 
                 mConfigurationSeq++;

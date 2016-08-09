@@ -196,6 +196,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <!-- Title shown in recents popup for showing app launch in floating mode -->
+    <string name="recent_float_mode_title">Float Mode</string>
+
     <!-- Slim Shortcut Actions -->
     <string name="shortcut_picker">Slim Shortcuts</string>
     <string name="shortcut_rotation">Rotation</string>
@@ -212,5 +215,28 @@
     <!-- Slim recents app sidebar queue app toast -->
     <string name="toast_recents_queue_app">Launch %s after closing recents</string>
     <string name="toast_recents_cancel_queued_app">Cancelled app launch</string>
+
+    <!-- Floating Windows tile -->
+    <string name="quick_settings_floating_windows_on">Float Mode Enabled</string>
+    <string name="quick_settings_floating_windows_off">Float Mode Disabled</string>
+
+    <!-- Floating Windows tile -->
+    <string name="quick_settings_slim_floats_on">Slim Float Mode Enabled</string>
+    <string name="quick_settings_slim_floats_off">Slim Float Mode Disabled</string>
+
+    <!-- Content description of the halo button in the notification panel for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
+    <string name="accessibility_halo">Create notification halo.</string>
+
+    <!-- HALO -->
+    <string name="halo_dismiss">Dismiss notification</string>
+    <string name="halo_hide">Hide</string>
+    <string name="halo_clear_all">Dismiss all notifications</string>
+    <string name="halo_silence">Hide &amp; silence until woken</string>
+    <string name="halo_tutorial1">This is HALO</string>
+    <string name="halo_tutorial2">Move me: double tap &amp; drag</string>
+    <string name="halo_tutorial3">Browse tasks: Horizontal drag</string>
+    <string name="halo_tutorial4">Halo disables HeadsUp automatically</string>
+    <string name="halo_tutorial5">Disable Halo by dragging to red circle</string>
+    <string name="halo_tutorial6">Disable if you want to install any apk</string>
 
 </resources>
