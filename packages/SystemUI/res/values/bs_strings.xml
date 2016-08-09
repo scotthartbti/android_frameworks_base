@@ -196,6 +196,9 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <!-- Title shown in recents popup for showing app launch in floating mode -->
+    <string name="recent_float_mode_title">Float Mode</string>
+
     <!-- Slim Shortcut Actions -->
     <string name="shortcut_picker">Slim Shortcuts</string>
     <string name="shortcut_rotation">Rotation</string>
