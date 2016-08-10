@@ -112,6 +112,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private SettingsButton mSettingsButton;
     private View mSettingsContainer;
     private View mHaloButton;
+    private boolean mShowhaloButton;
+    private boolean mHaloActive;
     private View mQsDetailHeader;
     private TextView mQsDetailHeaderTitle;
     private Switch mQsDetailHeaderSwitch;
@@ -122,7 +124,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private TextView mAlarmStatus;
     private TextView mWeatherLine1, mWeatherLine2;
     private TextView mEditTileDoneText;
-    private boolean mShowhaloButton;
 
     private boolean mShowEmergencyCallsOnly;
     private boolean mAlarmShowing;
@@ -1250,9 +1251,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         }
     };
 
-    private boolean toggleHalo() {
-        return Settings.Secure.putInt(mContext.getContentResolver(),
-                    Settings.Secure.HALO_ACTIVE, 1);
+    private void toggleHalo() {
+        Settings.Secure.putInt(mContext.getContentResolver(),
+                Settings.Secure.HALO_ACTIVE, !mHaloActive ? 1 : 0);
     }
 
     class SettingsObserver extends UserContentObserver {
@@ -1285,6 +1286,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                     Settings.System.STATUS_BAR_CUSTOM_HEADER_TEXT_SHADOW_COLOR), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CUSTOM_HEADER), false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.HALO_ACTIVE), false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -1322,9 +1325,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 	    mShowTaskManager = Settings.System.getIntForUser(resolver,
                 Settings.System.ENABLE_TASK_MANAGER, 0, currentUserId) == 1;
 
-	    mShowhaloButton = Settings.Secure.getInt(mContext.getContentResolver(),
-               Settings.Secure.HALO_ENABLE, 0) == 1 ;
-
             mQSHeaderAlpha = Settings.System.getInt(
                     resolver, Settings.System.QS_TRANSPARENT_HEADER, 255);
             setQSHeaderAlpha();
@@ -1350,6 +1350,13 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             customHeader = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
                     UserHandle.USER_CURRENT);
+
+            mShowhaloButton = Settings.Secure.getInt(resolver,
+                    Settings.Secure.HALO_ENABLE, 0) == 1;
+
+            mHaloActive = Settings.Secure.getInt(resolver,
+                    Settings.Secure.HALO_ACTIVE, 0) == 1;
+            mHaloButton.setActivated(mHaloActive);
 
             updateVisibilities();
             requestCaptureValues();
