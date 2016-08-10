@@ -122,7 +122,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private TextView mAlarmStatus;
     private TextView mWeatherLine1, mWeatherLine2;
     private TextView mEditTileDoneText;
-    private boolean mShowhaloButton;
 
     private boolean mShowEmergencyCallsOnly;
     private boolean mAlarmShowing;
@@ -253,8 +252,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mTaskManagerButton.setOnLongClickListener(this);
         mHaloButton = findViewById(R.id.halo_button);
         mHaloButton.setOnClickListener(this);
-	mHaloButton.setOnLongClickListener(this);
-        updateStatusBarButtonsState();
         mQsDetailHeader = findViewById(R.id.qs_detail_header);
         mQsDetailHeader.setAlpha(0);
         mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
@@ -526,7 +523,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mAlarmStatus.setVisibility(mExpanded && mAlarmShowing ? View.VISIBLE : View.INVISIBLE);
         mSettingsContainer.setVisibility(mExpanded ? View.VISIBLE : View.INVISIBLE);
         mWeatherContainer.setVisibility(mExpanded && mShowWeather ? View.VISIBLE : View.GONE);
-	mHaloButton.setVisibility(mExpanded && mShowhaloButton ? View.VISIBLE : mShowhaloButton ? View.INVISIBLE : View.GONE);
+        mHaloButton.setVisibility(mExpanded ? View.VISIBLE : View.INVISIBLE);
         mTaskManagerButton.setVisibility(mExpanded && mShowTaskManager ? View.VISIBLE : View.GONE);
         mQsDetailHeader.setVisibility(mExpanded && mShowingDetail ? View.VISIBLE : View.GONE);
         if (mSignalCluster != null) {
@@ -775,8 +772,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             startTaskManagerLongClickActivity();
         } else if (v == this) {
             startThemeHeadersActivity();
-        }  else if (v == mHaloButton) {
-           halolongclick();
         }
         vibrateheader(20);
         return false;
@@ -846,18 +841,10 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 
     private void startForecastLongClickActivity() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
-	intent.setClassName("com.cyanogenmod.lockclock",
+        intent.setClassName("com.cyanogenmod.lockclock",
             "com.cyanogenmod.lockclock.preference.Preferences");
         mActivityStarter.startActivity(intent, true /* dismissShade */);
     }
-
-    private void halolongclick() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setClassName("com.android.settings",
-            "com.android.settings.Settings$HaloSettingsActivity");
-        mActivityStarter.startActivity(intent, true /* dismissShade */);
-    }
-
 
 
     private void startTaskManagerLongClickActivity() {
@@ -1321,9 +1308,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 	    mShowTaskManager = Settings.System.getIntForUser(resolver,
                 Settings.System.ENABLE_TASK_MANAGER, 0, currentUserId) == 1;
 
-	    mShowhaloButton = Settings.Secure.getInt(mContext.getContentResolver(),
-               Settings.Secure.HALO_ENABLE, 0) == 1 ;
-
             mQSHeaderAlpha = Settings.System.getInt(
                     resolver, Settings.System.QS_TRANSPARENT_HEADER, 255);
             setQSHeaderAlpha();
@@ -1331,7 +1315,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             mStatusBarHeaderFontStyle = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUS_BAR_HEADER_FONT_STYLE, FONT_NORMAL,
                 UserHandle.USER_CURRENT);
-
             setStatusBarHeaderFontStyle(mStatusBarHeaderFontStyle);
 
             headerShadow = Settings.System.getIntForUser(mContext.getContentResolver(),
@@ -1353,11 +1336,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             updateVisibilities();
             requestCaptureValues();
         }
-    }
-
-    private void updateStatusBarButtonsState() {
-	mShowhaloButton = Settings.Secure.getIntForUser(mContext.getContentResolver(),
-               Settings.Secure.HALO_ENABLE, 0, ActivityManager.getCurrentUser()) == 1;
     }
 
     private void doUpdateStatusBarCustomHeader(final Drawable next, final boolean force) {

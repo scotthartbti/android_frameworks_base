@@ -7436,12 +7436,6 @@ public final class Settings {
          */
         public static final String STATUS_BAR_LOCKED_ON_SECURE_KEYGUARD = "status_bar_locked_on_secure_keyguard";
 
-	/**
-         * Enable Disable Halo In Extended Statusbar
-         * @hide
-         */
-        public static final String HALO_ENABLE = "halo_enable";
-
         /**
          * HALO color, default is 0xffbbbbbb (normal)
          * @hide
