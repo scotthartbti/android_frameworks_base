@@ -23,7 +23,10 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.util.AttributeSet;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
+import com.android.systemui.statusbar.phone.NotificationPanelView;
 
 /**
  * A view that can be used for both the dimmed and normal background of an notification.
@@ -33,6 +36,9 @@ public class NotificationBackgroundView extends View {
     private Drawable mBackground;
     private int mClipTopAmount;
     private int mActualHeight;
+
+    private static int mTranslucencyPercentage;
+    private static boolean mTranslucentNotifications;
 
     public NotificationBackgroundView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -46,6 +52,19 @@ public class NotificationBackgroundView extends View {
     private void draw(Canvas canvas, Drawable drawable) {
         if (drawable != null && mActualHeight > mClipTopAmount) {
             drawable.setBounds(0, mClipTopAmount, getWidth(), mActualHeight);
+
+            if (mTranslucentNotifications) {
+                if (drawable.getAlpha() != mTranslucencyPercentage)
+                    drawable.setAlpha(mTranslucencyPercentage);
+                if (NotificationPanelView.mKeyguardShowing) {
+                    drawable.setAlpha(179);
+                }
+                if (NotificationPanelView.mHeadsUpShowing || NotificationPanelView.mHeadsUpAnimatingAway) {
+                    drawable.setAlpha(255);
+                }
+            } else {
+                drawable.setAlpha(255);
+            }
             drawable.draw(canvas);
         }
     }
@@ -136,5 +155,11 @@ public class NotificationBackgroundView extends View {
             RippleDrawable ripple = (RippleDrawable) mBackground;
             ripple.setColor(ColorStateList.valueOf(color));
         }
+    }
+
+    public static void updatePreferences(Context mContext) {
+        mTranslucentNotifications = (Settings.System.getInt(mContext.getContentResolver(), Settings.System.TRANSLUCENT_NOTIFICATIONS_PREFERENCE_KEY, 1) == 1);
+        mTranslucencyPercentage = Settings.System.getInt(mContext.getContentResolver(), Settings.System.TRANSLUCENT_NOTIFICATIONS_PRECENTAGE_PREFERENCE_KEY, 40);
+        mTranslucencyPercentage = 255 - ((mTranslucencyPercentage * 255) / 100);
     }
 }
