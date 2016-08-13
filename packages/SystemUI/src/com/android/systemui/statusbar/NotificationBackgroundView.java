@@ -73,7 +73,7 @@ public class NotificationBackgroundView extends View {
                     drawable.setAlpha(255);
                 }
             } else {
-                drawable.setAlpha(255);
+                drawable.setAlpha(mNotificationsAlpha);
             }
             drawable.draw(canvas);
         }

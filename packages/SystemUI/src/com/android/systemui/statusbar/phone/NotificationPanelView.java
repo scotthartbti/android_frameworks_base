@@ -617,9 +617,6 @@ public class NotificationPanelView extends PanelView implements
             }
         });
 
-        setQSStroke();
-        setQSBackgroundAlpha();
-
         mLockPatternUtils = new CmLockPatternUtils(getContext());
 
         mNotificationPanelView = this;
@@ -640,7 +637,13 @@ public class NotificationPanelView extends PanelView implements
 
         mBlurredView.setVisibility(View.INVISIBLE);
 
-        handleQuickSettingsBackround();
+        if (mTranslucentQuickSettings) {
+            handleQuickSettingsBackround();
+        } else {
+            setQSStroke();
+            setQSBackgroundAlpha();
+        }
+        setQSPanelLogo();
     }
 
     private static void handleQuickSettingsBackround() {
@@ -1652,7 +1655,7 @@ public class NotificationPanelView extends PanelView implements
             boolean goingToFullShade) {
         int oldState = mStatusBarState;
         boolean keyguardShowing = statusBarState == StatusBarState.KEYGUARD;
-	boolean keyguardOrShadeShowing = statusBarState == StatusBarState.KEYGUARD
+        boolean keyguardOrShadeShowing = statusBarState == StatusBarState.KEYGUARD
                 || statusBarState == StatusBarState.SHADE_LOCKED;
         setKeyguardStatusViewVisibility(statusBarState, keyguardFadingAway, goingToFullShade);
         setKeyguardBottomAreaVisibility(statusBarState, goingToFullShade);
@@ -1699,7 +1702,6 @@ public class NotificationPanelView extends PanelView implements
 
         try {
             handleQuickSettingsBackround();
-            StatusBarHeaderView.handleStatusBarHeaderViewBackround();
         } catch (Exception e){
         }
     }
@@ -3245,23 +3247,31 @@ public class NotificationPanelView extends PanelView implements
             mTranslucencyPercentage = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.TRANSLUCENT_QUICK_SETTINGS_PRECENTAGE_PREFERENCE_KEY, 60);
 
-            mBlurDarkColorFilter = Color.LTGRAY;
-            mBlurMixedColorFilter = Color.GRAY;
-            mBlurLightColorFilter = Color.DKGRAY;
-            mTranslucencyPercentage = 255 - ((mTranslucencyPercentage * 255) / 100);
-            handleQuickSettingsBackround();
-
-            setQSStroke();
-            setQSBackgroundAlpha();
+            if (mTranslucentQuickSettings) {
+                mBlurDarkColorFilter = Color.LTGRAY;
+                mBlurMixedColorFilter = Color.GRAY;
+                mBlurLightColorFilter = Color.DKGRAY;
+                mTranslucencyPercentage = 255 - ((mTranslucencyPercentage * 255) / 100);
+                handleQuickSettingsBackround();
+            } else {
+                setQSStroke();
+                setQSBackgroundAlpha();
+            }
         }
     }
 
     private void setQSBackgroundAlpha() {
-        if (mQsContainer != null) {
-            mQsContainer.getBackground().setAlpha(mQSShadeAlpha);
-        }
-        if (mQsPanel != null) {
-            mQsPanel.setQSShadeAlphaValue(mQSShadeAlpha);
+        if (Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.QS_TRANSPARENT_SHADE, 255) != 255) {
+            if (mQsContainer != null) {
+                mQsContainer.getBackground().setAlpha(mQSShadeAlpha);
+            }
+            if (mQsPanel != null) {
+                mQsPanel.setQSShadeAlphaValue(mQSShadeAlpha);
+            }
+        } else {
+            mQsContainer.getBackground().setAlpha(255);
+            mQsPanel.setQSShadeAlphaValue(255);
         }
     }
 
