@@ -57,6 +57,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.media.session.MediaController;
+import com.android.systemui.recents.RecentsActivity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -138,7 +139,9 @@ import com.android.systemui.statusbar.stack.NotificationStackScrollLayout;
 
 import cyanogenmod.providers.CMSettings;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -192,7 +195,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected H mHandler = createHandler();
 
     // all notifications
-    protected NotificationData mNotificationData;
+    public static NotificationData mNotificationData;
     protected NotificationStackScrollLayout mStackScroller;
 
     protected NotificationGroupManager mGroupManager = new NotificationGroupManager();
@@ -297,6 +300,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     // last theme that was applied in order to detect theme change (as opposed
     // to some other configuration change).
     protected ThemeConfig mCurrentTheme;
+    private static final HashMap<String, Field> fieldCache = new HashMap<String, Field>();
 
     private ArrayList<String> mDndList = new ArrayList<String>();
     private ArrayList<String> mBlacklist = new ArrayList<String>();
@@ -1552,6 +1556,78 @@ public abstract class BaseStatusBar extends SystemUI implements
                     notification.getUserId());
         } catch (android.os.RemoteException ex) {
             // oh well
+        }
+    }
+
+    public static void updatePreferences() {
+
+        if (mNotificationData == null)
+            return;
+
+        for (Entry entry : mNotificationData.getActiveNotifications()) {
+            NotificationBackgroundView mBackgroundNormal = (NotificationBackgroundView) getObjectField(entry.row, "mBackgroundNormal");
+            NotificationBackgroundView mBackgroundDimmed = (NotificationBackgroundView) getObjectField(entry.row, "mBackgroundDimmed");
+
+            mBackgroundNormal.postInvalidate();
+            mBackgroundDimmed.postInvalidate();
+        }
+    }
+
+
+    public static Object getObjectField(Object obj, String fieldName) {
+        try {
+            return findField(obj.getClass(), fieldName).get(obj);
+        } catch (IllegalAccessException e) {
+            throw new IllegalAccessError(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+    }
+
+
+    /**
+     * Look up a field in a class and set it to accessible. The result is cached.
+     * If the field was not found, a {@link NoSuchFieldError} will be thrown.
+     */
+    public static Field findField(Class<?> clazz, String fieldName) {
+        StringBuilder sb = new StringBuilder(clazz.getName());
+        sb.append('#');
+        sb.append(fieldName);
+        String fullFieldName = sb.toString();
+
+        if (fieldCache.containsKey(fullFieldName)) {
+            Field field = fieldCache.get(fullFieldName);
+            if (field == null)
+                throw new NoSuchFieldError(fullFieldName);
+            return field;
+        }
+
+        try {
+            Field field = findFieldRecursiveImpl(clazz, fieldName);
+            field.setAccessible(true);
+            fieldCache.put(fullFieldName, field);
+            return field;
+        } catch (NoSuchFieldException e) {
+            fieldCache.put(fullFieldName, null);
+            throw new NoSuchFieldError(fullFieldName);
+        }
+    }
+
+    private static Field findFieldRecursiveImpl(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+        try {
+            return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+            while (true) {
+                clazz = clazz.getSuperclass();
+                if (clazz == null || clazz.equals(Object.class))
+                    break;
+
+                try {
+                    return clazz.getDeclaredField(fieldName);
+                } catch (NoSuchFieldException ignored) {
+                }
+            }
+            throw e;
         }
     }
 

@@ -19,22 +19,36 @@ package com.android.systemui.recents;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.SearchManager;
+import android.app.WallpaperManager;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.graphics.*;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.content.Intent;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.widget.FrameLayout;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.drawable.Animatable;
+import com.android.systemui.statusbar.BlurUtils;
+import com.android.systemui.statusbar.DisplayUtils;
+import com.android.systemui.statusbar.phone.NotificationPanelView;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.os.UserHandle;
-import android.provider.Settings;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Toast;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.systemui.Prefs;
@@ -52,6 +66,9 @@ import com.android.systemui.recents.views.DebugOverlayView;
 import com.android.systemui.recents.views.RecentsView;
 import com.android.systemui.recents.views.SystemBarScrimViews;
 import com.android.systemui.recents.views.ViewAnimation;
+
+import cyanogenmod.providers.CMSettings;
+import android.provider.Settings;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -73,6 +90,8 @@ public class RecentsActivity extends Activity implements RecentsView.RecentsView
     ViewStub mDebugOverlayStub;
     View mEmptyView;
     DebugOverlayView mDebugOverlay;
+
+    public static boolean mBlurredRecentAppsEnabled;
 
     // Resize task debug
     RecentsResizeTaskDialog mResizeTaskDebugDialog;
