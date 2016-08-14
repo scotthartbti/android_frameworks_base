@@ -160,7 +160,11 @@
     <uses-permission android:name="cyanogenmod.permission.WRITE_THEMES" />
 
     <!-- Visualizer -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Action target -->
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
 
     <!-- Images in navbar -->
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
@@ -273,7 +277,7 @@
                   android:excludeFromRecents="true"
                   android:stateNotNeeded="true"
                   android:resumeWhilePausing="true"
-                  android:screenOrientation="fullUser"
+                  android:screenOrientation="behind"
                   android:theme="@style/config_recents_activity_theme">
             <intent-filter>
                 <action android:name="com.android.systemui.recents.TOGGLE_RECENTS" />
