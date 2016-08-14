@@ -72,8 +72,6 @@ public class NotificationBackgroundView extends View {
                 if (NotificationPanelView.mHeadsUpShowing || NotificationPanelView.mHeadsUpAnimatingAway) {
                     drawable.setAlpha(255);
                 }
-            } else {
-                drawable.setAlpha(mNotificationsAlpha);
             }
             drawable.draw(canvas);
         }
