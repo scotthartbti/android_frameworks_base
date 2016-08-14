@@ -637,10 +637,10 @@ public class NotificationPanelView extends PanelView implements
 
         mBlurredView.setVisibility(View.INVISIBLE);
 
+        setQSStroke();
         if (mTranslucentQuickSettings) {
             handleQuickSettingsBackround();
         } else {
-            setQSStroke();
             setQSBackgroundAlpha();
         }
     }
@@ -665,8 +665,12 @@ public class NotificationPanelView extends PanelView implements
         }
         if (mNotificationPanelView == null)
             return;
-        if (mKeyguardShowing || mHeadsUpShowing || mHeadsUpAnimatingAway)
+        if (mHeadsUpShowing || mHeadsUpAnimatingAway)
             return;
+        if (mTranslucentQuickSettings) {
+            if (mKeyguardShowing)
+                return;
+        }
 
         BlurTask.setBlurTaskCallback(new BlurUtils.BlurTaskCallback() {
 
@@ -758,7 +762,6 @@ public class NotificationPanelView extends PanelView implements
         mBlurredView.setTag("ready_to_blur");
 
         mBlurredView.setVisibility(View.INVISIBLE);
-
     }
 
     public static class BlurTask extends AsyncTask<Void, Void, Bitmap> {
@@ -1700,7 +1703,11 @@ public class NotificationPanelView extends PanelView implements
         updateQsState();
 
         try {
-            handleQuickSettingsBackround();
+            if (mTranslucentQuickSettings) {
+                handleQuickSettingsBackround();
+            } else {
+                setQSBackgroundAlpha();
+            }
         } catch (Exception e){
         }
     }
@@ -3246,6 +3253,7 @@ public class NotificationPanelView extends PanelView implements
             mTranslucencyPercentage = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.TRANSLUCENT_QUICK_SETTINGS_PRECENTAGE_PREFERENCE_KEY, 60);
 
+            setQSStroke();
             if (mTranslucentQuickSettings) {
                 mBlurDarkColorFilter = Color.LTGRAY;
                 mBlurMixedColorFilter = Color.GRAY;
@@ -3253,24 +3261,17 @@ public class NotificationPanelView extends PanelView implements
                 mTranslucencyPercentage = 255 - ((mTranslucencyPercentage * 255) / 100);
                 handleQuickSettingsBackround();
             } else {
-                setQSStroke();
                 setQSBackgroundAlpha();
             }
         }
     }
 
     private void setQSBackgroundAlpha() {
-        if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.QS_TRANSPARENT_SHADE, 255) != 255) {
-            if (mQsContainer != null) {
-                mQsContainer.getBackground().setAlpha(mQSShadeAlpha);
-            }
-            if (mQsPanel != null) {
-                mQsPanel.setQSShadeAlphaValue(mQSShadeAlpha);
-            }
-        } else {
-            mQsContainer.getBackground().setAlpha(255);
-            mQsPanel.setQSShadeAlphaValue(255);
+        if (mQsContainer != null) {
+            mQsContainer.getBackground().setAlpha(mQSShadeAlpha);
+        }
+        if (mQsPanel != null) {
+            mQsPanel.setQSShadeAlphaValue(mQSShadeAlpha);
         }
     }
 
