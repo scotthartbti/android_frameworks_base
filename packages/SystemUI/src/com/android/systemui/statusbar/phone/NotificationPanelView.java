@@ -643,7 +643,6 @@ public class NotificationPanelView extends PanelView implements
             setQSStroke();
             setQSBackgroundAlpha();
         }
-        setQSPanelLogo();
     }
 
     private static void handleQuickSettingsBackround() {
