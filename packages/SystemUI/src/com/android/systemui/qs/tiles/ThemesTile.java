@@ -64,7 +64,7 @@ public class ThemesTile extends QSTile<QSTile.BooleanState> implements ThemeMana
     public ThemesTile(Host host) {
         super(host);
         mDetailAdapter = new ThemesDetailAdapter();
-        mService = ThemeManager.getInstance(mContext);
+        mService = ThemeManager.getInstance(getHost().getContext());
         mState.value = true;
         mService.registerThemeChangeListener(this);
         // Log.d("ThemesTile", "new");
