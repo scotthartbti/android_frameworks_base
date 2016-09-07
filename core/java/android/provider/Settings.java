@@ -4074,6 +4074,12 @@ public final class Settings {
         public static final String STATUS_BAR_TICKER_FONT_SIZE = "status_bar_ticker_font_size";
 
         /**
+         * Show onscreen keys for hw button devices
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_SHOW = "navigation_bar_show";
+
+        /**
          * Boolean value whether to link ringtone and notification volume
          *
          * @hide
