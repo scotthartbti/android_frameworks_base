@@ -18,7 +18,6 @@ package android.widget;
 
 import com.android.internal.R;
 
-import android.content.ActivityNotFoundException;
 import android.content.AsyncQueryHandler;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -398,12 +397,7 @@ public class QuickContactBadge extends ImageView implements OnClickListener {
                     extras.remove(EXTRA_URI_CONTENT);
                     intent.putExtras(extras);
                 }
-                try {
-                    getContext().startActivity(intent);
-                } catch (ActivityNotFoundException ex) {
-                    Toast.makeText(getContext(), R.string.quick_contacts_not_available,
-                            Toast.LENGTH_SHORT).show();
-                }
+                getContext().startActivity(intent);
             }
         }
     }
