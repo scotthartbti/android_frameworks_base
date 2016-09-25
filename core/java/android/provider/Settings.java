@@ -3760,12 +3760,6 @@ public final class Settings {
         public static final String REMOVE_TILE_SUMMARY = "remove_tile_summary";
 
 	/**
-         * Quick Settings Smart Pulldown
-         * @hide
-         */
-        public static final String QS_SMART_PULLDOWN = "qs_smart_pulldown";
-
-	/**
          * Change quick settings tiles animation style
          *
          * @hide
