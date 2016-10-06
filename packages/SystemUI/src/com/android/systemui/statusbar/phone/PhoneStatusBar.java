@@ -378,6 +378,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     // settings
     private QSPanel mQSPanel;
 
+    private boolean mShow4G;
+
     // top bar
     BaseStatusBarHeader mHeader;
     protected KeyguardStatusBarView mKeyguardStatusBar;
@@ -507,7 +509,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_BRIGHTNESS_MODE), false, this, UserHandle.USER_ALL);
-
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SHOW_FOURG), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                    Settings.Secure.QS_ROWS_PORTRAIT),
                    false, this, UserHandle.USER_ALL);
@@ -516,9 +519,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                    false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                    Settings.Secure.QS_COLUMNS),
-		   false, this, UserHandle.USER_ALL);
-
-            update();
+                   false, this, UserHandle.USER_ALL);
+	    update();
         }
 
         @Override
@@ -530,8 +532,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-            super.onChange(selfChange, uri);
-            if (uri.equals(Settings.Secure.getUriFor(
+            if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.SHOW_FOURG))) {
+                    mShow4G = Settings.System.getIntForUser(
+                            mContext.getContentResolver(),
+                            Settings.System.SHOW_FOURG,
+                            0, UserHandle.USER_CURRENT) == 1;
+                    mNetworkController.onConfigurationChanged();
+            } else if (uri.equals(Settings.Secure.getUriFor(
                     Settings.Secure.QS_ROWS_PORTRAIT))
                     || uri.equals(Settings.Secure.getUriFor(
                     Settings.Secure.QS_ROWS_LANDSCAPE))) {
@@ -540,6 +548,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.Secure.QS_COLUMNS))) {
                     updateResources();
             }
+
+            update();
 	}
 
         @Override
@@ -553,6 +563,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mBrightnessControl = CMSettings.System.getIntForUser(
                     resolver, CMSettings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
                     UserHandle.USER_CURRENT) == 1;
+
+            boolean mShow4G = Settings.System.getIntForUser(resolver,
+		    Settings.System.SHOW_FOURG, 0, UserHandle.USER_CURRENT) == 1;
         }
     }
 
