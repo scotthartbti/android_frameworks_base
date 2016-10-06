@@ -21,4 +21,7 @@
   <java-symbol type="string" name="global_action_torch" />
   <java-symbol type="string" name="global_action_screen_record" />
 
+  <!-- Power menu Animations  -->
+  <java-symbol type="style" name="PowerMenuBottomAnimation" />
+  <java-symbol type="style" name="PowerMenuTopAnimation" />
 </resources>
