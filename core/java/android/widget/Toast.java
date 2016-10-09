@@ -28,6 +28,7 @@ import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
