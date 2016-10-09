@@ -126,14 +126,10 @@ public class QSPanel extends LinearLayout implements Tunable, Callback {
 
         mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
 
-        // enable the brightness icon
-        ImageView brightnessIcon = (ImageView) mBrightnessView.findViewById(R.id.brightness_icon);
-        brightnessIcon.setVisibility(View.VISIBLE);
-
         updateResources();
 
         mBrightnessController = new BrightnessController(getContext(),
-                brightnessIcon,
+                mBrightnessIcon,
                 (ToggleSlider) findViewById(R.id.brightness_slider));
 
     }
