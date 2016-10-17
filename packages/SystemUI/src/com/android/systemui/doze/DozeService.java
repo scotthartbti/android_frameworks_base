@@ -287,7 +287,6 @@ public class DozeService extends DreamService {
 
     private void turnDisplayOn() {
         if (DEBUG) Log.d(mTag, "Display on");
-        setDozeScreenBrightness(mDozeParameters.getDozeBrightness());
         setDozeScreenState(mDisplayStateSupported ? Display.STATE_DOZE : Display.STATE_ON);
     }
 
@@ -304,13 +303,9 @@ public class DozeService extends DreamService {
     private void listenForPulseSignals(boolean listen) {
         if (DEBUG) Log.d(mTag, "listenForPulseSignals: " + listen);
         mSigMotionSensor.setListening(listen);
-        if (mDozeParameters.getPulseOnPickup()) {
-            mPickupSensor.setListening(listen);
-        }
+        mPickupSensor.setListening(listen);
         listenForBroadcasts(listen);
-        if (mDozeParameters.getPulseOnNotifications()) {
-            listenForNotifications(listen);
-        }
+        listenForNotifications(listen);
     }
 
     private void listenForBroadcasts(boolean listen) {
