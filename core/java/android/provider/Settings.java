@@ -1782,7 +1782,6 @@ public final class Settings {
             MOVED_TO_SECURE.add(System.KEYBOARD_BRIGHTNESS);
             MOVED_TO_SECURE.add(System.BUTTON_BRIGHTNESS);
             MOVED_TO_SECURE.add(System.BUTTON_BACKLIGHT_TIMEOUT);
-            MOVED_TO_SECURE.add(Secure.VOLUME_LINK_NOTIFICATION);
         }
 
         private static final HashSet<String> MOVED_TO_GLOBAL;
@@ -7069,12 +7068,6 @@ public final class Settings {
          * @hide
          */
         public static final String ADVANCED_REBOOT = "advanced_reboot";
-
-        /**
-         * Boolean value whether to link ringtone and notification volume
-         * @hide
-         */
-        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
          * Holds comma separated list of ordering of QS tiles.
