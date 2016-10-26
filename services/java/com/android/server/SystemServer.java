@@ -190,7 +190,7 @@ public final class SystemServer {
      * visual content.
      */
     private static final int DEFAULT_SYSTEM_THEME =
-            com.android.internal.R.style.Theme_Material_DayNight_DarkActionBar;
+            com.android.internal.R.style.Theme_DeviceDefault_Light_DarkActionBar;
 
     private final int mFactoryTestMode;
     private Timer mProfilerSnapshotTimer;
@@ -417,7 +417,7 @@ public final class SystemServer {
     private void createSystemContext() {
         ActivityThread activityThread = ActivityThread.systemMain();
         mSystemContext = activityThread.getSystemContext();
-        mSystemContext.setTheme(android.R.style.Theme_Material_DayNight_DarkActionBar);
+        mSystemContext.setTheme(DEFAULT_SYSTEM_THEME);
     }
 
     /**
