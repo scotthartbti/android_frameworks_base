@@ -134,7 +134,7 @@ public class BatteryMeterView extends ImageView implements
                 setImageDrawable(null);
                 break;
             default:
-                mDrawable = new BatteryMeterDrawable(mContext, new Handler(), mFrameColor, style);
+                mDrawable = new BatteryMeterDrawable(mContext, new Handler(), mFrameColor);
                 setImageDrawable(mDrawable);
                 setVisibility(View.VISIBLE);
                 break;
