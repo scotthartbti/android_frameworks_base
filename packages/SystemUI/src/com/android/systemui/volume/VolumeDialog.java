@@ -685,7 +685,6 @@ public class VolumeDialog implements TunerService.Tunable {
             if (!mDynamic.get(row.stream)) {
                 mRows.remove(i);
                 mDialogContentView.removeView(row.view);
-                mDialogContentView.removeView(row.space);
             }
         }
     }
