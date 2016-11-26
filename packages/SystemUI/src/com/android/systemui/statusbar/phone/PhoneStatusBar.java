@@ -139,7 +139,6 @@ import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.keyguard.ViewMediatorCallback;
 import com.android.systemui.AutoReinflateContainer;
 import com.android.systemui.AutoReinflateContainer.InflateListener;
-import com.android.systemui.BatteryLevelTextView;
 import com.android.systemui.BatteryMeterView;
 import com.android.systemui.DemoMode;
 import com.android.systemui.EventLogConstants;
@@ -157,6 +156,7 @@ import com.android.systemui.keyguard.KeyguardViewMediator;
 import com.android.systemui.navigation.NavigationController;
 import com.android.systemui.navigation.Navigator;
 import com.android.systemui.qs.QSContainer;
+import com.android.systemui.omni.BatteryViewManager;
 import com.android.systemui.qs.QSPanel;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.recents.events.EventBus;
@@ -382,6 +382,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     View mExpandedContents;
     TextView mNotificationPanelDebugText;
 
+    private int mQsLayoutColumns;
+
     // settings
     private QSPanel mQSPanel;
 
@@ -440,6 +442,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     int mLinger;
     int mInitialTouchX;
     int mInitialTouchY;
+
+    // omni additions
+    private BatteryViewManager mBatteryViewManager;
 
     // for disabling the status bar
     int mDisabled1 = 0;
@@ -523,17 +528,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.SCREEN_BRIGHTNESS_MODE), false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SHOW_FOURG), false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                   Settings.Secure.QS_ROWS_PORTRAIT),
-                   false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                   Settings.Secure.QS_ROWS_LANDSCAPE),
-                   false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                   Settings.Secure.QS_COLUMNS),
-                   false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER),
+                    false, this, UserHandle.USER_ALL);
+             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_LAYOUT_COLUMNS),
                     false, this, UserHandle.USER_ALL);
             update();
         }
@@ -554,14 +553,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             Settings.System.SHOW_FOURG,
                             0, UserHandle.USER_CURRENT) == 1;
                     mNetworkController.onConfigurationChanged();
-            } else if (uri.equals(Settings.Secure.getUriFor(
-                    Settings.Secure.QS_ROWS_PORTRAIT))
-                    || uri.equals(Settings.Secure.getUriFor(
-                    Settings.Secure.QS_ROWS_LANDSCAPE))) {
-                    updateResources();
-            } else if (uri.equals(Settings.Secure.getUriFor(
-                    Settings.Secure.QS_COLUMNS))) {
-                    updateResources();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER))) {
                 mTickerEnabled = Settings.System.getIntForUser(
@@ -588,6 +579,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
             boolean mShow4G = Settings.System.getIntForUser(resolver,
 		    Settings.System.SHOW_FOURG, 0, UserHandle.USER_CURRENT) == 1;
+
+            mQsLayoutColumns = Settings.System.getIntForUser(resolver,
+                    Settings.System.QS_LAYOUT_COLUMNS, 3, mCurrentUserId);
+
+            if (mHeader != null) {
+                mHeader.updateSettings();
+            }
         }
     }
 
@@ -1049,7 +1047,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         // set the initial view visibility
         setAreThereNotifications();
 
-        createIconController();
 
         // Background thread for any controllers that need it.
         mHandlerThread = new HandlerThread(TAG, Process.THREAD_PRIORITY_BACKGROUND);
@@ -1072,6 +1069,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 // noop
             }
         });
+
+        // must be before StatusBarIconController
+        LinearLayout batteryContainer = (LinearLayout) mStatusBarView.findViewById(R.id.battery_container);
+        mBatteryViewManager = new BatteryViewManager(mContext, batteryContainer, mStatusBarView.getBarTransitions(), null);
+
+        createIconController();
+
         mNetworkController = new NetworkControllerImpl(mContext, mHandlerThread.getLooper());
         mNetworkController.setUserSetupComplete(mUserSetup);
         mHotspotController = new HotspotControllerImpl(mContext);
@@ -1141,10 +1145,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mKeyguardStatusBar.setUserSwitcherController(mUserSwitcherController);
         mUserInfoController.reloadUserInfo();
 
-        ((BatteryMeterView) mStatusBarView.findViewById(R.id.battery)).setBatteryController(
-                mBatteryController);
-        ((BatteryLevelTextView) mStatusBarView.findViewById(R.id.battery_level))
-                .setBatteryController(mBatteryController);
+        mBatteryViewManager.setBatteryController(mBatteryController);
+        mHeader.setBatteryController(mBatteryController);
         mKeyguardStatusBar.setBatteryController(mBatteryController);
         mHeader.setWeatherController(mWeatherController);
 
@@ -4095,6 +4097,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mLockscreenWallpaper.setCurrentUser(newUserId);
         mScrimController.setCurrentUser(newUserId);
         updateMediaMetaData(true, false);
+        mBatteryViewManager.update();
     }
 
     private void setControllerUsers() {
@@ -5586,5 +5589,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 }
             }
         }
+    }
+
+    protected BatteryViewManager getBatteryViewManager() {
+        return mBatteryViewManager;
     }
 }

@@ -1798,7 +1798,6 @@ public final class Settings {
             MOVED_TO_SECURE.add(System.KEYBOARD_BRIGHTNESS);
             MOVED_TO_SECURE.add(System.BUTTON_BRIGHTNESS);
             MOVED_TO_SECURE.add(System.BUTTON_BACKLIGHT_TIMEOUT);
-            MOVED_TO_SECURE.add(Secure.VOLUME_LINK_NOTIFICATION);
         }
 
         private static final HashSet<String> MOVED_TO_GLOBAL;
@@ -3419,6 +3418,54 @@ public final class Settings {
         public static final Validator NOTIFICATION_LIGHT_PULSE_VALIDATOR = sBooleanValidator;
 
         /**
+         * Int value of the battery style 0 is default
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_STYLE = "statusbar_battery_style";
+
+        /**
+         * int value if the battery percent should be shown never/always/expanded
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_PERCENT = "statusbar_battery_percent";
+
+        /**
+         * boolean value if the battery percent should be shown inside the image
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_PERCENT_INSIDE = "statusbar_battery_percent_inside";
+
+        /**
+         * boolean value if the charging flash should be displayed
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_CHARGING_IMAGE = "statusbar_battery_charging_image";
+
+        /**
+         * int value of the color to use when charging
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_CHARGING_COLOR = "statusbar_battery_charging_color";
+        /**
+         * enable color when charging
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_CHARGING_COLOR_ENABLE = "statusbar_battery_charging_color_enable";
+
+        /**
+         * when to show battery - values are 0/none 1/always 2/expanded default is 1/always
+         *
+         * @hide
+         */
+        public static final String STATUSBAR_BATTERY_ENABLE = "statusbar_battery_enable";
+
+        /**
          * Show pointer location on screen?
          * 0 = no
          * 1 = yes
@@ -3959,6 +4006,12 @@ public final class Settings {
          */
         public static final String SCREENSHOT_DELAY = "screenshot_delay";
 
+        /**
+         * Quick Settings number of columns
+         * @hide
+         */
+        public static final String QS_LAYOUT_COLUMNS = "qs_layout_columns";
+
 	/**
          * Define if screenshot crop & share is active
          * @hide
@@ -4019,6 +4072,26 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_TICKER_FONT_SIZE = "status_bar_ticker_font_size";
+
+        /**
+         * Show onscreen keys for hw button devices
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_SHOW = "navigation_bar_show";
+
+        /**
+         * Boolean value whether to link ringtone and notification volume
+         *
+         * @hide
+         */
+        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
+
+        /**
+         * show text headers together with the stream volume images
+         * default is true
+         * @hide
+         */
+        public static final String VOLUME_DIALOG_HEADERS = "volume_dialog_headers";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -7032,49 +7105,16 @@ public final class Settings {
         public static final String ADVANCED_REBOOT = "advanced_reboot";
 
         /**
-         * Boolean value whether to link ringtone and notification volume
-         * @hide
-         */
-        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
-
-        /**
          * Holds comma separated list of ordering of QS tiles.
          * @hide
          */
         public static final String QS_TILES = "sysui_qs_tiles";
-
-        /**
-         * Count of small QS tiles.
-         * @hide
-         */
-        public static final String QQS_COUNT = "sysui_qqs_count";
 
 	/**
          * Whether to use one tap tile action to enable or disable data 
          * @hide
          */
         public static final String QS_DATA_ADVANCED = "qs_data_advanced";
-
-        /**
-         * Number of rows used for the Quick Settings (portrait)
-         *
-         * @hide
-         */
-        public static final String QS_ROWS_PORTRAIT = "qs_rows_portrait";
-
-        /**
-         * Number of rows used for the Quick Settings (landscape)
-         *
-         * @hide
-         */
-        public static final String QS_ROWS_LANDSCAPE = "qs_rows_landscape";
-
-        /**
-         * Number of columns used for the Quick Settings
-         *
-         * @hide
-         */
-        public static final String QS_COLUMNS = "qs_columns";
 
         /**
          * Whether or not the automatic storage manager is enabled and should run on the device.

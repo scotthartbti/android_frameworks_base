@@ -955,6 +955,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mHandler.sendEmptyMessage(MSG_DISPATCH_SHOW_GLOBAL_ACTIONS);
             } else if (ActionHandler.INTENT_SCREENSHOT.equals(action)) {
                 mHandler.removeCallbacks(mScreenshotRunnable);
+                checkSettings();
+                mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+                mHandler.post(mScreenshotRunnable);
+            } else if (ActionHandler.INTENT_REGION_SCREENSHOT.equals(action)) {
+                mHandler.removeCallbacks(mScreenshotRunnable);
+                checkSettings();
+                mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
                 mHandler.post(mScreenshotRunnable);
             } else if (ActionHandler.INTENT_TOGGLE_SCREENRECORD.equals(action)) {
                 mHandler.removeCallbacks(mScreenrecordRunnable);
@@ -2051,6 +2058,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         filter = new IntentFilter();
         filter.addAction(ActionHandler.INTENT_SHOW_POWER_MENU);
         filter.addAction(ActionHandler.INTENT_SCREENSHOT);
+        filter.addAction(ActionHandler.INTENT_REGION_SCREENSHOT);
         filter.addAction(ActionHandler.INTENT_TOGGLE_SCREENRECORD);
         context.registerReceiver(mDUReceiver, filter);
 
@@ -2394,6 +2402,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mEndcallBehavior = Settings.System.getIntForUser(resolver,
                     Settings.System.END_BUTTON_BEHAVIOR,
                     Settings.System.END_BUTTON_BEHAVIOR_DEFAULT,
+                    UserHandle.USER_CURRENT);
+            mIncallPowerBehavior = Settings.Secure.getIntForUser(resolver,
+                    Settings.Secure.INCALL_POWER_BUTTON_BEHAVIOR,
+                    Settings.Secure.INCALL_POWER_BUTTON_BEHAVIOR_DEFAULT,
                     UserHandle.USER_CURRENT);
             mHomeWakeScreen = (CMSettings.System.getIntForUser(resolver,
                     CMSettings.System.HOME_WAKE_SCREEN, 1, UserHandle.USER_CURRENT) == 1) &&
@@ -4156,17 +4168,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     private boolean unpinActivity(boolean checkOnly) {
-        if (!hasNavigationBar()) {
-            try {
-                if (ActivityManagerNative.getDefault().isInLockTaskMode()) {
-                    if (!checkOnly) {
-                        ActivityManagerNative.getDefault().stopSystemLockTaskMode();
-                    }
-                    return true;
+        try {
+            if (ActivityManagerNative.getDefault().isInLockTaskMode()) {
+                if (!checkOnly) {
+                    ActivityManagerNative.getDefault().stopSystemLockTaskMode();
                 }
-            } catch (RemoteException e) {
-                // ignore
+                return true;
             }
+        } catch (RemoteException e) {
+            // ignore
         }
         return false;
     }
