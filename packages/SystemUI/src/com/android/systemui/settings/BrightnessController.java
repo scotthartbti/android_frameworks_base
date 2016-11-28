@@ -216,7 +216,7 @@ public class BrightnessController implements ToggleSlider.Listener {
             try {
                 switch (msg.what) {
                     case MSG_UPDATE_ICON:
-                        updateIcon();
+                        updateIcon(mAutomatic);
                         break;
                     case MSG_UPDATE_SLIDER:
                         mControl.setMax(msg.arg1);
@@ -374,9 +374,9 @@ public class BrightnessController implements ToggleSlider.Listener {
         }
     }
 
-    private void updateIcon() {
+    private void updateIcon(boolean automatic) {
         if (mIcon != null) {
-            mIcon.setImageResource(mAutomatic ?
+            mIcon.setImageResource(automatic ?
                     com.android.systemui.R.drawable.ic_qs_brightness_auto_on_new :
                     com.android.systemui.R.drawable.ic_qs_brightness_auto_off_new);
         }
