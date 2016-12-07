@@ -48,11 +48,13 @@ jboolean Java_android_filterfw_core_GLFrame_nativeAllocate(JNIEnv* env,
                                                            jint height) {
   GLEnv* gl_env_ptr = ConvertFromJava<GLEnv>(env, gl_env);
   if (!gl_env_ptr) return JNI_FALSE;
-  std::unique_ptr<GLFrame> frame(new GLFrame(gl_env_ptr));
+  GLFrame* frame = new GLFrame(gl_env_ptr);
   if (frame->Init(width, height)) {
-    return ToJBool(WrapOwnedObjectInJava(std::move(frame), env, thiz, true));
+    return ToJBool(WrapObjectInJava(frame, env, thiz, true));
+  } else {
+    delete frame;
+    return JNI_FALSE;
   }
-  return JNI_FALSE;
 }
 
 jboolean Java_android_filterfw_core_GLFrame_nativeAllocateWithTexture(JNIEnv* env,
@@ -63,11 +65,13 @@ jboolean Java_android_filterfw_core_GLFrame_nativeAllocateWithTexture(JNIEnv* en
                                                                       jint height) {
   GLEnv* gl_env_ptr = ConvertFromJava<GLEnv>(env, gl_env);
   if (!gl_env_ptr) return JNI_FALSE;
-  std::unique_ptr<GLFrame> frame(new GLFrame(gl_env_ptr));
+  GLFrame* frame = new GLFrame(gl_env_ptr);
   if (frame->InitWithTexture(tex_id, width, height)) {
-    return ToJBool(WrapOwnedObjectInJava(std::move(frame), env, thiz, true));
+    return ToJBool(WrapObjectInJava(frame, env, thiz, true));
+  } else {
+    delete frame;
+    return JNI_FALSE;
   }
-  return JNI_FALSE;
 }
 
 jboolean Java_android_filterfw_core_GLFrame_nativeAllocateWithFbo(JNIEnv* env,
@@ -78,11 +82,13 @@ jboolean Java_android_filterfw_core_GLFrame_nativeAllocateWithFbo(JNIEnv* env,
                                                                   jint height) {
   GLEnv* gl_env_ptr = ConvertFromJava<GLEnv>(env, gl_env);
   if (!gl_env_ptr) return JNI_FALSE;
-  std::unique_ptr<GLFrame> frame(new GLFrame(gl_env_ptr));
+  GLFrame* frame = new GLFrame(gl_env_ptr);
   if (frame->InitWithFbo(fbo_id, width, height)) {
-    return ToJBool(WrapOwnedObjectInJava(std::move(frame), env, thiz, true));
+    return ToJBool(WrapObjectInJava(frame, env, thiz, true));
+  } else {
+    delete frame;
+    return JNI_FALSE;
   }
-  return JNI_FALSE;
 }
 
 jboolean Java_android_filterfw_core_GLFrame_nativeAllocateExternal(JNIEnv* env,
@@ -90,11 +96,13 @@ jboolean Java_android_filterfw_core_GLFrame_nativeAllocateExternal(JNIEnv* env,
                                                                    jobject gl_env) {
   GLEnv* gl_env_ptr = ConvertFromJava<GLEnv>(env, gl_env);
   if (!gl_env_ptr) return JNI_FALSE;
-  std::unique_ptr<GLFrame> frame(new GLFrame(gl_env_ptr));
+  GLFrame* frame = new GLFrame(gl_env_ptr);
   if (frame->InitWithExternalTexture()) {
-    return ToJBool(WrapOwnedObjectInJava(std::move(frame), env, thiz, true));
+    return ToJBool(WrapObjectInJava(frame, env, thiz, true));
+  } else {
+    delete frame;
+    return JNI_FALSE;
   }
-  return JNI_FALSE;
 }
 
 jboolean Java_android_filterfw_core_GLFrame_nativeDeallocate(JNIEnv* env, jobject thiz) {
