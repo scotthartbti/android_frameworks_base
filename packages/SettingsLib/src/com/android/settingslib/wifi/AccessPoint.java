@@ -360,18 +360,17 @@ public class AccessPoint implements Comparable<AccessPoint> {
     }
 
     public String getSavedNetworkSummary() {
-        WifiConfiguration config = mConfig;
-        if (config != null) {
+        if (mConfig != null) {
             PackageManager pm = mContext.getPackageManager();
             String systemName = pm.getNameForUid(android.os.Process.SYSTEM_UID);
-            int userId = UserHandle.getUserId(config.creatorUid);
+            int userId = UserHandle.getUserId(mConfig.creatorUid);
             ApplicationInfo appInfo = null;
-            if (config.creatorName != null && config.creatorName.equals(systemName)) {
+            if (mConfig.creatorName != null && mConfig.creatorName.equals(systemName)) {
                 appInfo = mContext.getApplicationInfo();
             } else {
                 try {
                     IPackageManager ipm = AppGlobals.getPackageManager();
-                    appInfo = ipm.getApplicationInfo(config.creatorName, 0 /* flags */, userId);
+                    appInfo = ipm.getApplicationInfo(mConfig.creatorName, 0 /* flags */, userId);
                 } catch (RemoteException rex) {
                 }
             }
@@ -386,33 +385,29 @@ public class AccessPoint implements Comparable<AccessPoint> {
     }
 
     public String getSummary() {
-        return getSettingsSummary(mConfig);
+        return getSettingsSummary();
     }
 
     public String getSettingsSummary() {
-        return getSettingsSummary(mConfig);
-    }
-
-    private String getSettingsSummary(WifiConfiguration config) {
         // Update to new summary
         StringBuilder summary = new StringBuilder();
 
-        if (isActive() && config != null && config.isPasspoint()) {
+        if (isActive() && mConfig != null && mConfig.isPasspoint()) {
             // This is the active connection on passpoint
             summary.append(getSummary(mContext, getDetailedState(),
-                    false, config.providerFriendlyName));
+                    false, mConfig.providerFriendlyName));
         } else if (isActive()) {
             // This is the active connection on non-passpoint network
             summary.append(getSummary(mContext, getDetailedState(),
                     mInfo != null && mInfo.isEphemeral()));
-        } else if (config != null && config.isPasspoint()) {
+        } else if (mConfig != null && mConfig.isPasspoint()) {
             String format = mContext.getString(R.string.available_via_passpoint);
-            summary.append(String.format(format, config.providerFriendlyName));
-        } else if (config != null && config.hasNoInternetAccess()) {
+            summary.append(String.format(format, mConfig.providerFriendlyName));
+        } else if (mConfig != null && mConfig.hasNoInternetAccess()) {
             summary.append(mContext.getString(R.string.wifi_no_internet));
-        } else if (config != null && !config.getNetworkSelectionStatus().isNetworkEnabled()) {
+        } else if (mConfig != null && !mConfig.getNetworkSelectionStatus().isNetworkEnabled()) {
             WifiConfiguration.NetworkSelectionStatus networkStatus =
-                    config.getNetworkSelectionStatus();
+                    mConfig.getNetworkSelectionStatus();
             switch (networkStatus.getNetworkSelectionDisableReason()) {
                 case WifiConfiguration.NetworkSelectionStatus.DISABLED_AUTHENTICATION_FAILURE:
                     summary.append(mContext.getString(R.string.wifi_disabled_password_failure));
@@ -428,7 +423,7 @@ public class AccessPoint implements Comparable<AccessPoint> {
         } else if (mRssi == Integer.MAX_VALUE) { // Wifi out of range
             summary.append(mContext.getString(R.string.wifi_not_in_range));
         } else { // In range, not disabled.
-            if (config != null) { // Is saved network
+            if (mConfig != null) { // Is saved network
                 summary.append(mContext.getString(R.string.wifi_remembered));
             }
         }
@@ -440,11 +435,11 @@ public class AccessPoint implements Comparable<AccessPoint> {
                 summary.append(" f=" + Integer.toString(mInfo.getFrequency()));
             }
             summary.append(" " + getVisibilityStatus());
-            if (config != null && !config.getNetworkSelectionStatus().isNetworkEnabled()) {
-                summary.append(" (" + config.getNetworkSelectionStatus().getNetworkStatusString());
-                if (config.getNetworkSelectionStatus().getDisableTime() > 0) {
+            if (mConfig != null && !mConfig.getNetworkSelectionStatus().isNetworkEnabled()) {
+                summary.append(" (" + mConfig.getNetworkSelectionStatus().getNetworkStatusString());
+                if (mConfig.getNetworkSelectionStatus().getDisableTime() > 0) {
                     long now = System.currentTimeMillis();
-                    long diff = (now - config.getNetworkSelectionStatus().getDisableTime()) / 1000;
+                    long diff = (now - mConfig.getNetworkSelectionStatus().getDisableTime()) / 1000;
                     long sec = diff%60; //seconds
                     long min = (diff/60)%60; //minutes
                     long hour = (min/60)%60; //hours
@@ -456,9 +451,9 @@ public class AccessPoint implements Comparable<AccessPoint> {
                 summary.append(")");
             }
 
-            if (config != null) {
+            if (mConfig != null) {
                 WifiConfiguration.NetworkSelectionStatus networkStatus =
-                        config.getNetworkSelectionStatus();
+                        mConfig.getNetworkSelectionStatus();
                 for (int index = WifiConfiguration.NetworkSelectionStatus.NETWORK_SELECTION_ENABLE;
                         index < WifiConfiguration.NetworkSelectionStatus
                         .NETWORK_SELECTION_DISABLED_MAX; index++) {
