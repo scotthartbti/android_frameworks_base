@@ -2381,10 +2381,6 @@ public class BackupManagerService {
     // fire off a backup agent, blocking until it attaches or times out
     IBackupAgent bindToAgentSynchronous(ApplicationInfo app, int mode) {
         IBackupAgent agent = null;
-        boolean backupStarted = false;
-        boolean connecting = true;
-        boolean interrupted = false;
-        IBackupAgent connectedAgent = null;
         synchronized(mAgentConnectLock) {
             mConnecting = true;
             mConnectedAgent = null;
@@ -2392,7 +2388,6 @@ public class BackupManagerService {
                 if (mActivityManager.bindBackupAgent(app.packageName, mode,
                         UserHandle.USER_OWNER)) {
                     Slog.d(TAG, "awaiting agent for " + app);
-                    backupStarted = true;
 
                     // success; wait for the agent to arrive
                     // only wait 10 seconds for the bind to happen
@@ -2404,31 +2399,25 @@ public class BackupManagerService {
                         } catch (InterruptedException e) {
                             // just bail
                             Slog.w(TAG, "Interrupted: " + e);
-                            interrupted = true;
+                            mActivityManager.clearPendingBackup();
+                            return null;
                         }
                     }
 
-                    connecting = mConnecting;
-                    connectedAgent = mConnectedAgent;
+                    // if we timed out with no connect, abort and move on
+                    if (mConnecting == true) {
+                        Slog.w(TAG, "Timeout waiting for agent " + app);
+                        mActivityManager.clearPendingBackup();
+                        return null;
+                    }
+                    if (DEBUG) Slog.i(TAG, "got agent " + mConnectedAgent);
+                    agent = mConnectedAgent;
                 }
             } catch (RemoteException e) {
                 // can't happen - ActivityManager is local
             }
         }
-        // if we timed out with no connect, abort and move on
-        if (backupStarted && connecting) {
-            if (!interrupted) {
-                Slog.w(TAG, "Timeout waiting for agent " + app);
-            }
-            try {
-                mActivityManager.clearPendingBackup();
-            } catch (RemoteException e) {
-                // can't happen - ActivityManager is local
-            }
-            return null;
-        }
-        if (DEBUG) Slog.i(TAG, "got agent " + connectedAgent);
-        return connectedAgent;
+        return agent;
     }
 
     // clear an application's data, blocking until the operation completes or times out
