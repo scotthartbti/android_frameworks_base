@@ -163,8 +163,7 @@ public class DemoModeFragment extends PreferenceFragment implements OnPreference
         intent.putExtra("sims", "1");
         intent.putExtra("nosim", "false");
         intent.putExtra("level", "4");
-        intent.putExtra("datatype", "lte");
-        intent.putExtra("activity", "inout");
+        intent.putExtra("datatypel", "");
         getContext().sendBroadcast(intent);
 
         // Need to send this after so that the sim controller already exists.
