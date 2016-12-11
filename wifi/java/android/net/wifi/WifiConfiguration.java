@@ -460,6 +460,13 @@ public class WifiConfiguration implements Parcelable {
      */
     public int userApproved = USER_UNSPECIFIED;
 
+    /**
+     * @hide
+     * Inactivity time before wifi tethering is disabled.  Here inactivity means no clients
+     * connected.  A value of 0 means the AP will not be disabled when there is no activity
+     */
+    public long wifiApInactivityTimeout;
+
     /** The Below RSSI thresholds are used to configure AutoJoin
      *  - GOOD/LOW/BAD thresholds are used so as to calculate link score
      *  - UNWANTED_SOFT are used by the blacklisting logic so as to handle
@@ -825,6 +832,7 @@ public class WifiConfiguration implements Parcelable {
          */
         public static final int NETWORK_SELECTION_ENABLE = 0;
         /**
+         * @deprecated it is not used any more.
          * This network is disabled because higher layer (>2) network is bad
          */
         public static final int DISABLED_BAD_LINK = 1;
@@ -870,7 +878,7 @@ public class WifiConfiguration implements Parcelable {
          */
         private static final String[] QUALITY_NETWORK_SELECTION_DISABLE_REASON = {
                 "NETWORK_SELECTION_ENABLE",
-                "NETWORK_SELECTION_DISABLED_BAD_LINK",
+                "NETWORK_SELECTION_DISABLED_BAD_LINK", // deprecated
                 "NETWORK_SELECTION_DISABLED_ASSOCIATION_REJECTION ",
                 "NETWORK_SELECTION_DISABLED_AUTHENTICATION_FAILURE",
                 "NETWORK_SELECTION_DISABLED_DHCP_FAILURE",
@@ -1921,6 +1929,7 @@ public class WifiConfiguration implements Parcelable {
             updateTime = source.updateTime;
             shared = source.shared;
             SIMNum = source.SIMNum;
+            wifiApInactivityTimeout = source.wifiApInactivityTimeout;
         }
     }
 
@@ -1992,6 +2001,7 @@ public class WifiConfiguration implements Parcelable {
         dest.writeInt(shared ? 1 : 0);
         dest.writeString(mPasspointManagementObjectTree);
         dest.writeInt(SIMNum);
+        dest.writeLong(wifiApInactivityTimeout);
     }
 
     /** Implement the Parcelable interface {@hide} */
@@ -2064,6 +2074,7 @@ public class WifiConfiguration implements Parcelable {
                 config.shared = in.readInt() != 0;
                 config.mPasspointManagementObjectTree = in.readString();
                 config.SIMNum = in.readInt();
+                config.wifiApInactivityTimeout = in.readLong();
                 return config;
             }
 

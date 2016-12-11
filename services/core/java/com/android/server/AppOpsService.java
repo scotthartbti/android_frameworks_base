@@ -330,10 +330,17 @@ public class AppOpsService extends IAppOpsService.Stub {
                     } catch (RemoteException ignored) {
                     }
                     if (curUid != ops.uidState.uid) {
-                        Slog.i(TAG, "Pruning old package " + ops.packageName
-                                + "/" + ops.uidState + ": new uid=" + curUid);
-                        it.remove();
-                        changed = true;
+                        // Do not prune apps that are not currently present in the device
+                        // (like SDcard ones). While booting, SDcards are not available but
+                        // must not be purged from AppOps, because they are still present
+                        // in the Android app database.
+                        String pkgName = mContext.getPackageManager().getNameForUid(ops.uidState.uid);
+                        if (curUid != -1 || pkgName == null || !pkgName.equals(ops.packageName)) {
+                            Slog.i(TAG, "Pruning old package " + ops.packageName
+                                    + "/" + ops.uidState + ": new uid=" + curUid);
+                            it.remove();
+                            changed = true;
+                        }
                     }
                 }
 
@@ -968,7 +975,7 @@ public class AppOpsService extends IAppOpsService.Stub {
             return AppOpsManager.MODE_IGNORED;
         }
         synchronized (this) {
-            if (isOpRestricted(uid, code, resolvedPackageName)) {
+            if (isOpRestrictedLocked(uid, code, resolvedPackageName)) {
                 return AppOpsManager.MODE_IGNORED;
             }
             code = AppOpsManager.opToSwitch(code);
@@ -1118,7 +1125,7 @@ public class AppOpsService extends IAppOpsService.Stub {
                 return AppOpsManager.MODE_ERRORED;
             }
             Op op = getOpLocked(ops, code, true);
-            if (isOpRestricted(uid, code, packageName)) {
+            if (isOpRestrictedLocked(uid, code, packageName)) {
                 op.ignoredCount++;
                 return AppOpsManager.MODE_IGNORED;
             }
@@ -1245,7 +1252,7 @@ public class AppOpsService extends IAppOpsService.Stub {
                 return AppOpsManager.MODE_ERRORED;
             }
             Op op = getOpLocked(ops, code, true);
-            if (isOpRestricted(uid, code, resolvedPackageName)) {
+            if (isOpRestrictedLocked(uid, code, resolvedPackageName)) {
                 op.ignoredCount++;
                 return AppOpsManager.MODE_IGNORED;
             }
@@ -1504,7 +1511,7 @@ public class AppOpsService extends IAppOpsService.Stub {
         return op;
     }
 
-    private boolean isOpRestricted(int uid, int code, String packageName) {
+    private boolean isOpRestrictedLocked(int uid, int code, String packageName) {
         int userHandle = UserHandle.getUserId(uid);
         final int restrictionSetCount = mOpUserRestrictions.size();
 
@@ -1933,6 +1940,8 @@ public class AppOpsService extends IAppOpsService.Stub {
                     return AppOpsManager.MODE_IGNORED;
                 case "default":
                     return AppOpsManager.MODE_DEFAULT;
+                case "ask":
+                    return AppOpsManager.MODE_ASK;
             }
             try {
                 return Integer.parseInt(modeStr);
@@ -2048,7 +2057,7 @@ public class AppOpsService extends IAppOpsService.Stub {
         pw.println("  options:");
         pw.println("    <PACKAGE> an Android package name.");
         pw.println("    <OP>      an AppOps operation.");
-        pw.println("    <MODE>    one of allow, ignore, deny, or default");
+        pw.println("    <MODE>    one of allow, ignore, deny, default or ask");
         pw.println("    <USER_ID> the user id under which the package is installed. If --user is not");
         pw.println("              specified, the current user is assumed.");
     }
@@ -2112,6 +2121,9 @@ public class AppOpsService extends IAppOpsService.Stub {
                                     break;
                                 case AppOpsManager.MODE_DEFAULT:
                                     pw.print("default");
+                                    break;
+                                case AppOpsManager.MODE_ASK:
+                                    pw.print("ask");
                                     break;
                                 default:
                                     pw.print("mode=");
@@ -2448,24 +2460,32 @@ public class AppOpsService extends IAppOpsService.Stub {
 
     private void setUserRestrictionNoCheck(int code, boolean restricted, IBinder token,
             int userHandle, String[] exceptionPackages) {
-        ClientRestrictionState restrictionState = mOpUserRestrictions.get(token);
+        boolean notifyChange = false;
 
-        if (restrictionState == null) {
-            try {
-                restrictionState = new ClientRestrictionState(token);
-            } catch (RemoteException e) {
-                return;
+        synchronized (AppOpsService.this) {
+            ClientRestrictionState restrictionState = mOpUserRestrictions.get(token);
+
+            if (restrictionState == null) {
+                try {
+                    restrictionState = new ClientRestrictionState(token);
+                } catch (RemoteException e) {
+                    return;
+                }
+                mOpUserRestrictions.put(token, restrictionState);
             }
-            mOpUserRestrictions.put(token, restrictionState);
+
+            if (restrictionState.setRestriction(code, restricted, exceptionPackages, userHandle)) {
+                notifyChange = true;
+            }
+
+            if (restrictionState.isDefault()) {
+                mOpUserRestrictions.remove(token);
+                restrictionState.destroy();
+            }
         }
 
-        if (restrictionState.setRestriction(code, restricted, exceptionPackages, userHandle)) {
+        if (notifyChange) {
             notifyWatchersOfChange(code);
-        }
-
-        if (restrictionState.isDefault()) {
-            mOpUserRestrictions.remove(token);
-            restrictionState.destroy();
         }
     }
 
@@ -2501,10 +2521,12 @@ public class AppOpsService extends IAppOpsService.Stub {
     @Override
     public void removeUser(int userHandle) throws RemoteException {
         checkSystemUid("removeUser");
-        final int tokenCount = mOpUserRestrictions.size();
-        for (int i = tokenCount - 1; i >= 0; i--) {
-            ClientRestrictionState opRestrictions = mOpUserRestrictions.valueAt(i);
-            opRestrictions.removeUser(userHandle);
+        synchronized (AppOpsService.this) {
+            final int tokenCount = mOpUserRestrictions.size();
+            for (int i = tokenCount - 1; i >= 0; i--) {
+                ClientRestrictionState opRestrictions = mOpUserRestrictions.valueAt(i);
+                opRestrictions.removeUser(userHandle);
+            }
         }
     }
 

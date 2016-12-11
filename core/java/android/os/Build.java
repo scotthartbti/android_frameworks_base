@@ -24,7 +24,11 @@ import com.android.internal.telephony.TelephonyProperties;
 
 import dalvik.system.VMRuntime;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Information about the current build, extracted from system properties.
@@ -709,6 +713,14 @@ public class Build {
          * {@link android.widget.LinearLayout.LayoutParams LinearLayout.LayoutParams} to
          * {@link android.widget.RelativeLayout.LayoutParams RelativeLayout.LayoutParams}).</li>
          * <li>Your application processes will not be killed when the device density changes.</li>
+         * <li>Drag and drop. After a view receives the
+         * {@link android.view.DragEvent#ACTION_DRAG_ENTERED} event, when the drag shadow moves into
+         * a descendant view that can accept the data, the view receives the
+         * {@link android.view.DragEvent#ACTION_DRAG_EXITED} event and won’t receive
+         * {@link android.view.DragEvent#ACTION_DRAG_LOCATION} and
+         * {@link android.view.DragEvent#ACTION_DROP} events while the drag shadow is within that
+         * descendant view, even if the descendant view returns <code>false</code> from its handler
+         * for these events.</li>
          * </ul>
          */
         public static final int N = 24;
@@ -721,6 +733,7 @@ public class Build {
 
     /** The type of build, like "user" or "eng". */
     public static final String TYPE = getString("ro.build.type");
+    private static String TYPE_FOR_APPS = parseBuildTypeFromFingerprint();
 
     /** Comma-separated tags describing the build, like "unsigned,debug". */
     public static final String TAGS = getString("ro.build.tags");
@@ -745,6 +758,44 @@ public class Build {
                     getString("ro.build.tags");
         }
         return finger;
+    }
+
+    /*
+     * Some apps like to compare the build type embedded in fingerprint
+     * to the actual build type. As the fingerprint in our case is almost
+     * always hardcoded to the stock ROM fingerprint, provide that instead
+     * of the actual one if possible.
+     */
+    private static String parseBuildTypeFromFingerprint() {
+        final String fingerprint = SystemProperties.get("ro.build.fingerprint");
+        if (TextUtils.isEmpty(fingerprint)) {
+            return null;
+        }
+        Pattern fingerprintPattern =
+                Pattern.compile("(.*)\\/(.*)\\/(.*):(.*)\\/(.*)\\/(.*):(.*)\\/(.*)");
+        Matcher matcher = fingerprintPattern.matcher(fingerprint);
+        return matcher.matches() ? matcher.group(7) : null;
+    }
+
+    /** @hide */
+    public static void adjustBuildTypeIfNeeded() {
+        if (Process.isApplicationUid(Process.myUid()) && !TextUtils.isEmpty(TYPE_FOR_APPS)) {
+            try {
+                // This is sick. TYPE is final (which can't be changed because it's an API
+                // guarantee), but we have to reassign it. Resort to reflection to unset the
+                // final modifier, change the value and restore the final modifier afterwards.
+                Field typeField = Build.class.getField("TYPE");
+                Field accessFlagsField = Field.class.getDeclaredField("accessFlags");
+                accessFlagsField.setAccessible(true);
+                int currentFlags = accessFlagsField.getInt(typeField);
+                accessFlagsField.setInt(typeField, currentFlags & ~Modifier.FINAL);
+                typeField.set(null, TYPE_FOR_APPS);
+                accessFlagsField.setInt(typeField, currentFlags);
+                accessFlagsField.setAccessible(false);
+            } catch (Exception e) {
+                // shouldn't happen, but we don't want to crash the app even if it does happen
+            }
+        }
     }
 
     /**

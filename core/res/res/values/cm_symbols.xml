@@ -16,20 +16,11 @@
      limitations under the License.
 -->
 <resources>
-    <!-- We don't want to publish private symbols in android.R as part of the
-         SDK.  Instead, put them here. -->
-    <private-symbols package="com.android.internal" />
-
     <!-- Notification and battery light -->
     <java-symbol type="bool" name="config_intrusiveNotificationLed" />
-    <java-symbol type="bool" name="config_multiColorNotificationLed" />
     <java-symbol type="bool" name="config_intrusiveBatteryLed" />
-    <java-symbol type="bool" name="config_multiColorBatteryLed" />
     <java-symbol type="array" name="notification_light_package_mapping" />
     <java-symbol type="array" name="config_notificationNoAlertsVibePattern" />
-    
-    <!-- LED pulse -->
-    <java-symbol type="bool" name="config_ledCanPulse" />
 
     <java-symbol type="bool" name="config_singleStageCameraKey" />
     <java-symbol type="integer" name="config_longPressOnMenuBehavior" />
@@ -78,5 +69,8 @@
     <!-- Support Samsung docks -->
     <java-symbol type="bool" name="config_forceAnalogCarDock" />
     <java-symbol type="bool" name="config_forceAnalogDeskDock" />
+
+    <!-- config softap extention feature -->
+    <java-symbol type="bool" name="config_softap_extention" />
 
 </resources>
