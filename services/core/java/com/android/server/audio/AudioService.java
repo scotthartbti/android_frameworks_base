@@ -598,6 +598,8 @@ public class AudioService extends IAudioService.Stub {
     // If absolute volume is supported in AVRCP device
     private boolean mAvrcpAbsVolSupported = false;
 
+    private boolean mLinkNotificationWithVolume;
+    private final boolean mVoiceCapable;
     private static Long mLastDeviceConnectMsgTime = new Long(0);
 
     private NotificationManager mNm;
@@ -640,8 +642,6 @@ public class AudioService extends IAudioService.Stub {
             }
         }
     }
-
-    private boolean mLinkNotificationWithVolume;
 
     // only these packages are allowed to override Pulse visualizer lock
     private static final String[] VISUALIZER_WHITELIST = new String[] {
@@ -692,6 +692,9 @@ public class AudioService extends IAudioService.Stub {
 
         mForcedUseForComm = AudioSystem.FORCE_NONE;
 
+        mVoiceCapable = context.getResources().getBoolean(
+                com.android.internal.R.bool.config_voice_capable);
+
         createAudioSystemThread();
 
         AudioSystem.setErrorCallback(mAudioSystemCallback);
@@ -718,8 +721,9 @@ public class AudioService extends IAudioService.Stub {
         mUseFixedVolume = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_useFixedVolume);
 
-        mLinkNotificationWithVolume = Settings.System.getIntForUser(mContentResolver,
-                Settings.System.VOLUME_LINK_NOTIFICATION, 1, UserHandle.USER_CURRENT) == 1;
+        // read this in before readPersistedSettings() because updateStreamVolumeAlias needs it
+        mLinkNotificationWithVolume = Settings.Secure.getInt(mContext.getContentResolver(),
+                Settings.Secure.VOLUME_LINK_NOTIFICATION, 1) == 1;
 
         mForceAnalogDeskDock = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_forceAnalogDeskDock);
@@ -1208,13 +1212,14 @@ public class AudioService extends IAudioService.Stub {
             }
         }
 
-        if (mLinkNotificationWithVolume) {
+        mStreamVolumeAlias[AudioSystem.STREAM_DTMF] = dtmfStreamAlias;
+
+        if (mLinkNotificationWithVolume && mVoiceCapable) {
             mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_RING;
         } else {
             mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_NOTIFICATION;
         }
 
-        mStreamVolumeAlias[AudioSystem.STREAM_DTMF] = dtmfStreamAlias;
         if (updateVolumes) {
             mStreamStates[AudioSystem.STREAM_DTMF].setAllIndexes(mStreamStates[dtmfStreamAlias],
                     caller);
@@ -1340,6 +1345,9 @@ public class AudioService extends IAudioService.Stub {
                     CMSettings.System.VOLUME_KEYS_CONTROL_RING_STREAM, 1,
                     UserHandle.USER_CURRENT) == 1;
         }
+
+        mLinkNotificationWithVolume = Settings.Secure.getInt(cr,
+                Settings.Secure.VOLUME_LINK_NOTIFICATION, 1) == 1;
 
         mMuteAffectedStreams = System.getIntForUser(cr,
                 System.MUTE_STREAMS_AFFECTED, AudioSystem.DEFAULT_MUTE_STREAMS_AFFECTED,
@@ -5122,9 +5130,8 @@ public class AudioService extends IAudioService.Stub {
                     Settings.Global.ENCODED_SURROUND_OUTPUT_AUTO);
             mContentResolver.registerContentObserver(Settings.Global.getUriFor(
                     Settings.Global.ENCODED_SURROUND_OUTPUT), false, this);
-
-            mContentResolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.VOLUME_LINK_NOTIFICATION), false, this);
+            mContentResolver.registerContentObserver(Settings.Secure.getUriFor(
+                Settings.Secure.VOLUME_LINK_NOTIFICATION), false, this);
             mContentResolver.registerContentObserver(CMSettings.System.getUriFor(
                 CMSettings.System.VOLUME_KEYS_CONTROL_RING_STREAM), false, this);
         }
@@ -5148,13 +5155,14 @@ public class AudioService extends IAudioService.Stub {
                 updateMasterMono(mContentResolver);
                 updateEncodedSurroundOutput();
 
-                mLinkNotificationWithVolume = Settings.System.getIntForUser(mContentResolver,
-                        Settings.System.VOLUME_LINK_NOTIFICATION, 1, UserHandle.USER_CURRENT) == 1;
-                if (mLinkNotificationWithVolume) {
-                    mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_RING;
-                } else {
-                    mStreamVolumeAlias[AudioSystem.STREAM_NOTIFICATION] = AudioSystem.STREAM_NOTIFICATION;
+                boolean linkNotificationWithVolume = Settings.Secure.getInt(mContentResolver,
+                        Settings.Secure.VOLUME_LINK_NOTIFICATION, 1) == 1;
+                if (linkNotificationWithVolume != mLinkNotificationWithVolume) {
+                    mLinkNotificationWithVolume = linkNotificationWithVolume;
+                    createStreamStates();
+                    updateStreamVolumeAlias(true, TAG);
                 }
+
                 mVolumeKeysControlRingStream = CMSettings.System.getIntForUser(mContentResolver,
                         CMSettings.System.VOLUME_KEYS_CONTROL_RING_STREAM, 1,
                         UserHandle.USER_CURRENT) == 1;

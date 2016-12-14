@@ -1810,6 +1810,7 @@ public final class Settings {
             MOVED_TO_SECURE.add(System.KEYBOARD_BRIGHTNESS);
             MOVED_TO_SECURE.add(System.BUTTON_BRIGHTNESS);
             MOVED_TO_SECURE.add(System.BUTTON_BACKLIGHT_TIMEOUT);
+            MOVED_TO_SECURE.add(Secure.VOLUME_LINK_NOTIFICATION);
         }
 
         private static final HashSet<String> MOVED_TO_GLOBAL;
@@ -4116,20 +4117,6 @@ public final class Settings {
          * @hide
          */
         public static final String NAVIGATION_BAR_SHOW = "navigation_bar_show";
-
-        /**
-         * Boolean value whether to link ringtone and notification volume
-         *
-         * @hide
-         */
-        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
-
-        /**
-         * show text headers together with the stream volume images
-         * default is true
-         * @hide
-         */
-        public static final String VOLUME_DIALOG_HEADERS = "volume_dialog_headers";
 
         /**
          * Shows custom date before clock time
@@ -7179,6 +7166,12 @@ public final class Settings {
          * @hide
          */
         public static final String ADVANCED_REBOOT = "advanced_reboot";
+
+        /**
+         * Boolean value whether to link ringtone and notification volume
+         * @hide
+         */
+        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
          * Holds comma separated list of ordering of QS tiles.
