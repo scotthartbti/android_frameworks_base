@@ -65,4 +65,8 @@
     <!-- QS edit button text color -->
     <color name="qs_edit_button_text_color">#64FFFFFF</color>
 
+    <!-- Floating action button -->
+    <color name="fab_color">?android:attr/colorAccent</color>
+    <color name="floating_action_button_icon_color">@android:color/white</color>
+
 </resources>
