@@ -550,6 +550,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                    Settings.System.QS_ROWS_LANDSCAPE),
                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.LOCK_QS_DISABLED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAV_BAR_DYNAMIC),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -581,6 +587,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     || uri.equals(Settings.System.getUriFor(
                     Settings.System.QS_ROWS_LANDSCAPE))) {
                     updateResources();
+            } else if (uri.equals(Settings.System.getUriFor(
+                      Settings.System.NAV_BAR_DYNAMIC))) {
+                      mNavigationController.updateNavbarOverlay(mContext.getResources());
             }
 
             update();
@@ -607,6 +616,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             if (mHeader != null) {
                 mHeader.updateSettings();
             }
+
+            if (mNotificationPanel != null) {
+                mNotificationPanel.updateSettings();
+            }
+
         }
     }
 
@@ -652,8 +666,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mHeadsUpTicker = mUseHeadsUp && 0 != Settings.Global.getInt(
                     mContext.getContentResolver(), SETTING_HEADS_UP_TICKER, 0);
             Log.d(TAG, "heads up is " + (mUseHeadsUp ? "enabled" : "disabled"));
+            mHeadsUpUserEnabled = 0 != Settings.System.getIntForUser(
+                    mContext.getContentResolver(), Settings.System.HEADS_UP_USER_ENABLED,
+                    Settings.System.HEADS_UP_USER_ON,
+                    UserHandle.USER_CURRENT);
+            Log.d(TAG, "heads up is " + (mUseHeadsUp && mHeadsUpUserEnabled ? "enabled" : "disabled"));
             if (wasUsing != mUseHeadsUp) {
-                if (!mUseHeadsUp) {
+                if (!mUseHeadsUp || !mHeadsUpUserEnabled) {
                     Log.d(TAG, "dismissing any existing heads up notification on disable event");
                     mHeadsUpManager.releaseAllImmediately();
                 }
@@ -914,6 +933,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     mHeadsUpObserver);
             mContext.getContentResolver().registerContentObserver(
                     Settings.Global.getUriFor(SETTING_HEADS_UP_TICKER), true,
+                    mHeadsUpObserver);
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.HEADS_UP_USER_ENABLED), true,
                     mHeadsUpObserver);
         }
         mUnlockMethodCache = UnlockMethodCache.getInstance(mContext);
@@ -1714,8 +1736,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                    | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH
-                    | WindowManager.LayoutParams.FLAG_SLIPPERY,
+                    | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH,
                 PixelFormat.TRANSLUCENT);
         // this will allow the navbar to run in an overlay on devices that support this
         if (ActivityManager.isHighEndGfx()) {
@@ -3464,6 +3485,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mLightStatusBarController.onSystemUiVisibilityChanged(fullscreenStackVis, dockedStackVis,
                 mask, fullscreenStackBounds, dockedStackBounds, sbModeChanged, mStatusBarMode);
+    }
+
+    @Override  // CommandQueue
+    public void setAutoRotate(boolean enabled) {
+        Settings.System.putInt(mContext.getContentResolver(),
+                Settings.System.ACCELEROMETER_ROTATION,
+                enabled ? 1 : 0);
     }
 
     private int computeBarMode(int oldVis, int newVis, BarTransitions transitions,
@@ -5437,7 +5465,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             pm.wakeUp(SystemClock.uptimeMillis(), "com.android.systemui:CAMERA_GESTURE");
             mStatusBarKeyguardViewManager.notifyDeviceWakeUpRequested();
         }
-        vibrateForCameraGesture();
+        if (source != StatusBarManager.CAMERA_LAUNCH_SOURCE_SCREEN_GESTURE) {
+            vibrateForCameraGesture();
+        }
         if (!mStatusBarKeyguardViewManager.isShowing()) {
             startActivity(KeyguardBottomAreaView.INSECURE_CAMERA_INTENT,
                     true /* dismissShade */);
