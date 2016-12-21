@@ -39,4 +39,7 @@
 
     <dimen name="omni_battery_level_text_size_small">12sp</dimen>
     <dimen name="omni_battery_level_text_size">14sp</dimen>
+
+    <!-- Floating action button -->
+    <dimen name="floating_action_button_translation_z">12dp</dimen>
 </resources>
