@@ -68,4 +68,9 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">4</item>
     </style>
+
+    <!-- Switch bar text appearance -->
+    <style name="TextAppearance.SwitchBar" parent="@android:style/TextAppearance.Material.Title">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+    </style>
 </resources>
