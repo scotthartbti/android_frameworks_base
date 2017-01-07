@@ -611,7 +611,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CUSTOM_HEADER),
                     false, this, UserHandle.USER_ALL);
-
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_QUICKBAR_SCROLL_ENABLED),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -731,6 +733,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
             RecentsActivity.updateRadiusScale(mScaleRecents,mRadiusRecents);
 
+            }
+
+            if (mNotificationPanel != null) {
+                mNotificationPanel.updateSettings();
+            }
+
+            if (mHeader != null) {
+                mHeader.updateSettings();
             }
         }
     }
@@ -5209,6 +5219,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
     public void onClosingFinished() {
         runPostCollapseRunnables();
+        mHeader.onClosingFinished();
     }
 
     public void onUnlockHintStarted() {
