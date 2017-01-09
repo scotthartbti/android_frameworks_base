@@ -39,7 +39,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -111,7 +110,6 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private View mEdit;
     private boolean mShowFullAlarm;
     private float mDateTimeTranslation;
-    private HorizontalScrollView mQuickQsPanelScroller;
 
     // omni additions
     private ImageView mBackgroundImage;
@@ -149,8 +147,6 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mExpandIndicator = (ExpandableIndicator) findViewById(R.id.expand_indicator);
 
         mHeaderQsPanel = (QuickQSPanel) findViewById(R.id.quick_qs_panel);
-        mQuickQsPanelScroller = (HorizontalScrollView) findViewById(R.id.quick_qs_panel_scroll);
-        mQuickQsPanelScroller.setHorizontalScrollBarEnabled(false);
 
         mSettingsButton = (SettingsButton) findViewById(R.id.settings_button);
         mSettingsContainer = findViewById(R.id.settings_button_container);
@@ -552,10 +548,5 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         if (mHeaderQsPanel != null) {
             mHeaderQsPanel.updateSettings();
         }
-    }
-
-    @Override
-    public void onClosingFinished() {
-        mQuickQsPanelScroller.scrollTo(0, 0);
     }
 }
