@@ -77,6 +77,9 @@
     <string name="quick_settings_sound_ring">Ring</string>
     <string name="quick_settings_sound_vibrate">Vibrate</string>
     <string name="quick_settings_sound_silent">Silent</string>
+    <string name="quick_settings_doze_notifications_label">Doze notifications</string>
+    <string name="quick_settings_doze_notifications_user">Doze notifications</string>
+    <string name="quick_settings_doze_notifications_off">No doze notifications</string>
 
     <!-- Screenshot Crop & Share -->
     <string name="action_delete_success">Deleted</string>
