@@ -19,6 +19,8 @@ package com.android.systemui.qs.tiles;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ComponentName;
+import android.provider.Settings;
+import android.provider.Settings.Global;
 import android.widget.Toast;
 
 import com.android.internal.logging.MetricsProto.MetricsEvent;
@@ -56,7 +58,7 @@ public class AppPickerTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public Intent getLongClickIntent() {
-        return null;
+        return new Intent(Settings.ACTION_APPLICATION_SETTINGS);
     }
 
     @Override
