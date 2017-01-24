@@ -78,4 +78,7 @@
 
     <color name="alarm_status_color">#E0E0E0</color>
 
+    <!-- External QS tile tint color -->
+    <color name="external_qs_tile_tint_color">@android:color/white</color>
+
 </resources>
