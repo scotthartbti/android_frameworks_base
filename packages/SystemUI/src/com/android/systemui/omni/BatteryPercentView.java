@@ -46,6 +46,7 @@ public class BatteryPercentView extends AbstractBatteryView implements
         BatteryController.BatteryStateChangeCallback {
     public static final String TAG = BatteryPercentView.class.getSimpleName();
 
+    private int mTextWidth;
     private int mPercentOffsetY;
     private int mHeight;
     private int mWidth;
@@ -101,20 +102,21 @@ public class BatteryPercentView extends AbstractBatteryView implements
 
     @Override
     protected void applyStyle() {
-        final int level = mTracker.level;
-        mTextSize = getResources().getDimensionPixelSize(level == 100 ?
-                R.dimen.omni_battery_level_text_size_small : R.dimen.omni_battery_level_text_size);
+        mTextSize = getResources().getDimensionPixelSize(R.dimen.battery_level_text_size);
         mTextPaint.setTextSize(mTextSize);
         Typeface font = Typeface.create("sans-serif-medium", Typeface.NORMAL);
         mTextPaint.setTypeface(font);
         mTextPaint.setTextAlign(Paint.Align.RIGHT);
         Rect bounds = new Rect();
-        String text = level == 100 ? "100%" : ".00%";
+        String text = ".00%";
         mTextPaint.getTextBounds(text, 0, text.length(), bounds);
         mTextWidth = bounds.width();
     }
 
     private void updatePercentFontSize() {
-        updateExtraPercentFontSize();
+        final int level = mTracker.level;
+        mTextSize = getResources().getDimensionPixelSize(level == 100 ?
+                R.dimen.battery_level_text_size_small : R.dimen.battery_level_text_size);
+        mTextPaint.setTextSize(mTextSize);
     }
 }
