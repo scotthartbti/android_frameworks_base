@@ -60,7 +60,8 @@ public class BatteryPercentView extends AbstractBatteryView implements
 
     public BatteryPercentView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        loadDimens();
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        mPercentOffsetY = (int) (1 * metrics.density + 0.5f);
     }
 
     @Override
@@ -115,11 +116,5 @@ public class BatteryPercentView extends AbstractBatteryView implements
 
     private void updatePercentFontSize() {
         updateExtraPercentFontSize();
-    }
-
-    @Override
-    protected void loadDimens() {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        mPercentOffsetY = (int) (1 * metrics.density + 0.5f);
     }
 }
