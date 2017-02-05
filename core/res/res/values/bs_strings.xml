@@ -24,14 +24,7 @@
     <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
     <string name="permdesc_fakePackageSignature">Allows the app to pretend to be a different app. Malicious applications might be able to use this to access private application data. Grant this permission with caution only!</string>
 
-    <string name="battery_style_text">Text only</string>
-    <string name="battery_style_default">Default</string>
-    <string name="battery_style_meter_horizontal">Horizontal bar</string>
-    <string name="battery_style_circle">Circle</string>
-    <string name="battery_style_droid">Droid</string>
-
     <!-- Singlehanded Mode -->
     <string name="singlehandmode_click_hint_message">Touch outside the screen to exit mini screen view</string>
     <string name="singlehandmode_slide_hint_message">Slide your finger across the navigation bar to switch between the standard and mini screen views</string>
-
 </resources>
