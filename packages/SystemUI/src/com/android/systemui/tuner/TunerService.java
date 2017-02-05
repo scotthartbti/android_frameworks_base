@@ -37,10 +37,14 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.ArraySet;
 
+import com.android.systemui.BatteryMeterDrawable;
+import com.android.systemui.DemoMode;
 import com.android.systemui.R;
 import com.android.systemui.SystemUI;
 import com.android.systemui.SystemUIApplication;
 import com.android.systemui.settings.CurrentUserTracker;
+import com.android.systemui.statusbar.phone.StatusBarIconController;
+import com.android.systemui.statusbar.phone.SystemUIDialog;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -253,7 +257,6 @@ public class TunerService extends SystemUI {
     public void clearAll() {
         // A couple special cases.
         Settings.Global.putString(mContentResolver, DemoMode.DEMO_MODE_ALLOWED, null);
-        Settings.System.putString(mContentResolver, BatteryMeterDrawable.SHOW_PERCENT_SETTING, null);
         Intent intent = new Intent(DemoMode.ACTION_DEMO);
         intent.putExtra(DemoMode.EXTRA_COMMAND, DemoMode.COMMAND_EXIT);
         mContext.sendBroadcast(intent);

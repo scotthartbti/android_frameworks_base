@@ -26,6 +26,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.provider.Settings;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
