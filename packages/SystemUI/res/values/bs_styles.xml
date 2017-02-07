@@ -75,6 +75,7 @@
     </style>
 
     <style name="BatteryMeterViewDrawable.Solid"/>
+    <style name="BatteryMeterViewDrawable.Aicp"/>
 
     <!-- Slim recents -->
     <style name="card.header_simple_title">
