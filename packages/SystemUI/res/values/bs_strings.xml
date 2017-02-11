@@ -32,7 +32,6 @@
     <string name="quick_settings_screenshot_label">Screenshot</string>
     <string name="quick_settings_adb_network">ADB network</string>
     <string name="quick_settings_network_adb_enabled_label">Enabled</string>
-    <string name="quick_settings_network_adb_disabled_label">Disabled</string>
     <string name="quick_settings_sync_label">Sync</string>
     <string name="accessibility_quick_settings_sync_off">Sync off</string>
     <string name="accessibility_quick_settings_sync_on">Sync on</string>
@@ -54,9 +53,7 @@
     <string name="accessibility_quick_settings_caffeine_on">Caffeine on</string>
     <string name="quick_settings_navigation_bar">Navigation bar</string>
     <string name="quick_settings_smartbar">SmartBar</string>
-    <string name="quick_settings_smartbar_off">SmartBar off</string>
     <string name="quick_settings_fling">Fling</string>
-    <string name="quick_settings_fling_off">Fling off</string>
     <string name="quick_settings_heads_up_label">Heads up</string>
     <string name="accessibility_quick_settings_heads_up_off">Heads up off</string>
     <string name="accessibility_quick_settings_heads_up_on">Heads up on</string>
@@ -78,8 +75,6 @@
     <string name="quick_settings_sound_vibrate">Vibrate</string>
     <string name="quick_settings_sound_silent">Silent</string>
     <string name="quick_settings_doze_notifications_label">Doze notifications</string>
-    <string name="quick_settings_doze_notifications_user">Doze notifications</string>
-    <string name="quick_settings_doze_notifications_off">No doze notifications</string>
     <string name="accessibility_quick_settings_location_battery_saving">Location reporting: battery saving mode.</string>
     <string name="accessibility_quick_settings_location_gps_only">Location reporting: sensors only mode.</string>
     <string name="accessibility_quick_settings_location_high_accuracy">Location reporting: high accuracy mode.</string>
@@ -90,7 +85,7 @@
     <string name="quick_settings_location_battery_saving_label">Battery saving</string>
     <string name="quick_settings_location_gps_only_label">Device only</string>
     <string name="quick_settings_location_high_accuracy_label">High accuracy</string>
-    <string name="quick_settings_location_off_label">Location off</string>
+    <string name="quick_settings_location_off_custom_label">Location</string>
 
     <!-- Screenshot Crop & Share -->
     <string name="action_delete_success">Deleted</string>
