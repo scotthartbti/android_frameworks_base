@@ -54,6 +54,8 @@ import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
+import com.android.systemui.qs.tiles.GoogleAssistTile;
+import com.android.systemui.qs.tiles.GoogleVoiceAssistTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.ImeTile;
 import com.android.systemui.qs.tiles.IntentTile;
@@ -466,6 +468,8 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("sound")) return new SoundTile(this);
         else if (tileSpec.equals("app_picker")) return new AppPickerTile(this);
         else if (tileSpec.equals("ambient")) return new AmbientLiftToWakeTile(this);
+        else if (tileSpec.equals("assist")) return new GoogleAssistTile(this);
+        else if (tileSpec.equals("voiceassist")) return new GoogleVoiceAssistTile(this);
         // Intent tiles.
         else if (tileSpec.startsWith(IntentTile.PREFIX)) return IntentTile.create(this,tileSpec);
         else if (tileSpec.startsWith(CustomTile.PREFIX)) return CustomTile.create(this,tileSpec);
