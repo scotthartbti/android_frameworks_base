@@ -145,7 +145,7 @@ public class QuickQSPanel extends QSPanel {
             }
         }
         super.setTiles(quickTiles, true);
-        ((HeaderTileLayout) mTileLayout).updateTileGaps();
+        ((HeaderTileLayout) mTileLayout).updateTileGaps(mHost.getTiles().size());
     }
 
     private final Tunable mNumTiles = new Tunable() {
@@ -173,7 +173,7 @@ public class QuickQSPanel extends QSPanel {
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setMaxTiles(((HeaderTileLayout) mTileLayout).calcNumTiles());
-        ((HeaderTileLayout) mTileLayout).updateTileGaps();
+        ((HeaderTileLayout) mTileLayout).updateTileGaps(mHost.getTiles().size());
     }
 
     @Override
@@ -183,7 +183,7 @@ public class QuickQSPanel extends QSPanel {
                 Settings.System.QS_QUICKBAR_SCROLL_ENABLED, 0, UserHandle.USER_CURRENT) == 0 ?
                 NUM_QUICK_TILES_DEFAULT : NUM_QUICK_TILES_ALL) == NUM_QUICK_TILES_ALL;
         setMaxTiles(((HeaderTileLayout) mTileLayout).calcNumTiles());
-        ((HeaderTileLayout) mTileLayout).updateTileGaps();
+        ((HeaderTileLayout) mTileLayout).updateTileGaps(mHost.getTiles().size());
     }
 
     private static class HeaderTileLayout extends LinearLayout implements QSTileLayout {
@@ -307,14 +307,15 @@ public class QuickQSPanel extends QSPanel {
             return maxNumTiles;
         }
 
-        public void updateTileGaps() {
+        public void updateTileGaps(int numTiles) {
             int panelWidth = mContext.getResources().getDimensionPixelSize(R.dimen.notification_panel_width);
             if (panelWidth == -1) {
                 panelWidth = mScreenWidth;
             }
             panelWidth -= 2 * mStartMargin;
             int maxNumTiles = panelWidth / (mTileSize + 2 * mMinTileGap);
-            int tileGap = (panelWidth - mTileSize * maxNumTiles) / (maxNumTiles - 1);
+            int layoutNumTiles = Math.min(maxNumTiles, numTiles);
+            int tileGap = (panelWidth - mTileSize * layoutNumTiles) / (layoutNumTiles - 1);
             final int N = getChildCount();
             for (int i = 0; i < N; i++) {
                 if (getChildAt(i) instanceof Space) {
