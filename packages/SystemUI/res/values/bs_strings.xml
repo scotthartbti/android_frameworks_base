@@ -153,4 +153,6 @@
     <string name="dlg_cancel">Cancel</string>
     <string name="kill">Kill App</string>
 
+    <!-- Slim recents membar -->
+    <string name="recents_free_ram">RAM: %1$d MB free</string>
 </resources>

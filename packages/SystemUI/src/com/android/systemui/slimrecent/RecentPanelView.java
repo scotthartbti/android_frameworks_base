@@ -329,6 +329,7 @@ public class RecentPanelView {
             setVisibility();
             exit();
         }
+        mController.updateMemoryStatus();
     }
 
     /**
@@ -363,6 +364,7 @@ public class RecentPanelView {
         int pos = mCards.indexOf(card);
         mCards.remove(pos);
         mCardAdapter.notifyItemRemoved(pos);
+        mController.updateMemoryStatus();
     }
 
     /**
@@ -500,6 +502,7 @@ public class RecentPanelView {
         // Let us load the cards for it in background.
         final CardLoader cardLoader = new CardLoader();
         cardLoader.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
+        mController.updateMemoryStatus();
     }
 
     /**
@@ -508,6 +511,7 @@ public class RecentPanelView {
     private void setVisibility() {
         mEmptyRecentView.setVisibility(mCards.size() == 0 ? View.VISIBLE : View.GONE);
         mCardRecyclerView.setVisibility(mCards.size() == 0 ? View.GONE : View.VISIBLE);
+        mController.updateMemoryStatus();
     }
 
     /**
@@ -530,6 +534,7 @@ public class RecentPanelView {
                                 item.identifier, item.getExpandedState()));
             }
         }
+        mController.updateMemoryStatus();
     }
 
     /**
