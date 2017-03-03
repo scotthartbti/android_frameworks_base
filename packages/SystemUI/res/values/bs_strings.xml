@@ -166,4 +166,6 @@
     <!-- Sim recents on keyguard -->
     <string name="slim_recent_keyguard">Unlock your device to view recents</string>
 
+    <!-- Slim recents membar -->
+    <string name="recents_free_ram">RAM: %1$d MB free</string>
 </resources>
