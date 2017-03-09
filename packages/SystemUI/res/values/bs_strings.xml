@@ -155,4 +155,7 @@
 
     <!-- Slim recents membar -->
     <string name="recents_free_ram">RAM: %1$d MB free</string>
+
+    <!-- Weather string format in expanded statusbar header -->
+    <string name="status_bar_weather_format"><xliff:g id="temp">%1$s</xliff:g></string>
 </resources>
