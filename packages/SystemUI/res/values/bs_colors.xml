@@ -101,4 +101,7 @@
 
     <!-- Used by selector -->
     <color name="card_pressed">#7e3c3c3c</color>
+
+    <!-- OmniJaws detailed view temperature text -->
+    <color name="omni_jaws_detailed_temperature_color">@android:color/white</color>
 </resources>
