@@ -4426,6 +4426,12 @@ public final class Settings {
          */
         public static final String BATTERY_CHARGING_COLOR = "battery_charging_color";
 
+        /**
+         * Use Dnd when call active
+         * @hide
+         */
+        public static final String DND_WHEN_CALL = "dnd_when_call";
+
 	/**
          * Whether to show the kill app button in notification guts
          *
