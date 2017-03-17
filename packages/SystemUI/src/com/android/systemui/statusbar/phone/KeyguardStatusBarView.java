@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -190,6 +191,14 @@ public class KeyguardStatusBarView extends RelativeLayout
         } else {
             mBatteryLevel.setVisibility(
                     mBatteryCharging || mShowBatteryText ? View.VISIBLE : View.GONE);
+        }
+        if (mBatteryLevel != null) {
+            if (mBatteryCharging) {
+                mBatteryLevel.setTextColor(Settings.System.getInt(getContext().getContentResolver(),
+                        Settings.System.BATTERY_CHARGING_COLOR, Color.WHITE));
+            } else {
+                mBatteryLevel.setTextColor(Color.WHITE);
+            }
         }
     }
 
