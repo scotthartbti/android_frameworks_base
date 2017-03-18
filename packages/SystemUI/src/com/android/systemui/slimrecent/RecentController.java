@@ -328,12 +328,6 @@ public class RecentController implements RecentPanelView.OnExitListener,
         vd.setTint(tintColor);
         mEmptyRecentView.setImageDrawable(vd);
 
-        VectorDrawable vd = (VectorDrawable)
-                mContext.getResources().getDrawable(R.drawable.ic_recent_keyguard);
-        vd.setTint(tintColor);
-        mKeyguardImage.setImageDrawable(vd);
-        mKeyguardText.setTextColor(tintColor);
-
         int padding = mContext.getResources().getDimensionPixelSize(R.dimen.slim_recents_elevation);
         if (mMainGravity == Gravity.LEFT) {
             mRecentContainer.setPadding(0, 0, padding, 0);
