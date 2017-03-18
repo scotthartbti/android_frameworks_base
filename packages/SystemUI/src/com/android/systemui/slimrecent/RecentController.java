@@ -19,19 +19,15 @@ package com.android.systemui.slimrecent;
 
 import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
-import android.app.ActivityManager.MemoryInfo;
-import android.app.KeyguardManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
-import android.content.res.Configuration;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -49,7 +45,6 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.IWindowManager;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener;
@@ -60,9 +55,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -119,11 +112,6 @@ public class RecentController implements RecentPanelView.OnExitListener,
     private int mMainGravity;
     private int mUserGravity;
     private int mPanelColor;
-
-    TextView mMemText;
-    ProgressBar mMemBar;
-    boolean enableMemDisplay;
-    private ActivityManager mAm;
 
     private float mScaleFactor = DEFAULT_SCALE_FACTOR;
 
@@ -184,10 +172,6 @@ public class RecentController implements RecentPanelView.OnExitListener,
 
         final CardRecyclerView cardRecyclerView =
                 (CardRecyclerView) mRecentContainer.findViewById(R.id.recent_list);
-
-        mAm = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        mMemText = (TextView) mRecentContainer.findViewById(R.id.recents_memory_text);
-        mMemBar = (ProgressBar) mRecentContainer.findViewById(R.id.recents_memory_bar);
 
         LinearLayoutManager llm = new LinearLayoutManager(context);
         llm.setReverseLayout(true);
@@ -590,9 +574,6 @@ public class RecentController implements RecentPanelView.OnExitListener,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RECENT_SHOW_RUNNING_TASKS),
                     false, this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.SLIM_RECENTS_MEM_DISPLAY),
-                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -647,9 +628,6 @@ public class RecentController implements RecentPanelView.OnExitListener,
                 mRecentContent.setBackgroundColor(
                         mContext.getResources().getColor(R.color.recent_background));
             }
-            enableMemDisplay = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.SLIM_RECENTS_MEM_DISPLAY, 0) == 1;
-            showMemDisplay();
         }
     }
 
@@ -811,36 +789,4 @@ public class RecentController implements RecentPanelView.OnExitListener,
         }
    }
 
-    private boolean showMemDisplay() {
-        if (!enableMemDisplay) {
-            mMemText.setVisibility(View.GONE);
-            mMemBar.setVisibility(View.GONE);
-            return false;
-        }
-        mMemText.setVisibility(View.VISIBLE);
-        mMemBar.setVisibility(View.VISIBLE);
-
-        updateMemoryStatus();
-        return true;
-    }
-
-    public void updateMemoryStatus() {
-        if (mMemText.getVisibility() == View.GONE
-                || mMemBar.getVisibility() == View.GONE) return;
-
-        MemoryInfo memInfo = new MemoryInfo();
-        mAm.getMemoryInfo(memInfo);
-            int available = (int)(memInfo.availMem / 1048576L);
-            int max = (int)(getTotalMemory() / 1048576L);
-            mMemText.setText(String.format(mContext.getResources().getString(R.string.recents_free_ram),available));
-            mMemBar.setMax(max);
-            mMemBar.setProgress(available);
-    }
-
-    public long getTotalMemory() {
-        MemoryInfo memInfo = new MemoryInfo();
-        mAm.getMemoryInfo(memInfo);
-        long totalMem = memInfo.totalMem;
-        return totalMem;
-    }
 }
