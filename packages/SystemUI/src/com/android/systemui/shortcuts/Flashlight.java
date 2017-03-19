@@ -24,7 +24,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
 
-import com.android.internal.util.aicp.Helpers;
+import com.android.internal.util.beanstalk.Helpers;
 
 public class Flashlight extends Activity {
 
