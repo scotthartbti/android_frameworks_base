@@ -560,6 +560,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         mBatteryLevelView.setTextColor(getTint(mTintArea, mBatteryLevelView, mIconTint));
         mWeatherTextView.setTextColor(mIconTint);
         mWeatherImageView.setImageTintList(ColorStateList.valueOf(mIconTint));
+        mPhoneStatusBar.setTickerTint(mIconTint);
     }
 
     public void appTransitionPending() {
