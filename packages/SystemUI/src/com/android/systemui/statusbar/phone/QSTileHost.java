@@ -75,7 +75,6 @@ import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.ScreenrecordTile;
 import com.android.systemui.qs.tiles.SoundTile;
-import com.android.systemui.qs.tiles.SubstratumTile;
 import com.android.systemui.qs.tiles.SyncTile;
 import com.android.systemui.qs.tiles.UsbTetherTile;
 import com.android.systemui.qs.tiles.UserTile;
@@ -494,7 +493,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("voiceassist")) return new GoogleVoiceAssistTile(this);
         else if (tileSpec.equals("compass")) return new CompassTile(this);
         else if (tileSpec.equals("weather")) return new WeatherTile(this);
-        else if (tileSpec.equals("substratum")) return new SubstratumTile(this);
         else if (tileSpec.equals("magiskmanager")) return new MagiskManagerTile(this);
         else if (tileSpec.equals(mImageTileSpec)) {
             if (isImageTileInstalled()) {
