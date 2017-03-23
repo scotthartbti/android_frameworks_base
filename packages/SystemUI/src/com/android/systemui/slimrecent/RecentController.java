@@ -781,6 +781,9 @@ public class RecentController implements RecentPanelView.OnExitListener,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RECENT_CARD_BG_COLOR),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SLIM_RECENTS_ICON_PACK),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -862,6 +865,10 @@ public class RecentController implements RecentPanelView.OnExitListener,
 
             mMemBarLongClickToClear = Settings.System.getInt(resolver,
                     Settings.System.SLIM_RECENTS_MEM_DISPLAY_LONG_CLICK_CLEAR, 0) == 1;
+
+            String currentIconPack = Settings.System.getString(resolver,
+                Settings.System.SLIM_RECENTS_ICON_PACK);
+            IconPackHelper.getInstance(mContext).updatePrefs(currentIconPack);
         }
     }
 
