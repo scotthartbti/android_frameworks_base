@@ -7902,6 +7902,12 @@ public final class Settings {
         public static final String HIDE_LOCKSCREEN_SHORTCUTS = "hide_lockscreen_shortcuts";
 
         /**
+         * Show camera shortcut on secure lock screen
+         * @hide
+         */
+        public static final String SHOW_CAMERA_INTENT = "show_camera_intent";
+
+        /**
          * Force authorize Substratum (or equivalent) frontend calling packages by Masquerade
          * @hide
          */
