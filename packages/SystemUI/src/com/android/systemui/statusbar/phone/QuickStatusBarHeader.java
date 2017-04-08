@@ -36,6 +36,7 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -59,6 +60,10 @@ import com.android.systemui.qs.QuickQSPanel;
 import com.android.systemui.qs.TouchAnimator;
 import com.android.systemui.qs.TouchAnimator.Builder;
 import com.android.systemui.statusbar.policy.BatteryController;
+import com.android.systemui.statusbar.policy.NetworkController;
+import com.android.systemui.statusbar.policy.NetworkController.EmergencyListener;
+import com.android.systemui.statusbar.policy.NetworkController.IconState;
+import com.android.systemui.statusbar.policy.NetworkController.SignalCallback;
 import com.android.systemui.statusbar.policy.NextAlarmController;
 import com.android.systemui.statusbar.policy.NextAlarmController.NextAlarmChangeCallback;
 import com.android.systemui.statusbar.policy.UserInfoController;
@@ -67,8 +72,9 @@ import com.android.systemui.statusbar.policy.WeatherController;
 import com.android.systemui.tuner.TunerService;
 
 public class QuickStatusBarHeader extends BaseStatusBarHeader implements
-        NextAlarmChangeCallback, OnClickListener, OnUserInfoChangedListener,
-        StatusBarHeaderMachine.IStatusBarHeaderMachineObserver {
+
+        NextAlarmChangeCallback, OnClickListener, OnUserInfoChangedListener, EmergencyListener,
+        SignalCallback, StatusBarHeaderMachine.IStatusBarHeaderMachineObserver {
 
     private static final String TAG = "QuickStatusBarHeader";
 
@@ -113,6 +119,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private View mEdit;
     private boolean mShowFullAlarm;
     private float mDateTimeTranslation;
+	
     private HorizontalScrollView mQuickQsPanelScroller;
 
     // omni additions
@@ -126,6 +133,10 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private boolean hasExpandIndicator;
     private boolean hasMultiUserSwitch;
     private boolean hasRunningServices;
+
+    private SparseBooleanArray mRoamingsBySubId = new SparseBooleanArray();
+    private boolean mIsRoaming;
+
 
     public QuickStatusBarHeader(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -329,7 +340,8 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         updateAlarmVisibilities();
         updateDateTimePosition();
 
-        mEmergencyOnly.setVisibility(mExpanded && mShowEmergencyCallsOnly
+        mEmergencyOnly.setVisibility(mExpanded && (mShowEmergencyCallsOnly || mIsRoaming)
+
                 ? View.VISIBLE : View.INVISIBLE);
         mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(View.INVISIBLE);
 
@@ -355,15 +367,21 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     }
 
     private void updateDateTimePosition() {
-        mDateTimeAlarmGroup.setTranslationY(mShowEmergencyCallsOnly
+        mDateTimeAlarmGroup.setTranslationY(mShowEmergencyCallsOnly || mIsRoaming
                 ? mExpansionAmount * mDateTimeTranslation : 0);
     }
 
     private void updateListeners() {
         if (mListening) {
             mNextAlarmController.addStateChangedCallback(this);
+            if (mHost.getNetworkController().hasVoiceCallingFeature()) {
+                mHost.getNetworkController().addEmergencyListener(this);
+                mHost.getNetworkController().addSignalCallback(this);
+            }
         } else {
             mNextAlarmController.removeStateChangedCallback(this);
+            mHost.getNetworkController().removeEmergencyListener(this);
+            mHost.getNetworkController().removeSignalCallback(this);
         }
     }
 
@@ -495,6 +513,29 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
                 updateEverything();
             }
         }
+    }
+
+    @Override
+    public void setMobileDataIndicators(IconState statusIcon, IconState qsIcon, int statusType,
+            int qsType, boolean activityIn, boolean activityOut, String typeContentDescription,
+            String description, boolean isWide, int subId, boolean roaming) {
+        mRoamingsBySubId.put(subId, roaming);
+        boolean isRoaming = calculateRoaming();
+        if (mIsRoaming != isRoaming) {
+            mIsRoaming = isRoaming;
+            mEmergencyOnly.setText(mIsRoaming ? R.string.accessibility_data_connection_roaming
+                    : com.android.internal.R.string.emergency_calls_only);
+            if (mExpanded) {
+                updateEverything();
+            }
+        }
+    }
+
+    private boolean calculateRoaming() {
+        for (int i = 0; i < mRoamingsBySubId.size(); i++) {
+            if (mRoamingsBySubId.valueAt(i)) return true;
+        }
+        return false;
     }
 
     @Override
