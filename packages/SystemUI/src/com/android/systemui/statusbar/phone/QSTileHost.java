@@ -68,6 +68,7 @@ import com.android.systemui.qs.tiles.MagiskManagerTile;
 import com.android.systemui.qs.tiles.MusicTile;
 import com.android.systemui.qs.tiles.NavigationBarTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
+import com.android.systemui.qs.tiles.PerfProfileTile;
 import com.android.systemui.qs.tiles.PulseTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
@@ -515,6 +516,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("compass")) return new CompassTile(this);
         else if (tileSpec.equals("weather")) return new WeatherTile(this);
         else if (tileSpec.equals("magiskmanager")) return new MagiskManagerTile(this);
+        else if (tileSpec.equals("performance")) return new PerfProfileTile(this);
         else if (tileSpec.equals(mImageTileSpec)) {
             if (isImageTileInstalled()) {
                 return new ImageTile(this);
