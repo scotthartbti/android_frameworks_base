@@ -676,28 +676,26 @@ public final class PowerManagerService extends SystemService
             // Initialize proximity sensor
             mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
             mProximitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        }
 
-        // Register for broadcasts from other components of the system.
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        mContext.registerReceiver(new BatteryReceiver(), filter, null, mHandler);
+            // Register for broadcasts from other components of the system.
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+            filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+            mContext.registerReceiver(new BatteryReceiver(), filter, null, mHandler);
 
-        filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_DREAMING_STARTED);
-        filter.addAction(Intent.ACTION_DREAMING_STOPPED);
-        mContext.registerReceiver(new DreamReceiver(), filter, null, mHandler);
+            filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_DREAMING_STARTED);
+            filter.addAction(Intent.ACTION_DREAMING_STOPPED);
+            mContext.registerReceiver(new DreamReceiver(), filter, null, mHandler);
 
-        filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_USER_SWITCHED);
-        mContext.registerReceiver(new UserSwitchedReceiver(), filter, null, mHandler);
+            filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_USER_SWITCHED);
+            mContext.registerReceiver(new UserSwitchedReceiver(), filter, null, mHandler);
 
-        filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_DOCK_EVENT);
-        mContext.registerReceiver(new DockReceiver(), filter, null, mHandler);
+            filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_DOCK_EVENT);
+            mContext.registerReceiver(new DockReceiver(), filter, null, mHandler);
 
-        synchronized (mLock) {
             // Register for settings changes.
             final ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.Secure.getUriFor(
@@ -741,9 +739,6 @@ public final class PowerManagerService extends SystemService
                     false, mSettingsObserver, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.DOUBLE_TAP_TO_WAKE),
-                    false, mSettingsObserver, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Secure.BRIGHTNESS_USE_TWILIGHT),
                     false, mSettingsObserver, UserHandle.USER_ALL);
             IVrManager vrManager =
                     (IVrManager) getBinderService(VrManagerService.VR_MANAGER_BINDER_SERVICE);
@@ -920,11 +915,12 @@ public final class PowerManagerService extends SystemService
         mKeyboardBrightness = CMSettings.Secure.getIntForUser(resolver,
                 CMSettings.Secure.KEYBOARD_BRIGHTNESS, mKeyboardBrightnessSettingDefault,
                 UserHandle.USER_CURRENT);
+        mForceNavbar = Settings.Secure.getIntForUser(resolver,
+                Settings.Secure.NAVIGATION_BAR_VISIBLE, 0, UserHandle.USER_CURRENT) == 1;
         mProximityWakeEnabled = CMSettings.System.getInt(resolver,
                 CMSettings.System.PROXIMITY_ON_WAKE,
                 mProximityWakeEnabledByDefaultConfig ? 1 : 0) == 1;
-        mForceNavbar = Settings.Secure.getIntForUser(resolver,
-                Settings.Secure.NAVIGATION_BAR_VISIBLE, 0, UserHandle.USER_CURRENT) == 1;
+
         mDirty |= DIRTY_SETTINGS;
     }
 
@@ -3297,12 +3293,12 @@ public final class PowerManagerService extends SystemService
                 case MSG_SCREEN_BRIGHTNESS_BOOST_TIMEOUT:
                     handleScreenBrightnessBoostTimeout();
                     break;
+                case MSG_CHECK_FOR_LONG_WAKELOCKS:
+                    checkForLongWakeLocks();
+                    break;
                 case MSG_WAKE_UP:
                     cleanupProximity();
                     ((Runnable) msg.obj).run();
-                    break;
-                case MSG_CHECK_FOR_LONG_WAKELOCKS:
-                    checkForLongWakeLocks();
                     break;
             }
         }
