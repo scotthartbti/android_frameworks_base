@@ -78,6 +78,9 @@
     <dimen name="qs_scroller_margin">12dp</dimen>
     <dimen name="qs_scroller_min_tile_gap">4dp</dimen>
 
+    <!-- Padding end for weather text -->
+    <dimen name="status_bar_weather_padding_end">16dp</dimen>
+
     <!-- Slim recent app sidebar -->
     <dimen name="recent_app_sidebar_item_size">60dp</dimen>
     <dimen name="recent_app_sidebar_item_padding">2dp</dimen>
