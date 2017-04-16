@@ -958,7 +958,7 @@ class GlobalScreenshot {
             final NotificationManager nm =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             final String imageFilePath = intent.getStringExtra(SCREENSHOT_FILE_PATH);
-            nm.cancel(R.id.notification_screenshot);
+            nm.cancel(SystemMessage.NOTE_GLOBAL_SCREENSHOT);
 
             Intent startIntent = new Intent(this, com.android.systemui.screenshot.ScreenshotEditor.class);
             startIntent.putExtra(SCREENSHOT_FILE_PATH, imageFilePath);

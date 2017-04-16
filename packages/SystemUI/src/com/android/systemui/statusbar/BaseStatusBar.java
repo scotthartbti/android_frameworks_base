@@ -140,7 +140,7 @@ import static android.service.notification.NotificationListenerService.Ranking.i
 public abstract class BaseStatusBar extends SystemUI implements
         CommandQueue.Callbacks, ActivatableNotificationView.OnActivatedListener,
         ExpandableNotificationRow.ExpansionLogger, NotificationData.Environment,
-        ExpandableNotificationRow.OnExpandClickListener, OnGutsClosedListener {
+        ExpandableNotificationRow.OnExpandClickListener {
     public static final String TAG = "StatusBar";
     public static final boolean DEBUG = false;
     public static final boolean MULTIUSER_DEBUG = false;
