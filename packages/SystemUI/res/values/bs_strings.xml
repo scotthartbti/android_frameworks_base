@@ -146,6 +146,7 @@
     <string name="omnijaws_label_default">Weather</string>
     <string name="omnijaws_current_text">Now</string>
     <string name="omnijaws_package_not_available">OmniJaws not available</string>
+    <string name="omnijaws_service_disabled">Service disabled</string>
 
     <!-- Kill button in notification guts -->
     <string name="force_stop_dlg_title">Force stop?</string>
