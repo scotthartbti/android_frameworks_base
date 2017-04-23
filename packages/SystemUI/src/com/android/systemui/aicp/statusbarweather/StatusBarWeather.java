@@ -90,6 +90,11 @@ public class StatusBarWeather extends TextView implements
     }
 
     @Override
+    public void weatherError() {
+        if (DEBUG) Log.d(TAG, "weatherError");
+    }
+
+    @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         mEnabled = mWeatherClient.isOmniJawsEnabled();

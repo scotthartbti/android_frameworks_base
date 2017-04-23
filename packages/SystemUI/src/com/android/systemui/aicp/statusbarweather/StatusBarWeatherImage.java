@@ -110,6 +110,11 @@ public class StatusBarWeatherImage extends ImageView implements
         queryAndUpdateWeather();
     }
 
+    @Override
+    public void weatherError() {
+        if (DEBUG) Log.d(TAG, "weatherError");
+    }
+
     public void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
         mStatusBarWeatherEnabled = Settings.System.getIntForUser(
