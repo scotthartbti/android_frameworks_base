@@ -111,7 +111,7 @@ public class StatusBarWeatherImage extends ImageView implements
     }
 
     @Override
-    public void weatherError() {
+    public void weatherError(int errorReason) {
         if (DEBUG) Log.d(TAG, "weatherError");
     }
 

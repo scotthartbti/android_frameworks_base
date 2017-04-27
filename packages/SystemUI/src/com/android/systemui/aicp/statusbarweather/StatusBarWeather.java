@@ -90,7 +90,7 @@ public class StatusBarWeather extends TextView implements
     }
 
     @Override
-    public void weatherError() {
+    public void weatherError(int errorReason) {
         if (DEBUG) Log.d(TAG, "weatherError");
     }
 
