@@ -85,4 +85,7 @@
     <dimen name="recent_app_sidebar_item_size">60dp</dimen>
     <dimen name="recent_app_sidebar_item_padding">2dp</dimen>
     <dimen name="recent_app_sidebar_item_title_text_size">11sp</dimen>
+
+    <!-- Recents task locking button -->
+    <dimen name="recents_task_view_header_lock_button_padding">44dp</dimen>
 </resources>
