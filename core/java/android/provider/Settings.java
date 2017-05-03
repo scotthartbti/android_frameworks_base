@@ -3802,7 +3802,7 @@ public final class Settings {
          */
         public static final String REMOVE_TILE_SUMMARY = "remove_tile_summary";
 
-	/**
+        /**
          * Change quick settings tiles animation style
          *
          * @hide
@@ -3980,6 +3980,12 @@ public final class Settings {
          * @hide
          */
         public static final String BRIGHTNESS_ICON = "brightness_icon";
+
+	/**
+         * Brightness Icon position on Brightness Slider
+         * @hide
+         */
+        public static final String BRIGHTNESS_ICON_POSITION = "brightness_icon_position";
 
         /**
          * Transparent volume dialog
