@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.android.keyguard;
+package com.android.internal.util.aicp;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -40,7 +40,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 public class OmniJawsClient {
-    private static final String TAG = "WeatherService:OmniJawsClient";
+    private static final String TAG = "SystemUI:OmniJawsClient";
     private static final boolean DEBUG = false;
     public static final String SERVICE_PACKAGE = "org.omnirom.omnijaws";
     public static final Uri WEATHER_URI
@@ -50,6 +50,8 @@ public class OmniJawsClient {
 
     private static final String ICON_PACKAGE_DEFAULT = "org.omnirom.omnijaws";
     private static final String ICON_PREFIX_DEFAULT = "weather";
+    private static final String EXTRA_ERROR = "error";
+    public static final int EXTRA_ERROR_DISABLED = 2;
 
     public static final String[] WEATHER_PROJECTION = new String[]{
             "city",
@@ -71,6 +73,9 @@ public class OmniJawsClient {
             "enabled",
             "units"
     };
+
+    private static final String WEATHER_UPDATE = "org.omnirom.omnijaws.WEATHER_UPDATE";
+    private static final String WEATHER_ERROR = "org.omnirom.omnijaws.WEATHER_ERROR";
 
     private static final DecimalFormat sNoDigitsFormat = new DecimalFormat("0");
 
@@ -111,13 +116,21 @@ public class OmniJawsClient {
 
     public static interface OmniJawsObserver {
         public void weatherUpdated();
+        public void weatherError(int errorReason);
     }
 
     private class WeatherUpdateReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, Intent intent) {
+            String action = intent.getAction();
             for (OmniJawsObserver observer : mObserver) {
-                observer.weatherUpdated();
+                if (action.equals(WEATHER_UPDATE)) {
+                    observer.weatherUpdated();
+                }
+                if (action.equals(WEATHER_ERROR)) {
+                    int errorReason = intent.getIntExtra(EXTRA_ERROR, 0);
+                    observer.weatherError(errorReason);
+                }
             }
         }
     }
@@ -178,14 +191,22 @@ public class OmniJawsClient {
         }
     }
 
-    public void updateWeather(boolean force) {
+    public void updateWeather() {
         if (isOmniJawsServiceInstalled()) {
             Intent updateIntent = new Intent(Intent.ACTION_MAIN)
                     .setClassName(SERVICE_PACKAGE, SERVICE_PACKAGE + ".WeatherService");
             updateIntent.setAction(SERVICE_PACKAGE + ".ACTION_UPDATE");
-            updateIntent.putExtra("force", force);
             mContext.startService(updateIntent);
         }
+    }
+
+    public Intent getSettingsIntent() {
+        if (isOmniJawsServiceInstalled()) {
+            Intent settings = new Intent(Intent.ACTION_MAIN)
+                    .setClassName("org.omnirom.omnijaws", "org.omnirom.omnijaws.SettingsActivity");
+            return settings;
+        }
+        return null;
     }
 
     public WeatherInfo getWeatherInfo() {
@@ -389,7 +410,7 @@ public class OmniJawsClient {
     }
 
     public Drawable getDefaultWeatherConditionImage() {
-        return mContext.getResources().getDrawable(R.drawable.keyguard_weather_default_on);
+        return mContext.getResources().getDrawable(com.android.internal.R.drawable.ic_qs_weather_default_on);
     }
 
     public void addObserver(OmniJawsObserver observer) {
@@ -402,7 +423,8 @@ public class OmniJawsClient {
             }
             mReceiver = new WeatherUpdateReceiver();
             IntentFilter filter = new IntentFilter();
-            filter.addAction("org.omnirom.omnijaws.WEATHER_UPDATE");
+            filter.addAction(WEATHER_UPDATE);
+            filter.addAction(WEATHER_ERROR);
             mContext.registerReceiver(mReceiver, filter);
         }
         mObserver.add(observer);
