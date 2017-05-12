@@ -66,7 +66,7 @@
     <color name="qs_edit_button_text_color">#64FFFFFF</color>
 
     <!-- Floating action button -->
-    <color name="fab_color">?android:attr/colorAccent</color>
+    <color name="fab_color">@*android:color/accent_device_default_light</color>
     <color name="floating_action_button_icon_color">@android:color/white</color>
 
     <!-- QS battery % text color -->
@@ -88,6 +88,8 @@
 
     <!-- Recents membar text color -->
     <color name="recents_membar_text_color">@android:color/white</color>
+    <color name="recents_memmory_progress_overall">@*android:color/resize_shadow_start_color</color>
+    <color name="recents_memmory_progress_free">@*android:color/accent_device_default_light</color>
 
     <!-- Slim recent -->
     <color name="recent_background">#80000000</color>
