@@ -1476,6 +1476,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 PrintWriter falsingPw = new PrintWriter(message);
                 FalsingLog.dump(falsingPw);
                 falsingPw.flush();
+                falsingPw.close();
 
                 startActivityDismissingKeyguard(Intent.createChooser(new Intent(Intent.ACTION_SEND)
                                 .setType("*/*")

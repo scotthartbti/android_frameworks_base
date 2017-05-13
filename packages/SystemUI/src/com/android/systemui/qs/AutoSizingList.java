@@ -44,6 +44,7 @@ public class AutoSizingList extends LinearLayout {
         mHandler = new Handler();
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AutoSizingList);
         mItemSize = a.getDimensionPixelSize(R.styleable.AutoSizingList_itemHeight, 0);
+        a.recycle();
     }
 
     public void setAdapter(ListAdapter adapter) {
