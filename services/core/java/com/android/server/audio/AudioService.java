@@ -5586,14 +5586,10 @@ public class AudioService extends IAudioService.Stub {
         TelecomManager tm = (TelecomManager) mContext.getSystemService(Context.TELECOM_SERVICE);
 
         if (launchPlayer && !tm.isInCall()) {
-            try {
-                Intent playerIntent = new Intent(Intent.ACTION_MAIN);
-                playerIntent.addCategory(Intent.CATEGORY_APP_MUSIC);
-                playerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(playerIntent);
-            } catch (ActivityNotFoundException | IllegalArgumentException e) {
-                Log.w(TAG, "No music player Activity could be found");
-            }
+            Intent playerIntent = new Intent(Intent.ACTION_MAIN);
+            playerIntent.addCategory(Intent.CATEGORY_APP_MUSIC);
+            playerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(playerIntent);
         }
     }
 
