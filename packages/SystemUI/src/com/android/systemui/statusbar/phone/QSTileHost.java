@@ -55,7 +55,6 @@ import com.android.systemui.qs.tiles.CompassTile;
 import com.android.systemui.qs.tiles.DataSaverTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
-import com.android.systemui.qs.tiles.HardwareButtonTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.GoogleAssistTile;
 import com.android.systemui.qs.tiles.GoogleVoiceAssistTile;
@@ -518,7 +517,6 @@ public class QSTileHost implements QSTile.Host, Tunable {
         else if (tileSpec.equals("weather")) return new WeatherTile(this);
         else if (tileSpec.equals("magiskmanager")) return new MagiskManagerTile(this);
         else if (tileSpec.equals("performance")) return new PerfProfileTile(this);
-        else if (tileSpec.equals("hardware_button")) return new HardwareButtonTile(this);
         else if (tileSpec.equals(mImageTileSpec)) {
             if (isImageTileInstalled()) {
                 return new ImageTile(this);
