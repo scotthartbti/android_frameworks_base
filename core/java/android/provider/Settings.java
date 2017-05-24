@@ -10732,6 +10732,12 @@ public final class Settings {
          */
         public static final String WIRED_RINGTONE_FOCUS_MODE = "wired_ringtone_focus_mode";
 
+	/**
+         * Signature Spoofing
+         * @hide
+         */
+        public static final String SIGNATURE_SPOOFING = "signature_spoofing";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
