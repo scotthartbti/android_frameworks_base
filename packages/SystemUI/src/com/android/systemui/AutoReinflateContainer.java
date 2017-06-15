@@ -49,6 +49,7 @@ public class AutoReinflateContainer extends FrameLayout {
             throw new IllegalArgumentException("AutoReinflateContainer must contain a layout");
         }
         mLayout = a.getResourceId(R.styleable.AutoReinflateContainer_android_layout, 0);
+        a.recycle();
         inflateLayout();
     }
 
